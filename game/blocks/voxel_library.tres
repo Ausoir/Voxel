@@ -1,0 +1,128 @@
+[gd_resource type="VoxelBlockyLibrary" load_steps=15 format=3 uid="uid://chr1cj53hbsgq"]
+
+[ext_resource type="Shader" path="res://assets/blocks/block_flutter.gdshader" id="1_m65w0"]
+[ext_resource type="Material" uid="uid://bs5u0ea1vrq7v" path="res://assets/blocks/terrain_biome.tres" id="2_d8tyi"]
+[ext_resource type="Material" uid="uid://b01x3ndd3wo4a" path="res://assets/blocks/terrain_albedo.tres" id="3_8bopy"]
+[ext_resource type="Material" uid="uid://df1d0n5htjwej" path="res://assets/blocks/terrain_texture.tres" id="4_cjek0"]
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_uj7mi"]
+voxel_name = &"air"
+collision_mask = 0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dtcsg"]
+render_priority = 0
+shader = ExtResource("1_m65w0")
+shader_parameter/out_color = Color(0, 0.2, 1, 1)
+shader_parameter/out_color2 = Color(0.00784314, 0.227451, 1, 1)
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_giaje"]
+voxel_name = &"water"
+geometry_type = 1
+collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
+cube_geometry_padding_y = null
+cube_tiles_left = Vector2(0, 0)
+cube_tiles_right = Vector2(0, 0)
+cube_tiles_bottom = Vector2(0, 0)
+cube_tiles_top = Vector2(0, 0)
+cube_tiles_back = Vector2(0, 0)
+cube_tiles_front = Vector2(0, 0)
+material_override_0 = SubResource("ShaderMaterial_dtcsg")
+collision_enabled_0 = true
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_5o6te"]
+voxel_name = &"soil"
+color = Color(0, 0.717647, 0, 1)
+geometry_type = 1
+collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
+collision_mask = 2
+cube_geometry_padding_y = null
+cube_tiles_left = Vector2(0, 0)
+cube_tiles_right = Vector2(0, 0)
+cube_tiles_bottom = Vector2(0, 0)
+cube_tiles_top = Vector2(0, 0)
+cube_tiles_back = Vector2(0, 0)
+cube_tiles_front = Vector2(0, 0)
+material_override_0 = ExtResource("2_d8tyi")
+collision_enabled_0 = true
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_42cm5"]
+voxel_name = &"stone"
+color = Color(0.521569, 0.521569, 0.521569, 1)
+geometry_type = 1
+collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
+collision_mask = 2
+cube_geometry_padding_y = null
+cube_tiles_left = Vector2(0, 0)
+cube_tiles_right = Vector2(0, 0)
+cube_tiles_bottom = Vector2(0, 0)
+cube_tiles_top = Vector2(0, 0)
+cube_tiles_back = Vector2(0, 0)
+cube_tiles_front = Vector2(0, 0)
+material_override_0 = ExtResource("3_8bopy")
+collision_enabled_0 = true
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_g5i1x"]
+voxel_name = &"sand"
+color = Color(0.913725, 0.886275, 0.686275, 1)
+geometry_type = 1
+collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
+collision_mask = 2
+cube_geometry_padding_y = null
+cube_tiles_left = Vector2(0, 0)
+cube_tiles_right = Vector2(0, 0)
+cube_tiles_bottom = Vector2(0, 0)
+cube_tiles_top = Vector2(0, 0)
+cube_tiles_back = Vector2(0, 0)
+cube_tiles_front = Vector2(0, 0)
+material_override_0 = ExtResource("3_8bopy")
+collision_enabled_0 = true
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_4ra6w"]
+voxel_name = &"log"
+geometry_type = 1
+collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
+collision_mask = 2
+cube_geometry_padding_y = null
+cube_tiles_left = Vector2(2, 0)
+cube_tiles_right = Vector2(2, 0)
+cube_tiles_bottom = Vector2(0, 0)
+cube_tiles_top = Vector2(0, 0)
+cube_tiles_back = Vector2(2, 0)
+cube_tiles_front = Vector2(2, 0)
+material_override_0 = ExtResource("4_cjek0")
+collision_enabled_0 = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0qami"]
+render_priority = 0
+shader = ExtResource("1_m65w0")
+shader_parameter/out_color = Color(0.27451, 0.498039, 0, 1)
+shader_parameter/out_color2 = Color(0.439216, 0.682353, 0, 1)
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_niiu4"]
+voxel_name = &"leaf"
+geometry_type = 1
+collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
+collision_mask = 0
+cube_geometry_padding_y = null
+cube_tiles_left = Vector2(0, 0)
+cube_tiles_right = Vector2(0, 0)
+cube_tiles_bottom = Vector2(0, 0)
+cube_tiles_top = Vector2(0, 0)
+cube_tiles_back = Vector2(0, 0)
+cube_tiles_front = Vector2(0, 0)
+material_override_0 = SubResource("ShaderMaterial_0qami")
+collision_enabled_0 = true
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_w0ngp"]
+voxel_name = &"white light"
+
+[resource]
+bake_tangents = false
+voxels/0 = SubResource("VoxelBlockyModel_uj7mi")
+voxels/1 = SubResource("VoxelBlockyModel_giaje")
+voxels/2 = SubResource("VoxelBlockyModel_5o6te")
+voxels/3 = SubResource("VoxelBlockyModel_42cm5")
+voxels/4 = SubResource("VoxelBlockyModel_g5i1x")
+voxels/5 = SubResource("VoxelBlockyModel_4ra6w")
+voxels/6 = SubResource("VoxelBlockyModel_niiu4")
+voxels/7 = SubResource("VoxelBlockyModel_w0ngp")

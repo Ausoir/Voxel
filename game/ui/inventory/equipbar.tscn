@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://c33bivnxnt6ej"]
+
+[ext_resource type="Script" path="res://game/ui/inventory/equipbar.gd" id="1_yopia"]
+
+[node name="EquipBar" type="HBoxContainer"]
+offset_left = 576.0
+offset_top = 48.0
+offset_right = 576.0
+offset_bottom = 48.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+alignment = 1
+script = ExtResource("1_yopia")

@@ -1,0 +1,45 @@
+[gd_resource type="ShaderMaterial" load_steps=8 format=3 uid="uid://bs5u0ea1vrq7v"]
+
+[ext_resource type="Shader" path="res://assets/blocks/terrain_biome.gdshader" id="1_hqnk1"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_bnknu"]
+seed = 790407
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_mhb8g"]
+width = 256
+height = 256
+generate_mipmaps = false
+seamless = true
+normalize = false
+noise = SubResource("FastNoiseLite_bnknu")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_pmvyk"]
+seed = 462462
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_4rlsq"]
+width = 256
+height = 256
+generate_mipmaps = false
+seamless = true
+normalize = false
+noise = SubResource("FastNoiseLite_pmvyk")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_h2qt8"]
+seed = 123123
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_kyl0l"]
+width = 256
+height = 256
+generate_mipmaps = false
+seamless = true
+normalize = false
+noise = SubResource("FastNoiseLite_h2qt8")
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_hqnk1")
+shader_parameter/bottom_color = Color(0.203922, 0.886275, 0, 1)
+shader_parameter/sedimentary = Color(0.654902, 0.6, 0, 1)
+shader_parameter/noise_r = SubResource("NoiseTexture2D_kyl0l")
+shader_parameter/noise_g = SubResource("NoiseTexture2D_4rlsq")
+shader_parameter/noise_b = SubResource("NoiseTexture2D_mhb8g")

@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://game/ui/inventory/itembar.gd" id="1_n64hb"]
+
+[node name="ItemBar" type="HBoxContainer"]
+offset_left = 576.0
+offset_top = 48.0
+offset_right = 576.0
+offset_bottom = 48.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+alignment = 1
+script = ExtResource("1_n64hb")

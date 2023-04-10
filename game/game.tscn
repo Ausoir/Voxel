@@ -1,0 +1,82 @@
+[gd_scene load_steps=16 format=3 uid="uid://dvhrequbhsvsr"]
+
+[ext_resource type="Material" uid="uid://cjilg0xoqpr7t" path="res://game/environment/sky_material.tres" id="4_4qnqt"]
+[ext_resource type="Script" path="res://game/game.gd" id="5"]
+[ext_resource type="Script" path="res://game/environment/environment.gd" id="5_3t7d4"]
+[ext_resource type="PackedScene" uid="uid://dtgiqn6kp51k0" path="res://game/player/player.tscn" id="6"]
+[ext_resource type="Script" path="res://game/debug_info.gd" id="6_dontd"]
+[ext_resource type="VoxelBlockyLibrary" uid="uid://chr1cj53hbsgq" path="res://game/blocks/voxel_library.tres" id="6_jl7ow"]
+[ext_resource type="VoxelGeneratorScript" path="res://game/generator/world_generator.tres" id="6_oyo5r"]
+[ext_resource type="Script" path="res://game/blocks/random_ticks.gd" id="10_8b86d"]
+[ext_resource type="Script" path="res://game/blocks/water.gd" id="11_yhmyx"]
+[ext_resource type="Script" path="res://game/blocks/blocks.gd" id="12"]
+[ext_resource type="Script" path="res://game/file.gd" id="12_2m7sk"]
+[ext_resource type="Script" path="res://game/items/item_db.gd" id="13"]
+
+[sub_resource type="Sky" id="Sky_ani2s"]
+sky_material = ExtResource("4_4qnqt")
+
+[sub_resource type="Environment" id="2"]
+background_mode = 2
+background_color = Color(0.219608, 0.447059, 1, 1)
+sky = SubResource("Sky_ani2s")
+ambient_light_sky_contribution = 0.5
+reflected_light_source = 1
+glow_mix = 0.1
+glow_bloom = 0.39
+glow_blend_mode = 1
+fog_light_color = Color(0, 0, 0, 1)
+fog_light_energy = 0.1
+fog_density = 0.0
+fog_sky_affect = 0.0
+volumetric_fog_density = 0.1
+adjustment_contrast = 1.2
+
+[sub_resource type="VoxelMesherBlocky" id="VoxelMesherBlocky_kvdfi"]
+library = ExtResource("6_jl7ow")
+occlusion_enabled = false
+
+[node name="Game" type="Node"]
+script = ExtResource("5")
+
+[node name="Blocks" type="Node" parent="."]
+script = ExtResource("12")
+
+[node name="Items" type="Node" parent="."]
+script = ExtResource("13")
+
+[node name="Units" type="Node" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("2")
+script = ExtResource("5_3t7d4")
+
+[node name="Terrain" type="VoxelTerrain" parent="."]
+generator = ExtResource("6_oyo5r")
+mesher = SubResource("VoxelMesherBlocky_kvdfi")
+collision_layer = 2
+collision_mask = 2
+run_stream_in_editor = false
+
+[node name="Cursor" type="MeshInstance3D" parent="Terrain"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.97321, 0.172326, -0.152203, -0.0478236, 0.495785, 0.867127, 0.224888, 0.851176, -0.474262, 1.51966, 19.7004, 14.0879)
+light_bake_mode = 1
+shadow_enabled = true
+sky_mode = 1
+
+[node name="DebugInfo" type="Node" parent="."]
+script = ExtResource("6_dontd")
+
+[node name="Player" parent="." instance=ExtResource("6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 64, 0)
+
+[node name="RandomTicks" type="Node" parent="."]
+script = ExtResource("10_8b86d")
+
+[node name="Water" type="Node" parent="."]
+script = ExtResource("11_yhmyx")
+
+[node name="Settings" type="Node" parent="."]
+script = ExtResource("12_2m7sk")

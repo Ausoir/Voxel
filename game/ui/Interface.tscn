@@ -1,0 +1,125 @@
+[gd_scene load_steps=13 format=3 uid="uid://d2bedp1vuwbx5"]
+
+[ext_resource type="PackedScene" uid="uid://df61y5kiskymw" path="res://game/ui/inventory/inventory.tscn" id="2_3fihs"]
+[ext_resource type="Texture2D" uid="uid://c4i1goax1qcya" path="res://assets/images/icon_player.png" id="4"]
+[ext_resource type="Texture2D" uid="uid://lcfc333at1u3" path="res://assets/images/wait_bg.png" id="4_h12lk"]
+[ext_resource type="Texture2D" uid="uid://d5w4iskb3y1h" path="res://game/player/crosshair.png" id="5_n1mcy"]
+[ext_resource type="Texture2D" uid="uid://d16miocfurkwh" path="res://assets/images/wait.png" id="5_ttygl"]
+[ext_resource type="PackedScene" path="res://game/ui/inventory/itembar.tscn" id="6_aaf8c"]
+[ext_resource type="PackedScene" uid="uid://26vi0u773ryy" path="res://game/ui/settings.tscn" id="6_qesqy"]
+[ext_resource type="Script" path="res://game/ui/interface.gd" id="8"]
+[ext_resource type="Script" path="res://game/ui/progress_bar.gd" id="9_3k6fp"]
+
+[sub_resource type="Animation" id="1"]
+resource_name = "fadein"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Fade:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="2"]
+resource_name = "tint"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Fade:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 0.627451)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_row0b"]
+_data = {
+"fadein": SubResource("1"),
+"tint": SubResource("2")
+}
+
+[node name="Control" type="CanvasLayer"]
+script = ExtResource("8")
+
+[node name="Animation" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_row0b")
+}
+
+[node name="Fade" type="ColorRect" parent="."]
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="MenuButton" type="TextureButton" parent="."]
+visible = false
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -100.0
+offset_bottom = 100.0
+grow_horizontal = 0
+action_mode = 0
+texture_normal = ExtResource("4")
+
+[node name="FPS" type="Label" parent="."]
+
+[node name="Center" type="CenterContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="Crosshair" type="TextureRect" parent="Center"]
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("5_n1mcy")
+
+[node name="Progress" type="TextureProgressBar" parent="Center"]
+layout_mode = 2
+mouse_filter = 2
+rounded = true
+fill_mode = 4
+texture_under = ExtResource("4_h12lk")
+texture_progress = ExtResource("5_ttygl")
+script = ExtResource("9_3k6fp")
+
+[node name="HotBar" type="CenterContainer" parent="."]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -64.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 4
+mouse_filter = 2
+
+[node name="ItemBar" parent="HotBar" instance=ExtResource("6_aaf8c")]
+layout_mode = 2
+
+[node name="Menu" type="CenterContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Settings" parent="Menu" instance=ExtResource("6_qesqy")]
+visible = false
+layout_mode = 2
+
+[node name="Inventory" parent="Menu" instance=ExtResource("2_3fihs")]
+visible = false
+layout_mode = 2
+
+[connection signal="pressed" from="MenuButton" to="." method="_on_button_pressed"]

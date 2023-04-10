@@ -1,0 +1,6 @@
+[gd_resource type="ProceduralSkyMaterial" format=3 uid="uid://cjilg0xoqpr7t"]
+
+[resource]
+sky_top_color = Color(0.439216, 0.741176, 1, 1)
+sky_horizon_color = Color(1, 1, 1, 1)
+sun_angle_max = 0.0
