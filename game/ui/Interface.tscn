@@ -1,12 +1,10 @@
-[gd_scene load_steps=13 format=3 uid="uid://d2bedp1vuwbx5"]
+[gd_scene load_steps=11 format=3 uid="uid://d2bedp1vuwbx5"]
 
-[ext_resource type="PackedScene" uid="uid://df61y5kiskymw" path="res://game/ui/inventory/inventory.tscn" id="2_3fihs"]
 [ext_resource type="Texture2D" uid="uid://c4i1goax1qcya" path="res://assets/images/icon_player.png" id="4"]
 [ext_resource type="Texture2D" uid="uid://lcfc333at1u3" path="res://assets/images/wait_bg.png" id="4_h12lk"]
 [ext_resource type="Texture2D" uid="uid://d5w4iskb3y1h" path="res://game/player/crosshair.png" id="5_n1mcy"]
 [ext_resource type="Texture2D" uid="uid://d16miocfurkwh" path="res://assets/images/wait.png" id="5_ttygl"]
 [ext_resource type="PackedScene" path="res://game/ui/inventory/itembar.tscn" id="6_aaf8c"]
-[ext_resource type="PackedScene" uid="uid://26vi0u773ryy" path="res://game/ui/settings.tscn" id="6_qesqy"]
 [ext_resource type="Script" path="res://game/ui/interface.gd" id="8"]
 [ext_resource type="Script" path="res://game/ui/progress_bar.gd" id="9_3k6fp"]
 
@@ -93,6 +91,9 @@ texture_under = ExtResource("4_h12lk")
 texture_progress = ExtResource("5_ttygl")
 script = ExtResource("9_3k6fp")
 
+[node name="Menu" type="Control" parent="Center"]
+layout_mode = 2
+
 [node name="HotBar" type="CenterContainer" parent="."]
 anchors_preset = 12
 anchor_top = 1.0
@@ -106,20 +107,3 @@ mouse_filter = 2
 
 [node name="ItemBar" parent="HotBar" instance=ExtResource("6_aaf8c")]
 layout_mode = 2
-
-[node name="Menu" type="CenterContainer" parent="."]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Settings" parent="Menu" instance=ExtResource("6_qesqy")]
-visible = false
-layout_mode = 2
-
-[node name="Inventory" parent="Menu" instance=ExtResource("2_3fihs")]
-visible = false
-layout_mode = 2
-
-[connection signal="pressed" from="MenuButton" to="." method="_on_button_pressed"]

@@ -10,6 +10,7 @@ var _yaw = 0
 var _pitch = 0
 var _offset = Vector3()
 
+@onready var _unit = get_node("../Unit")
 @onready var _player_mesh = get_node("../Unit/Model/Mesh")
 
 
@@ -18,6 +19,12 @@ func _ready():
 	if capture_mouse:
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	_player_mesh.hide()
+
+
+func _process(_delta):
+	var offset = Vector3(0, _unit.size.y, 0)
+	position = _unit.position + offset
+	DDD.set_text("position", _unit.position)
 
 
 func update_rotations(motion):

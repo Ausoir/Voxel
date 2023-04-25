@@ -1,6 +1,6 @@
-[gd_resource type="VoxelGeneratorScript" load_steps=2 format=3]
+[gd_resource type="VoxelGeneratorScript" load_steps=2 format=3 uid="uid://hx6kqpmjm6h8"]
 
 [ext_resource type="Script" path="res://game/generator/generator.gd" id="1"]
 
 [resource]
-script = ExtResource( 1 )
+script = ExtResource("1")

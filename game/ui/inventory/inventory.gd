@@ -1,4 +1,4 @@
-extends Control
+extends "res://game/ui/menus/base.gd"
 
 var _inv
 var _unit
@@ -11,12 +11,13 @@ var _previous_mouse_mode := 0
 
 
 func set_unit(unit):
-	_unit = unit
-	_inv = unit.equipment
-	_equipbar.set_unit(unit)
-	_itembar.set_unit(unit)
-	_itembar.show_selection = false
-	update_views()
+	if _unit != unit:
+		_unit = unit
+		_inv = unit.equipment
+		_equipbar.set_unit(unit)
+		_itembar.set_unit(unit)
+		_itembar.show_selection = false
+		update_views()
 
 
 func update_views():

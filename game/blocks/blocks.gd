@@ -5,30 +5,6 @@
 extends Node
 
 const Block = preload("./block.gd")
-const Util = preload("res://tools/util.gd")
-
-const ROTATION_Y_NEGATIVE_X = 0
-const ROTATION_Y_POSITIVE_X = 1
-const ROTATION_Y_NEGATIVE_Z = 2
-const ROTATION_Y_POSITIVE_Z = 3
-
-const _opposite_y_rotation = [
-	ROTATION_Y_POSITIVE_X,
-	ROTATION_Y_NEGATIVE_X,
-	ROTATION_Y_POSITIVE_Z,
-	ROTATION_Y_NEGATIVE_Z
-]
-
-const _y_dir = [
-	Vector3(-1, 0, 0),
-	Vector3(1, 0, 0),
-	Vector3(0, 0, -1),
-	Vector3(0, 0, 1)
-]
-
-const ROOT = "res://game/blocks"
-
-const AIR_ID = 0
 
 class RawMapping:
 	var block_id := 0
@@ -39,27 +15,38 @@ var _voxel_library := preload("res://game/blocks/voxel_library.tres")
 var _blocks = []
 var _raw_mappings = []
 
+var AIR
+var WATER
+var SOIL
+var STONE
+var SAND
+var METAL
+var LIGHT
+var DOOR
+var GLASS
+var WALKWAY
+var TILES
+
 
 func _init():
-	print("Constructing blocks.gd")
-	_create_block({
+	AIR = _create_block({
 		"name": "air",
 		"voxels": ["air"],
 	})
-	_create_block({
+	WATER = _create_block({
 		"name": "water",
 		"voxels": ["water"],
 		"tags": ["gravity", "liquid"],
 	})
-	_create_block({
+	SOIL = _create_block({
 		"name": "soil",
 		"voxels": ["soil"],
 	})
-	_create_block({
+	STONE = _create_block({
 		"name": "stone",
 		"voxels": ["stone"],
 	})
-	_create_block({
+	SAND = _create_block({
 		"name": "sand",
 		"voxels": ["sand"],
 	})
@@ -72,9 +59,49 @@ func _init():
 		"name": "leaves",
 		"voxels": ["leaf"],
 	})
+	GLASS = _create_block({
+		"name": "glass",
+		"voxels": ["glass"],
+	})
 	_create_block({
-		"name": "white light",
-		"voxels": ["white light"],
+		"name": "slab",
+		"voxels": ["slab"],
+	})
+	_create_block({
+		"name": "door",
+		"voxels": ["door_ew","door_ns"],
+		"placement": Block.ROT2,
+		"script": "doors/door"
+	})
+	_create_block({
+		"name": "square light",
+		"voxels": ["square light"],
+		"script": "lights/light"
+	})
+	METAL = _create_block({
+		"name": "metal",
+		"voxels": ["metal"],
+	})
+	WALKWAY = _create_block({
+		"name": "walkway",
+		"voxels": ["walkway"],
+	})
+	TILES = _create_block({
+		"name": "tiles",
+		"voxels": ["tiles"],
+	})
+	_create_block({
+		"name": "table",
+		"voxels": ["table"],
+	})
+	_create_block({
+		"name": "chair",
+		"voxels": ["chair"],
+	})
+	_create_block({
+		"name": "locker",
+		"voxels": ["locker"],
+		"script": "containers/locker"
 	})
 
 
@@ -95,6 +122,11 @@ func get_block_by_name(block_name: String) -> Block:
 	return null
 
 
+func get_block_by_voxel(raw_id: int):
+	var rm = get_raw_mapping(raw_id)
+	return get_block(rm.block_id)
+
+
 # Gets the corresponding block ID and variant index from a raw voxel value
 func get_raw_mapping(raw_id: int) -> RawMapping:
 	assert(raw_id >= 0)
@@ -108,25 +140,21 @@ func get_block_count() -> int:
 
 
 func _create_block(params: Dictionary):
-	_defaults(params, {
-		"tags": [],
-		"spritename": "placer",
-		"modelname": "placer",
-		"behavior": ""
-	})
-
 	var block : Block
-	if params.behavior != "":
+	var script = params.get("script")
+	if script != null:
 		# Block with special behavior
-		var behavior_path := str(ROOT, "/", params.directory, "/", params.behavior)
+		var behavior_path := str("res://game/blocks", "/", script + ".gd")
 		var behavior = load(behavior_path)
 		block = behavior.new()
+		block.custom = true
 	else:
 		# Generic
 		block = Block.new()
 
 	block.id = len(_blocks)
 	
+	var r
 	for i in len(params.voxels):
 		var vname = params.voxels[i]
 		var id = _voxel_library.get_voxel_index_from_name(vname)
@@ -140,48 +168,19 @@ func _create_block(params: Dictionary):
 		if id >= len(_raw_mappings):
 			_raw_mappings.resize(id + 1)
 		_raw_mappings[id] = rm
+		r = id
 
 	block.sid = params.name
-	block.tags = params.tags
+	block.placement = params.get("placement", Block.NORMAL)
+	block.tags = params.get("tags", [])
 	block.voxels = params.voxels
-	block.sprite = load("res://assets/items/" + params.spritename + ".png")
-	block.model = load("res://assets/items/" + params.modelname + ".obj")
 
 	_blocks.append(block)
 	add_child(block)
+	return r
 
 
 func _notification(what):
 	match what:
 		NOTIFICATION_PREDELETE:
 			print("Deleting blocks.gd")
-
-
-static func _defaults(d, defaults):
-	for k in defaults:
-		if not d.has(k):
-			d[k] = defaults[k]
-
-
-static func get_y_rotation_from_look_dir(dir: Vector3) -> int:
-	var a = Util.get_direction_id4(Vector2(dir.x, dir.z))
-	match a:
-		0:
-			return ROTATION_Y_NEGATIVE_X
-		1:
-			return ROTATION_Y_NEGATIVE_Z
-		2:
-			return ROTATION_Y_POSITIVE_X
-		3:
-			return ROTATION_Y_POSITIVE_Z
-		_:
-			assert(false)
-	return -1
-
-
-static func get_y_dir_vec(yid: int) -> Vector3:
-	return _y_dir[yid]
-
-
-static func get_opposite_y_dir(yid: int) -> int:
-	return _opposite_y_rotation[yid]

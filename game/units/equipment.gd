@@ -3,14 +3,19 @@ extends Node
 signal changed
 signal selected
 
-var equipment = {}
-var max_inventory_size = 2
+var _unit
 var _inventory = []
 var _held_index = -1
+var equipment = {}
+var max_inventory_size = 2
 
 
 func _ready():
 	update_inventory()
+
+
+func set_unit(unit):
+	_unit = unit
 
 
 func update_inventory():
@@ -24,6 +29,12 @@ func add_slot(slot):
 		emit_signal("changed")
 
 
+func add_inventory(times):
+	max_inventory_size += times
+	update_inventory()
+	emit_signal("changed")
+
+
 func get_inventory_size():
 	return _inventory.size()
 
@@ -33,8 +44,8 @@ func get_held_index():
 
 
 func set_held_index(i):
-	_adjust_held_index()
 	_held_index = i + equipment.size()
+	_adjust_held_index()
 	emit_signal("selected")
 
 
@@ -69,7 +80,7 @@ func increment_held_index(i):
 
 func _adjust_held_index():
 	var eq_size = equipment.size()
-	_held_index = clamp(_held_index, eq_size, eq_size + _inventory.size())
+	_held_index = clamp(_held_index, eq_size, eq_size + _inventory.size() - 1)
 
 
 func pickup(item):
@@ -78,3 +89,28 @@ func pickup(item):
 			_inventory[i] = item
 			emit_signal("selected")
 			return true
+
+
+func wear(item):
+	if item.part != null:
+		if item.part in equipment:
+			equipment[item.part] = item
+			item.on_wear(_unit)
+
+
+func unwear(item):
+	for key in equipment.keys():
+		var equipped = equipment[key]
+		if equipped == item:
+			item.on_unwear(_unit)
+			equipment[key] = null
+			return item
+
+
+func use_held(right):
+	var inv_item = get_held_item()
+	if inv_item != null:
+		if right:
+			inv_item.use2(_unit)
+		else:
+			inv_item.use(_unit)

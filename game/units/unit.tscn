@@ -1,13 +1,14 @@
-[gd_scene load_steps=15 format=3 uid="uid://dxreos03lpmdx"]
+[gd_scene load_steps=16 format=3 uid="uid://dxreos03lpmdx"]
 
 [ext_resource type="Script" path="res://game/units/unit.gd" id="1_g47of"]
-[ext_resource type="ArrayMesh" uid="uid://c235pw6adv7rd" path="res://assets/chr_knight.obj" id="2_8oi1h"]
 [ext_resource type="Script" path="res://game/units/equipment.gd" id="2_l4j7n"]
-[ext_resource type="ArrayMesh" uid="uid://4vn4qat6rrfk" path="res://assets/items/eblade-0-blade.obj" id="2_npdgr"]
+[ext_resource type="PackedScene" uid="uid://cn061dujxusur" path="res://game/items/held_item.tscn" id="2_ltbac"]
+[ext_resource type="ArrayMesh" uid="uid://dcibhcfg12ukg" path="res://assets/units/fighter.obj" id="3_d1k5f"]
 [ext_resource type="Script" path="res://game/units/action.gd" id="4_nu83g"]
+[ext_resource type="Script" path="res://game/units/procedure.gd" id="6_k0l7g"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_5478g"]
-size = Vector3(0.4, 1, 0.4)
+size = Vector3(0.4, 1.4, 0.4)
 
 [sub_resource type="Animation" id="Animation_gxnwv"]
 length = 0.001
@@ -46,7 +47,7 @@ tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector3(0, 0.0246617, 0.0255878)]
+"values": [Vector3(0, 0, 0)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
@@ -71,45 +72,6 @@ tracks/4/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector3(-0.1838, -3.14159, 1.27584)]
-}
-
-[sub_resource type="Animation" id="Animation_gb1cv"]
-resource_name = "jump"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Model:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0, 0.176973, -0.107671)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Model:rotation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0.409978, 0, 0)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Model:scale")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0.9, 1.1, 0.9)]
 }
 
 [sub_resource type="Animation" id="Animation_jt16k"]
@@ -137,7 +99,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.4),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector3(0, 0.0246617, 0.0255878), Vector3(0, 0.0246617, -0.0902211)]
+"values": [Vector3(0, 0, 0), Vector3(0, 0, -0.09)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -298,7 +260,7 @@ tracks/2/keys = {
 "times": PackedFloat32Array(0, 0.4, 0.6, 1),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
-"values": [Vector3(0, 0.0246617, 0.0255878), Vector3(0, 0.210885, 0.0922983), Vector3(0, 0.0246617, 0.0255878), Vector3(0.106933, 0.196235, 0.156874)]
+"values": [Vector3(0, 0, 0), Vector3(0, 0.210885, 0.0922983), Vector3(0, 0, 0), Vector3(0.106933, 0.196235, 0.156874)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
@@ -325,10 +287,38 @@ tracks/4/keys = {
 "values": [Vector3(-0.1838, -3.14159, 1.27584)]
 }
 
+[sub_resource type="Animation" id="Animation_gj1xv"]
+resource_name = "aim"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Model/Item:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(-0.396184, 0.473416, 0.256575), Vector3(-0.470069, 0.439158, 0.0291234)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Model/Item:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(-0.1838, -3.14159, 1.27584), Vector3(-0.558248, -2.58536, 1.04715)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_xtjas"]
 _data = {
 "RESET": SubResource("Animation_gxnwv"),
-"jump": SubResource("Animation_gb1cv"),
+"aim": SubResource("Animation_gj1xv"),
 "jump_ready": SubResource("Animation_jt16k"),
 "jump_start": SubResource("Animation_yljhu"),
 "swing_ready": SubResource("Animation_r64v1"),
@@ -340,20 +330,20 @@ _data = {
 script = ExtResource("1_g47of")
 
 [node name="Body" type="StaticBody3D" parent="."]
+collision_layer = 2
+collision_mask = 2
 
 [node name="Shape" type="CollisionShape3D" parent="Body"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
 shape = SubResource("BoxShape3D_5478g")
 
 [node name="Model" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0246617, 0.0255878)
 
-[node name="Item" type="MeshInstance3D" parent="Model"]
+[node name="Item" parent="Model" instance=ExtResource("2_ltbac")]
 transform = Transform3D(-0.290698, 0.956816, -2.49248e-06, 0.9407, 0.285802, 0.182767, 0.174875, 0.0531276, -0.983157, -0.521688, 0.473416, -0.0573206)
-mesh = ExtResource("2_npdgr")
 
 [node name="Mesh" type="MeshInstance3D" parent="Model"]
-mesh = ExtResource("2_8oi1h")
+mesh = ExtResource("3_d1k5f")
 skeleton = NodePath("../Item")
 
 [node name="Equipment" type="Node" parent="."]
@@ -361,6 +351,9 @@ script = ExtResource("2_l4j7n")
 
 [node name="Action" type="Node" parent="."]
 script = ExtResource("4_nu83g")
+
+[node name="Procedure" type="Node" parent="."]
+script = ExtResource("6_k0l7g")
 
 [node name="Animator" type="AnimationPlayer" parent="."]
 playback_default_blend_time = 0.1

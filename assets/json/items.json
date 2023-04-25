@@ -1,0 +1,48 @@
+{
+	"rocket": {
+		"spritename": "eblade",
+		"modelname": "eblade-0-blade",
+		"script": "rocket/rocket",
+		"delay": 1
+	},
+	"flier": {
+		"spritename": "flier",
+		"modelname": "flier-0-flier",
+		"script": "flier/flier",
+		"delay": 0.5
+	},
+	"jacket": {
+		"spritename": "flier",
+		"modelname": "flier-0-flier",
+		"script": "armor/armor",
+		"delay": 1,
+		"part": "armor",
+		"data": {
+			"space": 3
+		}
+	},
+	"placer": {
+		"spritename": "flier",
+		"modelname": "flier-0-flier",
+		"script": "terraform/placer",
+		"delay": 0
+	},
+	"remover": {
+		"spritename": "flier",
+		"modelname": "flier-0-flier",
+		"script": "terraform/remover",
+		"delay": 0
+	},
+	"spawner": {
+		"spritename": "flier",
+		"modelname": "flier-0-flier",
+		"script": "spawner/spawner",
+		"delay2": 0
+	},
+	"flashlight": {
+		"spritename": "eblade",
+		"modelname": "eblade-0-blade",
+		"script": "flashlight/flashlight",
+		"delay2": 0.5
+	}
+}

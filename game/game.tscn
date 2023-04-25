@@ -1,36 +1,47 @@
-[gd_scene load_steps=16 format=3 uid="uid://dvhrequbhsvsr"]
+[gd_scene load_steps=17 format=3 uid="uid://culomj1mssfpg"]
 
-[ext_resource type="Material" uid="uid://cjilg0xoqpr7t" path="res://game/environment/sky_material.tres" id="4_4qnqt"]
+[ext_resource type="Material" uid="uid://4oo1j0k7ulmq" path="res://game/environment/sky_material.tres" id="4_pjy3m"]
+[ext_resource type="Script" path="res://game/stock.gd" id="4_vprdk"]
 [ext_resource type="Script" path="res://game/game.gd" id="5"]
 [ext_resource type="Script" path="res://game/environment/environment.gd" id="5_3t7d4"]
 [ext_resource type="PackedScene" uid="uid://dtgiqn6kp51k0" path="res://game/player/player.tscn" id="6"]
 [ext_resource type="Script" path="res://game/debug_info.gd" id="6_dontd"]
 [ext_resource type="VoxelBlockyLibrary" uid="uid://chr1cj53hbsgq" path="res://game/blocks/voxel_library.tres" id="6_jl7ow"]
-[ext_resource type="VoxelGeneratorScript" path="res://game/generator/world_generator.tres" id="6_oyo5r"]
+[ext_resource type="VoxelGeneratorScript" uid="uid://hx6kqpmjm6h8" path="res://game/generator/world_generator.tres" id="6_oyo5r"]
 [ext_resource type="Script" path="res://game/blocks/random_ticks.gd" id="10_8b86d"]
 [ext_resource type="Script" path="res://game/blocks/water.gd" id="11_yhmyx"]
 [ext_resource type="Script" path="res://game/blocks/blocks.gd" id="12"]
-[ext_resource type="Script" path="res://game/file.gd" id="12_2m7sk"]
-[ext_resource type="Script" path="res://game/items/item_db.gd" id="13"]
+[ext_resource type="Script" path="res://game/blocks/tool.gd" id="12_td8s1"]
 
-[sub_resource type="Sky" id="Sky_ani2s"]
-sky_material = ExtResource("4_4qnqt")
+[sub_resource type="Sky" id="Sky_egpfk"]
+sky_material = ExtResource("4_pjy3m")
 
 [sub_resource type="Environment" id="2"]
 background_mode = 2
-background_color = Color(0.219608, 0.447059, 1, 1)
-sky = SubResource("Sky_ani2s")
-ambient_light_sky_contribution = 0.5
+background_color = Color(1, 1, 1, 1)
+sky = SubResource("Sky_egpfk")
+ambient_light_source = 1
+ambient_light_sky_contribution = 0.3
+ambient_light_energy = 0.1
 reflected_light_source = 1
+ssil_enabled = true
 glow_mix = 0.1
-glow_bloom = 0.39
-glow_blend_mode = 1
+glow_bloom = 0.05
 fog_light_color = Color(0, 0, 0, 1)
 fog_light_energy = 0.1
 fog_density = 0.0
 fog_sky_affect = 0.0
-volumetric_fog_density = 0.1
-adjustment_contrast = 1.2
+volumetric_fog_density = 1.0
+volumetric_fog_albedo = Color(0, 0, 0, 1)
+volumetric_fog_emission = Color(0, 0.156863, 1, 1)
+volumetric_fog_emission_energy = 0.2
+volumetric_fog_gi_inject = 0.0
+volumetric_fog_anisotropy = 0.0
+adjustment_enabled = true
+adjustment_saturation = 1.5
+
+[sub_resource type="VoxelStreamRegionFiles" id="VoxelStreamRegionFiles_lph5b"]
+directory = "res://save/map"
 
 [sub_resource type="VoxelMesherBlocky" id="VoxelMesherBlocky_kvdfi"]
 library = ExtResource("6_jl7ow")
@@ -42,29 +53,28 @@ script = ExtResource("5")
 [node name="Blocks" type="Node" parent="."]
 script = ExtResource("12")
 
-[node name="Items" type="Node" parent="."]
-script = ExtResource("13")
+[node name="Stock" type="Node" parent="."]
+script = ExtResource("4_vprdk")
 
-[node name="Units" type="Node" parent="."]
+[node name="Objects" type="Node" parent="."]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("2")
 script = ExtResource("5_3t7d4")
 
 [node name="Terrain" type="VoxelTerrain" parent="."]
+stream = SubResource("VoxelStreamRegionFiles_lph5b")
 generator = ExtResource("6_oyo5r")
 mesher = SubResource("VoxelMesherBlocky_kvdfi")
-collision_layer = 2
-collision_mask = 2
+bounds = AABB(-5.36871e+08, -32, -5.36871e+08, 1.07374e+09, 96, 1.07374e+09)
 run_stream_in_editor = false
 
-[node name="Cursor" type="MeshInstance3D" parent="Terrain"]
-
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-0.97321, 0.172326, -0.152203, -0.0478236, 0.495785, 0.867127, 0.224888, 0.851176, -0.474262, 1.51966, 19.7004, 14.0879)
+transform = Transform3D(-0.966579, 0.104335, -0.234176, -0.0734221, 0.762518, 0.642787, 0.245629, 0.638499, -0.729373, 0, 0, 0)
+light_energy = 0.8
 light_bake_mode = 1
 shadow_enabled = true
-sky_mode = 1
+directional_shadow_fade_start = 1.0
 
 [node name="DebugInfo" type="Node" parent="."]
 script = ExtResource("6_dontd")
@@ -78,5 +88,5 @@ script = ExtResource("10_8b86d")
 [node name="Water" type="Node" parent="."]
 script = ExtResource("11_yhmyx")
 
-[node name="Settings" type="Node" parent="."]
-script = ExtResource("12_2m7sk")
+[node name="Tool" type="Node" parent="."]
+script = ExtResource("12_td8s1")

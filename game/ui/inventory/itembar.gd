@@ -32,10 +32,5 @@ func update_items():
 			child.set_selected(i + _inventory.equipment.size() == _inventory.get_held_index())
 
 
-func pickup(item):
-	_inventory.set_item(_inventory.get_held_index(), item)
-	update_views()
-
-
 func get_selected_item():
 	return _inventory.get_held_item()

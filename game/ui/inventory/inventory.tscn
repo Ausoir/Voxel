@@ -60,7 +60,6 @@ layout_mode = 2
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
-mouse_filter = 2
 script = ExtResource("4_ybpr6")
 
 [connection signal="gui_input" from="Dragging" to="." method="_on_dragging_gui_input"]

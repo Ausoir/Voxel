@@ -5,10 +5,11 @@ const ICON_SETTINGS = preload("res://assets/images/icon_settings.png")
 var last_touch_time = 0
 var screen_size
 var on = false
-@onready var menu_settings = $Menu/Settings
-@onready var menu_inventory = $Menu/Inventory
+var showfps = true
+var _unit
 @onready var menu_button = $MenuButton
 @onready var n_fps = $FPS
+@onready var menu_container = $Center/Menu
 
 
 func _ready():
@@ -18,7 +19,7 @@ func _ready():
 
 
 func set_unit(unit):
-	menu_inventory.set_unit(unit)
+	_unit = unit
 	$HotBar/ItemBar.set_unit(unit)
 	$Center/Progress.set_unit(unit)
 
@@ -34,42 +35,29 @@ func fadein():
 
 func display(p):
 	if !on:
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 		on = true
 		$HotBar.hide()
-		$Center.hide()
+		$Center/Crosshair.hide()
 		$Animation.play("tint")
-		menu_button.show()
-		if p == 0:
-			menu_settings.display()
-			menu_button.set_texture_normal(ICON_PLAYER)
-		elif p == 1:
-			menu_inventory.show()
-			menu_button.set_texture_normal(ICON_SETTINGS)
+		menu_container.add_child(p)
+		p.set_unit(_unit)
 	else:
 		clear()
 
 
 func clear():
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	on = false
 	$Animation.stop()
 	$Fade.color = Color.TRANSPARENT
 	$HotBar.show()
-	$Center.show()
-	menu_button.hide()
-	menu_settings.hide()
-	menu_inventory.hide()
+	$Center/Crosshair.show()
+	for i in menu_container.get_children():
+		menu_container.remove_child(i)
 
 
 func _process(_delta):
 	last_touch_time += _delta
-	if G.settings.showfps:
+	if showfps:
 		n_fps.set_text(str(Engine.get_frames_per_second())+' FPS')
-
-
-func _on_button_pressed():
-	if menu_settings.visible:
-		clear()
-		display(1)
-	elif menu_inventory.visible:
-		clear()
-		display(0)

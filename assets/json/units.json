@@ -1,0 +1,12 @@
+{
+	"guard": {
+		"model": "fighter",
+		"slots": [
+			"armor"
+		],
+		"items": [
+			"rocket",
+			"flier"
+		]
+	}
+}

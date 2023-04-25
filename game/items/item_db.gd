@@ -46,5 +46,6 @@ func _create_item(d: Dictionary):
 	if d.has("modelname"):
 		item.model = load("res://assets/items/" + d.modelname + ".obj")
 	item.delay = d.get("delay", 0)
+	item.delay2 = d.get("delay2", 0)
 	_items.append(item)
 	add_child(item)

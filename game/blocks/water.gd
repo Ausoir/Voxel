@@ -91,5 +91,5 @@ func _process_cell(pos: Vector3):
 	for di in len(_spread_directions):
 		var npos = pos + _spread_directions[di]
 		var nv = _terrain_tool.get_voxel(npos)
-		if nv == Blocks.AIR_ID:
+		if nv == 0:
 			schedule(npos)

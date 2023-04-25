@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=3 uid="uid://db2mlymml3uaf"]
+
+[ext_resource type="Script" path="res://game/units/guard/guard.gd" id="1_r5ioi"]
+[ext_resource type="PackedScene" uid="uid://dxreos03lpmdx" path="res://game/units/unit.tscn" id="2_ak7mo"]
+[ext_resource type="Script" path="res://game/units/ai/pilot.gd" id="3_lxgjs"]
+
+[node name="Guard" type="Node3D"]
+script = ExtResource("1_r5ioi")
+
+[node name="Unit" parent="." instance=ExtResource("2_ak7mo")]
+
+[node name="Pilot" type="Node" parent="."]
+script = ExtResource("3_lxgjs")

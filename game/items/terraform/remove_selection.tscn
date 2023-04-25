@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://cuhq83r0sg827"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a6vgg"]
+transparency = 1
+cull_mode = 2
+depth_draw_mode = 2
+no_depth_test = true
+shading_mode = 0
+albedo_color = Color(1, 0.313726, 0.313726, 0.470588)
+
+[sub_resource type="TorusMesh" id="TorusMesh_xpr7d"]
+material = SubResource("StandardMaterial3D_a6vgg")
+rings = 4
+ring_segments = 3
+
+[node name="Selection" type="MeshInstance3D"]
+transform = Transform3D(0.707107, 0, -0.707107, 0, 2, 0, 0.707107, 0, 0.707107, 0, 0, 0)
+mesh = SubResource("TorusMesh_xpr7d")

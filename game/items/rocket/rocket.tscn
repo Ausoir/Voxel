@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://bohu5daapwp6o"]
+
+[ext_resource type="Script" path="res://game/items/rocket/projectile.gd" id="1_crfhe"]
+
+[sub_resource type="CylinderMesh" id="1"]
+top_radius = 0.1
+bottom_radius = 0.3
+height = 1.0
+radial_segments = 8
+
+[node name="Rocket" type="Node3D"]
+script = ExtResource("1_crfhe")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1, -3.25841e-07, 5.30863e-14, 0, -1.62921e-07, -1, 3.25841e-07, -1, 1.62921e-07, 0, 0, 0)
+mesh = SubResource("1")
