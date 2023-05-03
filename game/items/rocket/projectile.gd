@@ -2,12 +2,7 @@ extends Node3D
 
 const LIFETIME = 10.0
 
-const DebrisScene = preload("./debris.tscn")
-const ExplosionScene = preload("./rocket_explosion.tscn")
-
-@onready var _terrain : VoxelTerrain = get_node("/root/Game/Terrain")
-@onready var _terrain_tool := _terrain.get_voxel_tool()
-var _voxel_library := preload("res://game/blocks/voxel_library.tres")
+const ExplosionScene = preload("res://game/fx/explosion/explosion.tscn")
 
 var _direction := Vector3(0, 0, 1)
 var _speed := 20.0
@@ -31,29 +26,12 @@ func _physics_process(delta: float):
 	var crossed_distance := _speed * delta
 	var motion := crossed_distance * _direction
 	
-	var hit = _terrain_tool.raycast(trans.origin, _direction, crossed_distance)
+	var hit = G.tool.raycast(trans.origin, _direction, crossed_distance)
 	if hit != null:
-		var block_id = _terrain_tool.get_voxel(hit.position)
-		var block = _voxel_library.get_voxel(block_id)
-		
-		# EXPLODE
-		_terrain_tool.do_sphere(hit.position, 4.0)
-		
-		var explosion = ExplosionScene.instantiate()
-		explosion.position = trans.origin
-		get_parent().add_child(explosion)
+		G.tool.block_sphere(hit.position, 4.0, 0)
+		G.stock.make_debris(hit.position, 24)
+		G.stock.make_particle(hit.position, "explosion")
 
-		# Create debris
-		for i in 30:
-			var debris = DebrisScene.instantiate()
-			var debris_velocity := \
-				Vector3(randf_range(-1, 1), randf_range(-1, 1), randf_range(-1, 1)).normalized()
-			debris_velocity *= randf_range(5.0, 30.0)
-			debris.set_velocity(debris_velocity)
-			debris.position = trans.origin
-			print(block.cube_tiles_top)
-#			debris.set_texture(block.sprite_texture)
-			get_parent().add_child(debris)
 		queue_free()
 			
 	else:

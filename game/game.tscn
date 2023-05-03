@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://culomj1mssfpg"]
+[gd_scene load_steps=16 format=3 uid="uid://jw87ksrcnjjc"]
 
 [ext_resource type="Material" uid="uid://4oo1j0k7ulmq" path="res://game/environment/sky_material.tres" id="4_pjy3m"]
 [ext_resource type="Script" path="res://game/stock.gd" id="4_vprdk"]
@@ -7,11 +7,11 @@
 [ext_resource type="PackedScene" uid="uid://dtgiqn6kp51k0" path="res://game/player/player.tscn" id="6"]
 [ext_resource type="Script" path="res://game/debug_info.gd" id="6_dontd"]
 [ext_resource type="VoxelBlockyLibrary" uid="uid://chr1cj53hbsgq" path="res://game/blocks/voxel_library.tres" id="6_jl7ow"]
-[ext_resource type="VoxelGeneratorScript" uid="uid://hx6kqpmjm6h8" path="res://game/generator/world_generator.tres" id="6_oyo5r"]
+[ext_resource type="VoxelGeneratorScript" uid="uid://hx6kqpmjm6h8" path="res://game/generator/world_generator.tres" id="6_ll1tk"]
 [ext_resource type="Script" path="res://game/blocks/random_ticks.gd" id="10_8b86d"]
-[ext_resource type="Script" path="res://game/blocks/water.gd" id="11_yhmyx"]
 [ext_resource type="Script" path="res://game/blocks/blocks.gd" id="12"]
 [ext_resource type="Script" path="res://game/blocks/tool.gd" id="12_td8s1"]
+[ext_resource type="Script" path="res://tools/turn.gd" id="13_b3j7b"]
 
 [sub_resource type="Sky" id="Sky_egpfk"]
 sky_material = ExtResource("4_pjy3m")
@@ -20,11 +20,9 @@ sky_material = ExtResource("4_pjy3m")
 background_mode = 2
 background_color = Color(1, 1, 1, 1)
 sky = SubResource("Sky_egpfk")
-ambient_light_source = 1
-ambient_light_sky_contribution = 0.3
-ambient_light_energy = 0.1
 reflected_light_source = 1
 ssil_enabled = true
+sdfgi_read_sky_light = false
 glow_mix = 0.1
 glow_bloom = 0.05
 fog_light_color = Color(0, 0, 0, 1)
@@ -33,19 +31,14 @@ fog_density = 0.0
 fog_sky_affect = 0.0
 volumetric_fog_density = 1.0
 volumetric_fog_albedo = Color(0, 0, 0, 1)
-volumetric_fog_emission = Color(0, 0.156863, 1, 1)
 volumetric_fog_emission_energy = 0.2
 volumetric_fog_gi_inject = 0.0
 volumetric_fog_anisotropy = 0.0
 adjustment_enabled = true
 adjustment_saturation = 1.5
 
-[sub_resource type="VoxelStreamRegionFiles" id="VoxelStreamRegionFiles_lph5b"]
-directory = "res://save/map"
-
-[sub_resource type="VoxelMesherBlocky" id="VoxelMesherBlocky_kvdfi"]
+[sub_resource type="VoxelMesherBlocky" id="VoxelMesherBlocky_lmotj"]
 library = ExtResource("6_jl7ow")
-occlusion_enabled = false
 
 [node name="Game" type="Node"]
 script = ExtResource("5")
@@ -53,20 +46,21 @@ script = ExtResource("5")
 [node name="Blocks" type="Node" parent="."]
 script = ExtResource("12")
 
+[node name="Tool" type="Node" parent="."]
+script = ExtResource("12_td8s1")
+
 [node name="Stock" type="Node" parent="."]
 script = ExtResource("4_vprdk")
-
-[node name="Objects" type="Node" parent="."]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("2")
 script = ExtResource("5_3t7d4")
 
 [node name="Terrain" type="VoxelTerrain" parent="."]
-stream = SubResource("VoxelStreamRegionFiles_lph5b")
-generator = ExtResource("6_oyo5r")
-mesher = SubResource("VoxelMesherBlocky_kvdfi")
-bounds = AABB(-5.36871e+08, -32, -5.36871e+08, 1.07374e+09, 96, 1.07374e+09)
+generator = ExtResource("6_ll1tk")
+mesher = SubResource("VoxelMesherBlocky_lmotj")
+bounds = AABB(-5.36871e+08, 0, -5.36871e+08, 1.07374e+09, 64, 1.07374e+09)
+max_view_distance = 257
 run_stream_in_editor = false
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
@@ -80,13 +74,9 @@ directional_shadow_fade_start = 1.0
 script = ExtResource("6_dontd")
 
 [node name="Player" parent="." instance=ExtResource("6")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 64, 0)
 
 [node name="RandomTicks" type="Node" parent="."]
 script = ExtResource("10_8b86d")
 
-[node name="Water" type="Node" parent="."]
-script = ExtResource("11_yhmyx")
-
-[node name="Tool" type="Node" parent="."]
-script = ExtResource("12_td8s1")
+[node name="Turn" type="Node" parent="."]
+script = ExtResource("13_b3j7b")

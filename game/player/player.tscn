@@ -1,14 +1,18 @@
-[gd_scene load_steps=7 format=3 uid="uid://dtgiqn6kp51k0"]
+[gd_scene load_steps=8 format=3 uid="uid://dtgiqn6kp51k0"]
 
 [ext_resource type="Script" path="res://game/player/player.gd" id="1_5b4wf"]
 [ext_resource type="Script" path="res://game/player/camera.gd" id="2_fxmqn"]
 [ext_resource type="Script" path="res://game/player/control.gd" id="3_8bf3x"]
 [ext_resource type="PackedScene" uid="uid://d2bedp1vuwbx5" path="res://game/ui/Interface.tscn" id="4_ep3pi"]
+[ext_resource type="PackedScene" uid="uid://d0tgv7vwpva48" path="res://game/units/humanoid/humanoid.tscn" id="4_h3qni"]
+[ext_resource type="Script" path="res://game/player/faction.gd" id="6_4r3dv"]
 [ext_resource type="Script" path="res://game/player/save.gd" id="6_o67dg"]
-[ext_resource type="PackedScene" uid="uid://dxreos03lpmdx" path="res://game/units/unit.tscn" id="7_1yab1"]
 
 [node name="Player" type="Node3D"]
 script = ExtResource("1_5b4wf")
+
+[node name="VoxelViewer" type="VoxelViewer" parent="."]
+view_distance = 257
 
 [node name="View" type="SpringArm3D" parent="."]
 spring_length = 2.0
@@ -20,16 +24,21 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
 current = true
 fov = 90.0
 near = 0.1
-far = 320.0
 
 [node name="Control" type="Node" parent="."]
 script = ExtResource("3_8bf3x")
 
-[node name="VoxelViewer" type="VoxelViewer" parent="."]
+[node name="Unit" parent="." instance=ExtResource("4_h3qni")]
 
-[node name="Unit" parent="." instance=ExtResource("7_1yab1")]
+[node name="OmniLight3D" type="OmniLight3D" parent="Unit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0.4)
+light_energy = 0.2
+omni_range = 16.0
 
 [node name="Interface" parent="." instance=ExtResource("4_ep3pi")]
+
+[node name="Faction" type="Node" parent="."]
+script = ExtResource("6_4r3dv")
 
 [node name="Save" type="Node" parent="."]
 script = ExtResource("6_o67dg")

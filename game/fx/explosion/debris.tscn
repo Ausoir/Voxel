@@ -1,6 +1,6 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=6 format=3 uid="uid://bhj0xnv2d64r4"]
 
-[ext_resource type="Script" path="res://game/items/rocket/debris.gd" id="1"]
+[ext_resource type="Script" path="res://game/fx/explosion/debris.gd" id="1_s1wec"]
 
 [sub_resource type="BoxMesh" id="1"]
 size = Vector3(0.3, 0.3, 0.3)
@@ -20,7 +20,7 @@ albedo_texture = SubResource("NoiseTexture2D_ls4uy")
 texture_filter = 2
 
 [node name="Debris" type="Node3D"]
-script = ExtResource("1")
+script = ExtResource("1_s1wec")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("1")

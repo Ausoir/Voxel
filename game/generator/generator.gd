@@ -3,10 +3,15 @@ extends VoxelGeneratorScript
 const Structure = preload("./structure.gd")
 const TreeGenerator = preload("./tree_generator.gd")
 const HeightmapCurve = preload("./heightmap_curve.tres")
+const GenImage = preload("res://assets/generator_image.png")
 
 const _CHANNEL = VoxelBuffer.CHANNEL_TYPE
 
-var _instancer = preload("res://game/generator/image_mapper.gd").new()
+var _width = GenImage.get_width()
+var _height = GenImage.get_height()
+var _hwidth: int = _width/2
+var _hheight: int = _height/2
+#var _instancer = preload("res://game/generator/image_mapper.gd").new()
 var _heightmap_min_y := int(HeightmapCurve.min_value)
 var _heightmap_max_y := int(HeightmapCurve.max_value)
 var _heightmap_range := 0
@@ -14,9 +19,9 @@ var _heightmap_noise := FastNoiseLite.new()
 
 
 func _init():
-	_heightmap_noise.seed = Time.get_unix_time_from_system()
-	_heightmap_noise.frequency = 1.0/512.0
-	_heightmap_noise.fractal_octaves = 6
+	_heightmap_noise.seed = 1212#Time.get_unix_time_from_system()
+	_heightmap_noise.frequency = 1.0/256.0
+	_heightmap_noise.fractal_octaves = 4
 	HeightmapCurve.bake()
 
 
@@ -54,28 +59,34 @@ func _generate_block(buffer: VoxelBuffer, origin_in_voxels: Vector3i, _lod: int)
 		var gz := int(oz)
 		for z in block_size:
 			gx = int(ox)
+			var out_of_bounds = gz <= -_hheight or gz >= _hheight
 			for x in block_size:
-				var height := _get_height_at(gx, gz)
-				var relative_height := height - oy
+				var height
+				var fillblock = G.blocks.STONE
+				if out_of_bounds or gx <= -_hwidth or gx >= _hwidth:
+					height = 48
+					fillblock = G.blocks.VOID
+				else:
+					var pixel = GenImage.get_pixel(gx+_hwidth, gz+_hheight)
+					height = int(pixel.b * 64)
+					if pixel.r == 0 and pixel.g == 0:
+						fillblock = G.blocks.METAL
+					elif pixel.r == 0:
+						fillblock = G.blocks.SOIL
+				var relative_height: int = height - oy
 
-				var pos = Vector3(x, 0, z)
 				if relative_height > block_size:
-					buffer.fill_area(G.blocks.STONE,
-						pos, Vector3(x + 1, block_size, z + 1), _CHANNEL)
-				elif relative_height > 0:
-					buffer.fill_area(G.blocks.STONE,
-						pos, Vector3(x + 1, relative_height, z + 1), _CHANNEL)
-					if height >= 0:
-						buffer.set_voxel(G.blocks.SOIL, x, relative_height - 1, z, _CHANNEL)
-				if height < 16 and oy < 16:
-					buffer.fill_area(G.blocks.SAND,
-						Vector3(x, max(0, relative_height), z), 
+					buffer.fill_area(fillblock,
+						Vector3(x, 0, z),
 						Vector3(x + 1, block_size, z + 1), _CHANNEL)
-				pos.y = oy
+				elif relative_height > 0:
+					buffer.fill_area(fillblock,
+						Vector3(x, 0, z),
+						Vector3(x + 1, relative_height, z + 1), _CHANNEL)
 				gx += 1
 			gz += 1
-		if ox % 16 == 0 and oy % 16 == 0 and oz % 16 == 0:
-			_instancer.load_chunk(buffer, origin_in_voxels)
+#		if ox % 16 == 0 and oy % 16 == 0 and oz % 16 == 0:
+#			_instancer.load_chunk(buffer, origin_in_voxels)
 	buffer.compress_uniform_channels()
 
 

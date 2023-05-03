@@ -1,10 +1,13 @@
 extends Node
 
 
+const Library := preload("res://game/blocks/voxel_library.tres")
 const Item = preload("res://game/items/item.gd")
 const Item_JSON = preload("res://assets/json/items.json")
 const Unit_JSON = preload("res://assets/json/units.json")
-
+const Debris = preload("res://game/fx/explosion/debris.tscn")
+const P_explosion = preload("res://game/fx/explosion/explosion.tscn")
+const P_demolish = preload("res://game/fx/demolish.tscn")
 var _items = {}
 
 
@@ -43,12 +46,21 @@ func get_item(itemname):
 
 
 func make_unit(pos: Vector3, itemname: String):
+	var dir = str("res://game/units", "/", itemname, ".tscn")
+	var item = load(dir).instantiate()
+	G.stock.add_child(item)
+	item.sid = itemname
+	item.position = pos
+	return item
+
+
+func make_humanoid(pos: Vector3, itemname: String):
 	var dict = Unit_JSON.get_data()
 	var dat = dict.get(itemname)
 	if dat != null:
-		var dir = str("res://game/units", "/", itemname, "/", itemname, ".tscn")
+		var dir = str("res://game/units", "/", itemname, ".tscn")
 		var item = load(dir).instantiate()
-		G.objects.add_child(item)
+		G.stock.add_child(item)
 		item.unit.sid = itemname
 		var mesh = load("res://assets/units/" + dat.model + ".obj")
 		item.unit.set_mesh(mesh)
@@ -58,3 +70,26 @@ func make_unit(pos: Vector3, itemname: String):
 			item.unit.equipment.pickup(_items.get(i))
 		item.position = pos
 		return item
+
+
+func make_particle(_pos: Vector3, _particlename: String):
+	var att = get("P_"+_particlename)
+	if att != null:
+		var particle = att.instantiate()
+		particle.position = _pos
+		for child in particle.get_children():
+			if child is GPUParticles3D:
+				child.emitting = true
+		add_child(particle)
+
+
+func make_debris(_pos: Vector3, _amount: int):
+	for i in _amount:
+		var debris = Debris.instantiate()
+		var debris_velocity := \
+			Vector3(randf_range(-1, 1), randf_range(-1, 1), randf_range(-1, 1)).normalized()
+		debris_velocity *= randf_range(5.0, 30.0)
+		debris.set_velocity(debris_velocity)
+		debris.position = Vector3(_pos)
+		add_child(debris)
+

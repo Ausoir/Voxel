@@ -1,6 +1,7 @@
 extends Node
 
 const PATH = "user://save/player.json"
+const TEMPLATE_PATH = "res://game/save/template.json"
 const PROP_PATH = "user://save/props.json"
 var data
 
@@ -12,10 +13,16 @@ func load_data():
 
 func load_player_data():
 	data = get_json_from_dir(PATH)
+	if data == null:
+		data = get_json_from_dir(TEMPLATE_PATH)
 	if data != null:
 		var player = get_parent()
-		player.unit.global_position = Vector3(data.position[0], data.position[1]+2.5, data.position[2])
+		if "position" in data:
+			player.unit.global_position = Vector3(data.position[0], data.position[1]+2.5, data.position[2])
 		player.vars = data.vars
+		if data.seed == -1:
+			data.seed = Time.get_unix_time_from_system()
+		G.rng.set_seed(data.seed)
 
 
 func load_prop_data():
@@ -23,7 +30,7 @@ func load_prop_data():
 	if data != null:
 		for i in data:
 			var scene = load("res://" + i.name + ".tscn").instantiate()
-			G.objects.add_child(scene)
+			G.stock.add_child(scene)
 			scene.position = Vector3(i.position[0], i.position[1], i.position[2])
 
 
@@ -40,7 +47,7 @@ func save_player_data():
 
 func save_prop_data():
 	var r = []
-	for i in G.objects.get_children():
+	for i in G.stock.get_children():
 		if i.get("save_name") != null:
 			var prop_data = i.serialize()
 			r.append(prop_data)

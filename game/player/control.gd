@@ -21,11 +21,9 @@ const _hotbar_keys = {
 
 
 @onready var _unit = get_node("../Unit")
-@onready var _action = get_node("../Unit/Action")
 @onready var _terrain = get_node("/root/Game/Terrain")
 @onready var _camera = get_node("../View")
 @onready var _interface = get_node("../Interface")
-@onready var _procedure = get_node("../Unit/Procedure")
 
 var _menu_settings = MENU_SETTINGS.instantiate()
 var _menu_inventory = MENU_INVENTORY.instantiate()
@@ -37,15 +35,16 @@ func _ready():
 	_terrain_tool = _terrain.get_voxel_tool()
 	_terrain_tool.channel = VoxelBuffer.CHANNEL_TYPE
 	_unit.head = _camera
-	_action.bind("walkU", Callable(_procedure, "walk").bind(1, 0))
-	_action.bind("walkUL", Callable(_procedure, "walk").bind(1, -1))
-	_action.bind("walkUR", Callable(_procedure, "walk").bind(1, 1))
-	_action.bind("walkD", Callable(_procedure, "walk").bind(-1, 0))
-	_action.bind("walkDL", Callable(_procedure, "walk").bind(-1, -1))
-	_action.bind("walkDR", Callable(_procedure, "walk").bind(-1, 1))
-	_action.bind("walkL", Callable(_procedure, "walk").bind(0, -1))
-	_action.bind("walkR", Callable(_procedure, "walk").bind(0, 1))
-	_action.bind("jump", Callable(_procedure, "jump").bind(11))
+	var _procedure = _unit.procedure
+	_unit.action.bind("walkU", Callable(_procedure, "walk").bind(1, 0))
+	_unit.action.bind("walkUL", Callable(_procedure, "walk").bind(1, -1))
+	_unit.action.bind("walkUR", Callable(_procedure, "walk").bind(1, 1))
+	_unit.action.bind("walkD", Callable(_procedure, "walk").bind(-1, 0))
+	_unit.action.bind("walkDL", Callable(_procedure, "walk").bind(-1, -1))
+	_unit.action.bind("walkDR", Callable(_procedure, "walk").bind(-1, 1))
+	_unit.action.bind("walkL", Callable(_procedure, "walk").bind(0, -1))
+	_unit.action.bind("walkR", Callable(_procedure, "walk").bind(0, 1))
+	_unit.action.bind("jump", Callable(_procedure, "jump").bind(11))
 
 
 func _physics_process(_delta):
@@ -61,7 +60,7 @@ func _physics_process(_delta):
 			if Input.is_action_pressed("jump"):
 				if _debug_mode:
 					_unit.velocity.y += 12
-				elif _action.set_next("jump", 0.3):
+				elif _unit.action.set_next("jump", 0.3):
 					_unit.animator.play("jump_ready")
 			else:
 				if Input.is_action_pressed("sneak"):
@@ -69,28 +68,28 @@ func _physics_process(_delta):
 						_unit.velocity.y -= 12
 				if Input.is_action_pressed("up"):
 					if Input.is_action_pressed("left"):
-						_action.set_next("walkUL", 0)
+						_unit.action.set_next("walkUL", 0)
 					elif Input.is_action_pressed("right"):
-						_action.set_next("walkUR", 0)
+						_unit.action.set_next("walkUR", 0)
 					else:
-						_action.set_next("walkU", 0)
+						_unit.action.set_next("walkU", 0)
 				elif Input.is_action_pressed("down"):
 					if Input.is_action_pressed("left"):
-						_action.set_next("walkDL", 0)
+						_unit.action.set_next("walkDL", 0)
 					elif Input.is_action_pressed("right"):
-						_action.set_next("walkDR", 0)
+						_unit.action.set_next("walkDR", 0)
 					else:
-						_action.set_next("walkD", 0)
+						_unit.action.set_next("walkD", 0)
 				else:
 					if Input.is_action_pressed("left"):
-						_action.set_next("walkL", 0)
+						_unit.action.set_next("walkL", 0)
 					if Input.is_action_pressed("right"):
-						_action.set_next("walkR", 0)
+						_unit.action.set_next("walkR", 0)
 			if Input.is_action_pressed("use"):
-				_procedure.use()
+				_unit.procedure.use()
 			if Input.is_action_pressed("use2"):
-				_procedure.use2()
-	_action.on_process(_delta)
+				_unit.procedure.use2()
+	_unit.action.on_process(_delta)
 
 
 func _unhandled_input(event):

@@ -18,7 +18,7 @@ func on_interact(_user: Node3D):
 func _on_animator_animation_finished(anim_name):
 	_activated = false
 	if anim_name == "close":
-		G.tool.place_voxel(voxel_pos, voxel_id)
+		G.tool.set_voxel(voxel_pos, voxel_id)
 		queue_free()
 	elif anim_name == "open":
 		G.tool.remove_block(voxel_pos)

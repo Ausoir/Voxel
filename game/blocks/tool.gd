@@ -1,12 +1,11 @@
 extends Node
 
-
 const Util = preload("res://tools/util.gd")
 
-const ROTATION_Y_NEGATIVE_X = 0
-const ROTATION_Y_POSITIVE_X = 1
+const ROTATION_Y_POSITIVE_Z = 0
+const ROTATION_Y_NEGATIVE_X = 1
 const ROTATION_Y_NEGATIVE_Z = 2
-const ROTATION_Y_POSITIVE_Z = 3
+const ROTATION_Y_POSITIVE_X = 3
 
 @onready var _tool = get_node("../Terrain").get_voxel_tool()
 @onready var _blocks = get_node("../Blocks")
@@ -20,7 +19,7 @@ func _process(_delta):
 		var pos = next[0]
 		var block_id = next[1]
 		var view = next[2]
-		place_block(pos, block_id, view)
+		set_block(pos, block_id, view)
 	else:
 		set_process(false)
 
@@ -35,20 +34,34 @@ func get_block(pos: Vector3):
 	return _blocks.get_block_by_voxel(hit_raw_id)
 
 
-func raycast(origin: Vector3, toward: Vector3, distance: float):
-	return _tool.raycast(origin, toward, distance)
+func check_box(start: Vector3i, end: Vector3i):
+	for x in range(min(start.x, end.x), max(start.x, end.x) + 1):
+		for y in range(min(start.y, end.y), max(start.y, end.y) + 1):
+			for z in range(min(start.z, end.z), max(start.z, end.z) + 1):
+				if _tool.get_voxel(Vector3(x, y, z)) != 0:
+					return false
+	return true
+
+
+func raycast(origin: Vector3, toward: Vector3, distance: float, col=1) -> VoxelRaycastResult:
+	return _tool.raycast(origin, toward, distance, col)
 
 
 func remove_block(pos: Vector3):
 	var hit_raw_id = _tool.get_voxel(pos)
 	if hit_raw_id != 0:
 		var block = _blocks.get_block_by_voxel(hit_raw_id)
-		block.remove(pos)
 		_tool.value = 0
 		_tool.do_point(pos)
+		block.on_remove(pos)
 
 
-func place_block(pos: Vector3, block_id: int, look_dir: Vector3):
+func set_block_by_name(pos: Vector3, block_name: String, look_dir: Vector3):
+	var block = _blocks.get_block_by_name(block_name)
+	set_block(pos, block.id, look_dir)
+
+
+func set_block(pos: Vector3, block_id: int, look_dir: Vector3):
 	var block = _blocks.get_block(block_id)
 	var voxel_id := 0
 	
@@ -66,19 +79,78 @@ func place_block(pos: Vector3, block_id: int, look_dir: Vector3):
 		var axis := Util.get_longest_axis(look_dir)
 		voxel_id = block.voxels[axis]
 
-	place_voxel(pos, voxel_id)
+	if block.tickable:
+		G.turn.add(Callable(block, "on_tick").bind(pos))
+
+	set_voxel(pos, voxel_id)
 
 	if block.custom:
 		block.on_place(pos)
 
 
-func place_voxel(pos, voxel_id):
+func block_sphere(pos, r, block_id):
+	var r_squared = (r - 2) * (r - 2)
+	for tx in range(-r, r):
+		var tx_squared = tx * tx
+		for ty in range(-r, r):
+			var ty_squared = ty * ty
+			for tz in range(-r, r):
+				var tz_squared = tz * tz
+				if (tx_squared + ty_squared + tz_squared) <= r_squared:
+					set_block(pos + Vector3i(tx, ty, tz), block_id, Vector3i.UP)
+
+
+func block_box(pos, to, block_id, hollow=false):
+	var dx = abs(pos.x - to.x)
+	var dz = abs(pos.z - to.z)
+	for x in range(dx+1):
+		for z in range(dz+1):
+			var mx = min(pos.x, to.x)
+			var mz = min(pos.z, to.z)
+			var tx = mx + x
+			var tz = mz + z
+			if hollow:
+				if (tx == mx or tx == mx+dx) or (tz == mz or tz == mz+dz):
+					set_block(Vector3i(tx, pos.y, tz), block_id, Vector3i.UP)
+			else:
+				set_block(Vector3i(tx, pos.y, tz), block_id, Vector3i.UP)
+
+
+func set_voxel(pos, voxel_id):
 	_tool.value = voxel_id
 	_tool.do_point(pos)
 
 
+func do_box(pos, to, voxel_id, hollow=false):
+	if !hollow:
+		_tool.value = voxel_id
+		_tool.do_box(pos, to)
+	else:
+		var dx = abs(pos.x - to.x)
+		var dz = abs(pos.z - to.z)
+		for x in range(dx+1):
+			for z in range(dz+1):
+				var mx = min(pos.x, to.x)
+				var mz = min(pos.z, to.z)
+				var tx = mx + x
+				var tz = mz + z
+				if hollow:
+					if (tx == mx or tx == mx+dx) or (tz == mz or tz == mz+dz):
+						set_voxel(Vector3i(tx, pos.y, tz), voxel_id)
+				else:
+					set_voxel(Vector3i(tx, pos.y, tz), voxel_id)
+
+
 func get_voxel(pos: Vector3):
 	return _tool.get_voxel(pos)
+
+
+func set_channel(channel):
+	_tool.set_channel(channel)
+
+
+func get_tool():
+	return _tool
 
 
 func collide_prop_by_shape(pos: Vector3, size: int, col: int):

@@ -12,7 +12,6 @@ void fragment() {
 	float r = texture(noise_r, coord).x;
 	float g = texture(noise_g, coord).x;
 	float b = texture(noise_b, coord).x;
-	ALBEDO = mix(COLOR.rgb, bottom_color, 1.6 - min(36.0, pos.y) / 25.0);
-	ALBEDO = mix(ALBEDO, sedimentary, 0.2 + sin(pos.y / 1.0) * .2);
-	ALBEDO = (ALBEDO.rgb * 2.0 + vec3(r, g, b)) / 3.0;
+	ALBEDO = mix(bottom_color, sedimentary, 0.1 + sin(pos.y / 1.0) * .1);
+	ALBEDO = mix(ALBEDO.rgb, vec3(r, g, b), .1);
 }

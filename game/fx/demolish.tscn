@@ -1,0 +1,48 @@
+[gd_scene load_steps=7 format=3 uid="uid://cstnr423xd1ct"]
+
+[ext_resource type="Texture2D" uid="uid://woohkfo3ame3" path="res://game/fx/fadeout.tres" id="1_k6g6a"]
+[ext_resource type="Texture2D" uid="uid://bmgw0ryroxvql" path="res://assets/texture/particle_demolish.png" id="1_sshhu"]
+[ext_resource type="Texture2D" uid="uid://yvfr3jm8cbcg" path="res://game/fx/shrink.tres" id="2_opv3m"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_mi843"]
+emission_shape = 1
+emission_sphere_radius = 0.3
+direction = Vector3(0, 1, 0)
+spread = 90.0
+initial_velocity_min = 2.0
+initial_velocity_max = 10.0
+angular_velocity_min = -360.0
+angular_velocity_max = 360.0
+angle_min = -720.0
+angle_max = 720.0
+scale_min = 0.1
+scale_curve = ExtResource("2_opv3m")
+color_ramp = ExtResource("1_k6g6a")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2vrdy"]
+transparency = 1
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("1_sshhu")
+texture_filter = 0
+texture_repeat = false
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_qnvnc"]
+material = SubResource("StandardMaterial3D_2vrdy")
+size = Vector2(1, 1)
+orientation = 2
+
+[node name="demolish" type="Node3D"]
+
+[node name="Particles" type="GPUParticles3D" parent="."]
+emitting = false
+amount = 4
+lifetime = 0.4
+one_shot = true
+explosiveness = 0.95
+process_material = SubResource("ParticleProcessMaterial_mi843")
+draw_pass_1 = SubResource("PlaneMesh_qnvnc")

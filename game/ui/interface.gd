@@ -10,6 +10,7 @@ var _unit
 @onready var menu_button = $MenuButton
 @onready var n_fps = $FPS
 @onready var menu_container = $Center/Menu
+@onready var label = $Center/Label
 
 
 func _ready():
@@ -27,6 +28,11 @@ func set_unit(unit):
 func on_resize():
 	screen_size = get_viewport().get_visible_rect()
 	$Fade.set_size(screen_size.size)
+
+
+func set_label(txt):
+	if label.text != txt:
+		label.set_text(txt)
 
 
 func fadein():

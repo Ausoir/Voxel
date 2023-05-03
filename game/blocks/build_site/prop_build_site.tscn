@@ -1,0 +1,62 @@
+[gd_scene load_steps=6 format=3 uid="uid://bql5b3adxrk36"]
+
+[ext_resource type="Script" path="res://game/blocks/build_site/prop_build_site.gd" id="1_6tjhl"]
+[ext_resource type="FontVariation" uid="uid://4cs7wvho51lb" path="res://assets/font_acme.tres" id="2_s22fu"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_flkrt"]
+size = Vector2(2, 1)
+orientation = 2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m0d6d"]
+resource_local_to_scene = true
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+emission = Color(0.690196, 0.403922, 0, 1)
+emission_energy_multiplier = 0.2
+texture_filter = 1
+texture_repeat = false
+disable_receive_shadows = true
+billboard_mode = 2
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_stwa0"]
+
+[node name="Site" type="Node3D"]
+script = ExtResource("1_6tjhl")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+transparent_bg = true
+snap_2d_transforms_to_pixel = true
+snap_2d_vertices_to_pixel = true
+size = Vector2i(180, 64)
+
+[node name="Label" type="Label" parent="SubViewport"]
+custom_minimum_size = Vector2(180, 64)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -12.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_s22fu")
+theme_override_font_sizes/font_size = 28
+text = "Building Site"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+uppercase = true
+
+[node name="Billboard" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1, 0.5)
+mesh = SubResource("PlaneMesh_flkrt")
+surface_material_override/0 = SubResource("StandardMaterial3D_m0d6d")
+
+[node name="Area3D" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, 0.5)
+collision_layer = 8
+collision_mask = 8
+input_ray_pickable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("BoxShape3D_stwa0")

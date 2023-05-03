@@ -85,13 +85,13 @@ func load_image(origin: Vector3i, poi):
 				var b = int(pixel.b * 3)
 				if r == 0 and g == 0 and b == 0:
 					for i in range(5):
-						G.tool.place_voxel(Vector3(x, y + i, z), G.blocks.METAL)
+						G.tool.set_voxel(Vector3(x, y + i, z), G.blocks.METAL)
 				else:
 					var pos = Vector3(x, y, z)
 					for i in range(3):
-						G.tool.place_voxel(Vector3(x, y + i + 1, z), 0)
-					G.tool.place_voxel(pos, G.blocks.TILES)
-					G.tool.place_voxel(Vector3(x, y + 4, z), G.blocks.METAL)
+						G.tool.set_voxel(Vector3(x, y + i + 1, z), 0)
+					G.tool.set_voxel(pos, G.blocks.TILES)
+					G.tool.set_voxel(Vector3(x, y + 4, z), G.blocks.METAL)
 					_furniture_queue.append([[r,g,b], pos])
 
 
@@ -99,19 +99,19 @@ func load_furniture(furniture):
 	var pos = furniture[1]
 	match (furniture[0]):
 		[1,1,1]:
-			G.tool.place_voxel(pos + Vector3(0,3,0), G.blocks.METAL)
+			G.tool.set_voxel(pos + Vector3(0,3,0), G.blocks.METAL)
 			if G.tool.get_voxel(pos + Vector3(1,2,0)) != 0:
-				G.tool.place_block(pos + Vector3.UP, _door, Vector3.BACK)
+				G.tool.set_block(pos + Vector3.UP, _door, Vector3.BACK)
 			elif G.tool.get_voxel(pos + Vector3(-1,2,0)) != 0:
-				G.tool.place_block(pos + Vector3.UP, _door, Vector3.BACK)
+				G.tool.set_block(pos + Vector3.UP, _door, Vector3.BACK)
 			else:
-				G.tool.place_block(pos + Vector3.UP, _door, Vector3.LEFT)
+				G.tool.set_block(pos + Vector3.UP, _door, Vector3.LEFT)
 		[2,2,2]:
-			G.tool.place_voxel(pos, G.blocks.WALKWAY)
+			G.tool.set_voxel(pos, G.blocks.WALKWAY)
 		[3,2,0]:
-			G.tool.place_block(pos + Vector3(0,3,0), _light, Vector3.UP)
+			G.tool.set_block(pos + Vector3(0,3,0), _light, Vector3.UP)
 		[0,0,3]:
 			for i in range(1, 4):
-				G.tool.place_voxel(pos + Vector3(0,i,0), G.blocks.METAL)
-			G.tool.place_voxel(pos + Vector3(0,2,0), G.blocks.GLASS)
+				G.tool.set_voxel(pos + Vector3(0,i,0), G.blocks.METAL)
+			G.tool.set_voxel(pos + Vector3(0,2,0), G.blocks.GLASS)
 

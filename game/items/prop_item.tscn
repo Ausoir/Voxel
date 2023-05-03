@@ -11,6 +11,8 @@ script = ExtResource("1_vbrro")
 [node name="Mesh" type="MeshInstance3D" parent="."]
 
 [node name="Area" type="Area3D" parent="."]
+collision_layer = 4
+collision_mask = 4
 
 [node name="Shape" type="CollisionShape3D" parent="Area"]
 shape = SubResource("BoxShape3D_08pbs")

@@ -9,7 +9,7 @@ func on_interact(_pos: Vector3, _user: Node3D):
 	door.voxel_pos = _pos
 	door.voxel_id = voxel
 	G.tool.remove_block(_pos)
-	G.objects.add_child(door)
+	G.stock.add_child(door)
 	door.position = _pos
 	if voxel == voxels[0]:
 		door.rotation.y = PI / -2.0

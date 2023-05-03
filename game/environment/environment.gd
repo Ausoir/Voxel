@@ -1,6 +1,7 @@
 extends Node
 
 @onready var _light = get_node("../DirectionalLight3D")
+@onready var _player_light = get_node("../Player/Unit/OmniLight3D")
 @onready var _env = get_node("../WorldEnvironment").environment
 @onready var _sky = preload("res://game/environment/sky_material.tres")
 @onready var _gradient_sky = preload("res://game/environment/time_sky_gradient.tres")
@@ -15,6 +16,7 @@ func _process(delta):
 		var v = max(0, (sun_angle - .05) * 5)
 		_light.light_energy = v
 		_env.ambient_light_energy = v
+		_player_light.omni_range = 28 * v + 4
 	var light_color = _gradient_light.sample(sun_angle)
 	var sky_color = _gradient_sky.sample(sun_angle)
 	var ground_color = _gradient_ground.sample(sun_angle)

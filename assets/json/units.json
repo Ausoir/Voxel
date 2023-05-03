@@ -1,6 +1,6 @@
 {
-	"guard": {
-		"model": "fighter",
+	"squirant": {
+		"model": "squirrel",
 		"slots": [
 			"armor"
 		],

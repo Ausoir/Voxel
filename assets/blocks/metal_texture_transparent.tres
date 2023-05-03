@@ -1,0 +1,14 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://deh76dvd8kdvl"]
+
+[ext_resource type="Texture2D" uid="uid://d1bjiyjksdg12" path="res://assets/texture/terrain.png" id="1_bayj8"]
+
+[resource]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+cull_mode = 2
+albedo_texture = ExtResource("1_bayj8")
+metallic = 0.5
+metallic_specular = 1.0
+roughness = 0.25
+texture_filter = 2

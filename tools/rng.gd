@@ -10,6 +10,10 @@ func set_seed(sd):
 	r.seed = sd
 
 
+func percent(p):
+	return r.randf() < p
+
+
 func pick(array):
 	if array != null and !array.is_empty():
 		return array[r.randi_range(0, len(array)-1)]

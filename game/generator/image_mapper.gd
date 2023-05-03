@@ -78,9 +78,7 @@ func load_image(buffer: VoxelBuffer, origin: Vector3i, images):
 	for x in range(_BLOCK_SIZE):
 		for z in range(_BLOCK_SIZE):
 			var floor_blueprint = images[0]
-			var upper_blueprint = images[1]
 			var pixel = floor_blueprint.get_pixel(x, z)
-			var pixel2 = upper_blueprint.get_pixel(x, z)
 			var ox = x + origin.x
 			var oy = origin.y
 			var oz = z + origin.z
@@ -114,27 +112,18 @@ func load_image(buffer: VoxelBuffer, origin: Vector3i, images):
 						[3,1,0]:
 							buffer.set_voxel(G.blocks.TILES, x, 1, z, _CHANNEL)
 							G.tool.add_prop([Vector3(ox, oy+2, oz), _chair, Vector3.BACK])
-						[0,3,0]:
-							buffer.set_voxel(G.blocks.TILES, x, 1, z, _CHANNEL)
-							if x < _BLOCK_SIZE-1 and floor_blueprint.get_pixel(x+1, z) == Color.WHITE:
-								G.tool.add_prop([Vector3(ox, oy+2, oz), _locker, Vector3.LEFT])
-							elif x > 0 and floor_blueprint.get_pixel(x-1, z) == Color.WHITE:
-								G.tool.add_prop([Vector3(ox, oy+2, oz), _locker, Vector3.RIGHT])
-							else:
-								G.tool.add_prop([Vector3(ox, oy+2, oz), _locker, Vector3.BACK])
+#						[0,3,0]:
+#							buffer.set_voxel(G.blocks.TILES, x, 1, z, _CHANNEL)
+#							if x < _BLOCK_SIZE-1 and floor_blueprint.get_pixel(x+1, z) == Color.WHITE:
+#								G.tool.add_prop([Vector3(ox, oy+2, oz), _locker, Vector3.LEFT])
+#							elif x > 0 and floor_blueprint.get_pixel(x-1, z) == Color.WHITE:
+#								G.tool.add_prop([Vector3(ox, oy+2, oz), _locker, Vector3.RIGHT])
+#							else:
+#								G.tool.add_prop([Vector3(ox, oy+2, oz), _locker, Vector3.BACK])
 						[0,0,3]:
 							buffer.fill_area(G.blocks.METAL,
 								Vector3(x, 0, z), Vector3(x + 1, 5, z + 1), _CHANNEL)
 							buffer.set_voxel(G.blocks.GLASS, x, 3, z, _CHANNEL)
 						_:
 							buffer.set_voxel(G.blocks.TILES, x, 1, z, _CHANNEL)
-			if pixel2.a == 1.0:
-				var r = int(pixel2.r * 3)
-				var g = int(pixel2.g * 3)
-				var b = int(pixel2.b * 3)
-				match ([r, g, b]):
-					[3,2,0]:
-						G.tool.add_prop([Vector3(ox, oy+4, oz), _light, Vector3.UP])
-					[3,0,0]:
-						buffer.set_voxel(G.blocks.WALKWAY, x, 0, z, _CHANNEL)
 

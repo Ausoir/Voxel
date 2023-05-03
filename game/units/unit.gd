@@ -2,28 +2,22 @@ extends "res://game/items/prop.gd"
 
 signal pressed
 
+
+var _last_velocity_y = 0
+var _box_mover = VoxelBoxMover.new()
+var _aabb : AABB
 var sid = "unit"
 var motor = Vector3()
-var held_item = null
 var forward
 var head
 var size
 var data
-
-var _aabb : AABB
-var _last_velocity_y = 0
-var velocity = Vector3()
 var grounded = false
-var _box_mover = VoxelBoxMover.new()
-var _weapon_callback
-var _previous_held
-var hand
-var held_item_model
+var velocity = Vector3()
+var action = preload("./action.gd").new()
+var procedure = preload("./procedure.gd").new()
 
 @onready var animator = $Animator
-@onready var equipment = $Equipment
-@onready var action = $Action
-@onready var procedure = $Procedure
 @onready var _terrain = get_node("/root/Game/Terrain")
 
 
@@ -31,19 +25,13 @@ func _ready():
 	_box_mover.set_collision_mask(1)
 	size = $Body/Shape.shape.size
 	_aabb = AABB(Vector3(-.3, 0, -.3), Vector3(.6, size.y, .6))
-	equipment.set_unit(self)
-	equipment.connect("selected", Callable(self, "_on_held_select"))
+	procedure.on_ready(self)
 #	_box_mover.set_step_climbing_enabled(true)
 #	_box_mover.set_max_step_height(.5)
-	held_item_model = $Model/Item
 
 
 func set_mesh(new_mesh):
 	$Model/Mesh.set_mesh(new_mesh)
-
-
-func _process(_delta):
-	DDD.set_text("action", action.action)
 
 
 func _physics_process(delta):
@@ -55,8 +43,6 @@ func _physics_process(delta):
 			animator.play("walk")
 	elif action.action == null and animator.current_animation == "walk":
 		animator.play("RESET")
-	if _weapon_callback != null:
-		_weapon_callback.call(self)
 
 	velocity.x += motor.x
 	velocity.z += motor.z
@@ -82,24 +68,3 @@ func _physics_process(delta):
 	velocity.x *= friction
 	velocity.z *= friction
 	velocity.y = motion.y / delta - G.GRAVITY * delta
-
-
-func get_item_position():
-	return held_item_model.global_position
-
-
-func _on_held_select():
-	var item = equipment.get_item_by_index(equipment.get_held_index())
-	if item != _previous_held:
-		if _previous_held != null:
-			_previous_held.on_unheld(self)
-		_previous_held = item
-		if item != null:
-			item.on_held(self)
-	if item == null:
-		held_item_model.hide()
-		_weapon_callback = null
-	else:
-		held_item_model.show()
-		held_item_model.set_mesh(item.model)
-		_weapon_callback = Callable(item, "on_held_tick")

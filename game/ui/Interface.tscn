@@ -1,10 +1,11 @@
-[gd_scene load_steps=11 format=3 uid="uid://d2bedp1vuwbx5"]
+[gd_scene load_steps=12 format=3 uid="uid://d2bedp1vuwbx5"]
 
 [ext_resource type="Texture2D" uid="uid://c4i1goax1qcya" path="res://assets/images/icon_player.png" id="4"]
 [ext_resource type="Texture2D" uid="uid://lcfc333at1u3" path="res://assets/images/wait_bg.png" id="4_h12lk"]
 [ext_resource type="Texture2D" uid="uid://d5w4iskb3y1h" path="res://game/player/crosshair.png" id="5_n1mcy"]
 [ext_resource type="Texture2D" uid="uid://d16miocfurkwh" path="res://assets/images/wait.png" id="5_ttygl"]
 [ext_resource type="PackedScene" path="res://game/ui/inventory/itembar.tscn" id="6_aaf8c"]
+[ext_resource type="FontVariation" uid="uid://4cs7wvho51lb" path="res://assets/font_acme.tres" id="7_0o0b4"]
 [ext_resource type="Script" path="res://game/ui/interface.gd" id="8"]
 [ext_resource type="Script" path="res://game/ui/progress_bar.gd" id="9_3k6fp"]
 
@@ -93,6 +94,14 @@ script = ExtResource("9_3k6fp")
 
 [node name="Menu" type="Control" parent="Center"]
 layout_mode = 2
+
+[node name="Label" type="Label" parent="Center"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("7_0o0b4")
+theme_override_font_sizes/font_size = 24
+horizontal_alignment = 1
+vertical_alignment = 2
 
 [node name="HotBar" type="CenterContainer" parent="."]
 anchors_preset = 12

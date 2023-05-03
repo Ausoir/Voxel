@@ -1,0 +1,124 @@
+{
+	"air": {
+		"icon": " ",
+		"voxels": [
+			"air"
+		]
+	},
+	"void": {
+		"voxels": [
+			"void"
+		]
+	},
+	"soil": {
+		"icon": ",",
+		"voxels": [
+			"soil"
+		]
+	},
+	"stone": {
+		"icon": ".",
+		"voxels": [
+			"stone"
+		]
+	},
+	"sand": {
+		"voxels": [
+			"sand"
+		]
+	},
+	"glass": {
+		"icon": "-",
+		"voxels": [
+			"glass"
+		]
+	},
+	"wood": {
+		"icon": "_",
+		"voxels": [
+			"wood"
+		]
+	},
+	"slab": {
+		"voxels": [
+			"slab"
+		]
+	},
+	"metal": {
+		"icon": "#",
+		"voxels": [
+			"metal"
+		]
+	},
+	"tiles": {
+		"icon": "+",
+		"voxels": [
+			"tiles"
+		]
+	},
+	"table": {
+		"icon": "T",
+		"voxels": [
+			"table"
+		]
+	},
+	"generator": {
+		"voxels": [
+			"generator"
+		],
+		"data": {
+			"power": 15,
+			"effort": 10
+		},
+		"script": "machine/power_generator",
+		"tickable": true
+	},
+	"walkway": {
+		"voxels": [
+			"walkway"
+		],
+		"data": {
+			"effort": 1
+		}
+	},
+	"chair": {
+		"icon": "c",
+		"voxels": [
+			"chair"
+		]
+	},
+	"marker": {
+		"voxels": [
+			"marker"
+		],
+		"script": "marker"
+	},
+	"build site": {
+		"voxels": [
+			"build site"
+		],
+		"script": "build_site/build_site",
+		"tickable": true
+	},
+	"door": {
+		"icon": "=",
+		"voxels": [
+			"door_ew",
+			"door_ns"
+		],
+		"placement": 2,
+		"script": "doors/door"
+	},
+	"square light": {
+		"voxels": [
+			"square light"
+		],
+		"script": "lights/light"
+	},
+	"locker": {
+		"voxels": [
+			"locker"
+		],
+		"script": "containers/locker"
+	}
+}

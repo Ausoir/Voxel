@@ -1,18 +1,13 @@
 extends Node
 
-const Hand = preload("../items/hand.gd")
-
 var speed = 0.7
 var turn_speed = 0.2
-@onready var _unit = get_parent()
-@onready var _action = get_node("../Action")
-@onready var _equipment = get_node("../Equipment")
+var _unit
 
 
-func _ready():
-	_action.bind("climb", Callable(self, "climb"))
-	_action.bind("use_start", Callable(_equipment, "use_held").bind(false))
-	_action.bind("use2_start", Callable(_equipment, "use_held").bind(true))
+func on_ready(unit):
+	_unit = unit
+	_unit.action.bind("climb", Callable(self, "climb"))
 
 
 func face_front():
@@ -21,7 +16,7 @@ func face_front():
 
 
 func pickup(item):
-	_equipment.set_item_by_index(_equipment.get_held_index(), item)
+	_unit.equipment.set_item_by_index(_unit.equipment.get_held_index(), item)
 
 
 func jump(jump_force):
@@ -53,27 +48,32 @@ func walk_cardinal(x, z):
 	_unit.motor = _unit.motor.normalized() * speed
 
 
+func walk_toward(to):
+	_unit.motor.x = to.x - _unit.position.x
+	_unit.motor.z = to.z - _unit.position.z
+	_unit.motor = _unit.motor.normalized() * speed
+
+
+func stop_walk():
+	_unit.motor = Vector3()
+
+
 func use():
 	face_front()
-	var inv_item = _equipment.get_held_item()
+	var inv_item = _unit.equipment.get_held_item()
 	if inv_item != null:
-		if _action.set_next("use_start", inv_item.delay):
+		if _unit.action.set_next("use_start", inv_item.delay):
 			_unit.animator.play("swing_ready")
 	else:
-		_interact_hand()
+		_unit.hand.use(_unit)
 
 
 func use2():
 	face_front()
-	var inv_item = _equipment.get_held_item()
+	var inv_item = _unit.equipment.get_held_item()
 	if inv_item != null:
-		if _action.set_next("use2_start", inv_item.delay2):
+		if _unit.action.set_next("use2_start", inv_item.delay2):
 			_unit.animator.play("swing_ready")
 	else:
-		_interact_hand()
+		_unit.hand.use(_unit)
 
-
-func _interact_hand():
-	if _unit.hand == null:
-		_unit.hand = Hand.new()
-	_unit.hand.use(_unit)

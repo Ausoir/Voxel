@@ -22,9 +22,9 @@ func _ready():
 
 
 func _process(_delta):
-	var offset = Vector3(0, _unit.size.y, 0)
+	var offset = Vector3(0, _unit.size.y - .2, 0)
 	position = _unit.position + offset
-	DDD.set_text("position", _unit.position)
+	DDD.set_text("position", _unit.global_position)
 
 
 func update_rotations(motion):

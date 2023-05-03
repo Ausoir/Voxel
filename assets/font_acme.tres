@@ -1,0 +1,9 @@
+[gd_resource type="FontVariation" load_steps=2 format=3 uid="uid://4cs7wvho51lb"]
+
+[ext_resource type="FontFile" uid="uid://dvnlcm37w8xp" path="res://assets/Acme-Regular.ttf" id="1_wlx4h"]
+
+[resource]
+base_font = ExtResource("1_wlx4h")
+spacing_space = -1
+spacing_top = -4
+spacing_bottom = -6

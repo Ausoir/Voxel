@@ -3,9 +3,10 @@
 [ext_resource type="Texture2D" uid="uid://d1bjiyjksdg12" path="res://assets/texture/terrain.png" id="1_7x58s"]
 
 [resource]
-transparency = 1
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
 cull_mode = 2
-depth_draw_mode = 1
 albedo_texture = ExtResource("1_7x58s")
 roughness = 0.0
 texture_filter = 2

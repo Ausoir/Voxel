@@ -1,10 +1,6 @@
 extends Node3D
 
-const GRAVITY = Vector3(0, -14, 0)
 const LIFETIME = 3.0
-
-@onready var _terrain_tool : VoxelTool = get_node("/root/Game/Terrain").get_voxel_tool()
-
 
 var _velocity := Vector3()
 var _rotation_axis := Vector3()
@@ -23,20 +19,20 @@ func set_velocity(vel: Vector3):
 	_velocity = vel
 
 
-func _process(delta: float):
+func _physics_process(delta: float):
 	_remaining_time -= delta
 	if _remaining_time <= 0:
 		queue_free()
 		return
 
-	_velocity += GRAVITY * delta
+	_velocity.y -= 14 * delta
 
 	var trans := transform
-	
+
 	trans.basis = trans.basis.rotated(_rotation_axis, _angular_velocity * delta)
-	
+
 	var motion := _velocity * delta
-	var hit := _terrain_tool.raycast(trans.origin.normalized(), motion.normalized(), motion.length() * 1.01)
+	var hit = G.tool.raycast(global_position, motion.normalized(), motion.length() * 1.01)
 	if hit != null:
 		# BOUNCE
 		var normal = hit.previous_position - hit.position

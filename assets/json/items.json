@@ -39,6 +39,67 @@
 		"script": "spawner/spawner",
 		"delay2": 0
 	},
+	"generator": {
+		"spritename": "eblade",
+		"modelname": "eblade-0-blade",
+		"script": "terraform/placer",
+		"delay": 0,
+		"data": {
+			"buildables": [
+				"generator"
+			]
+		}
+	},
+	"builder": {
+		"spritename": "flier",
+		"modelname": "flier-0-flier",
+		"script": "terraform/builder",
+		"delay2": 0,
+		"data": {
+			"buildables": [
+				[
+					"generator",
+					2,
+					[
+						1,
+						1,
+						1
+					],
+					0
+				],
+				[
+					"walkway",
+					1,
+					[
+						1,
+						1,
+						1
+					],
+					-1
+				],
+				[
+					"antsquirrel nest",
+					0,
+					[
+						3,
+						1,
+						2
+					],
+					-1
+				],
+				[
+					"hub",
+					0,
+					[
+						5,
+						3,
+						5
+					],
+					-1
+				]
+			]
+		}
+	},
 	"flashlight": {
 		"spritename": "eblade",
 		"modelname": "eblade-0-blade",

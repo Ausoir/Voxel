@@ -20,9 +20,9 @@ func use2(_user: Node3D):
 	_user.animator.play("swing_start")
 
 
-func get_pointed_block(_user: Node3D):
+func get_pointed_block(_user: Node3D, col=1):
 	var origin = _user.head.global_position
-	var hit = G.tool.raycast(origin, _user.forward, 10)
+	var hit = G.tool.raycast(origin, _user.forward, 10, col)
 	return hit
 
 
@@ -37,7 +37,7 @@ func drop(_user):
 	if user_pos != null:
 		var floor_item = to_prop_item()
 		floor_item.position = user_pos.previous_position
-		G.objects.add_child(floor_item)
+		G.stock.add_child(floor_item)
 
 
 func to_prop_item():

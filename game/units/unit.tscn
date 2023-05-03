@@ -1,14 +1,12 @@
-[gd_scene load_steps=16 format=3 uid="uid://dxreos03lpmdx"]
+[gd_scene load_steps=14 format=3 uid="uid://dxreos03lpmdx"]
 
 [ext_resource type="Script" path="res://game/units/unit.gd" id="1_g47of"]
-[ext_resource type="Script" path="res://game/units/equipment.gd" id="2_l4j7n"]
-[ext_resource type="PackedScene" uid="uid://cn061dujxusur" path="res://game/items/held_item.tscn" id="2_ltbac"]
 [ext_resource type="ArrayMesh" uid="uid://dcibhcfg12ukg" path="res://assets/units/fighter.obj" id="3_d1k5f"]
 [ext_resource type="Script" path="res://game/units/action.gd" id="4_nu83g"]
 [ext_resource type="Script" path="res://game/units/procedure.gd" id="6_k0l7g"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_5478g"]
-size = Vector3(0.4, 1.4, 0.4)
+size = Vector3(0.4, 1.5, 0.4)
 
 [sub_resource type="Animation" id="Animation_gxnwv"]
 length = 0.001
@@ -49,30 +47,10 @@ tracks/2/keys = {
 "update": 0,
 "values": [Vector3(0, 0, 0)]
 }
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Model/Item:position")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(-0.521688, 0.473416, -0.0573206)]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("Model/Item:rotation")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(-0.1838, -3.14159, 1.27584)]
-}
+
+[sub_resource type="Animation" id="Animation_gj1xv"]
+resource_name = "aim"
+length = 0.5
 
 [sub_resource type="Animation" id="Animation_jt16k"]
 resource_name = "jump_ready"
@@ -157,30 +135,6 @@ tracks/2/keys = {
 [sub_resource type="Animation" id="Animation_r64v1"]
 resource_name = "swing_ready"
 length = 0.5
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Model/Item:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector3(-0.396184, 0.473416, 0.256575), Vector3(-0.544, 0.824946, 0.0291234)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Model/Item:rotation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector3(-0.1838, -3.14159, 1.27584), Vector3(1.31484, -2.82466, 1.46894)]
-}
 
 [sub_resource type="Animation" id="Animation_gs7qj"]
 resource_name = "swing_start"
@@ -188,38 +142,14 @@ length = 2.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Model/Item:position")
+tracks/0/path = NodePath("Model/Item:rotation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0.3),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector3(-0.356769, 0.473416, 0.229674)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Model/Item:rotation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0.3),
-"transitions": PackedFloat32Array(1),
-"update": 0,
 "values": [Vector3(-0.919776, -1.93851, 0.625337)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Model:rotation")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.4),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector3(0, 0, 0), Vector3(0.150371, 0.445222, 0.0348282)]
 }
 
 [sub_resource type="Animation" id="Animation_648vp"]
@@ -262,58 +192,6 @@ tracks/2/keys = {
 "update": 0,
 "values": [Vector3(0, 0, 0), Vector3(0, 0.210885, 0.0922983), Vector3(0, 0, 0), Vector3(0.106933, 0.196235, 0.156874)]
 }
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Model/Item:position")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(-0.521688, 0.473416, -0.0573206)]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("Model/Item:rotation")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(-0.1838, -3.14159, 1.27584)]
-}
-
-[sub_resource type="Animation" id="Animation_gj1xv"]
-resource_name = "aim"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Model/Item:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector3(-0.396184, 0.473416, 0.256575), Vector3(-0.470069, 0.439158, 0.0291234)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Model/Item:rotation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector3(-0.1838, -3.14159, 1.27584), Vector3(-0.558248, -2.58536, 1.04715)]
-}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_xtjas"]
 _data = {
@@ -339,15 +217,9 @@ shape = SubResource("BoxShape3D_5478g")
 
 [node name="Model" type="Node3D" parent="."]
 
-[node name="Item" parent="Model" instance=ExtResource("2_ltbac")]
-transform = Transform3D(-0.290698, 0.956816, -2.49248e-06, 0.9407, 0.285802, 0.182767, 0.174875, 0.0531276, -0.983157, -0.521688, 0.473416, -0.0573206)
-
 [node name="Mesh" type="MeshInstance3D" parent="Model"]
 mesh = ExtResource("3_d1k5f")
-skeleton = NodePath("../Item")
-
-[node name="Equipment" type="Node" parent="."]
-script = ExtResource("2_l4j7n")
+skeleton = NodePath("")
 
 [node name="Action" type="Node" parent="."]
 script = ExtResource("4_nu83g")
