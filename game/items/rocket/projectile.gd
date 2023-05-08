@@ -10,7 +10,6 @@ var _remaining_time := LIFETIME
 
 
 func set_direction(direction: Vector3):
-	assert(is_inside_tree())
 	direction += Vector3(0.0001, 0.0001, 0.001) # Haaaaak
 	_direction = direction.normalized()
 	look_at(global_transform.origin + _direction, Vector3(0, 1, 0))

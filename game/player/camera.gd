@@ -11,14 +11,15 @@ var _pitch = 0
 var _offset = Vector3()
 
 @onready var _unit = get_node("../Unit")
-@onready var _player_mesh = get_node("../Unit/Model/Mesh")
+@onready var _player_mesh = get_node("../Unit/Model/Body/Mesh")
+@onready var _player_helm_mesh = get_node("../Unit/Model/Body/Helm")
 
 
 func _ready():
 	_offset = get_position()
 	if capture_mouse:
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	_player_mesh.hide()
+	zoom_distance(0)
 
 
 func _process(_delta):
@@ -46,8 +47,10 @@ func zoom_distance(zoom):
 	distance = clamp(distance + zoom * 0.5, 0, 5)
 	if distance == 0:
 		_player_mesh.hide()
+		_player_helm_mesh.hide()
 	else:
 		_player_mesh.show()
+		_player_helm_mesh.show()
 	update_rotations(Vector3())
 
 

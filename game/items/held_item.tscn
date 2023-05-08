@@ -1,8 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://cn061dujxusur"]
-
-[ext_resource type="ArrayMesh" uid="uid://4vn4qat6rrfk" path="res://assets/items/eblade-0-blade.obj" id="1_hw2d6"]
-
-[node name="Item" type="MeshInstance3D"]
-transform = Transform3D(-0.290698, 0.956816, -2.49248e-06, 0.9407, 0.285802, 0.182767, 0.174875, 0.0531276, -0.983157, -0.521688, 0.473416, -0.0573206)
-cast_shadow = 0
-mesh = ExtResource("1_hw2d6")

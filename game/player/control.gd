@@ -34,7 +34,7 @@ var _debug_mode = false
 func _ready():
 	_terrain_tool = _terrain.get_voxel_tool()
 	_terrain_tool.channel = VoxelBuffer.CHANNEL_TYPE
-	_unit.head = _camera
+	_unit.camera = _camera
 	var _procedure = _unit.procedure
 	_unit.action.bind("walkU", Callable(_procedure, "walk").bind(1, 0))
 	_unit.action.bind("walkUL", Callable(_procedure, "walk").bind(1, -1))
@@ -60,7 +60,7 @@ func _physics_process(_delta):
 			if Input.is_action_pressed("jump"):
 				if _debug_mode:
 					_unit.velocity.y += 12
-				elif _unit.action.set_next("jump", 0.3):
+				elif _unit.action.set_next("jump", 1):
 					_unit.animator.play("jump_ready")
 			else:
 				if Input.is_action_pressed("sneak"):

@@ -84,6 +84,7 @@ mouse_filter = 2
 texture = ExtResource("5_n1mcy")
 
 [node name="Progress" type="TextureProgressBar" parent="Center"]
+modulate = Color(1, 1, 1, 0.470588)
 layout_mode = 2
 mouse_filter = 2
 rounded = true

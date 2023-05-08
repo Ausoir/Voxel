@@ -23,12 +23,12 @@ func _interact(_user: Node3D):
 
 
 func get_interact_object(_user: Node3D):
-	var origin = _user.head.get_global_transform().origin
+	var origin = _user.camera.get_global_transform().origin
 	var space_state = _user.get_viewport().get_world_3d().get_direct_space_state()
 	var params = PhysicsRayQueryParameters3D.new()
 	params.collision_mask = 4
 	params.set_from(origin)
-	params.set_to(origin + _user.forward * 20)
+	params.set_to(origin + _user.forward * 1)
 	params.set_collide_with_bodies(false)
 	params.set_collide_with_areas(true)
 	var hits = space_state.intersect_ray(params)

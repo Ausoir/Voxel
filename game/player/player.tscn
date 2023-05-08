@@ -1,12 +1,17 @@
-[gd_scene load_steps=8 format=3 uid="uid://dtgiqn6kp51k0"]
+[gd_scene load_steps=10 format=3 uid="uid://dtgiqn6kp51k0"]
 
 [ext_resource type="Script" path="res://game/player/player.gd" id="1_5b4wf"]
 [ext_resource type="Script" path="res://game/player/camera.gd" id="2_fxmqn"]
 [ext_resource type="Script" path="res://game/player/control.gd" id="3_8bf3x"]
 [ext_resource type="PackedScene" uid="uid://d2bedp1vuwbx5" path="res://game/ui/Interface.tscn" id="4_ep3pi"]
 [ext_resource type="PackedScene" uid="uid://d0tgv7vwpva48" path="res://game/units/humanoid/humanoid.tscn" id="4_h3qni"]
+[ext_resource type="Script" path="res://game/player/perception.gd" id="5_ixl5i"]
 [ext_resource type="Script" path="res://game/player/faction.gd" id="6_4r3dv"]
 [ext_resource type="Script" path="res://game/player/save.gd" id="6_o67dg"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_oe41g"]
+height = 8.0
+radius = 14.0
 
 [node name="Player" type="Node3D"]
 script = ExtResource("1_5b4wf")
@@ -32,8 +37,19 @@ script = ExtResource("3_8bf3x")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="Unit"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0.4)
-light_energy = 0.2
-omni_range = 16.0
+light_color = Color(0.658824, 0.658824, 0.658824, 1)
+light_energy = 0.1
+omni_range = 8.0
+omni_shadow_mode = 0
+
+[node name="Perception" type="Area3D" parent="Unit"]
+collision_layer = 4
+collision_mask = 4
+script = ExtResource("5_ixl5i")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Unit/Perception"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
+shape = SubResource("CylinderShape3D_oe41g")
 
 [node name="Interface" parent="." instance=ExtResource("4_ep3pi")]
 
@@ -42,3 +58,6 @@ script = ExtResource("6_4r3dv")
 
 [node name="Save" type="Node" parent="."]
 script = ExtResource("6_o67dg")
+
+[connection signal="body_entered" from="Unit/Perception" to="Unit/Perception" method="_on_body_entered"]
+[connection signal="body_exited" from="Unit/Perception" to="Unit/Perception" method="_on_body_exited"]

@@ -31,13 +31,19 @@
 		"icon": "-",
 		"voxels": [
 			"glass"
-		]
+		],
+		"data": {
+			"effort": 4
+		}
 	},
 	"wood": {
 		"icon": "_",
 		"voxels": [
 			"wood"
-		]
+		],
+		"data": {
+			"effort": 6
+		}
 	},
 	"slab": {
 		"voxels": [
@@ -48,7 +54,10 @@
 		"icon": "#",
 		"voxels": [
 			"metal"
-		]
+		],
+		"data": {
+			"effort": 8
+		}
 	},
 	"tiles": {
 		"icon": "+",
@@ -87,11 +96,12 @@
 			"chair"
 		]
 	},
-	"marker": {
+	"spawner": {
 		"voxels": [
 			"marker"
 		],
-		"script": "marker"
+		"script": "machine/spawner",
+		"tickable": true
 	},
 	"build site": {
 		"voxels": [
@@ -112,8 +122,7 @@
 	"square light": {
 		"voxels": [
 			"square light"
-		],
-		"script": "lights/light"
+		]
 	},
 	"locker": {
 		"voxels": [

@@ -1,7 +1,7 @@
 {
 	"rocket": {
 		"spritename": "eblade",
-		"modelname": "eblade-0-blade",
+		"modelname": "eblade3d-0-eblade",
 		"script": "rocket/rocket",
 		"delay": 1
 	},
@@ -13,12 +13,22 @@
 	},
 	"jacket": {
 		"spritename": "flier",
-		"modelname": "flier-0-flier",
-		"script": "armor/armor",
+		"modelname": "body/a_suit",
+		"script": "equipment/armor",
 		"delay": 1,
 		"part": "armor",
 		"data": {
 			"space": 3
+		}
+	},
+	"labcoat": {
+		"spritename": "flier",
+		"modelname": "body/a_labcoat",
+		"script": "equipment/armor",
+		"delay": 1,
+		"part": "armor",
+		"data": {
+			"space": 5
 		}
 	},
 	"placer": {
@@ -33,15 +43,50 @@
 		"script": "terraform/remover",
 		"delay": 0
 	},
-	"spawner": {
+	"summon": {
 		"spritename": "flier",
 		"modelname": "flier-0-flier",
-		"script": "spawner/spawner",
+		"script": "spawner/summon",
+		"delay2": 0
+	},
+	"cleaver": {
+		"spritename": "cleaver",
+		"modelname": "cleaver3d",
+		"script": "equipment/weapon",
+		"delay": 2,
+		"delay2": 0
+	},
+	"eblade": {
+		"spritename": "eblade",
+		"modelname": "eblade3d-0-eblade",
+		"script": "equipment/weapon",
+		"delay": 2,
+		"delay2": 0
+	},
+	"gasblade": {
+		"spritename": "gasblade",
+		"modelname": "gasblade3d",
+		"script": "equipment/weapon",
+		"delay": 2,
+		"delay2": 0
+	},
+	"glaive": {
+		"spritename": "glaive",
+		"modelname": "glaive3d",
+		"script": "equipment/weapon",
+		"delay": 2,
+		"delay2": 0
+	},
+	"test": {
+		"spritename": "greatsword",
+		"modelname": "greatsword3d",
+		"script": "equipment/weapon",
+		"delay": 2,
 		"delay2": 0
 	},
 	"generator": {
 		"spritename": "eblade",
-		"modelname": "eblade-0-blade",
+		"modelname": "eblade3d-0-eblade",
 		"script": "terraform/placer",
 		"delay": 0,
 		"data": {
@@ -99,11 +144,5 @@
 				]
 			]
 		}
-	},
-	"flashlight": {
-		"spritename": "eblade",
-		"modelname": "eblade-0-blade",
-		"script": "flashlight/flashlight",
-		"delay2": 0.5
 	}
 }

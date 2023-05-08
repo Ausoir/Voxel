@@ -42,11 +42,13 @@ func _end_build(_user, _pos: Vector3i, hollow=false):
 	if G.tool.check_box(_start_pos, _pos):
 		var site = G.blocks.get_block_by_name("build site")
 		site.t_metadata = _chosen_buildable[0]
-		G.tool.do_box(_start_pos, _pos, site.voxels[0], hollow)
 		if offset != 0:
+			G.tool.do_box(_start_pos, _pos, site.voxels[0], hollow)
 			var offset_start_pos = _start_pos + Vector3i(0, offset, 0)
 			var offset_pos = _pos + Vector3i(0, offset, 0)
 			G.tool.block_box(offset_start_pos, offset_pos, site.id, hollow)
+		else:
+			G.tool.block_box(_start_pos, _pos, site.id, hollow)
 	_cancel_build()
 
 

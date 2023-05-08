@@ -14,6 +14,7 @@ var _raw_mappings = []
 
 var VOID
 var MARKER
+var SPAWNER
 var STONE
 var SAND
 var SOIL

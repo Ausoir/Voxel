@@ -18,12 +18,17 @@ class pathnode:
 	func get_routes():
 		var r = []
 		var pos_center = pos+G.V_HALF
-		var left = G.tool.raycast(pos_center, Vector3.LEFT, 1) == null and G.tool.raycast(pos_center + Vector3.LEFT, Vector3.DOWN, 1) != null
-		var right = G.tool.raycast(pos_center, Vector3.RIGHT, 1) == null and G.tool.raycast(pos_center + Vector3.RIGHT, Vector3.DOWN, 1) != null
-		var up = G.tool.raycast(pos_center, Vector3.FORWARD, 1) == null and G.tool.raycast(pos_center + Vector3.FORWARD, Vector3.DOWN, 1) != null
-		var down = G.tool.raycast(pos_center, Vector3.BACK, 1) == null and G.tool.raycast(pos_center + Vector3.BACK, Vector3.DOWN, 1) != null
+		var left = G.tool.raycast(pos_center, Vector3.LEFT, 1, 4) == null
+		var right = G.tool.raycast(pos_center, Vector3.RIGHT, 1, 4) == null
+		var up = G.tool.raycast(pos_center, Vector3.FORWARD, 1, 4) == null
+		var down = G.tool.raycast(pos_center, Vector3.BACK, 1, 4) == null
 		if left:
 			r.append(Vector3.LEFT)
+		else:
+			var above = G.tool.raycast(pos_center, Vector3.UP, 1, 4) == null
+			var aabove = G.tool.raycast(pos_center+Vector3.LEFT, Vector3.UP, 1, 4) == null
+			if above and aabove:
+				r.append(Vector3(-1, 1, 0))
 		if right:
 			r.append(Vector3.RIGHT)
 		if up:
@@ -135,9 +140,9 @@ func on_turn():
 			result = [done.pos]
 			while done.parent:
 				done = done.parent
-				result.insert(0, done.pos)
 				if _unit.position.floor() == done.pos:
 					break
+				result.insert(0, done.pos)
 	else:
 		reached = true
 		result = [target]

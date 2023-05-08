@@ -29,7 +29,8 @@ func on_hover(_pos: Vector3):
 		G.tool.set_channel(VoxelBuffer.CHANNEL_DATA5)
 		var effort = G.tool.get_voxel(_pos)
 		G.tool.set_channel(VoxelBuffer.CHANNEL_TYPE)
-		G.ui.set_label("Building " + meta + " " + str(effort) + "s")
+		var text = str("Building ", meta.capitalize(), " ", effort, "s")
+		G.ui.set_label(text)
 		return true
 
 

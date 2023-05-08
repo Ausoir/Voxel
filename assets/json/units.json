@@ -1,12 +1,5 @@
 {
-	"squirant": {
-		"model": "squirrel",
-		"slots": [
-			"armor"
-		],
-		"items": [
-			"rocket",
-			"flier"
-		]
+	"janitor": {
+		"model": "suit"
 	}
 }

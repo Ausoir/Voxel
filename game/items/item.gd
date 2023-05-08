@@ -13,22 +13,26 @@ var data = {}
 
 
 func use(_user: Node3D):
-	_user.animator.play("swing_start")
+	_user.animator.play("swing_left")
 
 
 func use2(_user: Node3D):
-	_user.animator.play("swing_start")
+	_user.animator.play("swing_left")
 
 
-func get_pointed_block(_user: Node3D, col=1):
-	var origin = _user.head.global_position
-	var hit = G.tool.raycast(origin, _user.forward, 10, col)
+func use_callback(_user: Node3D):
+	pass
+
+
+func get_pointed_block(_user: Node3D, col=3):
+	var origin = _user.camera.global_position
+	var hit = G.tool.raycast(origin, _user.forward, 1, col)
 	return hit
 
 
 func get_user_block(_user: Node3D):
 	var origin = _user.get_global_transform().origin
-	var hit = G.tool.raycast(origin, Vector3.DOWN, 10)
+	var hit = G.tool.raycast(origin, Vector3.DOWN, 10, 8)
 	return hit
 
 

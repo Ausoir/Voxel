@@ -2,6 +2,7 @@ extends Node
 
 const Util = preload("res://tools/util.gd")
 
+const _CHANNEL_TYPE = VoxelBuffer.CHANNEL_TYPE
 const ROTATION_Y_POSITIVE_Z = 0
 const ROTATION_Y_NEGATIVE_X = 1
 const ROTATION_Y_NEGATIVE_Z = 2
@@ -9,24 +10,6 @@ const ROTATION_Y_POSITIVE_X = 3
 
 @onready var _tool = get_node("../Terrain").get_voxel_tool()
 @onready var _blocks = get_node("../Blocks")
-
-var load_props = []
-
-
-func _process(_delta):
-	var next = load_props.pop_front()
-	if next != null:
-		var pos = next[0]
-		var block_id = next[1]
-		var view = next[2]
-		set_block(pos, block_id, view)
-	else:
-		set_process(false)
-
-
-func add_prop(prop):
-	load_props.append(prop)
-	set_process(true)
 
 
 func get_block(pos: Vector3):
@@ -43,7 +26,7 @@ func check_box(start: Vector3i, end: Vector3i):
 	return true
 
 
-func raycast(origin: Vector3, toward: Vector3, distance: float, col=1) -> VoxelRaycastResult:
+func raycast(origin: Vector3, toward: Vector3, distance: float, col=12) -> VoxelRaycastResult:
 	return _tool.raycast(origin, toward, distance, col)
 
 
@@ -81,7 +64,6 @@ func set_block(pos: Vector3, block_id: int, look_dir: Vector3):
 
 	if block.tickable:
 		G.turn.add(Callable(block, "on_tick").bind(pos))
-
 	set_voxel(pos, voxel_id)
 
 	if block.custom:
@@ -153,24 +135,24 @@ func get_tool():
 	return _tool
 
 
-func collide_prop_by_shape(pos: Vector3, size: int, col: int):
+func collide_prop_by_shape(pos: Vector3, size: int, col: int = 12):
 	var space_state = get_viewport().get_world_3d().get_direct_space_state()
 	var params = PhysicsShapeQueryParameters3D.new()
 	params.collision_mask = col
 	params.transform = Transform3D(Basis(), pos + Vector3(size, size, size) * .5)
 	var shape = BoxShape3D.new()
 	shape.size = Vector3(size, size, size)
+	params.set_collide_with_areas(true)
 	params.set_shape(shape)
 	return space_state.intersect_shape(params)
 
 
-func collide_prop_by_point(pos: Vector3, col: int):
+func collide_prop_by_line(pos: Vector3, to: Vector3, col: int = 12):
 	var space_state = get_viewport().get_world_3d().get_direct_space_state()
 	var params = PhysicsRayQueryParameters3D.new()
 	params.from = pos
-	params.to = pos
+	params.to = to
 	params.collision_mask = col
-	params.set_collide_with_bodies(true)
 	params.set_collide_with_areas(true)
 	return space_state.intersect_ray(params)
 

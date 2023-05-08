@@ -1,6 +1,6 @@
 extends Node
 
-var speed = 0.7
+var speed = 0.5
 var turn_speed = 0.2
 var _unit
 
@@ -36,7 +36,7 @@ func climb():
 
 func walk(motor_forward, motor_side):
 	var walk_forward = G.HORIZONTAL_PLANE.project(_unit.forward)
-	var walk_right = _unit.head.get_transform().basis.x.normalized()
+	var walk_right = _unit.camera.get_transform().basis.x.normalized()
 	_unit.motor += walk_forward * motor_forward
 	_unit.motor += walk_right * motor_side
 	_unit.motor = _unit.motor.normalized() * speed
@@ -62,8 +62,8 @@ func use():
 	face_front()
 	var inv_item = _unit.equipment.get_held_item()
 	if inv_item != null:
-		if _unit.action.set_next("use_start", inv_item.delay):
-			_unit.animator.play("swing_ready")
+		var callback = Callable(inv_item, "use_callback").bind(_unit)
+		_unit.action.set_next("use_start", inv_item.delay, callback)
 	else:
 		_unit.hand.use(_unit)
 
@@ -72,8 +72,7 @@ func use2():
 	face_front()
 	var inv_item = _unit.equipment.get_held_item()
 	if inv_item != null:
-		if _unit.action.set_next("use2_start", inv_item.delay2):
-			_unit.animator.play("swing_ready")
+		_unit.action.set_next("use2_start", inv_item.delay2)
 	else:
 		_unit.hand.use(_unit)
 

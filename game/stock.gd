@@ -8,7 +8,9 @@ const Unit_JSON = preload("res://assets/json/units.json")
 const Debris = preload("res://game/fx/explosion/debris.tscn")
 const P_explosion = preload("res://game/fx/explosion/explosion.tscn")
 const P_demolish = preload("res://game/fx/demolish.tscn")
+const Unit = preload("res://game/units/unit.tscn")
 var _items = {}
+var _unit_models = {}
 
 
 func _ready():
@@ -46,28 +48,18 @@ func get_item(itemname):
 
 
 func make_unit(pos: Vector3, itemname: String):
-	var dir = str("res://game/units", "/", itemname, ".tscn")
-	var item = load(dir).instantiate()
-	G.stock.add_child(item)
-	item.sid = itemname
-	item.position = pos
-	return item
-
-
-func make_humanoid(pos: Vector3, itemname: String):
 	var dict = Unit_JSON.get_data()
-	var dat = dict.get(itemname)
-	if dat != null:
-		var dir = str("res://game/units", "/", itemname, ".tscn")
-		var item = load(dir).instantiate()
+	var data = dict.get(itemname)
+	if data != null:
+		var modelname = data.model
+		var model = _unit_models.get(modelname)
+		if model == null:
+			model = load(str("res://assets/units/", modelname, ".obj"))
+			_unit_models[modelname] = model
+		var item = Unit.instantiate()
 		G.stock.add_child(item)
-		item.unit.sid = itemname
-		var mesh = load("res://assets/units/" + dat.model + ".obj")
-		item.unit.set_mesh(mesh)
-		for i in dat.get("slots", []):
-			item.unit.equipment.add_slot(i)
-		for i in dat.get("items", []):
-			item.unit.equipment.pickup(_items.get(i))
+		item.set_mesh(model)
+		item.sid = itemname
 		item.position = pos
 		return item
 

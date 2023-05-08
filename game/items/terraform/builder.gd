@@ -2,7 +2,7 @@ extends "./paver.gd"
 
 const Prefab_JSON = preload("res://assets/json/prefabs.json")
 
-var _cursor_size := Vector3()
+var _cursor_size := Vector3(0, .5, 0)
 
 
 func use(_user: Node3D):
@@ -47,6 +47,8 @@ func on_held_tick(_user: Node3D):
 	var hit = get_pointed_block(_user)
 	if hit != null:
 		_cursor.position = Vector3(hit.previous_position) + G.V2_HALF + _cursor_size
+		var dir = Vector2(_user.forward.x, _user.forward.z)
+		_cursor.rotation.y = (G.tool.Util.get_direction_id4(Vector2(dir.x, dir.y)) + 1) * (PI/2.0)
 
 
 func _attempt_prefab(_pos: Vector3, _prefab: String, _look_dir: Vector3):

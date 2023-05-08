@@ -1,6 +1,0 @@
-[gd_scene format=3 uid="uid://b0f41x5atyvi5"]
-
-[node name="flashlight" type="SpotLight3D"]
-shadow_enabled = true
-spot_range = 6.0
-spot_angle = 60.0

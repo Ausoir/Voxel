@@ -45,8 +45,11 @@ func remove(p):
 
 
 func on_tick():
-	for i in takers[turn_idx]:
-		i.call()
+	var taker = takers[turn_idx]
+	for i in range(taker.size()-1, -1, -1):
+		var turnee = taker[i]
+		if !turnee.call():
+			taker.remove_at(i)
 	turn_idx = _increment_index(turn_idx)
 
 

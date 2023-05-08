@@ -8,6 +8,7 @@ var _inventory = []
 var _held_index = -1
 var equipment = {}
 var max_inventory_size = 2
+var swinging = false
 
 
 func _ready():
@@ -114,3 +115,7 @@ func use_held(right):
 			inv_item.use2(_unit)
 		else:
 			inv_item.use(_unit)
+
+
+func set_swinging(p):
+	swinging = p

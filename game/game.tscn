@@ -1,25 +1,20 @@
-[gd_scene load_steps=16 format=3 uid="uid://jw87ksrcnjjc"]
+[gd_scene load_steps=14 format=3 uid="uid://jw87ksrcnjjc"]
 
-[ext_resource type="Material" uid="uid://4oo1j0k7ulmq" path="res://game/environment/sky_material.tres" id="4_pjy3m"]
 [ext_resource type="Script" path="res://game/stock.gd" id="4_vprdk"]
 [ext_resource type="Script" path="res://game/game.gd" id="5"]
-[ext_resource type="Script" path="res://game/environment/environment.gd" id="5_3t7d4"]
 [ext_resource type="PackedScene" uid="uid://dtgiqn6kp51k0" path="res://game/player/player.tscn" id="6"]
 [ext_resource type="Script" path="res://game/debug_info.gd" id="6_dontd"]
 [ext_resource type="VoxelBlockyLibrary" uid="uid://chr1cj53hbsgq" path="res://game/blocks/voxel_library.tres" id="6_jl7ow"]
 [ext_resource type="VoxelGeneratorScript" uid="uid://hx6kqpmjm6h8" path="res://game/generator/world_generator.tres" id="6_ll1tk"]
+[ext_resource type="Script" path="res://game/generator/late_loader.gd" id="7_0y0mg"]
 [ext_resource type="Script" path="res://game/blocks/random_ticks.gd" id="10_8b86d"]
 [ext_resource type="Script" path="res://game/blocks/blocks.gd" id="12"]
 [ext_resource type="Script" path="res://game/blocks/tool.gd" id="12_td8s1"]
 [ext_resource type="Script" path="res://tools/turn.gd" id="13_b3j7b"]
 
-[sub_resource type="Sky" id="Sky_egpfk"]
-sky_material = ExtResource("4_pjy3m")
-
 [sub_resource type="Environment" id="2"]
-background_mode = 2
 background_color = Color(1, 1, 1, 1)
-sky = SubResource("Sky_egpfk")
+ambient_light_source = 1
 reflected_light_source = 1
 ssil_enabled = true
 sdfgi_read_sky_light = false
@@ -54,7 +49,6 @@ script = ExtResource("4_vprdk")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("2")
-script = ExtResource("5_3t7d4")
 
 [node name="Terrain" type="VoxelTerrain" parent="."]
 generator = ExtResource("6_ll1tk")
@@ -62,6 +56,11 @@ mesher = SubResource("VoxelMesherBlocky_lmotj")
 bounds = AABB(-5.36871e+08, 0, -5.36871e+08, 1.07374e+09, 64, 1.07374e+09)
 max_view_distance = 257
 run_stream_in_editor = false
+
+[node name="LateLoader" type="Timer" parent="Terrain"]
+one_shot = true
+autostart = true
+script = ExtResource("7_0y0mg")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.966579, 0.104335, -0.234176, -0.0734221, 0.762518, 0.642787, 0.245629, 0.638499, -0.729373, 0, 0, 0)
@@ -80,3 +79,5 @@ script = ExtResource("10_8b86d")
 
 [node name="Turn" type="Node" parent="."]
 script = ExtResource("13_b3j7b")
+
+[connection signal="timeout" from="Terrain/LateLoader" to="Terrain/LateLoader" method="_on_timeout"]

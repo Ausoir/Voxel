@@ -51,4 +51,5 @@ offset_top = 6.0
 offset_right = -6.0
 offset_bottom = -6.0
 expand_mode = 1
+stretch_mode = 5
 script = SubResource("GDScript_fbitr")
