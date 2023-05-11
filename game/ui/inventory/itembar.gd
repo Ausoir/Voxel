@@ -8,14 +8,13 @@ var _inventory
 
 func set_unit(unit):
 	_inventory = unit.equipment
-	_inventory.connect("changed", Callable(self, "update_views"))
-	_inventory.connect("selected", Callable(self, "update_items"))
 	update_views()
 
 
 func update_views():
 	for child in get_children():
 		child.queue_free()
+		remove_child(child)
 	for i in range(_inventory.max_inventory_size):
 		var new = ITEMSLOT.instantiate()
 		add_child(new)

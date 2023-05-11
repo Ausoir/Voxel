@@ -1,16 +1,15 @@
-[gd_scene load_steps=14 format=3 uid="uid://jw87ksrcnjjc"]
+[gd_scene load_steps=13 format=3 uid="uid://jw87ksrcnjjc"]
 
 [ext_resource type="Script" path="res://game/stock.gd" id="4_vprdk"]
 [ext_resource type="Script" path="res://game/game.gd" id="5"]
 [ext_resource type="PackedScene" uid="uid://dtgiqn6kp51k0" path="res://game/player/player.tscn" id="6"]
-[ext_resource type="Script" path="res://game/debug_info.gd" id="6_dontd"]
 [ext_resource type="VoxelBlockyLibrary" uid="uid://chr1cj53hbsgq" path="res://game/blocks/voxel_library.tres" id="6_jl7ow"]
 [ext_resource type="VoxelGeneratorScript" uid="uid://hx6kqpmjm6h8" path="res://game/generator/world_generator.tres" id="6_ll1tk"]
 [ext_resource type="Script" path="res://game/generator/late_loader.gd" id="7_0y0mg"]
 [ext_resource type="Script" path="res://game/blocks/random_ticks.gd" id="10_8b86d"]
 [ext_resource type="Script" path="res://game/blocks/blocks.gd" id="12"]
 [ext_resource type="Script" path="res://game/blocks/tool.gd" id="12_td8s1"]
-[ext_resource type="Script" path="res://tools/turn.gd" id="13_b3j7b"]
+[ext_resource type="Script" path="res://game/turn.gd" id="13_b3j7b"]
 
 [sub_resource type="Environment" id="2"]
 background_color = Color(1, 1, 1, 1)
@@ -55,6 +54,8 @@ generator = ExtResource("6_ll1tk")
 mesher = SubResource("VoxelMesherBlocky_lmotj")
 bounds = AABB(-5.36871e+08, 0, -5.36871e+08, 1.07374e+09, 64, 1.07374e+09)
 max_view_distance = 257
+collision_layer = 8
+collision_mask = 8
 run_stream_in_editor = false
 
 [node name="LateLoader" type="Timer" parent="Terrain"]
@@ -68,9 +69,6 @@ light_energy = 0.8
 light_bake_mode = 1
 shadow_enabled = true
 directional_shadow_fade_start = 1.0
-
-[node name="DebugInfo" type="Node" parent="."]
-script = ExtResource("6_dontd")
 
 [node name="Player" parent="." instance=ExtResource("6")]
 

@@ -1,5 +1,40 @@
 {
+	"rabbit": {
+		"model": "rabbit",
+		"ai": "melee"
+	},
+	"security": {
+		"head": "head",
+		"ai": "melee",
+		"slots": [
+			"body",
+			"head",
+			"accessory"
+		],
+		"equipments": [
+			"security outfit",
+			"security cap",
+			"flashlight"
+		],
+		"items": [
+			"eblade"
+		]
+	},
 	"janitor": {
-		"model": "suit"
+		"head": "head5",
+		"slots": [
+			"body",
+			"head",
+			"accessory"
+		],
+		"equipments": [
+			"labcoat",
+			"security cap",
+			"flashlight"
+		],
+		"items": [
+			"greatsword",
+			"eblade"
+		]
 	}
 }

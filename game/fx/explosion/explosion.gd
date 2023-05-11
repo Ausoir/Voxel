@@ -6,7 +6,7 @@ extends Node3D
 
 
 func _ready():
-	_animation_player.play("explode")
+	_animation_player.play("auto")
 
 
 func _process(delta: float):

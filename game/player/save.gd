@@ -1,7 +1,7 @@
 extends Node
 
 const PATH = "user://save/player.json"
-const TEMPLATE_PATH = "res://game/save/template.json"
+const TEMPLATE_PATH = "res://save/template.json"
 const PROP_PATH = "user://save/props.json"
 var data
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=2 format=3 uid="uid://boqt44mpwm2cb"]
 
 [ext_resource type="Script" path="res://game/ui/inventory/itembar.gd" id="1_n64hb"]
 

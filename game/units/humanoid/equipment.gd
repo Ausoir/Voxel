@@ -8,7 +8,7 @@ var _inventory = []
 var _held_index = -1
 var equipment = {}
 var max_inventory_size = 2
-var swinging = false
+var swinging: int = 0
 
 
 func _ready():
@@ -54,7 +54,8 @@ func set_item_by_index(i, item):
 	var eq_size = equipment.size()
 	if i < eq_size:
 		var key = equipment.keys()[i]
-		equipment[key] = item
+		unwear(key)
+		wear(item)
 	else:
 		_inventory[i - eq_size] = item
 	emit_signal("selected")
@@ -93,19 +94,23 @@ func pickup(item):
 
 
 func wear(item):
-	if item.part != null:
+	if item != null and item.part != null:
 		if item.part in equipment:
-			equipment[item.part] = item
-			item.on_wear(_unit)
+			if equipment[item.part] == null:
+				equipment[item.part] = item
+				item.on_wear(_unit)
+				emit_signal("changed")
+				return true
+	return false
 
 
-func unwear(item):
-	for key in equipment.keys():
-		var equipped = equipment[key]
-		if equipped == item:
-			item.on_unwear(_unit)
-			equipment[key] = null
-			return item
+func unwear(key):
+	var equipped = equipment[key]
+	if equipped != null:
+		equipped.on_unwear(_unit)
+		equipment[key] = null
+		emit_signal("changed")
+		return equipped
 
 
 func use_held(right):
@@ -119,3 +124,7 @@ func use_held(right):
 
 func set_swinging(p):
 	swinging = p
+
+
+func remove():
+	pass

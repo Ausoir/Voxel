@@ -1,13 +1,14 @@
-[gd_scene load_steps=12 format=3 uid="uid://d2bedp1vuwbx5"]
+[gd_scene load_steps=13 format=3 uid="uid://d2bedp1vuwbx5"]
 
-[ext_resource type="Texture2D" uid="uid://c4i1goax1qcya" path="res://assets/images/icon_player.png" id="4"]
-[ext_resource type="Texture2D" uid="uid://lcfc333at1u3" path="res://assets/images/wait_bg.png" id="4_h12lk"]
-[ext_resource type="Texture2D" uid="uid://d5w4iskb3y1h" path="res://game/player/crosshair.png" id="5_n1mcy"]
-[ext_resource type="Texture2D" uid="uid://d16miocfurkwh" path="res://assets/images/wait.png" id="5_ttygl"]
-[ext_resource type="PackedScene" path="res://game/ui/inventory/itembar.tscn" id="6_aaf8c"]
-[ext_resource type="FontVariation" uid="uid://4cs7wvho51lb" path="res://assets/font_acme.tres" id="7_0o0b4"]
-[ext_resource type="Script" path="res://game/ui/interface.gd" id="8"]
-[ext_resource type="Script" path="res://game/ui/progress_bar.gd" id="9_3k6fp"]
+[ext_resource type="Script" path="res://game/ui/interface.gd" id="1_vn1vd"]
+[ext_resource type="Script" path="res://game/ui/buffs/buff_list.gd" id="2_jtyhy"]
+[ext_resource type="Texture2D" uid="uid://c4i1goax1qcya" path="res://assets/images/icon_player.png" id="3_a7sxg"]
+[ext_resource type="Texture2D" uid="uid://d5w4iskb3y1h" path="res://game/player/crosshair.png" id="4_op3y2"]
+[ext_resource type="Texture2D" uid="uid://lcfc333at1u3" path="res://assets/images/wait_bg.png" id="5_4c64m"]
+[ext_resource type="Texture2D" uid="uid://d16miocfurkwh" path="res://assets/images/wait.png" id="6_8j5d1"]
+[ext_resource type="Script" path="res://game/ui/progress_bar.gd" id="7_ssijt"]
+[ext_resource type="FontVariation" uid="uid://4cs7wvho51lb" path="res://assets/font_acme.tres" id="8_ftmwv"]
+[ext_resource type="PackedScene" uid="uid://boqt44mpwm2cb" path="res://game/ui/inventory/itembar.tscn" id="9_5s8sh"]
 
 [sub_resource type="Animation" id="1"]
 resource_name = "fadein"
@@ -48,16 +49,30 @@ _data = {
 }
 
 [node name="Control" type="CanvasLayer"]
-script = ExtResource("8")
+script = ExtResource("1_vn1vd")
 
 [node name="Animation" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_row0b")
 }
 
+[node name="BuffList" type="VBoxContainer" parent="."]
+custom_minimum_size = Vector2(64, 0)
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -128.0
+offset_right = -64.0
+offset_bottom = -324.0
+grow_horizontal = 0
+grow_vertical = 2
+scale = Vector2(2, 2)
+script = ExtResource("2_jtyhy")
+
 [node name="Fade" type="ColorRect" parent="."]
-mouse_filter = 2
-color = Color(0, 0, 0, 1)
+mouse_filter = 1
+color = Color(0, 0, 0, 0.266667)
 
 [node name="MenuButton" type="TextureButton" parent="."]
 visible = false
@@ -68,7 +83,7 @@ offset_left = -100.0
 offset_bottom = 100.0
 grow_horizontal = 0
 action_mode = 0
-texture_normal = ExtResource("4")
+texture_normal = ExtResource("3_a7sxg")
 
 [node name="FPS" type="Label" parent="."]
 
@@ -81,7 +96,7 @@ mouse_filter = 2
 [node name="Crosshair" type="TextureRect" parent="Center"]
 layout_mode = 2
 mouse_filter = 2
-texture = ExtResource("5_n1mcy")
+texture = ExtResource("4_op3y2")
 
 [node name="Progress" type="TextureProgressBar" parent="Center"]
 modulate = Color(1, 1, 1, 0.470588)
@@ -89,9 +104,9 @@ layout_mode = 2
 mouse_filter = 2
 rounded = true
 fill_mode = 4
-texture_under = ExtResource("4_h12lk")
-texture_progress = ExtResource("5_ttygl")
-script = ExtResource("9_3k6fp")
+texture_under = ExtResource("5_4c64m")
+texture_progress = ExtResource("6_8j5d1")
+script = ExtResource("7_ssijt")
 
 [node name="Menu" type="Control" parent="Center"]
 layout_mode = 2
@@ -99,7 +114,7 @@ layout_mode = 2
 [node name="Label" type="Label" parent="Center"]
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
-theme_override_fonts/font = ExtResource("7_0o0b4")
+theme_override_fonts/font = ExtResource("8_ftmwv")
 theme_override_font_sizes/font_size = 24
 horizontal_alignment = 1
 vertical_alignment = 2
@@ -115,5 +130,5 @@ grow_vertical = 0
 size_flags_horizontal = 4
 mouse_filter = 2
 
-[node name="ItemBar" parent="HotBar" instance=ExtResource("6_aaf8c")]
+[node name="ItemBar" parent="HotBar" instance=ExtResource("9_5s8sh")]
 layout_mode = 2

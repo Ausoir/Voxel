@@ -24,15 +24,15 @@
 voxel_name = &"air"
 collision_mask = 0
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_bahh7"]
+[sub_resource type="PlaneMesh" id="PlaneMesh_qs40n"]
 size = Vector2(1, 1)
 
 [sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_giaje"]
 voxel_name = &"void"
 geometry_type = 2
-custom_mesh = SubResource("PlaneMesh_bahh7")
+custom_mesh = SubResource("PlaneMesh_qs40n")
 collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
-collision_mask = 4
+collision_mask = 16
 collision_enabled_0 = false
 
 [sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_aqcxl"]

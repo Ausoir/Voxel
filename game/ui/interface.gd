@@ -23,6 +23,9 @@ func set_unit(unit):
 	_unit = unit
 	$HotBar/ItemBar.set_unit(unit)
 	$Center/Progress.set_unit(unit)
+	$BuffList.set_unit(unit)
+	unit.equipment.connect("selected", Callable($HotBar/ItemBar, "update_items"))
+	unit.equipment.connect("changed", Callable($HotBar/ItemBar, "update_views"))
 
 
 func on_resize():

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://game/ui/inventory/inventory.gd" id="1_bojd4"]
 [ext_resource type="PackedScene" uid="uid://c33bivnxnt6ej" path="res://game/ui/inventory/equipbar.tscn" id="2_vlo80"]
-[ext_resource type="PackedScene" path="res://game/ui/inventory/itembar.tscn" id="3_tvmt4"]
+[ext_resource type="PackedScene" uid="uid://boqt44mpwm2cb" path="res://game/ui/inventory/itembar.tscn" id="3_tvmt4"]
 [ext_resource type="Script" path="res://game/ui/inventory/drag_item.gd" id="4_ybpr6"]
 
 [node name="Inventory" type="Control"]
@@ -57,9 +57,10 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="Dragging" type="TextureRect" parent="."]
+visible = false
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
+mouse_filter = 2
+stretch_mode = 5
 script = ExtResource("4_ybpr6")
-
-[connection signal="gui_input" from="Dragging" to="." method="_on_dragging_gui_input"]

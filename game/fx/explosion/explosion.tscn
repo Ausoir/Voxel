@@ -30,7 +30,7 @@ turbulence_noise_speed = Vector3(0, 0.5, 0)
 [sub_resource type="QuadMesh" id="7"]
 
 [sub_resource type="Animation" id="8"]
-resource_name = "explode"
+resource_name = "auto"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -60,7 +60,7 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_t0tdp"]
 _data = {
-"explode": SubResource("8")
+"auto": SubResource("8")
 }
 
 [node name="Explosion" type="Node3D"]
@@ -78,7 +78,7 @@ draw_pass_1 = SubResource("7")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 light_color = Color(1, 0.898039, 0.552941, 1)
-light_energy = 10.0
+light_energy = 0.0
 omni_range = 10.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

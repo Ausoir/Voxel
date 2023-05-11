@@ -17,7 +17,6 @@ config/icon="res://icon.png"
 
 [autoload]
 
-DDD="*res://tools/zylann.debug_draw/debug_draw.gd"
 G="*res://G.gd"
 
 [debug]

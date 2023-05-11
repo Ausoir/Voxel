@@ -8,18 +8,22 @@ var _box_mover = VoxelBoxMover.new()
 var _aabb : AABB
 var _last_pos = Vector3()
 var _last_pos_set = false
+
 var sid = "unit"
 var motor = Vector3()
 var forward
 var camera
 var size
 var data
+var faction = 2
 var grounded = false
 var velocity = Vector3()
 var action = preload("./action.gd").new()
 var procedure = preload("./procedure.gd").new()
+var buffs = preload("./buffs.gd").new()
+var overlay_mat = preload("./flash_red.tres").duplicate()
+var pilot
 
-@onready var pilot = $Pilot
 @onready var body = $Body
 @onready var animator = $Animator
 @onready var _terrain = get_node("/root/Game/Terrain")
@@ -27,10 +31,26 @@ var procedure = preload("./procedure.gd").new()
 
 func _ready():
 	action.set_unit(self)
-	_box_mover.set_collision_mask(1)
+	buffs.set_unit(self)
+	_box_mover.set_collision_mask(20)
 	procedure.on_ready(self)
 #	_box_mover.set_step_climbing_enabled(true)
 #	_box_mover.set_max_step_height(.5)
+
+
+func on_damaged(_pos: Vector3):
+	if $Model/Mesh.material_overlay == null:
+		G.stock.make_particle(position + size.y/2, "bleed")
+		$Model/Mesh.material_overlay = overlay_mat
+		var tween = get_tree().create_tween()
+		overlay_mat.albedo_color = Color(.8, 0, 0, 1)
+		tween.tween_property(overlay_mat, "albedo_color", Color.TRANSPARENT, .5)
+		tween.tween_callback(end_flash)
+		velocity += ((position-_pos).normalized() + Vector3.UP) * 4
+
+
+func end_flash():
+	$Model/Mesh.material_overlay = null
 
 
 func set_mesh(new_mesh):
@@ -56,6 +76,7 @@ func get_head():
 func remove():
 	if _last_pos_set:
 		G.tool.set_voxel(_last_pos, 0)
+	buffs.remove()
 	queue_free()
 
 
@@ -63,7 +84,7 @@ func _physics_process(delta):
 	if motor.length_squared() > 0:
 		rotation.y = lerp_angle(rotation.y, atan2(motor.x, motor.z), .2)
 		var walk_speed = velocity.length()
-		if walk_speed > 1:
+		if walk_speed > 1 and action.delay <= 0:
 			animator.play("walk", 1.0, walk_speed / 4.0)
 	elif action.action == null:
 		animator.play("RESET")

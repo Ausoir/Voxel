@@ -5,63 +5,100 @@ const Library := preload("res://game/blocks/voxel_library.tres")
 const Item = preload("res://game/items/item.gd")
 const Item_JSON = preload("res://assets/json/items.json")
 const Unit_JSON = preload("res://assets/json/units.json")
-const Debris = preload("res://game/fx/explosion/debris.tscn")
+const Debris = preload("res://game/fx/debris.tscn")
 const P_explosion = preload("res://game/fx/explosion/explosion.tscn")
-const P_demolish = preload("res://game/fx/demolish.tscn")
+const P_deflect = preload("res://game/fx/explosion/deflect.tscn")
+const P_demolish = preload("res://game/fx/other/demolish.tscn")
+const P_bleed = preload("res://game/fx/bleed/bleed.tscn")
 const Unit = preload("res://game/units/unit.tscn")
-var _items = {}
-var _unit_models = {}
+const Humanoid = preload("res://game/units/humanoid/humanoid.tscn")
+const Underwear = preload("res://assets/units/a_underwear.obj")
+const IBlank = preload("res://game/units/ai/blank.gd")
+const IMelee = preload("res://game/units/ai/melee.gd")
+var _model_cache = {}
 
 
-func _ready():
-	_ready_items()
+func _get_model(path: String, modelname: String):
+	var model = _model_cache.get(modelname)
+	if model == null:
+		model = load(str("res://assets/", path, modelname, ".obj"))
+		_model_cache[modelname] = model
+	return model
 
 
-func _ready_items():
+func make_item(itemname: String):
 	var dict = Item_JSON.get_data()
-	for itemname in dict.keys():
-		var dat = dict.get(itemname)
-		if dat != null:
-
-			var item : Item
-			var script = dat.get("script")
-			if script != null:
-				var dir = str("res://game/items", "/", script, ".gd")
-				item = load(dir).new()
-			else:
-				item = Item.new()
-			
-			item.sid = itemname
-			item.sprite = load("res://assets/items/" + dat.spritename + ".png")
-			if dat.has("modelname"):
-				item.model = load("res://assets/items/" + dat.modelname + ".obj")
-			item.delay = dat.get("delay", 0)
-			item.delay2 = dat.get("delay2", 0)
-			item.part = dat.get("part")
-			item.data = dat.get("data")
-			_items[itemname] = item
-			add_child(item)
-
-
-func get_item(itemname):
-	return _items.get(itemname)
+	var dat = dict.get(itemname)
+	if dat != null:
+		var item : Item
+		var script = dat.get("script")
+		if script != null:
+			var dir = str("res://game/items", "/", script, ".gd")
+			item = load(dir).new()
+		else:
+			item = Item.new()
+		
+		item.sid = itemname
+		item.sprite = load("res://assets/items/" + dat.spritename + ".png")
+		if dat.has("modelname"):
+			item.model = _get_model("items/", dat.modelname)
+		if dat.has("model2name"):
+			item.model2 = _get_model("items/", dat.model2name)
+		item.delay = dat.get("delay", 0)
+		item.delay2 = dat.get("delay2", 0)
+		item.drops = dat.get("drops", true)
+		item.part = dat.get("part")
+		item.data = dat.get("data", {}).duplicate()
+		return item
 
 
 func make_unit(pos: Vector3, itemname: String):
 	var dict = Unit_JSON.get_data()
 	var data = dict.get(itemname)
 	if data != null:
-		var modelname = data.model
-		var model = _unit_models.get(modelname)
-		if model == null:
-			model = load(str("res://assets/units/", modelname, ".obj"))
-			_unit_models[modelname] = model
+		var model = _get_model("units/", data.model)
 		var item = Unit.instantiate()
-		G.stock.add_child(item)
 		item.set_mesh(model)
+		add_child(item)
+		_attach_ai(item, data)
 		item.sid = itemname
+		item.data = data.get("data", {}).duplicate()
 		item.position = pos
 		return item
+
+
+func make_humanoid(parent: Node, pos: Vector3, itemname: String):
+	var dict = Unit_JSON.get_data()
+	var data = dict.get(itemname)
+	if data != null:
+		var unit = Humanoid.instantiate()
+		var head_model = _get_model("items/head/", data.head)
+		unit.headmesh = head_model
+		unit.set_head_mesh(head_model)
+		parent.add_child(unit)
+		_attach_ai(unit, data)
+		for i in data.slots:
+			unit.equipment.add_slot(i)
+		for i in data.equipments:
+			unit.equipment.wear(G.stock.make_item(i))
+		for i in data.items:
+			unit.equipment.pickup(G.stock.make_item(i))
+		unit.equipment.set_held_index(0)
+		unit.sid = itemname
+		unit.data = data.get("data", {}).duplicate()
+		unit.position = pos
+		return unit
+
+
+func _attach_ai(unit, data):
+	var ai = data.get("ai", "blank")
+	var ai_script = IBlank
+	if ai == "melee":
+		ai_script = IMelee
+	var pilot := Node.new()
+	pilot.set_script(ai_script)
+	unit.pilot = pilot
+	unit.add_child(pilot)
 
 
 func make_particle(_pos: Vector3, _particlename: String):

@@ -1,7 +1,5 @@
 extends Node
 
-const Util = preload("res://tools/util.gd")
-
 const _CHANNEL_TYPE = VoxelBuffer.CHANNEL_TYPE
 const ROTATION_Y_POSITIVE_Z = 0
 const ROTATION_Y_NEGATIVE_X = 1
@@ -53,13 +51,13 @@ func set_block(pos: Vector3, block_id: int, look_dir: Vector3):
 	elif block.placement == block.CUSTOM:
 		block.place(_tool, pos, look_dir)
 	elif block.placement == block.ROT2:
-		var rot = get_y_rotation_from_look_dir(look_dir)
+		var rot = _get_y_rotation_from_look_dir(look_dir)
 		voxel_id = block.voxels[int(rot/2)]
 	elif block.placement == block.ROT4:
-		var rot = get_y_rotation_from_look_dir(look_dir)
+		var rot = _get_y_rotation_from_look_dir(look_dir)
 		voxel_id = block.voxels[rot]
 	elif block.placement == block.AXIAL:
-		var axis := Util.get_longest_axis(look_dir)
+		var axis := _get_longest_axis(look_dir)
 		voxel_id = block.voxels[axis]
 
 	if block.tickable:
@@ -157,8 +155,19 @@ func collide_prop_by_line(pos: Vector3, to: Vector3, col: int = 12):
 	return space_state.intersect_ray(params)
 
 
-static func get_y_rotation_from_look_dir(dir: Vector3) -> int:
-	var a = Util.get_direction_id4(Vector2(dir.x, dir.z))
+func draw_line_3d(a: Vector3, b: Vector3, color: Color):
+	var g = ImmediateMesh.new()
+#	g.material_override = 
+	g.begin(Mesh.PRIMITIVE_LINES)
+	g.set_color(color)
+	g.add_vertex(a)
+	g.add_vertex(b)
+	g.end()
+	add_child(g)
+
+
+func _get_y_rotation_from_look_dir(dir: Vector3) -> int:
+	var a = int(4.0 * (Vector2(dir.x, dir.z).rotated(PI / 4.0).angle() + PI) / TAU)
 	match a:
 		0:
 			return ROTATION_Y_NEGATIVE_X
@@ -171,3 +180,14 @@ static func get_y_rotation_from_look_dir(dir: Vector3) -> int:
 		_:
 			assert(false)
 	return -1
+
+
+func _get_longest_axis(v: Vector3) -> int:
+	var lx = abs(v.x)
+	var ly = abs(v.y)
+	var lz = abs(v.z)
+	if lx > ly and lx > lz:
+		return Vector3.AXIS_X
+	if ly > lx and ly > lz:
+		return Vector3.AXIS_Y
+	return Vector3.AXIS_Z

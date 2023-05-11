@@ -11,24 +11,67 @@
 		"script": "flier/flier",
 		"delay": 0.5
 	},
-	"jacket": {
-		"spritename": "flier",
-		"modelname": "body/a_suit",
+	"suit": {
+		"spritename": "body/a_suit_sprite",
 		"script": "equipment/armor",
+		"modelname": "bag",
+		"model2name": "body/a_suit",
 		"delay": 1,
-		"part": "armor",
+		"part": "body",
+		"data": {
+			"space": 2
+		}
+	},
+	"security outfit": {
+		"spritename": "body/a_security_sprite",
+		"script": "equipment/armor",
+		"modelname": "bag",
+		"model2name": "body/a_security",
+		"delay": 1,
+		"part": "body",
+		"data": {
+			"space": 3
+		}
+	},
+	"security cap": {
+		"spritename": "head/h_cap_sprite",
+		"script": "equipment/helmet",
+		"modelname": "bag",
+		"model2name": "head/h_cap",
+		"delay": 1,
+		"part": "head",
 		"data": {
 			"space": 3
 		}
 	},
 	"labcoat": {
-		"spritename": "flier",
-		"modelname": "body/a_labcoat",
+		"spritename": "body/a_labcoat_sprite",
 		"script": "equipment/armor",
+		"modelname": "bag",
+		"model2name": "body/a_labcoat",
 		"delay": 1,
-		"part": "armor",
+		"part": "body",
 		"data": {
 			"space": 5
+		}
+	},
+	"flashlight": {
+		"spritename": "flier",
+		"script": "equipment/flashlight",
+		"delay": 1,
+		"part": "accessory",
+		"data": {
+			"light": 10
+		}
+	},
+	"scouter helmet": {
+		"spritename": "flier",
+		"script": "equipment/helmet",
+		"model2name": "head/scouter_helm",
+		"delay": 1,
+		"part": "head",
+		"data": {
+
 		}
 	},
 	"placer": {
@@ -60,8 +103,14 @@
 		"spritename": "eblade",
 		"modelname": "eblade3d-0-eblade",
 		"script": "equipment/weapon",
-		"delay": 2,
-		"delay2": 0
+		"drops": false,
+		"data": {
+			"speed": 1.5,
+			"swings": [
+				"swing_forward",
+				"swing_right"
+			]
+		}
 	},
 	"gasblade": {
 		"spritename": "gasblade",
@@ -74,15 +123,37 @@
 		"spritename": "glaive",
 		"modelname": "glaive3d",
 		"script": "equipment/weapon",
-		"delay": 2,
-		"delay2": 0
+		"data": {
+			"swings": [
+				"swing_forward",
+				"swing_left",
+				"swing_right",
+				"swing_down"
+			]
+		}
 	},
 	"test": {
 		"spritename": "greatsword",
 		"modelname": "greatsword3d",
 		"script": "equipment/weapon",
-		"delay": 2,
-		"delay2": 0
+		"data": {
+			"swings": [
+				"swing_left"
+			]
+		}
+	},
+	"greatsword": {
+		"spritename": "greatsword",
+		"modelname": "greatsword3d",
+		"script": "equipment/weapon",
+		"data": {
+			"speed": 0.7,
+			"swings": [
+				"swing_left",
+				"swing_right",
+				"swing_down"
+			]
+		}
 	},
 	"generator": {
 		"spritename": "eblade",

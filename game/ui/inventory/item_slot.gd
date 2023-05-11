@@ -25,6 +25,10 @@ func _notification(what: int):
 				_selection.visible = false
 
 
+func set_background(bg):
+	$BG.set_texture(bg)
+
+
 func set_selected(select):
 	if select:
 		_selection.show()
@@ -32,9 +36,9 @@ func set_selected(select):
 		_selection.hide()
 
 
-func set_item(item):
+func set_item(item, fallback=null):
 	if item == null:
-		_display.set_texture(null)
+		_display.set_texture(fallback)
 	else:
 		_display.set_texture(item.sprite)
 

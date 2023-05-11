@@ -6,26 +6,29 @@ extends SpringArm3D
 @export var capture_mouse = true
 @export var distance = 0.0
 
+var _unit
 var _yaw = 0
 var _pitch = 0
 var _offset = Vector3()
-
-@onready var _unit = get_node("../Unit")
-@onready var _player_mesh = get_node("../Unit/Model/Body/Mesh")
-@onready var _player_helm_mesh = get_node("../Unit/Model/Body/Helm")
+var _player_mesh
+var _player_helm_mesh
 
 
 func _ready():
 	_offset = get_position()
 	if capture_mouse:
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	zoom_distance(0)
+
+
+func set_unit(p):
+	_unit = p
+	_player_mesh = _unit.get_node("Model/Body/Mesh")
+	_player_helm_mesh = _unit.get_node("Model/Body/Head")
 
 
 func _process(_delta):
 	var offset = Vector3(0, _unit.size.y - .2, 0)
 	position = _unit.position + offset
-	DDD.set_text("position", _unit.global_position)
 
 
 func update_rotations(motion):

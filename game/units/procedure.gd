@@ -60,19 +60,20 @@ func stop_walk():
 
 func use():
 	face_front()
-	var inv_item = _unit.equipment.get_held_item()
-	if inv_item != null:
-		var callback = Callable(inv_item, "use_callback").bind(_unit)
-		_unit.action.set_next("use_start", inv_item.delay, callback)
-	else:
-		_unit.hand.use(_unit)
+	if _unit.action.delay <= 0:
+		var inv_item = _unit.equipment.get_held_item()
+		if inv_item != null:
+			inv_item.use(_unit)
+		else:
+			_unit.hand.use(_unit)
 
 
 func use2():
 	face_front()
-	var inv_item = _unit.equipment.get_held_item()
-	if inv_item != null:
-		_unit.action.set_next("use2_start", inv_item.delay2)
-	else:
-		_unit.hand.use(_unit)
+	if _unit.action.delay <= 0:
+		var inv_item = _unit.equipment.get_held_item()
+		if inv_item != null:
+			inv_item.use2(_unit)
+		else:
+			_unit.hand.use(_unit)
 

@@ -10,6 +10,10 @@ var _unit
 var _previous_mouse_mode := 0
 
 
+func _ready():
+	G.ui.get_node("Fade").connect("gui_input", Callable(self, "_on_background_gui_input"))
+
+
 func set_unit(unit):
 	if _unit != unit:
 		_unit = unit
@@ -18,9 +22,14 @@ func set_unit(unit):
 		_itembar.set_unit(unit)
 		_itembar.show_selection = false
 		update_views()
+		_inv.connect("selected", Callable(_equipbar, "update_items"))
+		_inv.connect("selected", Callable(_itembar, "update_items"))
+		_inv.connect("changed", Callable(self, "update_views"))
 
 
 func update_views():
+	_equipbar.update_views()
+	_itembar.update_views()
 	var slot_idx := 0
 	for container in [_equipbar, _itembar]:
 		for slot in container.get_children():
@@ -34,7 +43,7 @@ func _notification(what: int):
 			_previous_mouse_mode = Input.get_mouse_mode()
 			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 			
-		elif _dragged_item != null: 
+		elif _dragged_item != null:
 			_dragged_item.stop()
 			Input.set_mouse_mode(_previous_mouse_mode)
 
@@ -47,21 +56,18 @@ func _on_slot_pressed(idx: int):
 		_inv.set_item_by_index(idx, null)
 		_dragged_item.start(slot_item)
 	else:
+		_inv.set_item_by_index(idx, _dragged_item.item)
 		if slot_item == null:
 			# Move
-			_inv.set_item_by_index(idx, _dragged_item.item)
 			_dragged_item.stop()
 		else:
-			_inv.set_item_by_index(idx, _dragged_item.item)
 			_dragged_item.start(slot_item)
 
 
-func _on_dragging_gui_input(event):
+func _on_background_gui_input(event):
 	if event is InputEventMouseButton:
 		if event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-			if !_dragged_item.visible:
-				visible = false
-			else:
+			if _dragged_item.visible and _dragged_item.item.drops:
 				_dragged_item.item.drop(_unit)
 				_dragged_item.stop()
 

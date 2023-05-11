@@ -21,8 +21,6 @@ func use(_user: Node3D):
 		else:
 			print("Can't place here!")
 		_user.action.set_next("idle", .1)
-	else:
-		DDD.set_text("Pointed voxel", "---")
 
 
 func use2(_user: Node3D):

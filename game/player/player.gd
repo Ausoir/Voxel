@@ -2,18 +2,33 @@ extends Node
 
 
 var vars
+var unit
 @onready var faction = $Faction
-@onready var unit = $Unit
 
 
 func _ready():
-	unit.equipment.add_slot("armor")
-	unit.equipment.wear(G.stock.get_item("jacket"))
-	unit.equipment.pickup(G.stock.get_item("test"))
-	unit.equipment.pickup(G.stock.get_item("cleaver"))
-	unit.equipment.pickup(G.stock.get_item("remover"))
-	unit.equipment.pickup(G.stock.get_item("labcoat"))
-	unit.equipment.set_held_index(0)
+	var u = G.stock.make_humanoid(self, Vector3(), "janitor")
+	set_unit(u)
 	$Interface.set_unit(unit)
 	$Save.load_data()
 	unit.on_mesh_set()
+
+
+func set_unit(p):
+	G.you = p
+	var addon
+	if unit != null:
+		addon = unit.get_node("Addon")
+		unit.queue_free()
+		remove_child(unit)
+	else:
+		addon = get_node("Addon")
+		remove_child(addon)
+	unit = p
+	unit.set_name("Unit")
+	unit.faction = 1
+	unit.add_child(addon)
+	$View.set_unit(unit)
+	$Control.set_unit(unit)
+	$View.zoom_distance(0)
+	unit._box_mover.set_collision_mask(4)

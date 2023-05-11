@@ -1,6 +1,5 @@
 extends Node
 
-const Util = preload("res://tools/util.gd")
 const Blocks = preload("../blocks/blocks.gd")
 const MENU_INVENTORY = preload("res://game/ui/inventory/inventory.tscn")
 const MENU_SETTINGS = preload("res://game/ui/settings.tscn")
@@ -20,20 +19,17 @@ const _hotbar_keys = {
 }
 
 
-@onready var _unit = get_node("../Unit")
-@onready var _terrain = get_node("/root/Game/Terrain")
 @onready var _camera = get_node("../View")
 @onready var _interface = get_node("../Interface")
 
+var _unit
 var _menu_settings = MENU_SETTINGS.instantiate()
 var _menu_inventory = MENU_INVENTORY.instantiate()
-var _terrain_tool = null
 var _debug_mode = false
 
 
-func _ready():
-	_terrain_tool = _terrain.get_voxel_tool()
-	_terrain_tool.channel = VoxelBuffer.CHANNEL_TYPE
+func set_unit(p):
+	_unit = p
 	_unit.camera = _camera
 	var _procedure = _unit.procedure
 	_unit.action.bind("walkU", Callable(_procedure, "walk").bind(1, 0))

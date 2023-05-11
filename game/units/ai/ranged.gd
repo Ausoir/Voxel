@@ -67,7 +67,6 @@ func _do_path(_delta):
 
 
 func _do_attack(_delta):
-	_unit.action.stamina = 10
 	_unit.action.set_next("tackle", 2.5, Callable(self, "_tackle_end"))
 	_unit.procedure.face_front()
 	if _dist >= 3:
