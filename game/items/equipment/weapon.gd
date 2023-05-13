@@ -16,9 +16,10 @@ func use(_user: Node3D):
 		var speed = data.get("speed", 1.0)
 		var anim_dur = animation.get_length() * (1 / speed)
 		data["swing anim"] = next_anim
-		_user.animator.seek(0)
+		if _user.animator.current_animation == anim_name:
+			_user.animator.seek(0)
 		_user.animator.play(anim_name, .1, speed)
-		_user.action.force_set_next("use", anim_dur, callback.bind(_user))
+		_user.action.force_set_next("use", anim_dur - .2, callback.bind(_user))
 
 
 func use2(_user: Node3D):
@@ -45,7 +46,7 @@ func on_held_tick(_user: Node3D):
 				var prop = G.tool.collide_prop_by_line(from, to, 4)
 				if !prop.is_empty():
 					var unit = prop.collider.get_parent()
-					if unit.faction != _user.faction:
+					if unit.get("faction") != null and unit.faction != _user.faction:
 						unit.on_damaged(_user.position)
 					else:
 						_deflect(_user, to)

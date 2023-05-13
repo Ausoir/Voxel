@@ -16,6 +16,7 @@ const Underwear = preload("res://assets/units/a_underwear.obj")
 const IBlank = preload("res://game/units/ai/blank.gd")
 const IMelee = preload("res://game/units/ai/melee.gd")
 var _model_cache = {}
+var _scene_cache = {}
 
 
 func _get_model(path: String, modelname: String):
@@ -40,8 +41,7 @@ func make_item(itemname: String):
 		
 		item.sid = itemname
 		item.sprite = load("res://assets/items/" + dat.spritename + ".png")
-		if dat.has("modelname"):
-			item.model = _get_model("items/", dat.modelname)
+		item.model = _get_model("items/", dat.get("modelname", "bag"))
 		if dat.has("model2name"):
 			item.model2 = _get_model("items/", dat.model2name)
 		item.delay = dat.get("delay", 0)
@@ -50,6 +50,19 @@ func make_item(itemname: String):
 		item.part = dat.get("part")
 		item.data = dat.get("data", {}).duplicate()
 		return item
+
+
+func make_object(pos: Vector3, itemname: String):
+	var scene = _scene_cache.get(itemname)
+	if scene == null:
+		var dir = str("res://game/blocks/objects/", itemname, ".tscn")
+		scene = load(dir)
+		_scene_cache[itemname] = scene
+	var item = scene.instantiate()
+	item.position = pos + G.V2_HALF
+	item.rotation.y = G.tool.get_rotation_from_marker(pos) * PI/2
+	add_child(item)
+	return item
 
 
 func make_unit(pos: Vector3, itemname: String):

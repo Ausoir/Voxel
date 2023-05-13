@@ -3,10 +3,11 @@ extends "../block.gd"
 const Door = preload("./prop_door.tscn")
 
 
-func on_hover(_pos: Vector3):
-	var text = str("Voxel ", " ", G.tool.get_voxel(_pos))
-	G.ui.set_label(text)
-	return true
+func on_place(_pos: Vector3):
+	var above = _pos + Vector3.UP
+	var current_voxel = G.tool.get_voxel(_pos)
+	var current_id = voxels.find(current_voxel)
+	G.tool.set_voxel(above, voxels[current_id + 2])
 
 
 func on_interact(_pos: Vector3, _user: Node3D):

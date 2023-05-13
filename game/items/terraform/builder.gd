@@ -65,7 +65,7 @@ func _attempt_prefab(_pos: Vector3, _prefab: String, _look_dir: Vector3):
 			for row in range(vault.size()):
 				for cell in range(vault[row].length()):
 					var icon = vault[row][cell]
-					var block = _blocks.get_block_by_icon(icon)
+					var block = G.blocks.get_block_by_icon(icon)
 					if block != null:
 						var pos = Vector3(left.x + cell, _pos.y + current_floor, left.z + row)
 						var site = G.blocks.get_block_by_name("build site")

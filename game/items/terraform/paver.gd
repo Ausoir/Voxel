@@ -31,7 +31,7 @@ func use2(_user: Node3D):
 func _start_build(_user, _pos: Vector3i):
 	_cancel_build()
 	_start_cursor = SELECTION.instantiate()
-	_blocks.add_child(_start_cursor)
+	G.stock.add_child(_start_cursor)
 	_start_cursor.position = Vector3(_pos) + G.V2_HALF
 	_start_pos = _pos
 
@@ -63,5 +63,5 @@ func _choose_block(buildable):
 
 func on_unheld(_user: Node3D):
 	_cancel_build()
-	_blocks.remove_child(_cursor)
+	G.stock.remove_child(_cursor)
 

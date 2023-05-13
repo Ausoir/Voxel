@@ -6,6 +6,7 @@ const Light = preload("./light.tscn")
 func on_place(_pos: Vector3):
 	var light = Light.instantiate()
 	G.stock.add_child(light)
+	light.set_strength(data.get("light", 5))
 	light.position = _pos + Vector3(.5, .25, .5)
 
 

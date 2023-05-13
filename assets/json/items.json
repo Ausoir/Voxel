@@ -14,7 +14,6 @@
 	"suit": {
 		"spritename": "body/a_suit_sprite",
 		"script": "equipment/armor",
-		"modelname": "bag",
 		"model2name": "body/a_suit",
 		"delay": 1,
 		"part": "body",
@@ -25,7 +24,6 @@
 	"security outfit": {
 		"spritename": "body/a_security_sprite",
 		"script": "equipment/armor",
-		"modelname": "bag",
 		"model2name": "body/a_security",
 		"delay": 1,
 		"part": "body",
@@ -36,7 +34,6 @@
 	"security cap": {
 		"spritename": "head/h_cap_sprite",
 		"script": "equipment/helmet",
-		"modelname": "bag",
 		"model2name": "head/h_cap",
 		"delay": 1,
 		"part": "head",
@@ -47,7 +44,6 @@
 	"labcoat": {
 		"spritename": "body/a_labcoat_sprite",
 		"script": "equipment/armor",
-		"modelname": "bag",
 		"model2name": "body/a_labcoat",
 		"delay": 1,
 		"part": "body",
@@ -64,6 +60,22 @@
 			"light": 10
 		}
 	},
+	"night goggle": {
+		"spritename": "flier",
+		"script": "equipment/flashlight",
+		"model2name": "head/h_cap",
+		"delay": 1,
+		"part": "head",
+		"data": {
+			"light": 40,
+			"light spread": 180,
+			"light color": [
+				0,
+				1,
+				0
+			]
+		}
+	},
 	"scouter helmet": {
 		"spritename": "flier",
 		"script": "equipment/helmet",
@@ -78,7 +90,13 @@
 		"spritename": "flier",
 		"modelname": "flier-0-flier",
 		"script": "terraform/placer",
-		"delay": 0
+		"delay": 0,
+		"data": {
+			"buildables": [
+				"sink",
+				"toilet"
+			]
+		}
 	},
 	"remover": {
 		"spritename": "flier",

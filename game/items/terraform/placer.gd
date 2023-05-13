@@ -6,16 +6,14 @@ const MULTISELECT = preload("res://game/ui/menus/multiselect.tscn")
 var _cursor = SELECTION.instantiate()
 var _chosen_buildable
 
-@onready var _blocks = get_node("/root/Game/Blocks")
-
 
 func use(_user: Node3D):
 	_set_default_block()
-	var hit = get_pointed_block(_user)
+	var hit = get_pointed_block(_user, 13)
 	if hit != null:
 		var pos = hit.previous_position
 		if G.tool.collide_prop_by_shape(pos, .7, 2).size() == 0:
-			var block = _blocks.get_block_by_name(_chosen_buildable)
+			var block = G.blocks.get_block_by_name(_chosen_buildable)
 			G.tool.set_block(pos, block.id, _user.forward)
 			print("Place voxel at ", pos)
 		else:
@@ -42,15 +40,15 @@ func _choose_block(blockname):
 
 
 func on_held(_user: Node3D):
-	_blocks.add_child(_cursor)
+	G.stock.add_child(_cursor)
 
 
 func on_unheld(_user: Node3D):
-	_blocks.remove_child(_cursor)
+	G.stock.remove_child(_cursor)
 
 
 func on_held_tick(_user: Node3D):
-	var hit = get_pointed_block(_user)
+	var hit = get_pointed_block(_user, 13)
 	if hit != null:
 		_cursor.position = Vector3(hit.previous_position) + G.V_HALF
 

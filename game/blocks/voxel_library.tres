@@ -1,13 +1,13 @@
-[gd_resource type="VoxelBlockyLibrary" load_steps=50 format=3 uid="uid://chr1cj53hbsgq"]
+[gd_resource type="VoxelBlockyLibrary" load_steps=55 format=3 uid="uid://chr1cj53hbsgq"]
 
-[ext_resource type="Shader" path="res://assets/blocks/block_flutter.gdshader" id="1_m65w0"]
+[ext_resource type="ArrayMesh" uid="uid://0h8p56h5cmc5" path="res://assets/blocks/slab_ns.obj" id="1_rgc8a"]
 [ext_resource type="Material" uid="uid://bs5u0ea1vrq7v" path="res://assets/blocks/terrain_biome.tres" id="2_d8tyi"]
-[ext_resource type="ArrayMesh" uid="uid://d2unx7githqbh" path="res://assets/blocks/door_ns.obj" id="3_7lex8"]
+[ext_resource type="Texture2D" uid="uid://ctov3wqnwqwoo" path="res://assets/texture/doortop.png" id="2_n5ons"]
+[ext_resource type="Texture2D" uid="uid://cjixikwj37edg" path="res://assets/texture/doorbottom.png" id="3_1mdm3"]
 [ext_resource type="Material" uid="uid://b01x3ndd3wo4a" path="res://assets/blocks/terrain_albedo.tres" id="3_8bopy"]
+[ext_resource type="ArrayMesh" uid="uid://fwb38pl3a8jv" path="res://assets/blocks/slab_ew.obj" id="3_8crr0"]
 [ext_resource type="Material" uid="uid://df1d0n5htjwej" path="res://assets/blocks/terrain_texture.tres" id="4_cjek0"]
-[ext_resource type="Texture2D" uid="uid://dvyrnso1cpmno" path="res://assets/texture/door.png" id="4_rjswp"]
 [ext_resource type="Texture2D" uid="uid://dg4xw3wf1pm6g" path="res://assets/texture/locker.png" id="4_xb8wo"]
-[ext_resource type="ArrayMesh" uid="uid://wdixwdjvpp12" path="res://assets/blocks/door_ew.obj" id="5_swl8u"]
 [ext_resource type="ArrayMesh" uid="uid://cgbg53ajnxx2p" path="res://assets/blocks/half.obj" id="5_y1xjb"]
 [ext_resource type="Material" uid="uid://boa8jg111g4fk" path="res://assets/blocks/terrain_texture_transparent.tres" id="6_s430m"]
 [ext_resource type="Texture2D" uid="uid://w07b86lipkg3" path="res://assets/texture/tiles.png" id="7_co075"]
@@ -25,6 +25,7 @@ voxel_name = &"air"
 collision_mask = 0
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_qs40n"]
+flip_faces = true
 size = Vector2(1, 1)
 
 [sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_giaje"]
@@ -35,63 +36,58 @@ collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
 collision_mask = 16
 collision_enabled_0 = false
 
-[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_aqcxl"]
-voxel_name = &"metal"
-geometry_type = 1
-collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
-collision_mask = 15
-cube_geometry_padding_y = null
-cube_tiles_left = Vector2(3, 0)
-cube_tiles_right = Vector2(3, 0)
-cube_tiles_bottom = Vector2(3, 0)
-cube_tiles_top = Vector2(3, 0)
-cube_tiles_back = Vector2(3, 0)
-cube_tiles_front = Vector2(3, 0)
-material_override_0 = ExtResource("4_cjek0")
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_565gw"]
+albedo_texture = ExtResource("2_n5ons")
+texture_filter = 0
+texture_repeat = false
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_jagrb"]
+voxel_name = &"doortop_ns"
+geometry_type = 2
+custom_mesh = ExtResource("1_rgc8a")
+collision_aabbs = Array[AABB]([AABB(0, 0, 0.4, 1, 2, 0.2)])
+material_override_0 = SubResource("StandardMaterial3D_565gw")
 collision_enabled_0 = true
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_565gw"]
-albedo_texture = ExtResource("4_rjswp")
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2o3ci"]
+albedo_texture = ExtResource("3_1mdm3")
 texture_filter = 0
 texture_repeat = false
 
 [sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_rmcmf"]
-voxel_name = &"door_ns"
+voxel_name = &"doorbottom_ns"
 geometry_type = 2
-custom_mesh = ExtResource("3_7lex8")
+custom_mesh = ExtResource("1_rgc8a")
 collision_aabbs = Array[AABB]([AABB(0, 0, 0.4, 1, 2, 0.2)])
 collision_mask = 15
-material_override_0 = SubResource("StandardMaterial3D_565gw")
+material_override_0 = SubResource("StandardMaterial3D_2o3ci")
 collision_enabled_0 = true
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dwf0u"]
-albedo_texture = ExtResource("4_rjswp")
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6ct4k"]
+albedo_texture = ExtResource("2_n5ons")
 texture_filter = 0
 texture_repeat = false
 
 [sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_4yoce"]
-voxel_name = &"door_ew"
+voxel_name = &"doortop_ew"
 geometry_type = 2
-custom_mesh = ExtResource("5_swl8u")
+custom_mesh = ExtResource("3_8crr0")
 collision_aabbs = Array[AABB]([AABB(0.4, 0, 0, 0.2, 2, 1)])
 collision_mask = 15
-material_override_0 = SubResource("StandardMaterial3D_dwf0u")
+material_override_0 = SubResource("StandardMaterial3D_6ct4k")
 collision_enabled_0 = true
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vljlc"]
-albedo_texture = ExtResource("7_vs6ib")
-metallic = 0.5
-metallic_specular = 1.0
-roughness = 0.25
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iis4p"]
+albedo_texture = ExtResource("3_1mdm3")
 texture_filter = 0
+texture_repeat = false
 
-[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_00xk5"]
-voxel_name = &"walkway"
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_64bu1"]
+voxel_name = &"doorbottom_ew"
 geometry_type = 2
-custom_mesh = ExtResource("11_ob6tc")
-collision_aabbs = Array[AABB]([AABB(0, 0.5, 0, 1, 0.5, 1)])
-collision_mask = 15
-material_override_0 = SubResource("StandardMaterial3D_vljlc")
+custom_mesh = ExtResource("3_8crr0")
+collision_aabbs = Array[AABB]([AABB(0.4, 0, 0, 0.2, 2, 1)])
+material_override_0 = SubResource("StandardMaterial3D_iis4p")
 collision_enabled_0 = true
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8rpfi"]
@@ -184,18 +180,9 @@ cube_tiles_front = Vector2(0, 1)
 material_override_0 = ExtResource("4_cjek0")
 collision_enabled_0 = true
 
-[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_5o6te"]
-voxel_name = &"marker"
-geometry_type = 1
-collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
-cube_geometry_padding_y = null
-cube_tiles_left = Vector2(0, 0)
-cube_tiles_right = Vector2(0, 0)
-cube_tiles_bottom = Vector2(0, 0)
-cube_tiles_top = Vector2(0, 0)
-cube_tiles_back = Vector2(0, 0)
-cube_tiles_front = Vector2(0, 0)
-collision_enabled_0 = true
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_uoa5r"]
+voxel_name = &"beacon"
+collision_mask = 0
 
 [sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_simpm"]
 voxel_name = &"generator"
@@ -214,12 +201,78 @@ cube_tiles_front = Vector2(0, 0)
 material_override_0 = ExtResource("14_wnxvx")
 collision_enabled_0 = true
 
-[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_42cm5"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vljlc"]
+albedo_texture = ExtResource("7_vs6ib")
+metallic = 0.5
+metallic_specular = 1.0
+roughness = 0.25
+texture_filter = 0
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_aogu6"]
+voxel_name = &"walkway"
+geometry_type = 2
+custom_mesh = ExtResource("11_ob6tc")
+collision_aabbs = Array[AABB]([AABB(0, 0.5, 0, 1, 0.5, 1)])
+material_override_0 = SubResource("StandardMaterial3D_vljlc")
+collision_enabled_0 = true
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_6nv4k"]
+voxel_name = &"bed"
+geometry_type = 1
+collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
+collision_mask = 13
+cube_geometry_padding_y = null
+cube_tiles_left = Vector2(5, 1)
+cube_tiles_right = Vector2(5, 1)
+cube_tiles_bottom = Vector2(0, 1)
+cube_tiles_top = Vector2(6, 1)
+cube_tiles_back = Vector2(5, 1)
+cube_tiles_front = Vector2(5, 1)
+collision_enabled_0 = true
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_yuatu"]
+voxel_name = &"counter"
+geometry_type = 1
+collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
+collision_mask = 13
+cube_geometry_padding_y = null
+cube_tiles_left = Vector2(7, 1)
+cube_tiles_right = Vector2(7, 1)
+cube_tiles_bottom = Vector2(6, 1)
+cube_tiles_top = Vector2(6, 1)
+cube_tiles_back = Vector2(7, 1)
+cube_tiles_front = Vector2(7, 1)
+material_override_0 = ExtResource("4_cjek0")
+collision_enabled_0 = true
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_lqvan"]
+voxel_name = &"mirror"
+geometry_type = 1
+collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
+collision_mask = 13
+cube_geometry_padding_y = null
+cube_tiles_left = Vector2(5, 0)
+cube_tiles_right = Vector2(5, 0)
+cube_tiles_bottom = Vector2(5, 0)
+cube_tiles_top = Vector2(5, 0)
+cube_tiles_back = Vector2(5, 0)
+cube_tiles_front = Vector2(5, 0)
+material_override_0 = ExtResource("4_cjek0")
+collision_enabled_0 = true
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_v1cdj"]
+voxel_name = &"occluder"
+geometry_type = 2
+custom_mesh = SubResource("PlaneMesh_qs40n")
+collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
+collision_mask = 12
+collision_enabled_0 = false
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_adyuu"]
 voxel_name = &"stone"
 color = Color(0.521569, 0.521569, 0.521569, 1)
 geometry_type = 1
 collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
-collision_mask = 15
 cube_geometry_padding_y = null
 cube_tiles_left = Vector2(1, 0)
 cube_tiles_right = Vector2(1, 0)
@@ -228,22 +281,6 @@ cube_tiles_top = Vector2(1, 0)
 cube_tiles_back = Vector2(1, 0)
 cube_tiles_front = Vector2(1, 0)
 material_override_0 = ExtResource("4_cjek0")
-collision_enabled_0 = true
-
-[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_g5i1x"]
-voxel_name = &"sand"
-color = Color(0.290196, 0.12549, 0.0392157, 1)
-geometry_type = 1
-collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
-collision_mask = 15
-cube_geometry_padding_y = null
-cube_tiles_left = Vector2(0, 0)
-cube_tiles_right = Vector2(0, 0)
-cube_tiles_bottom = Vector2(0, 0)
-cube_tiles_top = Vector2(0, 0)
-cube_tiles_back = Vector2(0, 0)
-cube_tiles_front = Vector2(0, 0)
-material_override_0 = ExtResource("3_8bopy")
 collision_enabled_0 = true
 
 [sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_gx8u8"]
@@ -261,25 +298,19 @@ cube_tiles_front = Vector2(0, 0)
 material_override_0 = ExtResource("2_d8tyi")
 collision_enabled_0 = true
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_0qami"]
-render_priority = 0
-shader = ExtResource("1_m65w0")
-shader_parameter/out_color = Color(0.27451, 0.498039, 0, 1)
-shader_parameter/out_color2 = Color(0.439216, 0.682353, 0, 1)
-
-[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_niiu4"]
-voxel_name = &"leaf"
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_rgf7t"]
+voxel_name = &"metal"
 geometry_type = 1
 collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
-collision_mask = 11
+collision_mask = 13
 cube_geometry_padding_y = null
-cube_tiles_left = Vector2(0, 0)
-cube_tiles_right = Vector2(0, 0)
-cube_tiles_bottom = Vector2(0, 0)
-cube_tiles_top = Vector2(0, 0)
-cube_tiles_back = Vector2(0, 0)
-cube_tiles_front = Vector2(0, 0)
-material_override_0 = SubResource("ShaderMaterial_0qami")
+cube_tiles_left = Vector2(3, 0)
+cube_tiles_right = Vector2(3, 0)
+cube_tiles_bottom = Vector2(3, 0)
+cube_tiles_top = Vector2(3, 0)
+cube_tiles_back = Vector2(3, 0)
+cube_tiles_front = Vector2(3, 0)
+material_override_0 = ExtResource("4_cjek0")
 collision_enabled_0 = true
 
 [sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_w0ngp"]
@@ -332,18 +363,18 @@ collision_enabled_0 = true
 bake_tangents = false
 voxels/0 = SubResource("VoxelBlockyModel_uj7mi")
 voxels/1 = SubResource("VoxelBlockyModel_giaje")
-voxels/2 = SubResource("VoxelBlockyModel_5o6te")
-voxels/3 = SubResource("VoxelBlockyModel_42cm5")
-voxels/4 = SubResource("VoxelBlockyModel_g5i1x")
+voxels/2 = SubResource("VoxelBlockyModel_uoa5r")
+voxels/3 = SubResource("VoxelBlockyModel_v1cdj")
+voxels/4 = SubResource("VoxelBlockyModel_adyuu")
 voxels/5 = SubResource("VoxelBlockyModel_gx8u8")
-voxels/6 = SubResource("VoxelBlockyModel_niiu4")
+voxels/6 = SubResource("VoxelBlockyModel_rgf7t")
 voxels/7 = SubResource("VoxelBlockyModel_w0ngp")
 voxels/8 = SubResource("VoxelBlockyModel_piv57")
 voxels/9 = SubResource("VoxelBlockyModel_ic1d8")
-voxels/10 = SubResource("VoxelBlockyModel_aqcxl")
+voxels/10 = SubResource("VoxelBlockyModel_jagrb")
 voxels/11 = SubResource("VoxelBlockyModel_rmcmf")
 voxels/12 = SubResource("VoxelBlockyModel_4yoce")
-voxels/13 = SubResource("VoxelBlockyModel_00xk5")
+voxels/13 = SubResource("VoxelBlockyModel_64bu1")
 voxels/14 = SubResource("VoxelBlockyModel_jsfy2")
 voxels/15 = SubResource("VoxelBlockyModel_3nyny")
 voxels/16 = SubResource("VoxelBlockyModel_c38dr")
@@ -351,3 +382,7 @@ voxels/17 = SubResource("VoxelBlockyModel_bmt5v")
 voxels/18 = SubResource("VoxelBlockyModel_vhnvs")
 voxels/19 = SubResource("VoxelBlockyModel_ie47q")
 voxels/20 = SubResource("VoxelBlockyModel_simpm")
+voxels/21 = SubResource("VoxelBlockyModel_aogu6")
+voxels/22 = SubResource("VoxelBlockyModel_6nv4k")
+voxels/23 = SubResource("VoxelBlockyModel_yuatu")
+voxels/24 = SubResource("VoxelBlockyModel_lqvan")

@@ -7,13 +7,22 @@ func use(user: Node3D):
 
 func on_wear(_user):
 	if !_user.has_node("Light"):
-		var light = SpotLight3D.new()
-		light.set_name("Light")
-		_user.get_node("Model/Body").add_child(light)
+		var spread = data.get("light spread", 60)
+		var light
+		if spread < 180:
+			light = SpotLight3D.new()
+			light.spot_range = data.get("light", 5)
+			light.spot_angle = spread
+		else:
+			light = OmniLight3D.new()
+			light.omni_range = data.get("light", 5)
+		if "light color" in data:
+			var color = data.get("light color")
+			light.set_color(Color(color[0], color[1], color[2]))
 		light.position.y = _user.size.y / 2
 		light.rotation.y = PI
-		light.spot_range = data.get("light", 5)
-		light.spot_angle = 60
+		light.set_name("Light")
+		_user.get_node("Model/Body").add_child(light)
 
 
 func on_unwear(_user):

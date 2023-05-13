@@ -29,7 +29,7 @@ func use_callback(_user: Node3D):
 
 func get_pointed_block(_user: Node3D, col=3):
 	var origin = _user.camera.global_position
-	var hit = G.tool.raycast(origin, _user.forward, 1, col)
+	var hit = G.tool.raycast(origin, _user.forward, 2, col)
 	return hit
 
 

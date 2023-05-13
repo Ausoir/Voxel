@@ -1,0 +1,8 @@
+{
+	"rocket": {
+		"spritename": "eblade",
+		"modelname": "eblade3d-0-eblade",
+		"script": "rocket/rocket",
+		"delay": 1
+	},
+}

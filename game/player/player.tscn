@@ -43,8 +43,8 @@ omni_range = 8.0
 omni_shadow_mode = 0
 
 [node name="Perception" type="Area3D" parent="Addon"]
-collision_layer = 4
-collision_mask = 4
+collision_layer = 32
+collision_mask = 32
 script = ExtResource("5_ixl5i")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Addon/Perception"]

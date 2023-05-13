@@ -42,23 +42,26 @@ func set_block_by_name(pos: Vector3, block_name: String, look_dir: Vector3):
 	set_block(pos, block.id, look_dir)
 
 
-func set_block(pos: Vector3, block_id: int, look_dir: Vector3):
+func set_block(pos: Vector3, block_id: int, look_dir):
 	var block = _blocks.get_block(block_id)
 	var voxel_id := 0
 	
 	if block.placement == block.NORMAL:
 		voxel_id = block.voxels[0]
-	elif block.placement == block.CUSTOM:
-		block.place(_tool, pos, look_dir)
-	elif block.placement == block.ROT2:
-		var rot = _get_y_rotation_from_look_dir(look_dir)
-		voxel_id = block.voxels[int(rot/2)]
-	elif block.placement == block.ROT4:
-		var rot = _get_y_rotation_from_look_dir(look_dir)
-		voxel_id = block.voxels[rot]
-	elif block.placement == block.AXIAL:
-		var axis := _get_longest_axis(look_dir)
-		voxel_id = block.voxels[axis]
+	else:
+		if look_dir == null:
+			look_dir = _get_marker_look_dir(pos)
+		if block.placement == block.CUSTOM:
+			block.place(pos, look_dir)
+		elif block.placement == block.ROT2:
+			var rot = _get_y_rotation_from_look_dir(look_dir)
+			voxel_id = block.voxels[int(rot/2)]
+		elif block.placement == block.ROT4:
+			var rot = _get_y_rotation_from_look_dir(look_dir)
+			voxel_id = block.voxels[rot]
+		elif block.placement == block.AXIAL:
+			var axis := _get_longest_axis(look_dir)
+			voxel_id = block.voxels[axis]
 
 	if block.tickable:
 		G.turn.add(Callable(block, "on_tick").bind(pos))
@@ -164,6 +167,24 @@ func draw_line_3d(a: Vector3, b: Vector3, color: Color):
 	g.add_vertex(b)
 	g.end()
 	add_child(g)
+
+
+func get_rotation_from_marker(pos: Vector3):
+	var look_dir = _get_marker_look_dir(pos)
+	var yrot = _get_y_rotation_from_look_dir(look_dir)
+	return yrot
+
+
+func _get_marker_look_dir(pos: Vector3):
+	if get_voxel(pos + Vector3.LEFT) == 2:
+		return Vector3.LEFT
+	elif get_voxel(pos + Vector3.RIGHT) == 2:
+		return Vector3.RIGHT
+	elif get_voxel(pos + Vector3.FORWARD) == 2:
+		return Vector3.FORWARD
+	elif get_voxel(pos + Vector3.BACK) == 2:
+		return Vector3.BACK
+	return Vector3.UP
 
 
 func _get_y_rotation_from_look_dir(dir: Vector3) -> int:

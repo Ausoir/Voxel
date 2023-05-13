@@ -22,11 +22,6 @@
 			"stone"
 		]
 	},
-	"sand": {
-		"voxels": [
-			"sand"
-		]
-	},
 	"glass": {
 		"icon": "-",
 		"voxels": [
@@ -91,14 +86,13 @@
 		}
 	},
 	"chair": {
-		"icon": "c",
 		"voxels": [
 			"chair"
 		]
 	},
 	"spawner": {
 		"voxels": [
-			"marker"
+			"void"
 		],
 		"script": "machine/spawner",
 		"tickable": true
@@ -113,8 +107,10 @@
 	"door": {
 		"icon": "=",
 		"voxels": [
-			"door_ew",
-			"door_ns"
+			"doorbottom_ew",
+			"doorbottom_ns",
+			"doortop_ew",
+			"doortop_ns"
 		],
 		"placement": 2,
 		"script": "doors/door"
@@ -122,12 +118,32 @@
 	"square light": {
 		"voxels": [
 			"square light"
-		]
+		],
+		"script": "lights/light"
+	},
+	"strong light": {
+		"voxels": [
+			"square light"
+		],
+		"data": {
+			"light": 10
+		},
+		"script": "lights/light"
 	},
 	"locker": {
 		"voxels": [
 			"locker"
 		],
 		"script": "containers/locker"
+	},
+	"mirror": {
+		"voxels": [
+			"mirror"
+		]
+	},
+	"counter": {
+		"voxels": [
+			"counter"
+		]
 	}
 }

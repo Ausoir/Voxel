@@ -34,8 +34,8 @@ func _ready():
 	buffs.set_unit(self)
 	_box_mover.set_collision_mask(20)
 	procedure.on_ready(self)
-#	_box_mover.set_step_climbing_enabled(true)
-#	_box_mover.set_max_step_height(.5)
+	_box_mover.set_step_climbing_enabled(true)
+	_box_mover.set_max_step_height(1)
 
 
 func on_damaged(_pos: Vector3):

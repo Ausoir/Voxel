@@ -12,16 +12,15 @@ class RawMapping:
 var _blocks = []
 var _raw_mappings = []
 
-var VOID
 var MARKER
 var SPAWNER
 var STONE
-var SAND
 var SOIL
 var METAL
 var GLASS
 var WALKWAY
 var TILES
+var MIRROR
 
 
 func _init():
@@ -47,7 +46,8 @@ func get_block_by_name(block_name: String) -> Block:
 
 func get_block_by_voxel(raw_id: int):
 	var rm = get_raw_mapping(raw_id)
-	return get_block(rm.block_id)
+	if rm != null:
+		return get_block(rm.block_id)
 
 
 
@@ -61,7 +61,6 @@ func get_block_by_icon(icon):
 func get_raw_mapping(raw_id: int) -> RawMapping:
 	assert(raw_id >= 0)
 	var rm = _raw_mappings[raw_id]
-	assert(rm != null)
 	return rm
 
 

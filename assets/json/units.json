@@ -29,12 +29,12 @@
 		],
 		"equipments": [
 			"labcoat",
-			"security cap",
 			"flashlight"
 		],
 		"items": [
 			"greatsword",
-			"eblade"
+			"remover",
+			"placer"
 		]
 	}
 }

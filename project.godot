@@ -118,6 +118,15 @@ sneak={
 ]
 }
 
+[layer_names]
+
+3d_physics/layer_1="Interact"
+3d_physics/layer_2="Visibility"
+3d_physics/layer_3="Unit"
+3d_physics/layer_4="Projectile"
+3d_physics/layer_5="Pathing"
+3d_physics/layer_6="Perception"
+
 [physics]
 
 3d/physics_engine="Bullet"

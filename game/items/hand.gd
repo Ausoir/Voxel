@@ -31,6 +31,6 @@ func on_held_tick(_user: Node3D):
 	var hit_meta = get_pointed_block(_user, 9)
 	if hit_meta != null:
 		var block = G.tool.get_block(hit_meta.position)
-		if block.on_hover(hit_meta.position):
+		if block != null and block.on_hover(hit_meta.position):
 			return
 	G.ui.set_label("")
