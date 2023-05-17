@@ -7,7 +7,6 @@ var _last_velocity_y = 0
 var _box_mover = VoxelBoxMover.new()
 var _aabb : AABB
 var _last_pos = Vector3()
-var _last_pos_set = false
 
 var sid = "unit"
 var motor = Vector3()
@@ -38,7 +37,13 @@ func _ready():
 	_box_mover.set_max_step_height(1)
 
 
+func perceived(p):
+	pilot.in_range = p
+
+
 func on_damaged(_pos: Vector3):
+	action.set_next("hit", .3)
+	buffs.add("slow", 3)
 	if $Model/Mesh.material_overlay == null:
 		G.stock.make_particle(position + size.y/2, "bleed")
 		$Model/Mesh.material_overlay = overlay_mat
@@ -74,7 +79,7 @@ func get_head():
 
 
 func remove():
-	if _last_pos_set:
+	if _last_pos != null:
 		G.tool.set_voxel(_last_pos, 0)
 	buffs.remove()
 	queue_free()
@@ -109,16 +114,15 @@ func _physics_process(delta):
 		motion.y = min(.17, motion.y)
 	global_translate(motion)
 	
-	var pos = position.floor()
-	if pos != _last_pos:
-		var pos_set = false
-		if grounded and G.tool.get_voxel(pos) == 0:
-			G.tool.set_voxel(pos, 1)
-			pos_set = true
-		if _last_pos_set:
-			G.tool.set_voxel(_last_pos, 0)
-		_last_pos = pos
-		_last_pos_set = pos_set
+	if grounded:
+		var pos = position.floor()
+		if _last_pos != pos:
+			var voxel = G.tool.get_voxel(pos)
+			if voxel == 0:
+				if G.tool.get_voxel(_last_pos) == 1:
+					G.tool.set_voxel(_last_pos, 0)
+				G.tool.set_voxel(pos, 1)
+				_last_pos = pos
 
 	velocity.x *= friction
 	velocity.z *= friction

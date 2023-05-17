@@ -11,8 +11,12 @@ func _on_timeout():
 		for next in chunk:
 			var pos = next[0]
 			var block_id = next[1]
-			var view = next[2]
-			G.tool.set_block(pos, block_id, view)
-	for prop in load_props:
-		G.stock.make_object(prop[0], prop[1])
+			G.tool.set_block(pos, block_id, null)
+	for key in load_props.keys():
+		var chunk = load_props[key]
+		for next in chunk:
+			var pos = next[0]
+			var objectname = next[1]
+			G.stock.make_object(pos, objectname)
 	load_blocks.clear()
+	load_props.clear()

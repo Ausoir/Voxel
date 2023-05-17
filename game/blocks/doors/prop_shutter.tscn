@@ -1,0 +1,83 @@
+[gd_scene load_steps=10 format=3 uid="uid://c5ycc4lfk2y3e"]
+
+[ext_resource type="Script" path="res://game/blocks/doors/prop_shutter.gd" id="1_hu8uw"]
+[ext_resource type="ArrayMesh" uid="uid://5xmindpboht3" path="res://assets/blocks/sideslab_ns.obj" id="2_hq7b8"]
+[ext_resource type="Texture2D" uid="uid://i8rytnqf2ynw" path="res://assets/texture/walkway.png" id="3_onpbv"]
+
+[sub_resource type="Animation" id="Animation_60epc"]
+resource_name = "close"
+length = 0.5
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Collision:position:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(1.95, -0.25, -0.7, 0.25, -0.8, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.5)
+}
+
+[sub_resource type="Animation" id="Animation_3dmg4"]
+resource_name = "open"
+length = 0.5
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Collision:position:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 1.95, -0.25, -0.7, 0.25, -0.8),
+"times": PackedFloat32Array(0, 0.5)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_lt6xh"]
+_data = {
+"close": SubResource("Animation_60epc"),
+"open": SubResource("Animation_3dmg4")
+}
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_42y7s"]
+size = Vector3(1, 2, 0.2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s2n4e"]
+albedo_texture = ExtResource("3_onpbv")
+texture_filter = 0
+texture_repeat = false
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dooxw"]
+albedo_texture = ExtResource("3_onpbv")
+texture_filter = 0
+texture_repeat = false
+
+[node name="Door" type="Node3D"]
+script = ExtResource("1_hu8uw")
+
+[node name="Animator" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_lt6xh")
+}
+
+[node name="Collision" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+
+[node name="Shape" type="CollisionShape3D" parent="Collision"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1, 0.5)
+shape = SubResource("BoxShape3D_42y7s")
+
+[node name="Body" type="MeshInstance3D" parent="Collision"]
+transform = Transform3D(0.995, 0, 0, 0, 1, 0, 0, 0, 0.995, 0, 0, 0)
+mesh = ExtResource("2_hq7b8")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_s2n4e")
+
+[node name="Body2" type="MeshInstance3D" parent="Collision"]
+transform = Transform3D(0.995, 0, 0, 0, 0.99, 0, 0, 0, 0.995, 0, 1, 0)
+mesh = ExtResource("2_hq7b8")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_dooxw")
+
+[connection signal="animation_finished" from="Animator" to="." method="_on_animator_animation_finished"]

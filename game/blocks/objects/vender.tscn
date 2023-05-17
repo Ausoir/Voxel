@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://d3flmpa75iqfc"]
+
+[ext_resource type="ArrayMesh" uid="uid://cjs85p4ishtxi" path="res://assets/objects/o_vender.obj" id="1_7wa0n"]
+[ext_resource type="Script" path="res://game/blocks/objects/vender.gd" id="1_ckfrj"]
+
+[node name="Object" type="Node3D"]
+script = ExtResource("1_ckfrj")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = ExtResource("1_7wa0n")

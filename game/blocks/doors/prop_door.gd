@@ -1,7 +1,7 @@
 extends "res://game/items/prop.gd"
 
 var _activated = true
-var voxel_id
+var voxel_ids
 var voxel_pos
 
 
@@ -18,7 +18,6 @@ func on_interact(_user: Node3D):
 func _on_animator_animation_finished(anim_name):
 	_activated = false
 	if anim_name == "close":
-		G.tool.set_voxel(voxel_pos, voxel_id)
+		G.tool.set_voxel(voxel_pos, voxel_ids[0])
+		G.tool.set_voxel(voxel_pos + Vector3.UP, voxel_ids[1])
 		queue_free()
-	elif anim_name == "open":
-		G.tool.remove_block(voxel_pos)

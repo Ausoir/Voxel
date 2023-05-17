@@ -90,7 +90,7 @@ func _physics_process(_delta):
 
 func _unhandled_input(event):
 	if event is InputEventMouseMotion:
-		if !_interface.on:
+		if !_interface.on and _unit.action.turnable:
 			_camera.update_rotations(event.relative)
 	elif event is InputEventMouseButton:
 		if !_interface.on:

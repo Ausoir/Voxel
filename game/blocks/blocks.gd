@@ -21,6 +21,11 @@ var GLASS
 var WALKWAY
 var TILES
 var MIRROR
+var WOOD
+var BRICK
+var STONEWORK
+var CARPET
+var LABTILES
 
 
 func _init():

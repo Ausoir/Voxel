@@ -93,6 +93,9 @@
 		"delay": 0,
 		"data": {
 			"buildables": [
+				"shutter",
+				"door",
+				"divider",
 				"sink",
 				"toilet"
 			]

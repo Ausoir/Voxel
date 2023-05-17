@@ -25,7 +25,6 @@ func use(_user: Node3D):
 func use2(_user: Node3D):
 	_user.animator.play("swing_down")
 	_user.on_damaged(_user.position)
-	_user.buffs.add("slow", 3)
 
 
 func use_callback(_user: Node3D):

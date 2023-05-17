@@ -8,3 +8,20 @@ classes
 items
  - maints - wire spool, bucket, mop, rubber boots, rubber gloves, light bulbs, headlights
  - tool storage - welder, battery, crowbar
+
+
+weapons
+ - mop, crowbar, pipe, gasblade, eblade, taser, taser gun, laser gun, rail gun
+armor
+ - rubber boots, rubber gloves, labcoat, suit, hazard vest, security vest, hazard suit, security armor, tactical gloves
+helmet
+ - night goggles, security hat, hazard helmet, tactical helmet (thermal)
+other
+ - welder (remove wall), battery (refill welder/gun), keycard (open doors)
+
+
+units
+ - bunny (1), squirrel (3), duckdog (25)
+ - security guard (20)
+ - scientist (5), janitor (1), engineer (10)
+

@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://d2d1gpi8k577a"]
+
+[ext_resource type="ArrayMesh" uid="uid://bbdrdtkmc3720" path="res://assets/objects/o_pot.obj" id="2_ybeqa"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_5dahq"]
+size = Vector3(0.5, 0.4, 0.6)
+
+[node name="Pot" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = ExtResource("2_ybeqa")
+
+[node name="Body" type="StaticBody3D" parent="."]
+collision_layer = 13
+collision_mask = 13
+
+[node name="Shape" type="CollisionShape3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+shape = SubResource("BoxShape3D_5dahq")

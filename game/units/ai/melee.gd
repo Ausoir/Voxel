@@ -48,7 +48,7 @@ func _physics_process(_delta):
 
 
 func perceive():
-	var prop = G.tool.raycast(_from, _unit.forward, 16, 4)
+	var prop = G.tool.raycast(_from, _unit.forward, 16, 2)
 	return prop == null
 
 

@@ -1,10 +1,6 @@
 extends Node
 
 const _CHANNEL_TYPE = VoxelBuffer.CHANNEL_TYPE
-const ROTATION_Y_POSITIVE_Z = 0
-const ROTATION_Y_NEGATIVE_X = 1
-const ROTATION_Y_NEGATIVE_Z = 2
-const ROTATION_Y_POSITIVE_X = 3
 
 @onready var _tool = get_node("../Terrain").get_voxel_tool()
 @onready var _blocks = get_node("../Blocks")
@@ -55,7 +51,7 @@ func set_block(pos: Vector3, block_id: int, look_dir):
 			block.place(pos, look_dir)
 		elif block.placement == block.ROT2:
 			var rot = _get_y_rotation_from_look_dir(look_dir)
-			voxel_id = block.voxels[int(rot/2)]
+			voxel_id = block.voxels[rot % 2]
 		elif block.placement == block.ROT4:
 			var rot = _get_y_rotation_from_look_dir(look_dir)
 			voxel_id = block.voxels[rot]
@@ -191,13 +187,13 @@ func _get_y_rotation_from_look_dir(dir: Vector3) -> int:
 	var a = int(4.0 * (Vector2(dir.x, dir.z).rotated(PI / 4.0).angle() + PI) / TAU)
 	match a:
 		0:
-			return ROTATION_Y_NEGATIVE_X
+			return 3#ROTATION_Y_POSITIVE_X
 		1:
-			return ROTATION_Y_NEGATIVE_Z
+			return 2#ROTATION_Y_NEGATIVE_Z
 		2:
-			return ROTATION_Y_POSITIVE_X
+			return 1#ROTATION_Y_NEGATIVE_X
 		3:
-			return ROTATION_Y_POSITIVE_Z
+			return 0#ROTATION_Y_POSITIVE_Z
 		_:
 			assert(false)
 	return -1

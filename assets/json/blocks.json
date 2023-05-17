@@ -10,6 +10,12 @@
 			"void"
 		]
 	},
+	"special": {
+		"voxels": [
+			"special"
+		],
+		"script": "special"
+	},
 	"soil": {
 		"icon": ",",
 		"voxels": [
@@ -40,11 +46,6 @@
 			"effort": 6
 		}
 	},
-	"slab": {
-		"voxels": [
-			"slab"
-		]
-	},
 	"metal": {
 		"icon": "#",
 		"voxels": [
@@ -66,24 +67,15 @@
 			"table"
 		]
 	},
-	"generator": {
+	"solar panel": {
 		"voxels": [
-			"generator"
-		],
-		"data": {
-			"power": 15,
-			"effort": 10
-		},
-		"script": "machine/power_generator",
-		"tickable": true
+			"solarpanel"
+		]
 	},
 	"walkway": {
 		"voxels": [
 			"walkway"
-		],
-		"data": {
-			"effort": 1
-		}
+		]
 	},
 	"chair": {
 		"voxels": [
@@ -94,8 +86,7 @@
 		"voxels": [
 			"void"
 		],
-		"script": "machine/spawner",
-		"tickable": true
+		"script": "machine/spawner"
 	},
 	"build site": {
 		"voxels": [
@@ -105,15 +96,30 @@
 		"tickable": true
 	},
 	"door": {
-		"icon": "=",
 		"voxels": [
-			"doorbottom_ew",
 			"doorbottom_ns",
-			"doortop_ew",
-			"doortop_ns"
+			"doorbottom_ew",
+			"doortop_ns",
+			"doortop_ew"
 		],
 		"placement": 2,
 		"script": "doors/door"
+	},
+	"shutter": {
+		"voxels": [
+			"shutter_ns",
+			"shutter_ew"
+		],
+		"placement": 2,
+		"script": "doors/shutter"
+	},
+	"divider": {
+		"voxels": [
+			"divider_ew",
+			"divider_ns"
+		],
+		"placement": 2,
+		"script": "doors/divider"
 	},
 	"square light": {
 		"voxels": [
@@ -144,6 +150,66 @@
 	"counter": {
 		"voxels": [
 			"counter"
+		]
+	},
+	"trashcan": {
+		"voxels": [
+			"trashcan"
+		]
+	},
+	"fridge": {
+		"voxels": [
+			"fridge"
+		]
+	},
+	"oven": {
+		"voxels": [
+			"oven"
+		]
+	},
+	"cabinet": {
+		"voxels": [
+			"cabinet"
+		]
+	},
+	"shelf": {
+		"voxels": [
+			"shelf"
+		]
+	},
+	"stonework": {
+		"voxels": [
+			"stonework"
+		]
+	},
+	"labtiles": {
+		"voxels": [
+			"labtiles"
+		]
+	},
+	"carpet": {
+		"voxels": [
+			"carpet"
+		]
+	},
+	"sofa": {
+		"voxels": [
+			"sofa"
+		]
+	},
+	"bookcase": {
+		"voxels": [
+			"bookcase"
+		]
+	},
+	"crate": {
+		"voxels": [
+			"crate"
+		]
+	},
+	"vent": {
+		"voxels": [
+			"vent"
 		]
 	}
 }

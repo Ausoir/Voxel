@@ -15,7 +15,6 @@
 background_color = Color(1, 1, 1, 1)
 ambient_light_source = 1
 reflected_light_source = 1
-ssil_enabled = true
 sdfgi_read_sky_light = false
 glow_mix = 0.1
 glow_bloom = 0.05
@@ -28,7 +27,6 @@ volumetric_fog_albedo = Color(0, 0, 0, 1)
 volumetric_fog_emission_energy = 0.2
 volumetric_fog_gi_inject = 0.0
 volumetric_fog_anisotropy = 0.0
-adjustment_enabled = true
 adjustment_saturation = 1.5
 
 [sub_resource type="VoxelMesherBlocky" id="VoxelMesherBlocky_lmotj"]
