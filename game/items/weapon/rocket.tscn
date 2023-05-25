@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bohu5daapwp6o"]
 
-[ext_resource type="Script" path="res://game/items/rocket/projectile.gd" id="1_crfhe"]
+[ext_resource type="Script" path="res://game/items/weapon/projectile.gd" id="1_crfhe"]
 
 [sub_resource type="CylinderMesh" id="1"]
 top_radius = 0.1

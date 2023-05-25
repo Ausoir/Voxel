@@ -35,7 +35,7 @@ class Buff:
 
 class Slow extends Buff:
 	func on_start():
-		unit.procedure.speed *= .5
+		unit.procedure.speed -= 0.3
 	func on_end():
-		unit.procedure.speed *= 2
+		unit.procedure.speed += 0.3
 

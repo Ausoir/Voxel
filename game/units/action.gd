@@ -18,9 +18,9 @@ func set_unit(unit):
 func on_process(delta):
 	if delay > 0:
 		delay -= delta
-	elif action != null:
-		if _callback != null:
+		if delay <= 0 and _callback != null:
 			_callback.call()
+	elif action != null:
 		_callback = null
 		action = null
 

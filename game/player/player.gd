@@ -31,5 +31,3 @@ func set_unit(p):
 	$View.set_unit(unit)
 	$Control.set_unit(unit)
 	$View.zoom_distance(0)
-	unit._box_mover.set_collision_mask(4)
-	unit._box_mover.set_step_climbing_enabled(false)

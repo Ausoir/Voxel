@@ -12,6 +12,12 @@ class RawMapping:
 var _blocks = []
 var _raw_mappings = []
 
+var theme_floor
+var theme_road
+var theme_alley
+var theme_tiles
+var theme_wall
+var theme_special
 var MARKER
 var SPAWNER
 var STONE
@@ -34,6 +40,12 @@ func _init():
 		var block = dict[blockname]
 		var r = _create_block(blockname, block)
 		set(blockname.to_upper(), r)
+	theme_floor = SOIL#G.blocks.METAL
+	theme_road = WOOD
+	theme_alley = WALKWAY
+	theme_tiles = WOOD
+	theme_wall = STONE#G.blocks.METAL
+	theme_special = LABTILES
 
 
 func get_block(id: int) -> Block:

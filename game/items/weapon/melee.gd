@@ -1,6 +1,6 @@
-extends "../item.gd"
+extends "./weapon.gd"
 
-const RocketScene = preload("../rocket/rocket.tscn")
+var already_hit = []
 
 
 func use(_user: Node3D):
@@ -13,6 +13,7 @@ func use(_user: Node3D):
 		anim_name = data.swings[next_anim]
 	var animation = _user.animator.get_animation(anim_name)
 	if animation != null:
+		already_hit.clear()
 		var speed = data.get("speed", 1.0)
 		var anim_dur = animation.get_length() * (1 / speed)
 		data["swing anim"] = next_anim
@@ -24,7 +25,7 @@ func use(_user: Node3D):
 
 func use2(_user: Node3D):
 	_user.animator.play("swing_down")
-	_user.on_damaged(_user.position)
+	_user.take_hit(0)
 
 
 func use_callback(_user: Node3D):
@@ -46,7 +47,9 @@ func on_held_tick(_user: Node3D):
 				if !prop.is_empty():
 					var unit = prop.collider.get_parent()
 					if unit.get("faction") != null and unit.faction != _user.faction:
-						unit.on_damaged(_user.position)
+						if !(unit in already_hit):
+							already_hit.append(unit)
+							apply_damage(unit, _user.position)
 					else:
 						_deflect(_user, to)
 			else:

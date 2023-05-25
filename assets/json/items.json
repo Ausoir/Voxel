@@ -1,9 +1,11 @@
 {
 	"rocket": {
-		"spritename": "eblade",
-		"modelname": "eblade3d-0-eblade",
-		"script": "rocket/rocket",
-		"delay": 1
+		"spritename": "launcher",
+		"modelname": "launcher3d",
+		"script": "weapon/rocket",
+		"data": {
+			"speed": 0.2
+		}
 	},
 	"flier": {
 		"spritename": "flier",
@@ -110,23 +112,24 @@
 	"summon": {
 		"spritename": "flier",
 		"modelname": "flier-0-flier",
-		"script": "spawner/summon",
-		"delay2": 0
+		"script": "spawner/summon"
 	},
 	"cleaver": {
 		"spritename": "cleaver",
 		"modelname": "cleaver3d",
-		"script": "equipment/weapon",
+		"script": "weapon/melee",
 		"delay": 2,
 		"delay2": 0
 	},
 	"eblade": {
 		"spritename": "eblade",
 		"modelname": "eblade3d-0-eblade",
-		"script": "equipment/weapon",
+		"script": "weapon/melee",
 		"drops": false,
 		"data": {
 			"speed": 1.5,
+			"delay": 0.5,
+			"damage": 8,
 			"swings": [
 				"swing_forward",
 				"swing_right"
@@ -136,14 +139,20 @@
 	"gasblade": {
 		"spritename": "gasblade",
 		"modelname": "gasblade3d",
-		"script": "equipment/weapon",
-		"delay": 2,
-		"delay2": 0
+		"script": "weapon/melee",
+		"data": {
+			"speed": 1.5,
+			"damage": 8,
+			"swings": [
+				"swing_forward",
+				"swing_down"
+			]
+		}
 	},
 	"glaive": {
 		"spritename": "glaive",
 		"modelname": "glaive3d",
-		"script": "equipment/weapon",
+		"script": "weapon/melee",
 		"data": {
 			"swings": [
 				"swing_forward",
@@ -153,20 +162,52 @@
 			]
 		}
 	},
-	"test": {
-		"spritename": "greatsword",
-		"modelname": "greatsword3d",
-		"script": "equipment/weapon",
+	"bow": {
+		"spritename": "bow",
+		"modelname": "bow3d-0-bow",
+		"script": "weapon/ranged",
 		"data": {
-			"swings": [
-				"swing_left"
-			]
+			"speed": 0.3,
+			"spread": 0.2,
+			"damage": 5
+		}
+	},
+	"crossbow": {
+		"spritename": "crossbow",
+		"modelname": "crossbow3d",
+		"script": "weapon/ranged",
+		"data": {
+			"speed": 0.5,
+			"spread": 0.1,
+			"damage": 10
+		}
+	},
+	"taser": {
+		"spritename": "taser",
+		"modelname": "taser3d-0-taser",
+		"script": "weapon/ranged",
+		"data": {
+			"speed": 0.8,
+			"spread": 0.1,
+			"damage": 7,
+			"delay": 1.5
+		}
+	},
+	"pistol": {
+		"spritename": "pistol",
+		"modelname": "pistol3d",
+		"script": "weapon/ranged",
+		"data": {
+			"speed": 4,
+			"spread": 0.2,
+			"damage": 2,
+			"delay": 0.5
 		}
 	},
 	"greatsword": {
 		"spritename": "greatsword",
 		"modelname": "greatsword3d",
-		"script": "equipment/weapon",
+		"script": "weapon/melee",
 		"data": {
 			"speed": 0.7,
 			"swings": [

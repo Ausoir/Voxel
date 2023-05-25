@@ -25,3 +25,18 @@ func pick_and_pop(array):
 		var idx = r.randi_range(0, len(array)-1)
 		return array.pop_at(idx)
 	return null
+
+
+func v3_spread(spread):
+	var x = r.randf_range(-spread, spread)
+	var y = r.randf_range(-spread, spread)
+	var z = r.randf_range(-spread, spread)
+	return Vector3(x, y, z)
+
+
+func roll(times, p):
+	var v = 0
+	for _i in times:
+		v += r.randi_range(1, p)
+	return v
+

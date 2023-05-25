@@ -2,7 +2,7 @@ extends Node
 
 
 class pathnode:
-	var col = 20
+	var col = 4
 	var parent
 	var pos
 	var g = 0
@@ -62,7 +62,8 @@ class pathnode:
 
 var _unit
 var target
-var _chase = 11
+var _chase = 15
+var _iterations = 6
 var _timeout = 0
 var _max_timeout = 1
 var open = null
@@ -139,7 +140,7 @@ func on_turn():
 			next_reset = 1
 		else:
 			next_reset += 1
-		for _times in range(4):
+		for _times in range(_iterations):
 			if open:
 				done = iterate(open[0])
 				if done != null:

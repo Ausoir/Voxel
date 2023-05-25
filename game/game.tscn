@@ -52,8 +52,8 @@ generator = ExtResource("6_ll1tk")
 mesher = SubResource("VoxelMesherBlocky_lmotj")
 bounds = AABB(-5.36871e+08, 0, -5.36871e+08, 1.07374e+09, 64, 1.07374e+09)
 max_view_distance = 257
-collision_layer = 2
-collision_mask = 2
+collision_layer = 8
+collision_mask = 8
 run_stream_in_editor = false
 
 [node name="LateLoader" type="Timer" parent="Terrain"]

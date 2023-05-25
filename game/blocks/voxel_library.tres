@@ -24,12 +24,12 @@
 voxel_name = &"air"
 collision_mask = 0
 
-[sub_resource type="TextMesh" id="TextMesh_s520a"]
+[sub_resource type="TextMesh" id="TextMesh_fhkls"]
 
 [sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_giaje"]
 voxel_name = &"void"
 geometry_type = 2
-custom_mesh = SubResource("TextMesh_s520a")
+custom_mesh = SubResource("TextMesh_fhkls")
 collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
 collision_mask = 16
 collision_enabled_0 = false
@@ -557,6 +557,7 @@ voxel_name = &"stone"
 color = Color(0.521569, 0.521569, 0.521569, 1)
 geometry_type = 1
 collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
+collision_mask = 15
 cube_geometry_padding_y = null
 cube_tiles_left = Vector2(1, 0)
 cube_tiles_right = Vector2(1, 0)

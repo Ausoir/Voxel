@@ -8,8 +8,6 @@ var model : Mesh
 var model2
 var drops = true
 var size = 1
-var delay = 0
-var delay2 = 0
 var part
 var data = {}
 var callback = Callable(self, "use_callback")

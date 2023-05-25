@@ -5,22 +5,25 @@ var callback = Callable(self, "on_activate")
 var door
 
 
+func on_hover(_pos):
+	var meta = G.tool.get_tool().get_voxel_metadata(_pos)
+	if meta != null:
+		G.ui.set_label("Open Door")
+		return true
+
+
 func on_place(_pos: Vector3):
 	var above = _pos + Vector3.UP
 	var current_voxel = G.tool.get_voxel(_pos)
 	var current_id = voxels.find(current_voxel)
 	G.tool.set_voxel(above, voxels[current_id + 2])
-	G.tool.get_tool().set_voxel_metadata(_pos, "Open Door")
-	G.tool.get_tool().set_voxel_metadata(above, "Open Door")
 
 
 func on_remove(_pos: Vector3):
-	G.stock.remove_child(door)
 	var above = _pos + Vector3.UP
-	G.tool.get_tool().set_voxel_metadata(_pos, null)
-	G.tool.get_tool().set_voxel_metadata(above, null)
 	G.tool.set_voxel(above, 0)
 	if door != null:
+		G.stock.remove_child(door)
 		door.queue_free()
 		door = null
 
@@ -33,6 +36,7 @@ func on_interact(_pos: Vector3, _user: Node3D):
 
 
 func on_activate(_pos: Vector3, _user: Node3D):
+	_user.action.set_next("idle", 0)
 	var voxel = G.tool.get_voxel(_pos)
 	door = Door.instantiate()
 	if voxel == voxels[2] or voxel == voxels[3]:
@@ -49,5 +53,5 @@ func on_activate(_pos: Vector3, _user: Node3D):
 	if voxel == voxels[1] or voxel == voxels[3]:
 		door.rotation.y = PI / -2.0
 		door.position.x += 1
-	door.get_node("Animator").play("open")
+	door.get_node("Animator").play("open2")
 

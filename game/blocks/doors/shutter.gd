@@ -1,7 +1,15 @@
 extends "../block.gd"
 
 const Door = preload("./prop_shutter.tscn")
+var callback = Callable(self, "on_activate")
 var door
+
+
+func on_hover(_pos):
+	var meta = G.tool.get_tool().get_voxel_metadata(_pos)
+	if meta != null:
+		G.ui.set_label("Open Shutter")
+		return true
 
 
 func on_place(_pos: Vector3):
@@ -11,13 +19,21 @@ func on_place(_pos: Vector3):
 
 
 func on_remove(_pos: Vector3):
-	G.stock.remove_child(door)
 	if door != null:
+		G.stock.remove_child(door)
 		door.queue_free()
 		door = null
 
 
 func on_interact(_pos: Vector3, _user: Node3D):
+	_user.action.set_next("use", 2, callback.bind(_pos, _user))
+	_user.action.show_progress = true
+	_user.action.cancelable = true
+	_user.action.turnable = false
+
+
+func on_activate(_pos: Vector3, _user: Node3D):
+	_user.action.set_next("idle", 0)
 	var voxel = G.tool.get_voxel(_pos)
 	var above = G.tool.get_voxel(_pos + Vector3.UP)
 	if above == voxel:

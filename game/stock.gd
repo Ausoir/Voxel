@@ -10,11 +10,12 @@ const P_explosion = preload("res://game/fx/explosion/explosion.tscn")
 const P_deflect = preload("res://game/fx/explosion/deflect.tscn")
 const P_demolish = preload("res://game/fx/other/demolish.tscn")
 const P_bleed = preload("res://game/fx/bleed/bleed.tscn")
+const Text = preload("res://game/fx/text.tscn")
 const Unit = preload("res://game/units/unit.tscn")
 const Humanoid = preload("res://game/units/humanoid/humanoid.tscn")
 const Underwear = preload("res://assets/units/a_underwear.obj")
 const IBlank = preload("res://game/units/ai/blank.gd")
-const IMelee = preload("res://game/units/ai/melee.gd")
+const IHuman = preload("res://game/units/ai/humanoid.gd")
 var _model_cache = {}
 var _scene_cache = {}
 
@@ -44,8 +45,6 @@ func make_item(itemname: String):
 		item.model = _get_model("items/", dat.get("modelname", "bag"))
 		if dat.has("model2name"):
 			item.model2 = _get_model("items/", dat.model2name)
-		item.delay = dat.get("delay", 0)
-		item.delay2 = dat.get("delay2", 0)
 		item.drops = dat.get("drops", true)
 		item.part = dat.get("part")
 		item.data = dat.get("data", {}).duplicate()
@@ -70,14 +69,15 @@ func make_unit(pos: Vector3, itemname: String):
 	var data = dict.get(itemname)
 	if data != null:
 		var model = _get_model("units/", data.model)
-		var item = Unit.instantiate()
-		item.set_mesh(model)
-		add_child(item)
-		_attach_ai(item, data)
-		item.sid = itemname
-		item.data = data.get("data", {}).duplicate()
-		item.position = pos
-		return item
+		var unit = Unit.instantiate()
+		unit.set_mesh(model)
+		add_child(unit)
+		_attach_ai(unit, data)
+		unit.sid = itemname
+		unit.data = data.get("data", {}).duplicate()
+		unit.position = pos
+		unit.health = unit.data.get("health", 1)
+		return unit
 
 
 func make_humanoid(parent: Node, pos: Vector3, itemname: String):
@@ -100,14 +100,15 @@ func make_humanoid(parent: Node, pos: Vector3, itemname: String):
 		unit.sid = itemname
 		unit.data = data.get("data", {}).duplicate()
 		unit.position = pos
+		unit.health = unit.data.get("health", 1)
 		return unit
 
 
 func _attach_ai(unit, data):
 	var ai = data.get("ai", "blank")
 	var ai_script = IBlank
-	if ai == "melee":
-		ai_script = IMelee
+	if ai == "human":
+		ai_script = IHuman
 	var pilot := Node.new()
 	pilot.set_script(ai_script)
 	unit.pilot = pilot
@@ -123,6 +124,14 @@ func make_particle(_pos: Vector3, _particlename: String):
 			if child is GPUParticles3D:
 				child.emitting = true
 		add_child(particle)
+
+
+func make_text(_parent, _pos: Vector3, _text):
+	var particle = Text.instantiate()
+	particle.set_text(str(_text))
+	particle.position = _pos
+	_parent.add_child(particle)
+	return particle
 
 
 func make_debris(_pos: Vector3, _amount: int):

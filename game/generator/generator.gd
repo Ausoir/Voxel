@@ -115,13 +115,13 @@ func _load_wall(buffer: VoxelBuffer, origin: Vector3, wall_image, x, y, z):
 				buffer.set_voxel(2, x, y+1, z, _CHANNEL)
 				buffer.set_voxel(2, x, y+2, z, _CHANNEL)
 			[0,0,0]:
-				buffer.fill_area(G.blocks.METAL,
+				buffer.fill_area(G.blocks.theme_wall,
 					Vector3(x, y, z), Vector3(x + 1, y+5, z + 1), _CHANNEL)
 			[2,2,2]:
-				buffer.fill_area(G.blocks.STONEWORK,
+				buffer.fill_area(G.blocks.theme_wall,
 					Vector3(x, y, z), Vector3(x + 1, y+3, z + 1), _CHANNEL)
 			[3,3,3]:
-				buffer.fill_area(G.blocks.STONEWORK,
+				buffer.fill_area(G.blocks.theme_wall,
 					Vector3(x, y, z), Vector3(x + 1, y+2, z + 1), _CHANNEL)
 			[2,1,0]:
 				_add_to_arr(_chunk_late_loads,ox,oy+1,oz,"table")
@@ -134,11 +134,11 @@ func _load_wall(buffer: VoxelBuffer, origin: Vector3, wall_image, x, y, z):
 			[2,0,2]:
 				_add_to_arr(_chunk_late_loads,ox,oy+1,oz,"locker")
 			[0,1,4]:
-				buffer.fill_area(G.blocks.METAL,
+				buffer.fill_area(G.blocks.theme_wall,
 					Vector3(x, y, z), Vector3(x + 1, y+5, z + 1), _CHANNEL)
 				buffer.set_voxel(G.blocks.GLASS, x, y+2, z, _CHANNEL)
 			[0,4,4]:
-				buffer.fill_area(G.blocks.METAL,
+				buffer.fill_area(G.blocks.theme_wall,
 					Vector3(x, y, z), Vector3(x + 1, y+5, z + 1), _CHANNEL)
 				buffer.set_voxel(G.blocks.MIRROR, x, y+2, z, _CHANNEL)
 			[1,0,1]:
@@ -155,13 +155,13 @@ func _load_wall(buffer: VoxelBuffer, origin: Vector3, wall_image, x, y, z):
 			[1,1,0]:
 				_add_to_arr(_chunk_late_loads,ox,oy+1,oz,"solar panel")
 			[2,0,0]:
-				buffer.set_voxel(G.blocks.METAL, x, y+3, z, _CHANNEL)
-				buffer.set_voxel(G.blocks.METAL, x, y+4, z, _CHANNEL)
+				buffer.set_voxel(G.blocks.theme_wall, x, y+3, z, _CHANNEL)
+				buffer.set_voxel(G.blocks.theme_wall, x, y+4, z, _CHANNEL)
 				_add_to_arr(_chunk_late_loads,ox,oy+1,oz,"shutter")
 			[3,1,0]:
 				_add_to_arr(_chunk_late_loads,ox,oy+1,oz,"sofa")
 			[4,0,0]:
-				buffer.set_voxel(G.blocks.METAL, x, y+3, z, _CHANNEL)
+				buffer.set_voxel(G.blocks.theme_wall, x, y+3, z, _CHANNEL)
 				_add_to_arr(_chunk_late_loads,ox,oy+1,oz,"door")
 				_add_to_arr(_chunk_late_loads,ox,oy+4,oz,"vent")
 			[4,0,1]:
@@ -186,7 +186,7 @@ func _load_wall(buffer: VoxelBuffer, origin: Vector3, wall_image, x, y, z):
 			[0,4,1]:
 				_chunk_prop_late_loads.append([Vector3(ox, oy+1, oz), "pot"])
 			[4,4,1]:
-				buffer.set_voxel(G.blocks.METAL, x, y, z, _CHANNEL)
+				buffer.set_voxel(G.blocks.theme_wall, x, y, z, _CHANNEL)
 				_add_to_arr(_chunk_late_loads,ox,oy+4,oz,"square light")
 			[4,4,2]:
 				_add_to_arr(_chunk_late_loads,ox,oy+4,oz,"strong light")
@@ -202,25 +202,25 @@ func _load_floor(buffer: VoxelBuffer, _origin: Vector3, ceiling_pixel: Color, x,
 		var b := roundi(ceiling_pixel.b * 4)
 		match ([r, g, b]):
 			[1,1,1]:
-				buffer.set_voxel(G.blocks.WALKWAY, x, y, z, _CHANNEL)
+				buffer.set_voxel(G.blocks.theme_alley, x, y, z, _CHANNEL)
 			[2,2,2]:
-				buffer.fill_area(G.blocks.STONEWORK,
+				buffer.fill_area(G.blocks.theme_wall,
 					Vector3(x, y-4, z), Vector3(x + 1, y-1, z + 1), _CHANNEL)
 			[3,3,3]:
-				buffer.fill_area(G.blocks.STONEWORK,
+				buffer.fill_area(G.blocks.theme_wall,
 					Vector3(x, y-4, z), Vector3(x + 1, y, z + 1), _CHANNEL)
 			[3,4,0]:
-				buffer.set_voxel(G.blocks.STONEWORK, x, y, z, _CHANNEL)
+				buffer.set_voxel(G.blocks.theme_road, x, y, z, _CHANNEL)
 			[3,0,4]:
-				buffer.set_voxel(G.blocks.LABTILES, x, y, z, _CHANNEL)
+				buffer.set_voxel(G.blocks.theme_special, x, y, z, _CHANNEL)
 			[2,1,0]:
 				buffer.set_voxel(G.blocks.CARPET, x, y, z, _CHANNEL)
 			[0,1,4]:
 				buffer.set_voxel(G.blocks.GLASS, x, y, z, _CHANNEL)
 			[4,2,0]:
-				buffer.set_voxel(G.blocks.TILES, x, y, z, _CHANNEL)
+				buffer.set_voxel(G.blocks.theme_tiles, x, y, z, _CHANNEL)
 			_:
-				buffer.set_voxel(G.blocks.METAL, x, y, z, _CHANNEL)
+				buffer.set_voxel(G.blocks.theme_wall, x, y, z, _CHANNEL)
 	return [_chunk_late_loads, _chunk_prop_late_loads]
 
 

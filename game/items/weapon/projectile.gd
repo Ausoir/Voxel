@@ -7,10 +7,19 @@ const ExplosionScene = preload("res://game/fx/explosion/explosion.tscn")
 var _direction := Vector3(0, 0, 1)
 var _speed := 20.0
 var _remaining_time := LIFETIME
+var _ss
+var _ssparams
+var col_mask = 12
+var callback
+
+
+func _ready():
+	_ss = get_viewport().get_world_3d().get_direct_space_state()
+	_ssparams = PhysicsRayQueryParameters3D.new()
 
 
 func set_direction(direction: Vector3):
-	direction += Vector3(0.0001, 0.0001, 0.001) # Haaaaak
+	direction += Vector3(0.0001, 0.0001, 0.001)
 	_direction = direction.normalized()
 	look_at(global_transform.origin + _direction, Vector3(0, 1, 0))
 
@@ -25,14 +34,13 @@ func _physics_process(delta: float):
 	var crossed_distance := _speed * delta
 	var motion := crossed_distance * _direction
 	
-	var hit = G.tool.raycast(trans.origin, _direction, crossed_distance)
-	if hit != null:
-		G.tool.block_sphere(hit.position, 4.0, 0)
-		G.stock.make_debris(hit.position, 24)
-		G.stock.make_particle(hit.position, "explosion")
-
+	_ssparams.from = trans.origin
+	_ssparams.to = trans.origin + motion
+	_ssparams.collision_mask = col_mask
+	var hit = _ss.intersect_ray(_ssparams)
+	if !hit.is_empty():
+		callback.call(hit)
 		queue_free()
-			
 	else:
 		trans.origin += motion
 		global_transform = trans

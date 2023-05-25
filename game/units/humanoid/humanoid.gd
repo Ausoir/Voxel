@@ -37,7 +37,7 @@ func end_flash():
 
 func on_mesh_set():
 	var head_height = $Model/Body/Head.get_aabb().size.y
-	size = $Model/Body/Mesh.get_aabb().size + Vector3(0, head_height + .3, 0)
+	size = $Model/Body/Mesh.get_aabb().size + Vector3(.5, head_height + .3, .5)
 	$Body/Shape.shape.set_size(size)
 	$Body/Shape.position.y = size.y / 2
 	_aabb = AABB(Vector3(-.3, 0, -.3), Vector3(.6, size.y, .6))

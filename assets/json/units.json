@@ -1,11 +1,15 @@
 {
-	"rabbit": {
-		"model": "rabbit",
-		"ai": "melee"
+	"bunny": {
+		"model": "bunny",
+		"ai": "melee",
+		"data": {
+			"damage": 4,
+			"health": 12
+		}
 	},
 	"security": {
 		"head": "head",
-		"ai": "melee",
+		"ai": "human",
 		"slots": [
 			"body",
 			"head",
@@ -17,8 +21,11 @@
 			"flashlight"
 		],
 		"items": [
-			"eblade"
-		]
+			"taser"
+		],
+		"data": {
+			"health": 30
+		}
 	},
 	"janitor": {
 		"head": "head5",
@@ -32,9 +39,13 @@
 			"flashlight"
 		],
 		"items": [
-			"greatsword",
+			"eblade",
+			"bow",
 			"remover",
 			"summon"
-		]
+		],
+		"data": {
+			"health": 100
+		}
 	}
 }

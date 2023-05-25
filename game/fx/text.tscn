@@ -1,0 +1,65 @@
+[gd_scene load_steps=5 format=3 uid="uid://dqtn36wmfo6r7"]
+
+[ext_resource type="Script" path="res://game/fx/text.gd" id="1_ey6yi"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fsiip"]
+direction = Vector3(0, 1, 0)
+gravity = Vector3(0, -12, 0)
+initial_velocity_min = 8.0
+initial_velocity_max = 10.0
+angular_velocity_min = -20.0
+angular_velocity_max = 20.0
+damping_min = 10.0
+damping_max = 10.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tpxn5"]
+resource_local_to_scene = true
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0.772549, 0, 0, 1)
+texture_filter = 0
+billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_flkrt"]
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_tpxn5")
+size = Vector2(2, 1)
+orientation = 2
+
+[node name="Site" type="Node3D"]
+script = ExtResource("1_ey6yi")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+transparent_bg = true
+snap_2d_transforms_to_pixel = true
+snap_2d_vertices_to_pixel = true
+size = Vector2i(128, 64)
+
+[node name="Label" type="Label" parent="SubViewport"]
+custom_minimum_size = Vector2(128, 64)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -12.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_shadow_color = Color(0.321569, 0.321569, 0.321569, 1)
+theme_override_font_sizes/font_size = 40
+text = "3"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+uppercase = true
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+emitting = false
+amount = 1
+lifetime = 0.6
+one_shot = true
+fixed_fps = 60
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_fsiip")
+draw_pass_1 = SubResource("PlaneMesh_flkrt")

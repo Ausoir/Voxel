@@ -2,11 +2,15 @@ extends "res://game/items/prop.gd"
 
 signal pressed
 
+const HEALTHBAR = preload("./healthbar/healthbar.tscn")
 
 var _last_velocity_y = 0
 var _box_mover = VoxelBoxMover.new()
 var _aabb : AABB
-var _last_pos = Vector3()
+var _space_state
+var _space_state_params
+var _flash_tween
+var _healthbar
 
 var sid = "unit"
 var motor = Vector3()
@@ -22,6 +26,7 @@ var procedure = preload("./procedure.gd").new()
 var buffs = preload("./buffs.gd").new()
 var overlay_mat = preload("./flash_red.tres").duplicate()
 var pilot
+var health = 1
 
 @onready var body = $Body
 @onready var animator = $Animator
@@ -31,26 +36,48 @@ var pilot
 func _ready():
 	action.set_unit(self)
 	buffs.set_unit(self)
-	_box_mover.set_collision_mask(20)
+	_box_mover.set_collision_mask(4)
 	procedure.on_ready(self)
 	_box_mover.set_step_climbing_enabled(true)
 	_box_mover.set_max_step_height(1)
+	_space_state = get_viewport().get_world_3d().get_direct_space_state()
+	_space_state_params = PhysicsPointQueryParameters3D.new()
+	_space_state_params.collision_mask = 16
+	_space_state_params.set_exclude([$Body.get_rid()])
 
 
 func perceived(p):
 	pilot.in_range = p
 
 
+func take_hit(dmg):
+	if _healthbar == null:
+		_healthbar = HEALTHBAR.instantiate()
+		_healthbar.position = Vector3(0, size.y + 0.1, 0)
+		add_child(_healthbar)
+		_healthbar.set_max(data.get("health", 1))
+	G.stock.make_text(self, Vector3(0, size.y + 0.1, 0), dmg)
+	health -= dmg
+	if health <= 0:
+		$Body.collision_layer = 0
+		animator.play("die")
+		action.force_set_next("idle", 999)
+		_healthbar.set_current(0)
+	else:
+		_healthbar.set_current(health)
+
+
 func on_damaged(_pos: Vector3):
 	action.set_next("hit", .3)
 	buffs.add("slow", 3)
 	if $Model/Mesh.material_overlay == null:
-		G.stock.make_particle(position + size.y/2, "bleed")
+		var pos = position + Vector3(0, size.y/2, 0)
+		G.stock.make_particle(pos, "bleed")
 		$Model/Mesh.material_overlay = overlay_mat
-		var tween = get_tree().create_tween()
+		_flash_tween = get_tree().create_tween()
 		overlay_mat.albedo_color = Color(.8, 0, 0, 1)
-		tween.tween_property(overlay_mat, "albedo_color", Color.TRANSPARENT, .5)
-		tween.tween_callback(end_flash)
+		_flash_tween.tween_property(overlay_mat, "albedo_color", Color.TRANSPARENT, .5)
+		_flash_tween.tween_callback(Callable(self, "end_flash"))
 		velocity += ((position-_pos).normalized() + Vector3.UP) * 4
 
 
@@ -68,7 +95,7 @@ func get_mesh():
 
 
 func on_mesh_set():
-	size = $Model/Mesh.get_aabb().size + Vector3(0, .3, 0)
+	size = $Model/Mesh.get_aabb().size + Vector3(.2, .3, .2)
 	$Body/Shape.shape.set_size(size)
 	$Body/Shape.position.y = size.y / 2
 	_aabb = AABB(Vector3(-.3, 0, -.3), Vector3(.6, size.y, .6))
@@ -79,13 +106,26 @@ func get_head():
 
 
 func remove():
-	if _last_pos != null:
-		G.tool.set_voxel(_last_pos, 0)
+	if _healthbar != null:
+		_healthbar.remove()
+	if _flash_tween != null:
+		_flash_tween.stop()
 	buffs.remove()
 	queue_free()
 
 
 func _physics_process(delta):
+	if grounded:
+		var center = position + Vector3(0, .2, 0)
+		_space_state_params.position = center
+		var hits = _space_state.intersect_point(_space_state_params, 1)
+		for hit in hits:
+			var t = hit.collider.get_parent()
+			velocity += (position - t.position).normalized() * 4
+			t.action.set_next("idle", .5)
+			action.set_next("idle", .5)
+			motor = Vector3.ZERO
+
 	if motor.length_squared() > 0:
 		rotation.y = lerp_angle(rotation.y, atan2(motor.x, motor.z), .2)
 		var walk_speed = velocity.length()
@@ -111,18 +151,8 @@ func _physics_process(delta):
 		grounded = false
 		_last_velocity_y = prev_motion.y
 	if _box_mover.has_stepped_up():
-		motion.y = min(.17, motion.y)
+		motion = Vector3(0, min(.17, motion.y), 0)
 	global_translate(motion)
-	
-	if grounded:
-		var pos = position.floor()
-		if _last_pos != pos:
-			var voxel = G.tool.get_voxel(pos)
-			if voxel == 0:
-				if G.tool.get_voxel(_last_pos) == 1:
-					G.tool.set_voxel(_last_pos, 0)
-				G.tool.set_voxel(pos, 1)
-				_last_pos = pos
 
 	velocity.x *= friction
 	velocity.z *= friction

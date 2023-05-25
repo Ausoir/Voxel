@@ -86,7 +86,8 @@
 		"voxels": [
 			"void"
 		],
-		"script": "machine/spawner"
+		"script": "machine/spawner",
+		"tickable": true
 	},
 	"build site": {
 		"voxels": [
@@ -115,8 +116,8 @@
 	},
 	"divider": {
 		"voxels": [
-			"divider_ew",
-			"divider_ns"
+			"divider_ns",
+			"divider_ew"
 		],
 		"placement": 2,
 		"script": "doors/divider"
