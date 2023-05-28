@@ -26,7 +26,7 @@ func on_remove(_pos: Vector3):
 
 
 func on_interact(_pos: Vector3, _user: Node3D):
-	pass
+	return false
 
 
 func on_hover(_pos: Vector3):

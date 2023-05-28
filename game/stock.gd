@@ -4,6 +4,7 @@ extends Node
 const Library := preload("res://game/blocks/voxel_library.tres")
 const Item = preload("res://game/items/item.gd")
 const Item_JSON = preload("res://assets/json/items.json")
+const Item_Bag = preload("res://assets/item/bag.obj")
 const Unit_JSON = preload("res://assets/json/units.json")
 const Debris = preload("res://game/fx/debris.tscn")
 const P_explosion = preload("res://game/fx/explosion/explosion.tscn")
@@ -13,17 +14,28 @@ const P_bleed = preload("res://game/fx/bleed/bleed.tscn")
 const Text = preload("res://game/fx/text.tscn")
 const Unit = preload("res://game/units/unit.tscn")
 const Humanoid = preload("res://game/units/humanoid/humanoid.tscn")
-const Underwear = preload("res://assets/units/a_underwear.obj")
+const Underwear = preload("res://assets/unit/a_underwear.obj")
 const IBlank = preload("res://game/units/ai/blank.gd")
-const IHuman = preload("res://game/units/ai/humanoid.gd")
+const IBeast = preload("res://game/units/ai/beast.gd")
+const IHuman = preload("res://game/units/ai/sentient.gd")
+const IShooter = preload("res://game/units/ai/shooter.gd")
 var _model_cache = {}
 var _scene_cache = {}
+var _image_cache = {}
 
 
-func _get_model(path: String, modelname: String):
+func get_image(imgname: String):
+	var sprite = _image_cache.get(imgname)
+	if sprite == null:
+		sprite = load(str("res://assets/", imgname, ".png"))
+		_image_cache[imgname] = sprite
+	return sprite
+
+
+func _get_model(modelname: String):
 	var model = _model_cache.get(modelname)
 	if model == null:
-		model = load(str("res://assets/", path, modelname, ".obj"))
+		model = load(str("res://assets/", modelname, ".obj"))
 		_model_cache[modelname] = model
 	return model
 
@@ -41,11 +53,13 @@ func make_item(itemname: String):
 			item = Item.new()
 		
 		item.sid = itemname
-		item.sprite = load("res://assets/items/" + dat.spritename + ".png")
-		item.model = _get_model("items/", dat.get("modelname", "bag"))
+		item.sprite = load("res://assets/" + dat.spritename + ".png")
+		if dat.has("modelname"):
+			item.model = _get_model(dat.modelname)
+		else:
+			item.model = Item_Bag
 		if dat.has("model2name"):
-			item.model2 = _get_model("items/", dat.model2name)
-		item.drops = dat.get("drops", true)
+			item.model2 = _get_model(dat.model2name)
 		item.part = dat.get("part")
 		item.data = dat.get("data", {}).duplicate()
 		return item
@@ -68,15 +82,15 @@ func make_unit(pos: Vector3, itemname: String):
 	var dict = Unit_JSON.get_data()
 	var data = dict.get(itemname)
 	if data != null:
-		var model = _get_model("units/", data.model)
+		var model = _get_model(data.model)
 		var unit = Unit.instantiate()
-		unit.set_mesh(model)
 		add_child(unit)
-		_attach_ai(unit, data)
+		unit.set_mesh(model)
 		unit.sid = itemname
 		unit.data = data.get("data", {}).duplicate()
 		unit.position = pos
 		unit.health = unit.data.get("health", 1)
+		_attach_ai(unit, data)
 		return unit
 
 
@@ -85,30 +99,36 @@ func make_humanoid(parent: Node, pos: Vector3, itemname: String):
 	var data = dict.get(itemname)
 	if data != null:
 		var unit = Humanoid.instantiate()
-		var head_model = _get_model("items/head/", data.head)
+		var head_model = _get_model(data.head)
 		unit.headmesh = head_model
 		unit.set_head_mesh(head_model)
 		parent.add_child(unit)
-		_attach_ai(unit, data)
 		for i in data.slots:
 			unit.equipment.add_slot(i)
 		for i in data.equipments:
 			unit.equipment.wear(G.stock.make_item(i))
 		for i in data.items:
 			unit.equipment.pickup(G.stock.make_item(i))
+		for i in data.get("souls", []):
+			unit.equipment.absorb(G.stock.make_item(i))
 		unit.equipment.set_held_index(0)
 		unit.sid = itemname
 		unit.data = data.get("data", {}).duplicate()
 		unit.position = pos
 		unit.health = unit.data.get("health", 1)
+		_attach_ai(unit, data)
 		return unit
 
 
 func _attach_ai(unit, data):
 	var ai = data.get("ai", "blank")
 	var ai_script = IBlank
-	if ai == "human":
+	if ai == "beast":
+		ai_script = IBeast
+	elif ai == "human":
 		ai_script = IHuman
+	elif ai == "shooter":
+		ai_script = IShooter
 	var pilot := Node.new()
 	pilot.set_script(ai_script)
 	unit.pilot = pilot

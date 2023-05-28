@@ -18,18 +18,15 @@ func use(_user: Node3D):
 		var anim_dur = animation.get_length() * (1 / speed)
 		data["swing anim"] = next_anim
 		if _user.animator.current_animation == anim_name:
-			_user.animator.seek(0)
+			_user.animator.seek(0, true)
 		_user.animator.play(anim_name, .1, speed)
-		_user.action.force_set_next("use", anim_dur - .2, callback.bind(_user))
+		_user.action.force_set_next("use", anim_dur)
 
 
 func use2(_user: Node3D):
+	_user.take_hit(5)
+	_user.buffs.add("regeneration", 5)
 	_user.animator.play("swing_down")
-	_user.take_hit(0)
-
-
-func use_callback(_user: Node3D):
-	_user.animator.play("RESET")
 
 
 func on_held_tick(_user: Node3D):

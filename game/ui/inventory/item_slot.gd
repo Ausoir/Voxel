@@ -1,6 +1,8 @@
 extends Control
 
 signal pressed
+signal hover
+signal unhover
 
 @onready var _selection = $Selection
 @onready var _display = $TextureRect
@@ -41,4 +43,3 @@ func set_item(item, fallback=null):
 		_display.set_texture(fallback)
 	else:
 		_display.set_texture(item.sprite)
-

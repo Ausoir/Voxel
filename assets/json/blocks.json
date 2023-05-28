@@ -72,9 +72,9 @@
 			"solarpanel"
 		]
 	},
-	"walkway": {
+	"brick": {
 		"voxels": [
-			"walkway"
+			"brick"
 		]
 	},
 	"chair": {
@@ -211,6 +211,11 @@
 	"vent": {
 		"voxels": [
 			"vent"
+		]
+	},
+	"barrel": {
+		"voxels": [
+			"barrel"
 		]
 	}
 }

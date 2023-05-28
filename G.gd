@@ -9,6 +9,7 @@ const V_HALF = Vector3(.5, .5, .5)
 const V2_HALF = Vector3(.5, 0, .5)
 
 var rng = preload("res://game/rng.gd").new()
+var skills = preload("res://game/player/skills.gd").new()
 var you
 @onready var terrain = get_node("/root/Game/Terrain")
 @onready var late_loader = get_node("/root/Game/Terrain/LateLoader")

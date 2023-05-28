@@ -27,10 +27,10 @@ func pick_and_pop(array):
 	return null
 
 
-func v3_spread(spread):
-	var x = r.randf_range(-spread, spread)
-	var y = r.randf_range(-spread, spread)
-	var z = r.randf_range(-spread, spread)
+func v3_spread(dx, dy, dz):
+	var x = r.randf_range(-dx, dx)
+	var y = r.randf_range(-dy, dy)
+	var z = r.randf_range(-dz, dz)
 	return Vector3(x, y, z)
 
 

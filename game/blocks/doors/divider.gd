@@ -23,4 +23,4 @@ func on_interact(_pos: Vector3, _user: Node3D):
 		door.rotation.y = PI / -2.0
 		door.position.x += 1
 	door.get_node("Animator").play("open")
-
+	return true

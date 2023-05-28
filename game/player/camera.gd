@@ -12,12 +12,16 @@ var _pitch = 0
 var _offset = Vector3()
 var _player_mesh
 var _player_helm_mesh
+var _override_pos
 
 
 func _ready():
-	_offset = get_position()
 	if capture_mouse:
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+
+
+func set_override(p):
+	_override_pos = p
 
 
 func set_unit(p):
@@ -27,8 +31,10 @@ func set_unit(p):
 
 
 func _process(_delta):
-	var offset = Vector3(0, _unit.size.y - .2, 0)
-	position = _unit.position + offset
+	if _override_pos != null:
+		position = _override_pos
+	else:
+		position = _unit.position + _offset
 
 
 func update_rotations(motion):
@@ -51,9 +57,11 @@ func zoom_distance(zoom):
 	if distance == 0:
 		_player_mesh.hide()
 		_player_helm_mesh.hide()
+		_offset = Vector3(0, _unit.size.y * 2.0/3, 0)
 	else:
 		_player_mesh.show()
 		_player_helm_mesh.show()
+		_offset = Vector3(0, _unit.size.y - .2, 0)
 	update_rotations(Vector3())
 
 

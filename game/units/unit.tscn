@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://deg2hepx3hxbb"]
 
 [ext_resource type="Script" path="res://game/units/unit.gd" id="1_bm7jk"]
-[ext_resource type="ArrayMesh" uid="uid://cnld3h001cg7" path="res://assets/units/squirrel.obj" id="2_8s5si"]
+[ext_resource type="ArrayMesh" uid="uid://cnld3h001cg7" path="res://assets/unit/squirrel.obj" id="2_ktw0w"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_l645e"]
 
@@ -56,6 +56,34 @@ tracks/3/keys = {
 "times": PackedFloat32Array(0)
 }
 
+[sub_resource type="Animation" id="Animation_jc8jw"]
+resource_name = "die"
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Model:rotation:z")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.5, 0, -1.5708, 0, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.5)
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.9),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"remove"
+}]
+}
+
 [sub_resource type="Animation" id="Animation_yljhu"]
 resource_name = "tackle"
 loop_mode = 1
@@ -94,6 +122,20 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
 "values": [Vector3(1, 1, 1), Vector3(1, 1, 1), Vector3(1, 1.1, 1)]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.3),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [&"attack"],
+"method": &"emit_signal"
+}]
 }
 
 [sub_resource type="Animation" id="Animation_648vp"]
@@ -137,34 +179,6 @@ tracks/2/keys = {
 "values": [Vector3(0, 0, 0), Vector3(0, 0.210885, 0.0922983), Vector3(0, 0, 0), Vector3(0.106933, 0.196235, 0.156874)]
 }
 
-[sub_resource type="Animation" id="Animation_jc8jw"]
-resource_name = "die"
-tracks/0/type = "bezier"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Model:rotation:z")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"handle_modes": PackedInt32Array(0, 0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.5, 0, -1.5708, 0, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 0.5)
-}
-tracks/1/type = "method"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0.9),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [],
-"method": &"remove"
-}]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_xtjas"]
 _data = {
 "RESET": SubResource("Animation_gxnwv"),
@@ -175,6 +189,7 @@ _data = {
 
 [node name="Unit" type="Node3D"]
 script = ExtResource("1_bm7jk")
+_mesh_path = NodePath("Model/Mesh")
 
 [node name="Body" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
@@ -187,7 +202,7 @@ shape = SubResource("BoxShape3D_l645e")
 [node name="Model" type="Node3D" parent="."]
 
 [node name="Mesh" type="MeshInstance3D" parent="Model"]
-mesh = ExtResource("2_8s5si")
+mesh = ExtResource("2_ktw0w")
 skeleton = NodePath("")
 
 [node name="Animator" type="AnimationPlayer" parent="."]

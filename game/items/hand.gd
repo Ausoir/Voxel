@@ -2,6 +2,8 @@ extends "item.gd"
 
 
 func use(_user: Node3D):
+	_user.motor = Vector3()
+	_user.animator.play("RESET")
 	if !_pickup(_user):
 		_interact(_user)
 
@@ -19,7 +21,17 @@ func _interact(_user: Node3D):
 	var hit = get_pointed_block(_user)
 	if hit != null:
 		var block = G.tool.get_block(hit.position)
-		block.on_interact(hit.position, _user)
+		if !block.on_interact(hit.position, _user):
+			if "earth" in _user.essence:
+				var plane = _user.forward
+				var cardinal = G.tool.cardinalize(_user.forward)
+				var dest = _user.position.floor() + G.V2_HALF + cardinal * 2.5
+				if G.tool.get_voxel(dest) == 0 and G.tool.get_voxel(dest + Vector3.UP) == 0 and G.tool.get_voxel(dest + Vector3.DOWN) != 0:
+					_user.action.set_next("passwall", 3, G.you.camera.set_override.bind(null))
+					_user.action.on_tick = G.skills.passwall.bind(_user, dest)
+					if _user == G.you:
+						G.you.camera.zoom_distance(1)
+						G.you.camera.set_override(G.you.camera.position)
 
 
 func get_interact_object(_user: Node3D):

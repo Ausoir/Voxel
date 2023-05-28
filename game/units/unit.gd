@@ -1,6 +1,6 @@
 extends "res://game/items/prop.gd"
 
-signal pressed
+signal attack
 
 const HEALTHBAR = preload("./healthbar/healthbar.tscn")
 
@@ -27,7 +27,10 @@ var buffs = preload("./buffs.gd").new()
 var overlay_mat = preload("./flash_red.tres").duplicate()
 var pilot
 var health = 1
+var essence = []
 
+var _mesh
+@export var _mesh_path: NodePath
 @onready var body = $Body
 @onready var animator = $Animator
 @onready var _terrain = get_node("/root/Game/Terrain")
@@ -40,6 +43,7 @@ func _ready():
 	procedure.on_ready(self)
 	_box_mover.set_step_climbing_enabled(true)
 	_box_mover.set_max_step_height(1)
+	_mesh = get_node(_mesh_path)
 	_space_state = get_viewport().get_world_3d().get_direct_space_state()
 	_space_state_params = PhysicsPointQueryParameters3D.new()
 	_space_state_params.collision_mask = 16
@@ -56,46 +60,44 @@ func take_hit(dmg):
 		_healthbar.position = Vector3(0, size.y + 0.1, 0)
 		add_child(_healthbar)
 		_healthbar.set_max(data.get("health", 1))
-	G.stock.make_text(self, Vector3(0, size.y + 0.1, 0), dmg)
+	if "scout" in G.you.essence:
+		G.stock.make_text(self, Vector3(0, size.y + 0.1, 0), dmg)
 	health -= dmg
 	if health <= 0:
-		$Body.collision_layer = 0
-		animator.play("die")
-		action.force_set_next("idle", 999)
-		_healthbar.set_current(0)
+		die()
 	else:
 		_healthbar.set_current(health)
+		if dmg > 0:
+			if "warrior" in G.you.essence and !buffs.has("regeneration cooldown"):
+				buffs.add("regeneration", 4)
+				buffs.add("regeneration cooldown", 30)
 
 
 func on_damaged(_pos: Vector3):
 	action.set_next("hit", .3)
-	buffs.add("slow", 3)
-	if $Model/Mesh.material_overlay == null:
-		var pos = position + Vector3(0, size.y/2, 0)
-		G.stock.make_particle(pos, "bleed")
-		$Model/Mesh.material_overlay = overlay_mat
+	if _mesh.material_overlay == null:
+		G.stock.make_particle(position + Vector3(0, size.y/2, 0), "bleed")
+		_mesh.material_overlay = overlay_mat
 		_flash_tween = get_tree().create_tween()
-		overlay_mat.albedo_color = Color(.8, 0, 0, 1)
-		_flash_tween.tween_property(overlay_mat, "albedo_color", Color.TRANSPARENT, .5)
-		_flash_tween.tween_callback(Callable(self, "end_flash"))
+		overlay_mat.albedo_color = Color(1, 0, 0, 1)
+		_flash_tween.tween_property(overlay_mat, "albedo_color", Color.TRANSPARENT, .7)
+		_flash_tween.tween_callback(end_flash)
 		velocity += ((position-_pos).normalized() + Vector3.UP) * 4
+		return true
+	return false
 
 
 func end_flash():
-	$Model/Mesh.material_overlay = null
+	_mesh.material_overlay = null
 
 
 func set_mesh(new_mesh):
-	$Model/Mesh.set_mesh(new_mesh)
+	_mesh.set_mesh(new_mesh)
 	on_mesh_set()
 
 
-func get_mesh():
-	return $Model/Mesh
-
-
 func on_mesh_set():
-	size = $Model/Mesh.get_aabb().size + Vector3(.2, .3, .2)
+	size = _mesh.get_aabb().size + Vector3(.2, .3, .2)
 	$Body/Shape.shape.set_size(size)
 	$Body/Shape.position.y = size.y / 2
 	_aabb = AABB(Vector3(-.3, 0, -.3), Vector3(.6, size.y, .6))
@@ -103,6 +105,15 @@ func on_mesh_set():
 
 func get_head():
 	return position + Vector3(0, size.y - .1, 0)
+
+
+func die():
+	motor = Vector3()
+	pilot.set_physics_process(false)
+	$Body.collision_layer = 0
+	animator.play("die")
+	action.force_set_next("idle", 999)
+	_healthbar.set_current(0)
 
 
 func remove():

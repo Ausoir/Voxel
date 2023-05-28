@@ -24,7 +24,7 @@ func set_max(p: int):
 func set_current(p: int):
 	_bar.set_value(_target_current)
 	_target_current = p
-	_lifetime = 1
+	_lifetime = max(_lifetime, 1)
 	show()
 
 

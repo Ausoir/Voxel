@@ -19,19 +19,12 @@ func _ready():
 
 
 func on_damaged(_pos: Vector3):
-	if $Model/Body/Mesh.material_overlay == null:
-		G.stock.make_particle(position + Vector3(0, size.y/2, 0), "bleed")
-		$Model/Body/Mesh.material_overlay = overlay_mat
+	if super(_pos):
 		$Model/Body/Head.material_overlay = overlay_mat
-		var tween = get_tree().create_tween()
-		overlay_mat.albedo_color = Color(1, 0, 0, 1)
-		tween.tween_property(overlay_mat, "albedo_color", Color.TRANSPARENT, 1)
-		tween.tween_callback(end_flash)
-		velocity += ((position-_pos).normalized() + Vector3.UP) * 4
 
 
 func end_flash():
-	$Model/Body/Mesh.material_overlay = null
+	super()
 	$Model/Body/Head.material_overlay = null
 
 
@@ -46,15 +39,6 @@ func on_mesh_set():
 func set_head_mesh(new_mesh):
 	$Model/Body/Head.set_mesh(new_mesh)
 	on_mesh_set()
-
-
-func set_mesh(new_mesh):
-	$Model/Body/Mesh.set_mesh(new_mesh)
-	on_mesh_set()
-
-
-func get_mesh():
-	return $Model/Body/Mesh
 
 
 func _physics_process(_delta):

@@ -53,6 +53,7 @@ func _physics_process(_delta):
 	if !_interface.on:
 		_unit.motor = Vector3()
 		if _unit.grounded:
+			var has_moved = true
 			if Input.is_action_pressed("jump"):
 				if _debug_mode:
 					_unit.velocity.y += 12
@@ -79,12 +80,17 @@ func _physics_process(_delta):
 				else:
 					if Input.is_action_pressed("left"):
 						_unit.action.set_next("walkL", 0)
-					if Input.is_action_pressed("right"):
+					elif Input.is_action_pressed("right"):
 						_unit.action.set_next("walkR", 0)
-			if Input.is_action_pressed("use"):
-				_unit.procedure.use()
-			if Input.is_action_pressed("use2"):
-				_unit.procedure.use2()
+					else:
+						has_moved = false
+			if !has_moved:
+				if Input.is_action_pressed("use"):
+					_unit.procedure.use()
+				elif Input.is_action_pressed("use2"):
+					_unit.procedure.use2()
+				else:
+					_unit.action.set_next("idle", 0)
 	_unit.action.on_process(_delta)
 
 
@@ -99,18 +105,28 @@ func _unhandled_input(event):
 			elif Input.is_action_just_pressed("zoom in"):
 				_camera.zoom_distance(-1)
 			elif Input.is_action_just_pressed("select next"):
-				_unit.equipment.increment_held_index(1)
+				if _unit.action.set_next("wield", 0.6, _unit.equipment.increment_held_index.bind(1)):
+					_unit.animator.play("RESET")
+					_unit.action.show_progress = true
 			elif Input.is_action_just_pressed("select previous"):
-				_unit.equipment.increment_held_index(-1)
+				if _unit.action.set_next("wield", 0.6, _unit.equipment.increment_held_index.bind(-1)):
+					_unit.animator.play("RESET")
+					_unit.action.show_progress = true
 	elif event is InputEventKey:
 		if Input.is_action_just_pressed("ui_menu"):
 			_interface.display(_menu_settings)
+			_unit.take_hit(0)
+			_unit.action.set_next("wield", 0.6)
 		elif Input.is_action_just_pressed("ui_inventory"):
 			_interface.display(_menu_inventory)
+			_unit.take_hit(0)
+			_unit.action.set_next("wield", 0.6)
 		elif Input.is_action_just_pressed("debug"):
 			_debug_mode = !_debug_mode
 		elif event.pressed:
 			if _hotbar_keys.has(event.keycode):
-				var slot_index = _hotbar_keys[event.keycode]
-				_unit.equipment.set_held_index(slot_index)
+				var v = _hotbar_keys[event.keycode]
+				if _unit.action.set_next("wield", 0.6, _unit.equipment.set_held_index.bind(v)):
+					_unit.animator.play("RESET")
+					_unit.action.show_progress = true
 

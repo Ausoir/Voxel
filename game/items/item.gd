@@ -6,7 +6,6 @@ var sid := ""
 var sprite : Texture2D
 var model : Mesh
 var model2
-var drops = true
 var size = 1
 var part
 var data = {}
@@ -27,7 +26,7 @@ func use_callback(_user: Node3D):
 
 func get_pointed_block(_user: Node3D, col=3):
 	var origin = _user.camera.global_position
-	var hit = G.tool.raycast(origin, _user.forward, 2, col)
+	var hit = G.tool.raycast(origin, _user.forward, 1, col)
 	return hit
 
 
@@ -49,6 +48,11 @@ func to_prop_item():
 	var floor_item = Item.instantiate()
 	floor_item.set_item(self)
 	return floor_item
+
+
+func get_description():
+	var r = data.get("desc", "")
+	return str("[b]",sid.capitalize(), "[/b]\n", r)
 
 
 func on_held(_user):

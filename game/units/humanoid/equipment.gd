@@ -4,19 +4,26 @@ signal changed
 signal selected
 
 var _unit
-var _inventory = []
-var _held_index = -1
 var equipment = {}
+var essence = []
+var _inventory = []
 var max_inventory_size = 2
+var _held_index = -1
 var swinging: int = 0
 
 
 func _ready():
 	update_inventory()
+	update_essence(2)
 
 
 func set_unit(unit):
 	_unit = unit
+
+
+func update_essence(p):
+	essence.resize(p)
+	emit_signal("changed")
 
 
 func update_inventory():
@@ -24,16 +31,16 @@ func update_inventory():
 	emit_signal("changed")
 
 
-func add_slot(slot):
-	if !(slot in equipment):
-		equipment[slot] = null
-		emit_signal("changed")
-
-
 func add_inventory(times):
 	max_inventory_size += times
 	update_inventory()
 	emit_signal("changed")
+
+
+func add_slot(slot):
+	if !(slot in equipment):
+		equipment[slot] = null
+		emit_signal("changed")
 
 
 func get_inventory_size():
@@ -57,7 +64,12 @@ func set_item_by_index(i, item):
 		unwear(key)
 		wear(item)
 	else:
-		_inventory[i - eq_size] = item
+		var ieq_size = eq_size + _inventory.size()
+		if i < ieq_size:
+			_inventory[i - eq_size] = item
+		elif item.part != null and item.part == "essence":
+			absorb(item)
+			return
 	emit_signal("selected")
 
 
@@ -70,8 +82,12 @@ func get_item_by_index(i):
 	if i < eq_size:
 		var key = equipment.keys()[i]
 		return equipment[key]
-	elif i < _inventory.size() + eq_size:
-		return _inventory[i - eq_size]
+	else:
+		var ieq_size = _inventory.size() + eq_size
+		if i < ieq_size:
+			return _inventory[i - eq_size]
+		elif i < ieq_size + essence.size():
+			return essence[i - ieq_size]
 
 
 func increment_held_index(i):
@@ -83,6 +99,17 @@ func increment_held_index(i):
 func _adjust_held_index():
 	var eq_size = equipment.size()
 	_held_index = clamp(_held_index, eq_size, eq_size + _inventory.size() - 1)
+
+
+func absorb(ess):
+	for i in range(essence.size()):
+		if essence[i] == null:
+			essence[i] = ess
+			_unit.essence.append(ess.data.essence)
+			_unit.procedure.speed += ess.data.get("speed", 0)
+			_unit.health += ess.data.get("health", 0)
+			emit_signal("changed")
+			return true
 
 
 func pickup(item):

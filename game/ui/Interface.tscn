@@ -1,11 +1,11 @@
-[gd_scene load_steps=13 format=3 uid="uid://d2bedp1vuwbx5"]
+[gd_scene load_steps=14 format=3 uid="uid://d2bedp1vuwbx5"]
 
 [ext_resource type="Script" path="res://game/ui/interface.gd" id="1_vn1vd"]
 [ext_resource type="Script" path="res://game/ui/buffs/buff_list.gd" id="2_jtyhy"]
-[ext_resource type="Texture2D" uid="uid://c4i1goax1qcya" path="res://assets/images/icon_player.png" id="3_a7sxg"]
+[ext_resource type="Texture2D" uid="uid://cxp3tr7i03php" path="res://assets/ui/icon_player.png" id="3_a7sxg"]
 [ext_resource type="Texture2D" uid="uid://d5w4iskb3y1h" path="res://game/player/crosshair.png" id="4_op3y2"]
-[ext_resource type="Texture2D" uid="uid://lcfc333at1u3" path="res://assets/images/wait_bg.png" id="5_4c64m"]
-[ext_resource type="Texture2D" uid="uid://d16miocfurkwh" path="res://assets/images/wait.png" id="6_8j5d1"]
+[ext_resource type="Texture2D" uid="uid://lcfc333at1u3" path="res://assets/ui/wait_bg.png" id="5_4c64m"]
+[ext_resource type="Texture2D" uid="uid://d16miocfurkwh" path="res://assets/ui/wait.png" id="6_8j5d1"]
 [ext_resource type="Script" path="res://game/ui/progress_bar.gd" id="7_ssijt"]
 [ext_resource type="FontVariation" uid="uid://4cs7wvho51lb" path="res://assets/font_acme.tres" id="8_ftmwv"]
 [ext_resource type="PackedScene" uid="uid://boqt44mpwm2cb" path="res://game/ui/inventory/itembar.tscn" id="9_5s8sh"]
@@ -48,6 +48,14 @@ _data = {
 "tint": SubResource("2")
 }
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g2udl"]
+content_margin_left = 6.0
+content_margin_top = 6.0
+content_margin_right = 6.0
+content_margin_bottom = 6.0
+bg_color = Color(0, 0, 0, 0.627451)
+anti_aliasing = false
+
 [node name="Control" type="CanvasLayer"]
 script = ExtResource("1_vn1vd")
 
@@ -55,6 +63,10 @@ script = ExtResource("1_vn1vd")
 libraries = {
 "": SubResource("AnimationLibrary_row0b")
 }
+
+[node name="Fade" type="ColorRect" parent="."]
+mouse_filter = 1
+color = Color(0, 0, 0, 0.266667)
 
 [node name="BuffList" type="VBoxContainer" parent="."]
 custom_minimum_size = Vector2(64, 0)
@@ -69,10 +81,6 @@ grow_horizontal = 0
 grow_vertical = 2
 scale = Vector2(2, 2)
 script = ExtResource("2_jtyhy")
-
-[node name="Fade" type="ColorRect" parent="."]
-mouse_filter = 1
-color = Color(0, 0, 0, 0.266667)
 
 [node name="MenuButton" type="TextureButton" parent="."]
 visible = false
@@ -132,3 +140,21 @@ mouse_filter = 2
 
 [node name="ItemBar" parent="HotBar" instance=ExtResource("9_5s8sh")]
 layout_mode = 2
+
+[node name="Description" type="RichTextLabel" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = 16.0
+offset_right = 128.0
+offset_bottom = 80.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_g2udl")
+bbcode_enabled = true
+text = "This item is a must have for soemthing that does nothing."
+fit_content = true

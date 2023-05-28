@@ -1,4 +1,4 @@
-[gd_resource type="VoxelBlockyLibrary" load_steps=75 format=3 uid="uid://chr1cj53hbsgq"]
+[gd_resource type="VoxelBlockyLibrary" load_steps=79 format=3 uid="uid://chr1cj53hbsgq"]
 
 [ext_resource type="ArrayMesh" uid="uid://0h8p56h5cmc5" path="res://assets/blocks/slab_ns.obj" id="1_rgc8a"]
 [ext_resource type="Material" uid="uid://bs5u0ea1vrq7v" path="res://assets/blocks/terrain_biome.tres" id="2_d8tyi"]
@@ -18,7 +18,9 @@
 [ext_resource type="ArrayMesh" uid="uid://b1tyqhlpw8s02" path="res://assets/blocks/tinyblock.obj" id="14_5acuo"]
 [ext_resource type="Material" uid="uid://deh76dvd8kdvl" path="res://assets/blocks/metal_texture_transparent.tres" id="14_wnxvx"]
 [ext_resource type="Texture2D" uid="uid://dby2wmfnr7ccx" path="res://assets/texture/table.png" id="16_58lxi"]
+[ext_resource type="ArrayMesh" uid="uid://orubern31au" path="res://assets/objects/o_barrel.obj" id="17_nm4gw"]
 [ext_resource type="Texture2D" uid="uid://bs8hyhkvnux7h" path="res://assets/texture/sofa.png" id="18_hqydq"]
+[ext_resource type="Texture2D" uid="uid://eet8id1xl55c" path="res://assets/objects/o_barrel.png" id="18_v3rxy"]
 
 [sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_uj7mi"]
 voxel_name = &"air"
@@ -206,17 +208,17 @@ material_override_0 = ExtResource("14_wnxvx")
 collision_enabled_0 = true
 
 [sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_aogu6"]
-voxel_name = &"walkway"
+voxel_name = &"brick"
 geometry_type = 1
 collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
 collision_mask = 15
 cube_geometry_padding_y = null
-cube_tiles_left = Vector2(10, 0)
-cube_tiles_right = Vector2(10, 0)
-cube_tiles_bottom = Vector2(3, 0)
-cube_tiles_top = Vector2(10, 0)
-cube_tiles_back = Vector2(10, 0)
-cube_tiles_front = Vector2(10, 0)
+cube_tiles_left = Vector2(12, 0)
+cube_tiles_right = Vector2(12, 0)
+cube_tiles_bottom = Vector2(12, 0)
+cube_tiles_top = Vector2(12, 0)
+cube_tiles_back = Vector2(12, 0)
+cube_tiles_front = Vector2(12, 0)
 material_override_0 = ExtResource("14_wnxvx")
 collision_enabled_0 = true
 
@@ -505,6 +507,18 @@ collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
 collision_mask = 12
 collision_enabled_0 = true
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ltvb7"]
+albedo_texture = ExtResource("18_v3rxy")
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_7hw05"]
+voxel_name = &"barrel"
+geometry_type = 2
+custom_mesh = ExtResource("17_nm4gw")
+collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
+collision_mask = 15
+material_override_0 = SubResource("StandardMaterial3D_ltvb7")
+collision_enabled_0 = true
+
 [sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_gx8u8"]
 voxel_name = &"soil"
 geometry_type = 1
@@ -630,3 +644,4 @@ voxels/36 = SubResource("VoxelBlockyModel_qn3xr")
 voxels/37 = SubResource("VoxelBlockyModel_1urtk")
 voxels/38 = SubResource("VoxelBlockyModel_cdx6i")
 voxels/39 = SubResource("VoxelBlockyModel_k7wqy")
+voxels/40 = SubResource("VoxelBlockyModel_7hw05")

@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://dyf43s4p26s26"]
 
-[ext_resource type="Script" path="res://game/items/weapon/projectile.gd" id="1_43rd8"]
-[ext_resource type="Texture2D" uid="uid://sjr7gawya76m" path="res://assets/texture/laser.png" id="2_1a4ho"]
+[ext_resource type="Script" path="res://game/items/weapon/projectile/laser.gd" id="1_1x122"]
+[ext_resource type="Texture2D" uid="uid://sjr7gawya76m" path="res://assets/texture/laser.png" id="2_jcsth"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_hnhqv"]
 size = Vector2(1, 0.3)
@@ -10,10 +10,10 @@ size = Vector2(1, 0.3)
 transparency = 1
 cull_mode = 2
 shading_mode = 0
-albedo_texture = ExtResource("2_1a4ho")
+albedo_texture = ExtResource("2_jcsth")
 
 [node name="Rocket" type="Node3D"]
-script = ExtResource("1_43rd8")
+script = ExtResource("1_1x122")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)

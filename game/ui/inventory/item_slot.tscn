@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=3 uid="uid://cl7jb4jx1dmuv"]
 
 [ext_resource type="Script" path="res://game/ui/inventory/item_slot.gd" id="1_nyhot"]
-[ext_resource type="Texture2D" uid="uid://pg4ep60xd8xg" path="res://assets/images/slot_select.png" id="2_md7em"]
-[ext_resource type="Texture2D" uid="uid://gclfjtn0py8l" path="res://assets/images/slot_bg.png" id="3_quifu"]
+[ext_resource type="Texture2D" uid="uid://b7kwslhfib6sj" path="res://assets/ui/slot_select.png" id="2_j3qpb"]
+[ext_resource type="Texture2D" uid="uid://bn7lwgtbpolcl" path="res://assets/ui/slot_bg.png" id="3_ejg73"]
 
 [sub_resource type="GDScript" id="GDScript_fbitr"]
 script/source = "extends TextureRect
@@ -33,14 +33,14 @@ modulate = Color(0, 1, 0.643137, 1)
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-texture = ExtResource("2_md7em")
+texture = ExtResource("2_j3qpb")
 expand_mode = 1
 
 [node name="BG" type="TextureRect" parent="."]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-texture = ExtResource("3_quifu")
+texture = ExtResource("3_ejg73")
 expand_mode = 1
 
 [node name="TextureRect" type="TextureRect" parent="."]

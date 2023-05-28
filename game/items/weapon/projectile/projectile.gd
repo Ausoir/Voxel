@@ -1,16 +1,12 @@
 extends Node3D
 
-const LIFETIME = 10.0
-
-const ExplosionScene = preload("res://game/fx/explosion/explosion.tscn")
-
 var _direction := Vector3(0, 0, 1)
 var _speed := 20.0
-var _remaining_time := LIFETIME
+var _remaining_time := 10.0
 var _ss
 var _ssparams
 var col_mask = 12
-var callback
+var damage = 1
 
 
 func _ready():
@@ -39,8 +35,19 @@ func _physics_process(delta: float):
 	_ssparams.collision_mask = col_mask
 	var hit = _ss.intersect_ray(_ssparams)
 	if !hit.is_empty():
-		callback.call(hit)
+		on_collide(hit)
 		queue_free()
 	else:
 		trans.origin += motion
 		global_transform = trans
+
+
+func on_collide(hit):
+	if hit.collider.collision_layer & 4 > 0:
+		var unit = hit.collider.get_parent()
+		var damage_roll = G.rng.roll(1, damage)
+		unit.take_hit(damage_roll)
+		unit.on_damaged(hit.position)
+	else:
+		G.stock.make_debris(hit.position, 3)
+	G.stock.make_particle(hit.position, "explosion")

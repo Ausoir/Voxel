@@ -1,9 +1,9 @@
 [gd_scene load_steps=18 format=3 uid="uid://d0tgv7vwpva48"]
 
 [ext_resource type="Script" path="res://game/units/humanoid/humanoid.gd" id="1_v8qyt"]
-[ext_resource type="ArrayMesh" uid="uid://ob0fvgnwm8ql" path="res://assets/items/eblade3d-0-eblade.obj" id="2_l1yr4"]
-[ext_resource type="ArrayMesh" uid="uid://3oq3ewuxot0k" path="res://assets/units/a_underwear.obj" id="3_almfu"]
-[ext_resource type="ArrayMesh" uid="uid://dm3xlxhikdgip" path="res://assets/items/head/head2.obj" id="4_86eko"]
+[ext_resource type="ArrayMesh" uid="uid://ob0fvgnwm8ql" path="res://assets/weapon/eblade3d-0-eblade.obj" id="2_5sgj7"]
+[ext_resource type="ArrayMesh" uid="uid://3oq3ewuxot0k" path="res://assets/unit/a_underwear.obj" id="3_fl3ca"]
+[ext_resource type="ArrayMesh" uid="uid://ckgnadjxpn4f1" path="res://assets/head/head.obj" id="4_aercb"]
 [ext_resource type="Script" path="res://game/units/humanoid/equipment.gd" id="4_fvn5c"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_5478g"]
@@ -207,7 +207,6 @@ tracks/2/keys = {
 
 [sub_resource type="Animation" id="Animation_exkay"]
 resource_name = "shoot"
-length = 1.3
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -215,7 +214,7 @@ tracks/0/path = NodePath("Model/Item:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.4, 0.6, 1.3),
+"times": PackedFloat32Array(0, 0.4, 0.5, 1),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [Vector3(-0.306363, 0.459507, -0.0334154), Vector3(-0.225885, 0.439113, 0.279242), Vector3(-0.290761, 0.447968, -0.147691), Vector3(-0.311377, 0.477419, -0.0239757)]
@@ -227,7 +226,7 @@ tracks/1/path = NodePath("Model/Item:rotation")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.4, 0.6, 1.3),
+"times": PackedFloat32Array(0, 0.4, 0.5, 1),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [Vector3(1.5708, 0, 1.5708), Vector3(3.14159, 0, 1.5708), Vector3(2.79253, 0, 1.5708), Vector3(2.0944, 0, 1.5708)]
@@ -239,7 +238,7 @@ tracks/2/path = NodePath("Model/Body:rotation")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.4, 0.6, 1.3),
+"times": PackedFloat32Array(0, 0.4, 0.5, 1),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [Vector3(0, 0, 0), Vector3(0, 0.785398, 0), Vector3(0, -0.310477, 0), Vector3(0, 0, 0)]
@@ -259,18 +258,15 @@ tracks/3/keys = {
 tracks/4/type = "method"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("Equipment")
+tracks/4/path = NodePath(".")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0.5, 0.6),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(0.5),
+"transitions": PackedFloat32Array(1),
 "values": [{
-"args": [1],
-"method": &"set_swinging"
-}, {
-"args": [0],
-"method": &"set_swinging"
+"args": [&"attack"],
+"method": &"emit_signal"
 }]
 }
 
@@ -667,6 +663,7 @@ _data = {
 
 [node name="Unit" type="Node3D"]
 script = ExtResource("1_v8qyt")
+_mesh_path = NodePath("Model/Body/Mesh")
 
 [node name="Body" type="StaticBody3D" parent="."]
 collision_layer = 52
@@ -681,16 +678,16 @@ shape = SubResource("BoxShape3D_5478g")
 [node name="Item" type="MeshInstance3D" parent="Model"]
 transform = Transform3D(-1.80999e-06, -0.5, 0, -0.286787, 1.03817e-06, -0.409576, 0.409576, -1.48266e-06, -0.286787, -0.326534, 0.451423, -0.0573206)
 cast_shadow = 0
-mesh = ExtResource("2_l1yr4")
+mesh = ExtResource("2_5sgj7")
 
 [node name="Body" type="Node3D" parent="Model"]
 
 [node name="Mesh" type="MeshInstance3D" parent="Model/Body"]
-mesh = ExtResource("3_almfu")
+mesh = ExtResource("3_fl3ca")
 skeleton = NodePath("../../Item")
 
 [node name="Head" type="MeshInstance3D" parent="Model/Body"]
-mesh = ExtResource("4_86eko")
+mesh = ExtResource("4_aercb")
 skeleton = NodePath("../..")
 
 [node name="Equipment" type="Node" parent="."]

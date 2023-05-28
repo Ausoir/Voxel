@@ -9,6 +9,7 @@ var _max_delay = 0
 var _binding = {}
 var _animator
 var _callback
+var on_tick
 
 
 func set_unit(unit):
@@ -18,10 +19,14 @@ func set_unit(unit):
 func on_process(delta):
 	if delay > 0:
 		delay -= delta
-		if delay <= 0 and _callback != null:
-			_callback.call()
+		if delay <= 0:
+			if _callback != null and _callback.is_valid():
+				_callback.call()
+		elif on_tick != null and on_tick.is_valid():
+			on_tick.call()
 	elif action != null:
 		_callback = null
+		on_tick = null
 		action = null
 
 

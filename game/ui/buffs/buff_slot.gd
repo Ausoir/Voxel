@@ -1,7 +1,5 @@
 extends Control
 
-const Slow = preload("res://assets/images/ui/st_slow.png")
-
 var _buff
 @onready var _texture = $TextureRect
 @onready var _label = $Label
@@ -18,5 +16,13 @@ func update_cooldown():
 
 
 func update_sprite():
-	var sprite = get(_buff.name.capitalize())
-	_texture.set_texture(sprite)
+	_texture.set_texture(_buff.sprite)
+
+
+func _on_mouse_entered():
+	var dsc = _buff.get_description()
+	G.ui.set_description(dsc, global_position, true)
+
+
+func _on_mouse_exited():
+	G.ui.set_description(null, null)

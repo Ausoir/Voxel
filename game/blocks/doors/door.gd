@@ -33,6 +33,7 @@ func on_interact(_pos: Vector3, _user: Node3D):
 	_user.action.show_progress = true
 	_user.action.cancelable = true
 	_user.action.turnable = false
+	return true
 
 
 func on_activate(_pos: Vector3, _user: Node3D):

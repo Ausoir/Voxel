@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://df61y5kiskymw"]
+[gd_scene load_steps=6 format=3 uid="uid://df61y5kiskymw"]
 
 [ext_resource type="Script" path="res://game/ui/inventory/inventory.gd" id="1_bojd4"]
+[ext_resource type="PackedScene" uid="uid://dnw7dhsgvwt1c" path="res://game/ui/inventory/essencebar.tscn" id="2_mcwyr"]
 [ext_resource type="PackedScene" uid="uid://c33bivnxnt6ej" path="res://game/ui/inventory/equipbar.tscn" id="2_vlo80"]
 [ext_resource type="PackedScene" uid="uid://boqt44mpwm2cb" path="res://game/ui/inventory/itembar.tscn" id="3_tvmt4"]
 [ext_resource type="Script" path="res://game/ui/inventory/drag_item.gd" id="4_ybpr6"]
@@ -33,6 +34,17 @@ offset_right = 45.0
 offset_bottom = 40.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="Label3" type="Label" parent="Panel/VBox"]
+layout_mode = 2
+text = "Essence"
+horizontal_alignment = 1
+
+[node name="HSeparator3" type="HSeparator" parent="Panel/VBox"]
+layout_mode = 2
+
+[node name="EssenceBar" parent="Panel/VBox" instance=ExtResource("2_mcwyr")]
+layout_mode = 2
 
 [node name="Label" type="Label" parent="Panel/VBox"]
 layout_mode = 2

@@ -1,14 +1,14 @@
 {
 	"bunny": {
-		"model": "bunny",
-		"ai": "melee",
+		"model": "unit/bunny",
+		"ai": "beast",
 		"data": {
 			"damage": 4,
 			"health": 12
 		}
 	},
 	"security": {
-		"head": "head",
+		"head": "head/head",
 		"ai": "human",
 		"slots": [
 			"body",
@@ -28,7 +28,7 @@
 		}
 	},
 	"janitor": {
-		"head": "head5",
+		"head": "head/head5",
 		"slots": [
 			"body",
 			"head",
@@ -39,13 +39,49 @@
 			"flashlight"
 		],
 		"items": [
-			"eblade",
-			"bow",
-			"remover",
-			"summon"
+			"gasblade",
+			"rocket",
+			"remover"
+		],
+		"souls": [
+			"scout essence",
+			"vampire essence"
 		],
 		"data": {
 			"health": 100
+		}
+	},
+	"goblin warrior": {
+		"head": "head/h_goblin",
+		"ai": "human",
+		"slots": [
+			"body"
+		],
+		"equipments": [
+			"goblin armor"
+		],
+		"items": [
+			"glaive"
+		],
+		"data": {
+			"health": 30
+		}
+	},
+	"goblin ranger": {
+		"head": "head/h_goblin",
+		"ai": "shooter",
+		"slots": [
+			"body"
+		],
+		"equipments": [
+			"goblin armor"
+		],
+		"items": [
+			"bow"
+		],
+		"data": {
+			"health": 30,
+			"range": 10
 		}
 	}
 }

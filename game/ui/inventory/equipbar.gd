@@ -2,10 +2,10 @@ extends HBoxContainer
 
 const ITEMSLOT = preload("res://game/ui/inventory/item_slot.tscn")
 const EQUIP_ICONS = {
-	"head": preload("res://assets/images/ui/eq_head.png"),
-	"body": preload("res://assets/images/ui/eq_body.png"),
-	"accessory": preload("res://assets/images/ui/eq_accessory.png"),
-	"bag": preload("res://assets/images/ui/eq_bag.png"),
+	"head": preload("res://assets/ui/eq_head.png"),
+	"body": preload("res://assets/ui/eq_body.png"),
+	"accessory": preload("res://assets/ui/eq_accessory.png"),
+	"bag": preload("res://assets/ui/eq_bag.png"),
 }
 
 var _inventory

@@ -208,3 +208,22 @@ func _get_longest_axis(v: Vector3) -> int:
 	if ly > lx and ly > lz:
 		return Vector3.AXIS_Y
 	return Vector3.AXIS_Z
+
+
+func cardinalize(v: Vector3):
+	var longest = _get_longest_axis(v)
+	if longest == Vector3.AXIS_X:
+		if v.x > 0:
+			return Vector3(1, 0, 0)
+		else:
+			return Vector3(-1, 0, 0)
+	elif longest == Vector3.AXIS_Y:
+		if v.y > 0:
+			return Vector3(0, 1, 0)
+		else:
+			return Vector3(0, -1, 0)
+	elif longest == Vector3.AXIS_Z:
+		if v.z > 0:
+			return Vector3(0, 0, 1)
+		else:
+			return Vector3(0, 0, -1)

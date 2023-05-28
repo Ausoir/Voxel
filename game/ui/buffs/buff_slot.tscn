@@ -1,18 +1,14 @@
-[gd_scene load_steps=4 format=3 uid="uid://cq5qv4we383pk"]
+[gd_scene load_steps=3 format=3 uid="uid://cq5qv4we383pk"]
 
-[ext_resource type="Texture2D" uid="uid://bbcm4gibiao3e" path="res://assets/images/ui/st_barrier.png" id="1_eu5fp"]
+[ext_resource type="Texture2D" uid="uid://bbcm4gibiao3e" path="res://assets/ui/st_barrier.png" id="1_eu5fp"]
 [ext_resource type="Script" path="res://game/ui/buffs/buff_slot.gd" id="1_s67qr"]
-[ext_resource type="FontVariation" uid="uid://4cs7wvho51lb" path="res://assets/font_acme.tres" id="2_pf53b"]
 
 [node name="BuffSlot" type="Control"]
+custom_minimum_size = Vector2(40, 40)
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_right = -1152.0
-offset_bottom = -648.0
-grow_horizontal = 2
-grow_vertical = 2
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
 script = ExtResource("1_s67qr")
 
 [node name="TextureRect" type="TextureRect" parent="."]
@@ -24,11 +20,16 @@ texture = ExtResource("1_eu5fp")
 [node name="Label" type="Label" parent="."]
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 0
+offset_top = 8.0
 offset_right = 40.0
-offset_bottom = 40.0
-theme_override_colors/font_color = Color(1, 0, 0, 1)
-theme_override_fonts/font = ExtResource("2_pf53b")
-theme_override_font_sizes/font_size = 24
+offset_bottom = 48.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 20
 text = "0"
 horizontal_alignment = 1
 vertical_alignment = 2
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

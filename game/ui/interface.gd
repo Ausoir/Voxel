@@ -1,7 +1,7 @@
 extends CanvasLayer
 
-const ICON_PLAYER = preload("res://assets/images/icon_player.png")
-const ICON_SETTINGS = preload("res://assets/images/icon_settings.png")
+const ICON_PLAYER = preload("res://assets/ui/icon_player.png")
+const ICON_SETTINGS = preload("res://assets/ui/icon_settings.png")
 var last_touch_time = 0
 var screen_size
 var on = false
@@ -11,6 +11,7 @@ var _unit
 @onready var n_fps = $FPS
 @onready var menu_container = $Center/Menu
 @onready var label = $Center/Label
+@onready var desc = $Description
 
 
 func _ready():
@@ -38,6 +39,17 @@ func set_label(txt):
 		label.set_text(txt)
 
 
+func set_description(txt, pos, right=false):
+	if txt == null:
+		desc.hide()
+	else:
+		desc.set_text(txt)
+		desc.show()
+		desc.position = pos
+		if right:
+			desc.position.x -= desc.size.x
+
+
 func fadein():
 	$Animation.play("fadein")
 
@@ -58,6 +70,7 @@ func display(p):
 func clear():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	on = false
+	desc.hide()
 	$Animation.stop()
 	$Fade.color = Color.TRANSPARENT
 	$HotBar.show()

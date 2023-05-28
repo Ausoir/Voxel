@@ -24,7 +24,6 @@ var STONE
 var SOIL
 var METAL
 var GLASS
-var WALKWAY
 var TILES
 var MIRROR
 var WOOD
@@ -42,7 +41,7 @@ func _init():
 		set(blockname.to_upper(), r)
 	theme_floor = SOIL#G.blocks.METAL
 	theme_road = WOOD
-	theme_alley = WALKWAY
+	theme_alley = BRICK
 	theme_tiles = WOOD
 	theme_wall = STONE#G.blocks.METAL
 	theme_special = LABTILES

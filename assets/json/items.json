@@ -1,22 +1,14 @@
 {
-	"rocket": {
-		"spritename": "launcher",
-		"modelname": "launcher3d",
-		"script": "weapon/rocket",
-		"data": {
-			"speed": 0.2
-		}
-	},
 	"flier": {
-		"spritename": "flier",
-		"modelname": "flier-0-flier",
+		"spritename": "item/flier",
+		"modelname": "item/flier-0-flier",
 		"script": "flier/flier",
 		"delay": 0.5
 	},
 	"suit": {
 		"spritename": "body/a_suit_sprite",
-		"script": "equipment/armor",
 		"model2name": "body/a_suit",
+		"script": "equipment/armor",
 		"delay": 1,
 		"part": "body",
 		"data": {
@@ -25,8 +17,8 @@
 	},
 	"security outfit": {
 		"spritename": "body/a_security_sprite",
-		"script": "equipment/armor",
 		"model2name": "body/a_security",
+		"script": "equipment/armor",
 		"delay": 1,
 		"part": "body",
 		"data": {
@@ -35,8 +27,8 @@
 	},
 	"security cap": {
 		"spritename": "head/h_cap_sprite",
-		"script": "equipment/helmet",
 		"model2name": "head/h_cap",
+		"script": "equipment/helmet",
 		"delay": 1,
 		"part": "head",
 		"data": {
@@ -45,8 +37,8 @@
 	},
 	"labcoat": {
 		"spritename": "body/a_labcoat_sprite",
-		"script": "equipment/armor",
 		"model2name": "body/a_labcoat",
+		"script": "equipment/armor",
 		"delay": 1,
 		"part": "body",
 		"data": {
@@ -54,16 +46,22 @@
 		}
 	},
 	"flashlight": {
-		"spritename": "flier",
+		"spritename": "item/flier",
 		"script": "equipment/flashlight",
 		"delay": 1,
 		"part": "accessory",
 		"data": {
-			"light": 10
+			"desc": "Lights the way.",
+			"light": 10,
+			"light color": [
+				1,
+				0.8,
+				0
+			]
 		}
 	},
 	"night goggle": {
-		"spritename": "flier",
+		"spritename": "item/flier",
 		"script": "equipment/flashlight",
 		"model2name": "head/h_cap",
 		"delay": 1,
@@ -79,7 +77,7 @@
 		}
 	},
 	"scouter helmet": {
-		"spritename": "flier",
+		"spritename": "item/flier",
 		"script": "equipment/helmet",
 		"model2name": "head/scouter_helm",
 		"delay": 1,
@@ -89,8 +87,8 @@
 		}
 	},
 	"placer": {
-		"spritename": "flier",
-		"modelname": "flier-0-flier",
+		"spritename": "item/flier",
+		"modelname": "item/flier-0-flier",
 		"script": "terraform/placer",
 		"delay": 0,
 		"data": {
@@ -104,26 +102,26 @@
 		}
 	},
 	"remover": {
-		"spritename": "flier",
-		"modelname": "flier-0-flier",
+		"spritename": "item/flier",
+		"modelname": "item/flier-0-flier",
 		"script": "terraform/remover",
 		"delay": 0
 	},
 	"summon": {
-		"spritename": "flier",
-		"modelname": "flier-0-flier",
+		"spritename": "item/flier",
+		"modelname": "item/flier-0-flier",
 		"script": "spawner/summon"
 	},
 	"cleaver": {
-		"spritename": "cleaver",
-		"modelname": "cleaver3d",
+		"spritename": "weapon/cleaver",
+		"modelname": "weapon/cleaver3d",
 		"script": "weapon/melee",
 		"delay": 2,
 		"delay2": 0
 	},
 	"eblade": {
-		"spritename": "eblade",
-		"modelname": "eblade3d-0-eblade",
+		"spritename": "weapon/eblade",
+		"modelname": "weapon/eblade3d-0-eblade",
 		"script": "weapon/melee",
 		"drops": false,
 		"data": {
@@ -137,8 +135,8 @@
 		}
 	},
 	"gasblade": {
-		"spritename": "gasblade",
-		"modelname": "gasblade3d",
+		"spritename": "weapon/gasblade",
+		"modelname": "weapon/gasblade3d",
 		"script": "weapon/melee",
 		"data": {
 			"speed": 1.5,
@@ -150,8 +148,8 @@
 		}
 	},
 	"glaive": {
-		"spritename": "glaive",
-		"modelname": "glaive3d",
+		"spritename": "weapon/glaive",
+		"modelname": "weapon/glaive3d",
 		"script": "weapon/melee",
 		"data": {
 			"swings": [
@@ -159,34 +157,61 @@
 				"swing_left",
 				"swing_right",
 				"swing_down"
+			],
+			"buffs": [
+				[
+					"slow",
+					3
+				]
 			]
 		}
 	},
 	"bow": {
-		"spritename": "bow",
-		"modelname": "bow3d-0-bow",
+		"spritename": "weapon/bow",
+		"modelname": "weapon/bow3d-0-bow",
 		"script": "weapon/ranged",
 		"data": {
-			"speed": 0.3,
+			"projectile": "arrow",
+			"speed": 0.5,
 			"spread": 0.2,
 			"damage": 5
 		}
 	},
-	"crossbow": {
-		"spritename": "crossbow",
-		"modelname": "crossbow3d",
+	"goblin bow": {
+		"spritename": "weapon/bow",
+		"modelname": "weapon/bow3d-0-bow",
 		"script": "weapon/ranged",
 		"data": {
+			"projectile": "arrow",
 			"speed": 0.5,
+			"spread": 0.2,
+			"damage": 5,
+			"buffs": [
+				[
+					"slow",
+					3
+				]
+			]
+		}
+	},
+	"crossbow": {
+		"spritename": "weapon/crossbow",
+		"modelname": "weapon/crossbow3d",
+		"script": "weapon/ranged",
+		"data": {
+			"projectile": "arrow",
+			"speed": 0.5,
+			"delay": 1,
 			"spread": 0.1,
 			"damage": 10
 		}
 	},
 	"taser": {
-		"spritename": "taser",
-		"modelname": "taser3d-0-taser",
+		"spritename": "weapon/taser",
+		"modelname": "weapon/taser3d-0-taser",
 		"script": "weapon/ranged",
 		"data": {
+			"projectile": "laser",
 			"speed": 0.8,
 			"spread": 0.1,
 			"damage": 7,
@@ -194,19 +219,32 @@
 		}
 	},
 	"pistol": {
-		"spritename": "pistol",
-		"modelname": "pistol3d",
+		"spritename": "weapon/pistol",
+		"modelname": "weapon/pistol3d",
 		"script": "weapon/ranged",
 		"data": {
-			"speed": 4,
+			"projectile": "laser",
+			"speed": 2,
 			"spread": 0.2,
 			"damage": 2,
 			"delay": 0.5
 		}
 	},
+	"rocket": {
+		"spritename": "weapon/launcher",
+		"modelname": "weapon/launcher3d",
+		"script": "weapon/ranged",
+		"data": {
+			"projectile": "rocket",
+			"speed": 0.2,
+			"spread": 0.1,
+			"damage": 5,
+			"delay": 2
+		}
+	},
 	"greatsword": {
-		"spritename": "greatsword",
-		"modelname": "greatsword3d",
+		"spritename": "weapon/greatsword",
+		"modelname": "weapon/greatsword3d",
 		"script": "weapon/melee",
 		"data": {
 			"speed": 0.7,
@@ -218,8 +256,8 @@
 		}
 	},
 	"generator": {
-		"spritename": "eblade",
-		"modelname": "eblade3d-0-eblade",
+		"spritename": "weapon/eblade",
+		"modelname": "weapon/eblade3d-0-eblade",
 		"script": "terraform/placer",
 		"delay": 0,
 		"data": {
@@ -229,8 +267,8 @@
 		}
 	},
 	"builder": {
-		"spritename": "flier",
-		"modelname": "flier-0-flier",
+		"spritename": "item/flier",
+		"modelname": "item/flier-0-flier",
 		"script": "terraform/builder",
 		"delay2": 0,
 		"data": {
@@ -246,26 +284,6 @@
 					0
 				],
 				[
-					"walkway",
-					1,
-					[
-						1,
-						1,
-						1
-					],
-					-1
-				],
-				[
-					"antsquirrel nest",
-					0,
-					[
-						3,
-						1,
-						2
-					],
-					-1
-				],
-				[
 					"hub",
 					0,
 					[
@@ -276,6 +294,58 @@
 					-1
 				]
 			]
+		}
+	},
+	"goblin essence": {
+		"spritename": "item/essence",
+		"part": "essence",
+		"data": {
+			"desc": "Your attacks apply poison that slows the victim.",
+			"essence": "goblin"
+		}
+	},
+	"earth essence": {
+		"spritename": "item/essence",
+		"part": "essence",
+		"data": {
+			"desc": "Touch a solid wall to pass through. Increase health by 10.",
+			"essence": "earth",
+			"health": 10
+		}
+	},
+	"scout essence": {
+		"spritename": "item/essence",
+		"part": "essence",
+		"data": {
+			"desc": "Visualize damage done when units are damaged. Increase move speed by 1.",
+			"essence": "scout",
+			"speed": 0.1
+		}
+	},
+	"warrior essence": {
+		"spritename": "item/essence",
+		"part": "essence",
+		"data": {
+			"desc": "Recover some health after taking hit.",
+			"essence": "warrior"
+		}
+	},
+	"vampire essence": {
+		"spritename": "item/essence",
+		"part": "essence",
+		"data": {
+			"desc": "Recover some health after dealing damage.",
+			"essence": "vampire"
+		}
+	},
+	"goblin armor": {
+		"spritename": "body/a_security_sprite",
+		"model2name": "body/a_goblin_warrior",
+		"script": "equipment/armor",
+		"delay": 1,
+		"part": "body",
+		"data": {
+			"space": 3
 		}
 	}
 }
