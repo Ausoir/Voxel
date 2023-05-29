@@ -52,11 +52,11 @@
 			"pistol",
 			"remover",
 			"summon",
-			"assassin essence"
+			"vampire essence"
 		],
 		"souls": [
 			"shadow essence",
-			"vampire essence"
+			"spearmaster essence"
 		],
 		"data": {
 			"level": 3,

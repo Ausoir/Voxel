@@ -326,8 +326,9 @@
 		"spritename": "item/essence",
 		"part": "essence",
 		"data": {
-			"desc": "Recover some health after dealing damage.",
-			"essence": "vampire"
+			"desc": "Recover some health after dealing damage. Requires 2 essence slots.",
+			"essence": "vampire",
+			"soul": -1
 		}
 	},
 	"psychic essence": {

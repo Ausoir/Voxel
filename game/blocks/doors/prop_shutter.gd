@@ -22,6 +22,7 @@ func on_activate(_user: Node3D):
 	_activated = true
 	_user.action.set_next("idle", 0)
 	$Animator.play("close")
+	G.sfx.play("door_metal", position)
 
 
 func _on_animator_animation_finished(anim_name):

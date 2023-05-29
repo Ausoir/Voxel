@@ -1,6 +1,7 @@
 extends "./weapon.gd"
 
 var already_hit = []
+var first_hit = false
 
 
 func use(_user: Node3D):
@@ -14,6 +15,7 @@ func use(_user: Node3D):
 	var animation = _user.animator.get_animation(anim_name)
 	if animation != null:
 		already_hit.clear()
+		first_hit = false
 		var speed = data.get("speed", 1.0)
 		data["swing anim"] = next_anim
 		if _user.animator.current_animation == anim_name:
@@ -57,12 +59,16 @@ func on_held_tick(_user: Node3D):
 							var buffs = data.get("inflict", [])
 							var weapon_type = data.get("type", "blunt")
 							unit.on_damaged(_user.position, damage, buffs)
+							G.sfx.play("hit_flesh", _user.position)
 							_user.emit_signal("weapon", weapon_type, unit)
 					else:
-						_deflect(_user, to)
+						return _deflect(_user, to)
 			else:
 				var to = from + toward * attack_range_scaled
-				_deflect(_user, to)
+				return _deflect(_user, to)
+			if !first_hit:
+				G.sfx.play("swing", _user.position)
+				first_hit = true
 
 
 func _deflect(_user: Node3D, _at: Vector3):
@@ -70,4 +76,5 @@ func _deflect(_user: Node3D, _at: Vector3):
 	G.stock.make_particle(_at, "deflect")
 	_user.animator.play("RESET")
 	_user.equipment.swinging = false
+	G.sfx.play("hit_glance", _user.position)
 

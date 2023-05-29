@@ -20,6 +20,7 @@ var noisemap
 @onready var ui = get_node("/root/Game/Player/Interface")
 @onready var save = get_node("/root/Game/Player/Save")
 @onready var turn = get_node("/root/Game/Turn")
+@onready var sfx = get_node("/root/Game/Sfx")
 
 
 func _ready():

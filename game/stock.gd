@@ -101,6 +101,7 @@ func make_unit(pos: Vector3, itemname: String):
 		unit.data = data.get("data", {}).duplicate()
 		unit.position = pos
 		unit.health = unit.data.get("health", 1)
+		unit.armor = unit.data.get("armor", 0)
 		for i in data.get("souls", []):
 			unit.essence.append(i)
 		_attach_ai(unit, data)
@@ -129,6 +130,7 @@ func make_humanoid(parent: Node, pos: Vector3, itemname: String):
 		unit.sid = itemname
 		unit.position = pos
 		unit.health = unit.data.get("health", 1)
+		unit.armor = unit.data.get("armor", 0)
 		_attach_ai(unit, data)
 		return unit
 

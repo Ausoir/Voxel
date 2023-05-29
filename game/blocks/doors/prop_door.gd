@@ -21,9 +21,11 @@ func on_activate(_user: Node3D):
 	if !_activated:
 		_user.action.set_next("idle", 0)
 		$Animator.play("close2")
+		G.sfx.play("door_creak", position)
 	else:
 		_user.action.set_next("idle", 0)
 		$Animator.play("open2")
+		G.sfx.play("door_open", position)
 
 
 func _on_animator_animation_finished(anim_name):

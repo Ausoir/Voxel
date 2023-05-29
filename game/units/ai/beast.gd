@@ -29,3 +29,4 @@ func on_attack():
 	var buffs = _unit.data.get("inflict", [])
 	G.you.on_damaged(_unit.position, damage, buffs)
 	_unit.emit_signal("weapon", "unarmed", G.you)
+	G.sfx.play("hit_flesh", _unit.position)

@@ -2,16 +2,16 @@ extends Node
 
 
 var _unit
-var unarmed := 4.24
-var blade := 01.0
+var unarmed := 0.0
+var blade := 0.0
 var blunt := 0.0
-var spear := 01.0
-var dagger := 10.0
+var spear := 0.0
+var dagger := 0.0
 var bow := 0.0
-var firearm := 0.30
+var firearm := 0.0
 var wand := 0.0
 var armor := 0.0
-var dodge := 10.0
+var dodge := 0.0
 var psych := 0.0
 var earth := 0.0
 

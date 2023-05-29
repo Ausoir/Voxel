@@ -53,6 +53,7 @@ func perform(ess):
 
 func slow(p):
 	_param.buffs.add("slow", p)
+	G.sfx.play("buff_slow", _unit.position)
 
 
 func recover(regen, cd):
@@ -62,6 +63,8 @@ func recover(regen, cd):
 
 
 func invisibility():
+	if !_unit.buffs.has("invisibility"):
+		G.sfx.play("fade", _unit.position)
 	_unit.buffs.add("invisibility", 3)
 
 
@@ -76,6 +79,7 @@ func psychic():
 		_unit.action.show_progress = true
 		_unit.action.cancelable = true
 		_unit.buffs.add("exhaustion", 4)
+		G.sfx.play("cast_psych", _unit.position)
 
 
 func psychic_shoot():
@@ -113,6 +117,8 @@ func passwall():
 			G.you.camera.zoom_distance(1)
 			G.you.camera.set_override(G.you.camera.position)
 			_unit.buffs.add("exhaustion", 4)
+			_unit.start_flash(Color.SADDLE_BROWN)
+			G.sfx.play("cast_water", _unit.position)
 			return true
 func passwall_tick(_user, to):
 	_user.position = _user.position.lerp(to, 0.01)

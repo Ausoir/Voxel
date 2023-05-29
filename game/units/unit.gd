@@ -31,7 +31,8 @@ var buffs = preload("./buffs.gd").new()
 var skills = preload("./skills/skills.gd").new()
 var overlay_mat = preload("./flash_red.tres").duplicate()
 var pilot
-var health = 1
+var health: int = 1
+var armor: int = 0
 var essence = []
 
 var _mesh
@@ -66,6 +67,8 @@ func take_hit(dmg):
 		_healthbar.position = Vector3(0, size.y + 0.1, 0)
 		add_child(_healthbar)
 		_healthbar.set_max(data.get("health", 1))
+	if dmg > 0:
+		dmg = max(1, dmg - armor)
 	if dmg != 0 and "scout" in G.you.essence:
 		G.stock.make_text(self, Vector3(0, size.y + 0.1, 0), dmg)
 	health -= dmg
@@ -195,3 +198,7 @@ func _physics_process(delta):
 	velocity.x *= friction
 	velocity.z *= friction
 	velocity.y = motion.y / delta - G.GRAVITY * delta
+
+
+func on_step():
+	G.sfx.play("step_wood", position)
