@@ -13,6 +13,7 @@ var _previous_mouse_mode := 0
 
 func _ready():
 	G.ui.get_node("Fade").connect("gui_input", Callable(self, "_on_background_gui_input"))
+	$RichTextLabel.set_text(G.player.proficiency.get_description())
 
 
 func set_unit(unit):
@@ -74,12 +75,10 @@ func _on_slot_pressed(idx: int):
 
 func _on_essence_slot_pressed(idx: int):
 	var slot_item = _inv.get_item_by_index(idx)
-	if _dragged_item.visible:
-		_inv.set_item_by_index(idx, _dragged_item.item)
-		if slot_item == null:
-			_dragged_item.stop()
-		else:
-			_dragged_item.start(slot_item)
+	if _dragged_item.visible and slot_item == null:
+		if _inv.get_index_type(idx) == 2:
+			if _inv.absorb(_dragged_item.item) == 0:
+				_dragged_item.stop()
 
 
 func _on_hover(idx: int, slot):

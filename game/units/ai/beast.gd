@@ -25,8 +25,7 @@ func _do_attack(_delta):
 
 
 func on_attack():
-	var victim = G.you
 	var damage = _unit.data.get("damage", 1)
-	var damage_roll = G.rng.roll(1, damage)
-	victim.take_hit(damage_roll)
-	victim.on_damaged(_unit.position)
+	var buffs = _unit.data.get("inflict", [])
+	G.you.on_damaged(_unit.position, damage, buffs)
+	_unit.emit_signal("weapon", "unarmed", G.you)

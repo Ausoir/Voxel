@@ -16,6 +16,7 @@ func use(_user: Node3D):
 
 func on_held(_user: Node3D):
 	G.stock.add_child(_cursor)
+	_cursor.hide()
 
 
 func on_unheld(_user: Node3D):
@@ -25,4 +26,7 @@ func on_unheld(_user: Node3D):
 func on_held_tick(_user: Node3D):
 	var hit = get_pointed_block(_user, 13)
 	if hit != null:
+		_cursor.show()
 		_cursor.position = Vector3(hit.position) + _cursor_size
+	else:
+		_cursor.hide()

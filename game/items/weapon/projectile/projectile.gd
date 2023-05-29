@@ -7,6 +7,7 @@ var _ss
 var _ssparams
 var col_mask = 12
 var damage = 1
+var on_attack
 
 
 func _ready():
@@ -45,9 +46,8 @@ func _physics_process(delta: float):
 func on_collide(hit):
 	if hit.collider.collision_layer & 4 > 0:
 		var unit = hit.collider.get_parent()
-		var damage_roll = G.rng.roll(1, damage)
-		unit.take_hit(damage_roll)
-		unit.on_damaged(hit.position)
+		unit.on_damaged(position, damage, [])
+		on_attack.call(unit)
 	else:
 		G.stock.make_debris(hit.position, 3)
 	G.stock.make_particle(hit.position, "explosion")

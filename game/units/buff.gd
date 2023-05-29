@@ -5,6 +5,8 @@ static func make_buff(unit, name, dur):
 		r = Slow
 	elif name == "regeneration":
 		r = Regeneration
+	elif name == "invisibility":
+		r = Invisibility
 	else:
 		r = Buff
 		undefined = true
@@ -48,21 +50,42 @@ class Buff:
 		pass
 	func on_end():
 		pass
+	func on_stack(new_dur):
+		duration = max(new_dur, duration)
 
 
 class Slow extends Buff:
 	func on_start():
-		unit.procedure.speed *= .25
+		unit.procedure.speed *= .5
 	func on_end():
-		unit.procedure.speed *= 4
+		unit.procedure.speed *= 2
 	func get_description():
 		return super() + "Movement speed slowed by 50%."
 
 
 class Regeneration extends Buff:
 	func on_turn():
-		unit.health = min(unit.health + 1, unit.data.get("health", 1))
+		var max_hp = unit.data.get("health", 1)
+		var inc = max(1, int(max_hp * 0.08))
+		unit.health = min(unit.health + inc, max_hp)
 		return super()
 	func get_description():
-		return super() + "Movement speed slowed by 50%."
+		return super() + "Regenerate 8% health per second."
+
+
+class Invisibility extends Buff:
+	var interrupted = false
+	func on_start():
+		unit.weapon.connect(on_interrupt)
+		unit.hide()
+	func on_end():
+		unit.show()
+	func get_description():
+		return super() + "Become invisible."
+	func on_interrupt(_type, _victim):
+		duration = 0
+		interrupted = true
+	func on_stack(new_dur):
+		if !interrupted:
+			duration = max(new_dur, duration)
 

@@ -1,30 +1,4 @@
 {
-	"flier": {
-		"spritename": "item/flier",
-		"modelname": "item/flier-0-flier",
-		"script": "flier/flier",
-		"delay": 0.5
-	},
-	"suit": {
-		"spritename": "body/a_suit_sprite",
-		"model2name": "body/a_suit",
-		"script": "equipment/armor",
-		"delay": 1,
-		"part": "body",
-		"data": {
-			"space": 2
-		}
-	},
-	"security outfit": {
-		"spritename": "body/a_security_sprite",
-		"model2name": "body/a_security",
-		"script": "equipment/armor",
-		"delay": 1,
-		"part": "body",
-		"data": {
-			"space": 3
-		}
-	},
 	"security cap": {
 		"spritename": "head/h_cap_sprite",
 		"model2name": "head/h_cap",
@@ -33,31 +7,6 @@
 		"part": "head",
 		"data": {
 			"space": 3
-		}
-	},
-	"labcoat": {
-		"spritename": "body/a_labcoat_sprite",
-		"model2name": "body/a_labcoat",
-		"script": "equipment/armor",
-		"delay": 1,
-		"part": "body",
-		"data": {
-			"space": 5
-		}
-	},
-	"flashlight": {
-		"spritename": "item/flier",
-		"script": "equipment/flashlight",
-		"delay": 1,
-		"part": "accessory",
-		"data": {
-			"desc": "Lights the way.",
-			"light": 10,
-			"light color": [
-				1,
-				0.8,
-				0
-			]
 		}
 	},
 	"night goggle": {
@@ -84,6 +33,41 @@
 		"part": "head",
 		"data": {
 
+		}
+	},
+	"suit": {
+		"spritename": "body/a_suit_sprite",
+		"model2name": "body/a_suit",
+		"script": "equipment/armor",
+		"delay": 1,
+		"part": "body",
+		"data": {
+			"space": 2
+		}
+	},
+	"robe": {
+		"spritename": "body/a_labcoat_sprite",
+		"model2name": "body/a_labcoat",
+		"script": "equipment/armor",
+		"delay": 1,
+		"part": "body",
+		"data": {
+			"space": 5
+		}
+	},
+	"lantern": {
+		"spritename": "item/flier",
+		"script": "equipment/spotlight",
+		"delay": 1,
+		"part": "accessory",
+		"data": {
+			"desc": "Lights the way.",
+			"light": 10,
+			"light color": [
+				1,
+				0.8,
+				0
+			]
 		}
 	},
 	"placer": {
@@ -116,14 +100,13 @@
 		"spritename": "weapon/cleaver",
 		"modelname": "weapon/cleaver3d",
 		"script": "weapon/melee",
-		"delay": 2,
-		"delay2": 0
+		"type": "dagger"
 	},
 	"eblade": {
 		"spritename": "weapon/eblade",
 		"modelname": "weapon/eblade3d-0-eblade",
 		"script": "weapon/melee",
-		"drops": false,
+		"type": "dagger",
 		"data": {
 			"speed": 1.5,
 			"delay": 0.5,
@@ -138,6 +121,7 @@
 		"spritename": "weapon/gasblade",
 		"modelname": "weapon/gasblade3d",
 		"script": "weapon/melee",
+		"type": "blade",
 		"data": {
 			"speed": 1.5,
 			"damage": 8,
@@ -151,6 +135,7 @@
 		"spritename": "weapon/glaive",
 		"modelname": "weapon/glaive3d",
 		"script": "weapon/melee",
+		"type": "spear",
 		"data": {
 			"swings": [
 				"swing_forward",
@@ -158,7 +143,7 @@
 				"swing_right",
 				"swing_down"
 			],
-			"buffs": [
+			"inflict": [
 				[
 					"slow",
 					3
@@ -170,6 +155,7 @@
 		"spritename": "weapon/bow",
 		"modelname": "weapon/bow3d-0-bow",
 		"script": "weapon/ranged",
+		"type": "bow",
 		"data": {
 			"projectile": "arrow",
 			"speed": 0.5,
@@ -181,12 +167,13 @@
 		"spritename": "weapon/bow",
 		"modelname": "weapon/bow3d-0-bow",
 		"script": "weapon/ranged",
+		"type": "bow",
 		"data": {
 			"projectile": "arrow",
 			"speed": 0.5,
 			"spread": 0.2,
 			"damage": 5,
-			"buffs": [
+			"inflict": [
 				[
 					"slow",
 					3
@@ -198,6 +185,7 @@
 		"spritename": "weapon/crossbow",
 		"modelname": "weapon/crossbow3d",
 		"script": "weapon/ranged",
+		"type": "bow",
 		"data": {
 			"projectile": "arrow",
 			"speed": 0.5,
@@ -210,6 +198,7 @@
 		"spritename": "weapon/taser",
 		"modelname": "weapon/taser3d-0-taser",
 		"script": "weapon/ranged",
+		"type": "firearm",
 		"data": {
 			"projectile": "laser",
 			"speed": 0.8,
@@ -222,6 +211,7 @@
 		"spritename": "weapon/pistol",
 		"modelname": "weapon/pistol3d",
 		"script": "weapon/ranged",
+		"type": "firearm",
 		"data": {
 			"projectile": "laser",
 			"speed": 2,
@@ -234,6 +224,7 @@
 		"spritename": "weapon/launcher",
 		"modelname": "weapon/launcher3d",
 		"script": "weapon/ranged",
+		"type": "firearm",
 		"data": {
 			"projectile": "rocket",
 			"speed": 0.2,
@@ -246,6 +237,7 @@
 		"spritename": "weapon/greatsword",
 		"modelname": "weapon/greatsword3d",
 		"script": "weapon/melee",
+		"type": "blade",
 		"data": {
 			"speed": 0.7,
 			"swings": [
@@ -336,6 +328,86 @@
 		"data": {
 			"desc": "Recover some health after dealing damage.",
 			"essence": "vampire"
+		}
+	},
+	"psychic essence": {
+		"spritename": "item/essence",
+		"part": "essence",
+		"data": {
+			"desc": "With bare hands, shoot a wave of psychic blast forward.",
+			"essence": "psychic"
+		}
+	},
+	"bomb essence": {
+		"spritename": "item/essence",
+		"part": "essence",
+		"data": {
+			"desc": "Create a bomb.",
+			"essence": "bomb"
+		}
+	},
+	"shadow essence": {
+		"spritename": "item/essence",
+		"part": "essence",
+		"data": {
+			"desc": "Turn invisible.",
+			"essence": "shadow"
+		}
+	},
+	"wind essence": {
+		"spritename": "item/essence",
+		"part": "essence",
+		"data": {
+			"desc": "Charge to target position, knocking down everything at the destination.",
+			"essence": "wind"
+		}
+	},
+	"assassin essence": {
+		"spritename": "item/essence",
+		"part": "essence",
+		"data": {
+			"desc": "Faint dagger attacks.",
+			"req": [
+				"dagger",
+				5
+			],
+			"essence": "dagger"
+		}
+	},
+	"berserker essence": {
+		"spritename": "item/essence",
+		"part": "essence",
+		"data": {
+			"desc": "Gain 20% attack speed with blunt weapons.",
+			"req": [
+				"blunt",
+				5
+			],
+			"essence": "blunt"
+		}
+	},
+	"spearmaster essence": {
+		"spritename": "item/essence",
+		"part": "essence",
+		"data": {
+			"desc": "Faint spear attacks.",
+			"req": [
+				"spear",
+				5
+			],
+			"essence": "spear"
+		}
+	},
+	"blademaster essence": {
+		"spritename": "item/essence",
+		"part": "essence",
+		"data": {
+			"desc": "Faint attacks with bladed weapons.",
+			"req": [
+				"blade",
+				5
+			],
+			"essence": "blade"
 		}
 	},
 	"goblin armor": {

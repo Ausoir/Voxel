@@ -14,11 +14,11 @@ var swinging: int = 0
 
 func _ready():
 	update_inventory()
-	update_essence(2)
 
 
 func set_unit(unit):
 	_unit = unit
+	update_essence(unit.data.get("level", 1))
 
 
 func update_essence(p):
@@ -67,10 +67,21 @@ func set_item_by_index(i, item):
 		var ieq_size = eq_size + _inventory.size()
 		if i < ieq_size:
 			_inventory[i - eq_size] = item
-		elif item.part != null and item.part == "essence":
-			absorb(item)
-			return
+		else:
+			return absorb(item)
 	emit_signal("selected")
+
+
+func get_index_type(i):
+	var eq_size = equipment.size()
+	if i < eq_size:
+		return 0
+	else:
+		var ieq_size = _inventory.size() + eq_size
+		if i < ieq_size:
+			return 1
+		elif i < ieq_size + essence.size():
+			return 2
 
 
 func get_held_item():
@@ -102,14 +113,19 @@ func _adjust_held_index():
 
 
 func absorb(ess):
-	for i in range(essence.size()):
-		if essence[i] == null:
-			essence[i] = ess
-			_unit.essence.append(ess.data.essence)
-			_unit.procedure.speed += ess.data.get("speed", 0)
-			_unit.health += ess.data.get("health", 0)
-			emit_signal("changed")
-			return true
+	if ess.part != null and ess.part == "essence":
+		for i in range(essence.size()):
+			if essence[i] == null:
+				var reqs = ess.data.get("req")
+				if _unit != G.you or G.player.proficiency.check_req(reqs[0], reqs[1]):
+					essence[i] = ess
+					_unit.essence.append(ess.data.essence)
+					_unit.procedure.speed += ess.data.get("speed", 0)
+					_unit.health += ess.data.get("health", 0)
+					emit_signal("changed")
+					return 0
+				return 1
+	return -1
 
 
 func pickup(item):

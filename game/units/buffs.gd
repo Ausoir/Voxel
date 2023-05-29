@@ -16,7 +16,7 @@ func add(buffname, duration):
 	if states.is_empty():
 		G.turn.add(_callable)
 	if buffname in states:
-		states[buffname].duration = max(states[buffname].duration, duration)
+		states[buffname].on_stack(duration)
 	else:
 		states[buffname] = Buff.make_buff(_unit, buffname, duration)
 	emit_signal("changed")

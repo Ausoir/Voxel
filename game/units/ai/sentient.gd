@@ -18,11 +18,10 @@ func _do_attack(_delta):
 			_unit.procedure.stop_walk()
 			_unit.procedure.use()
 		else:
-			_pathing.target = G.you.position.floor()
+			_pathing.target = _to.floor()
 			_pathing.perform(_delta)
 	elif _dist <= APPROACH_RANGE:
-		var to = G.you.position
-		_unit.procedure.walk_toward(to)
+		_unit.procedure.walk_toward(_to)
 	else:
-		_pathing.target = G.you.position.floor()
+		_pathing.target = _to.floor()
 		_pathing.perform(_delta)

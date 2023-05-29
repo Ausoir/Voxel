@@ -25,7 +25,7 @@ func use_callback(_user):
 
 
 func on_held(_user):
-	_user.attack.connect(on_attack.bind(_user))
+	_user.attack.connect(on_shoot.bind(_user))
 	var proj = data.get("projectile", "arrow")
 	if proj == "laser":
 		_projectile = Laser
@@ -36,10 +36,10 @@ func on_held(_user):
 
 
 func on_unheld(_user):
-	_user.attack.disconnect(on_attack)
+	_user.attack.disconnect(on_shoot)
 
 
-func on_attack(_user: Node3D):
+func on_shoot(_user: Node3D):
 	var from = _user.get_item_position()
 	var held_item = _user.held_item_model
 	var toward = -held_item.get_global_transform().basis.z
@@ -53,6 +53,12 @@ func on_attack(_user: Node3D):
 		var spread = data.get("spread", 0)
 		var projectile_direction = G.rng.v3_spread(spread,spread,spread) + _user.forward
 		rocket.set_direction(projectile_direction)
+		rocket.on_attack = on_attack.bind(_user)
+
 		var delay = data.get("delay", .5)
 		_user.action.set_next("idle", delay)
 
+
+func on_attack(_victim, _user):
+	var weapon_type = data.get("type", "bow")
+	_user.emit_signal("weapon", weapon_type, _victim)

@@ -3,10 +3,11 @@ extends Node
 
 var vars
 var unit
-@onready var faction = $Faction
+@onready var proficiency = $Proficiency
 
 
 func _ready():
+	G.player = self
 	var u = G.stock.make_humanoid(self, Vector3(), "janitor")
 	set_unit(u)
 	$Interface.set_unit(unit)
@@ -30,4 +31,5 @@ func set_unit(p):
 	unit.add_child(addon)
 	$View.set_unit(unit)
 	$Control.set_unit(unit)
+	proficiency.set_unit(unit)
 	$View.zoom_distance(0)

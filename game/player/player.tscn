@@ -5,8 +5,8 @@
 [ext_resource type="Script" path="res://game/player/control.gd" id="3_8bf3x"]
 [ext_resource type="PackedScene" uid="uid://d2bedp1vuwbx5" path="res://game/ui/interface.tscn" id="4_ep3pi"]
 [ext_resource type="Script" path="res://game/player/perception.gd" id="5_ixl5i"]
-[ext_resource type="Script" path="res://game/player/faction.gd" id="6_4r3dv"]
 [ext_resource type="Script" path="res://game/player/save.gd" id="6_o67dg"]
+[ext_resource type="Script" path="res://game/player/proficiency.gd" id="7_1n1qu"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_oe41g"]
 height = 12.0
@@ -53,11 +53,11 @@ shape = SubResource("CylinderShape3D_oe41g")
 
 [node name="Interface" parent="." instance=ExtResource("4_ep3pi")]
 
-[node name="Faction" type="Node" parent="."]
-script = ExtResource("6_4r3dv")
-
 [node name="Save" type="Node" parent="."]
 script = ExtResource("6_o67dg")
+
+[node name="Proficiency" type="Node" parent="."]
+script = ExtResource("7_1n1qu")
 
 [connection signal="body_entered" from="Addon/Perception" to="Addon/Perception" method="_on_body_entered"]
 [connection signal="body_exited" from="Addon/Perception" to="Addon/Perception" method="_on_body_exited"]

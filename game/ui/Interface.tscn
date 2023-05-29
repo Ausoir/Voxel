@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://d2bedp1vuwbx5"]
+[gd_scene load_steps=15 format=3 uid="uid://d2bedp1vuwbx5"]
 
 [ext_resource type="Script" path="res://game/ui/interface.gd" id="1_vn1vd"]
 [ext_resource type="Script" path="res://game/ui/buffs/buff_list.gd" id="2_jtyhy"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" path="res://game/ui/progress_bar.gd" id="7_ssijt"]
 [ext_resource type="FontVariation" uid="uid://4cs7wvho51lb" path="res://assets/font_acme.tres" id="8_ftmwv"]
 [ext_resource type="PackedScene" uid="uid://boqt44mpwm2cb" path="res://game/ui/inventory/itembar.tscn" id="9_5s8sh"]
+[ext_resource type="PackedScene" uid="uid://bd57h5due7pph" path="res://game/ui/message.tscn" id="10_dbsvl"]
 
 [sub_resource type="Animation" id="1"]
 resource_name = "fadein"
@@ -158,3 +159,5 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_g2udl")
 bbcode_enabled = true
 text = "This item is a must have for soemthing that does nothing."
 fit_content = true
+
+[node name="Message" parent="." instance=ExtResource("10_dbsvl")]

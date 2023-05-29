@@ -12,6 +12,7 @@ var _unit
 @onready var menu_container = $Center/Menu
 @onready var label = $Center/Label
 @onready var desc = $Description
+@onready var msg = $Message
 
 
 func _ready():
@@ -37,6 +38,10 @@ func on_resize():
 func set_label(txt):
 	if label.text != txt:
 		label.set_text(txt)
+
+
+func set_message(txt):
+	msg.display(txt)
 
 
 func set_description(txt, pos, right=false):

@@ -18,4 +18,8 @@ func get_base():
 
 func set_item(script):
 	_base = script
-	$Mesh.set_mesh(script.model)
+	$Area/Mesh.set_mesh(script.model)
+
+
+func on_drop():
+	$AnimationPlayer.play("drop")

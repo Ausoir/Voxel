@@ -116,11 +116,11 @@ func _unhandled_input(event):
 		if Input.is_action_just_pressed("ui_menu"):
 			_interface.display(_menu_settings)
 			_unit.take_hit(0)
-			_unit.action.set_next("wield", 0.6)
+			_unit.action.set_next("wield", 0.1)
 		elif Input.is_action_just_pressed("ui_inventory"):
 			_interface.display(_menu_inventory)
 			_unit.take_hit(0)
-			_unit.action.set_next("wield", 0.6)
+			_unit.action.set_next("wield", 0.1)
 		elif Input.is_action_just_pressed("debug"):
 			_debug_mode = !_debug_mode
 		elif event.pressed:

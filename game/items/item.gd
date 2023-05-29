@@ -26,7 +26,7 @@ func use_callback(_user: Node3D):
 
 func get_pointed_block(_user: Node3D, col=3):
 	var origin = _user.camera.global_position
-	var hit = G.tool.raycast(origin, _user.forward, 1, col)
+	var hit = G.tool.raycast(origin, _user.forward, 1.3, col)
 	return hit
 
 
@@ -42,6 +42,7 @@ func drop(_user):
 		var floor_item = to_prop_item()
 		floor_item.position = Vector3(user_pos.previous_position) + G.V2_HALF
 		G.stock.add_child(floor_item)
+		floor_item.on_drop()
 
 
 func to_prop_item():

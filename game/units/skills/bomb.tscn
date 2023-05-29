@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://cwn7tb4n1php4"]
+
+[ext_resource type="ArrayMesh" uid="uid://orubern31au" path="res://assets/objects/o_barrel.obj" id="1_xyfq3"]
+
+[node name="bomb" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = ExtResource("1_xyfq3")

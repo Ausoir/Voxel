@@ -6,6 +6,7 @@ const Item = preload("res://game/items/item.gd")
 const Item_JSON = preload("res://assets/json/items.json")
 const Item_Bag = preload("res://assets/item/bag.obj")
 const Unit_JSON = preload("res://assets/json/units.json")
+const Group_JSON = preload("res://assets/json/groups.json")
 const Debris = preload("res://game/fx/debris.tscn")
 const P_explosion = preload("res://game/fx/explosion/explosion.tscn")
 const P_deflect = preload("res://game/fx/explosion/deflect.tscn")
@@ -27,7 +28,10 @@ var _image_cache = {}
 func get_image(imgname: String):
 	var sprite = _image_cache.get(imgname)
 	if sprite == null:
-		sprite = load(str("res://assets/", imgname, ".png"))
+		var path = str("res://assets/", imgname, ".png")
+		if !ResourceLoader.exists(path):
+			return null
+		sprite = load(path)
 		_image_cache[imgname] = sprite
 	return sprite
 
@@ -78,6 +82,13 @@ func make_object(pos: Vector3, itemname: String):
 	return item
 
 
+func make_any(parent: Node, pos: Vector3, itemname: String):
+	var r = make_humanoid(parent, pos, itemname)
+	if r == null:
+		r = make_unit(pos, itemname)
+	return r
+
+
 func make_unit(pos: Vector3, itemname: String):
 	var dict = Unit_JSON.get_data()
 	var data = dict.get(itemname)
@@ -90,6 +101,8 @@ func make_unit(pos: Vector3, itemname: String):
 		unit.data = data.get("data", {}).duplicate()
 		unit.position = pos
 		unit.health = unit.data.get("health", 1)
+		for i in data.get("souls", []):
+			unit.essence.append(i)
 		_attach_ai(unit, data)
 		return unit
 
@@ -97,11 +110,12 @@ func make_unit(pos: Vector3, itemname: String):
 func make_humanoid(parent: Node, pos: Vector3, itemname: String):
 	var dict = Unit_JSON.get_data()
 	var data = dict.get(itemname)
-	if data != null:
+	if data != null and "head" in data:
 		var unit = Humanoid.instantiate()
 		var head_model = _get_model(data.head)
 		unit.headmesh = head_model
 		unit.set_head_mesh(head_model)
+		unit.data = data.get("data", {}).duplicate()
 		parent.add_child(unit)
 		for i in data.slots:
 			unit.equipment.add_slot(i)
@@ -113,7 +127,6 @@ func make_humanoid(parent: Node, pos: Vector3, itemname: String):
 			unit.equipment.absorb(G.stock.make_item(i))
 		unit.equipment.set_held_index(0)
 		unit.sid = itemname
-		unit.data = data.get("data", {}).duplicate()
 		unit.position = pos
 		unit.health = unit.data.get("health", 1)
 		_attach_ai(unit, data)
@@ -164,3 +177,12 @@ func make_debris(_pos: Vector3, _amount: int):
 		debris.position = Vector3(_pos)
 		add_child(debris)
 
+
+func make_group(itemname, rf):
+	if itemname is String:
+		var dict = Group_JSON.get_data()
+		var data = dict.get(itemname)
+		if data != null:
+			return G.rng.get_combo(data, rf)
+	else:
+		return G.rng.get_combo(itemname, rf)

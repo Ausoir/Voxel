@@ -15,18 +15,25 @@ func use(_user: Node3D):
 	if animation != null:
 		already_hit.clear()
 		var speed = data.get("speed", 1.0)
-		var anim_dur = animation.get_length() * (1 / speed)
 		data["swing anim"] = next_anim
 		if _user.animator.current_animation == anim_name:
 			_user.animator.seek(0, true)
-		_user.animator.play(anim_name, .1, speed)
+		var weapon_type = data.get("type", "blunt")
+		if _user.essence.has(weapon_type):
+			if weapon_type == "blunt":
+				speed += .2
+			else:
+				_user.action.cancelable = true
+		var anim_dur = animation.get_length() * (1 / speed)
 		_user.action.force_set_next("use", anim_dur)
+		_user.animator.play(anim_name, .1, speed)
 
 
 func use2(_user: Node3D):
 	_user.take_hit(5)
 	_user.buffs.add("regeneration", 5)
 	_user.animator.play("swing_down")
+	G.ui.set_message("You have not enough shit stuff!")
 
 
 func on_held_tick(_user: Node3D):
@@ -46,7 +53,11 @@ func on_held_tick(_user: Node3D):
 					if unit.get("faction") != null and unit.faction != _user.faction:
 						if !(unit in already_hit):
 							already_hit.append(unit)
-							apply_damage(unit, _user.position)
+							var damage = data.get("damage", 1)
+							var buffs = data.get("inflict", [])
+							var weapon_type = data.get("type", "blunt")
+							unit.on_damaged(_user.position, damage, buffs)
+							_user.emit_signal("weapon", weapon_type, unit)
 					else:
 						_deflect(_user, to)
 			else:

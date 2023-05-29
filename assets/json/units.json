@@ -2,9 +2,18 @@
 	"bunny": {
 		"model": "unit/bunny",
 		"ai": "beast",
+		"souls": [
+			"shadow"
+		],
 		"data": {
 			"damage": 4,
-			"health": 12
+			"health": 12,
+			"loot": [
+				[
+					0.5,
+					"scout essence"
+				]
+			]
 		}
 	},
 	"security": {
@@ -35,19 +44,22 @@
 			"accessory"
 		],
 		"equipments": [
-			"labcoat",
-			"flashlight"
+			"robe",
+			"lantern"
 		],
 		"items": [
 			"gasblade",
-			"rocket",
-			"remover"
+			"pistol",
+			"remover",
+			"summon",
+			"assassin essence"
 		],
 		"souls": [
-			"scout essence",
+			"shadow essence",
 			"vampire essence"
 		],
 		"data": {
+			"level": 3,
 			"health": 100
 		}
 	},

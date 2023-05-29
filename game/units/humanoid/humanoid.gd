@@ -18,9 +18,9 @@ func _ready():
 	hand = Hand.new()
 
 
-func on_damaged(_pos: Vector3):
-	if super(_pos):
-		$Model/Body/Head.material_overlay = overlay_mat
+func set_material(p):
+	_mesh.material_overlay = p
+	$Model/Body/Head.material_overlay = p
 
 
 func end_flash():

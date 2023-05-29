@@ -7,6 +7,7 @@ var _pathing = Pathing.new()
 var _from
 var _to
 var _dist = 999
+var _timeout = 0
 var task
 var melee_range = 2
 var in_range = false
@@ -24,15 +25,30 @@ func _physics_process(_delta):
 	if task != null:
 		task.call(_delta)
 	if in_range:
-		_from = _unit.get_head()
-		_to = G.you.get_head()
-		_unit.forward = _from.direction_to(_to)
-		_dist = _from.distance_to(_to)
-		if _dist > APPROACH_RANGE:
+		_timeout = 0
+		if !G.you.visible:
+			if priority < 5:
+				deaggro()
+		else:
+			_from = _unit.get_head()
+			_to = G.you.get_head()
+			_unit.forward = _from.direction_to(_to)
+			_dist = _from.distance_to(_to)
 			if priority > 2 and perceive():
 				task = _do_attack
 				priority = 1
+	else:
+		_timeout += _delta
+		if _timeout > 8.0:
+			deaggro()
 	_unit.action.on_process(_delta)
+
+
+func deaggro():
+	_unit.procedure.stop_walk()
+	priority = 5
+	task = null
+	_to = _from
 
 
 func perceive():

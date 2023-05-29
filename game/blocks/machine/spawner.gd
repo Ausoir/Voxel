@@ -2,10 +2,11 @@ extends "../block.gd"
 
 
 func on_tick(_pos: Vector3):
-	if randf() < .1:
-		if randf() < .4:
-			G.stock.make_humanoid(G.stock, _pos + G.V_HALF, "goblin warrior")
-		else:
-			G.stock.make_humanoid(G.stock, _pos + G.V_HALF, "goblin ranger")
+	var biome = G.get_biome(_pos)
+	var units = G.stock.make_group("#fortress", biome)
+	if units != null:
+		var unit = G.stock.make_group(units, G.rng.rf())
+		if unit != null:
+			G.stock.make_any(G.stock, _pos + G.V_HALF, unit)
 	G.tool.remove_block(_pos)
 	return false

@@ -1,0 +1,28 @@
+{
+	"#fortress": [
+		[
+			0.5,
+			"#goblins"
+		],
+		[
+			0.99,
+			"#animals"
+		]
+	],
+	"#goblins": [
+		[
+			0.2,
+			"goblin warrior"
+		],
+		[
+			0.4,
+			"goblin ranger"
+		]
+	],
+	"#animals": [
+		[
+			0.8,
+			"bunny"
+		]
+	]
+}
