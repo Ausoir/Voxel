@@ -105,6 +105,10 @@ func plant_bomb():
 		return true
 
 
+func xray_vision():
+	_unit.buffs.add("vision", 5)
+
+
 func passwall():
 	if _unit == G.you:
 		var cardinal = G.tool.cardinalize(_unit.forward)

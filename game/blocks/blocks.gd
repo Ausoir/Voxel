@@ -12,39 +12,19 @@ class RawMapping:
 var _blocks = []
 var _raw_mappings = []
 
-var theme_floor
-var theme_road
-var theme_alley
-var theme_tiles
-var theme_wall
-var theme_special
-var MARKER
-var SPAWNER
-var STONE
-var SOIL
-var METAL
-var GLASS
-var TILES
-var MIRROR
-var WOOD
-var BRICK
-var STONEWORK
-var CARPET
-var LABTILES
-
 
 func _init():
 	var dict = Block_JSON.get_data()
 	for blockname in dict.keys():
 		var block = dict[blockname]
-		var r = _create_block(blockname, block)
-		set(blockname.to_upper(), r)
-	theme_floor = SOIL#G.blocks.METAL
-	theme_road = WOOD
-	theme_alley = BRICK
-	theme_tiles = WOOD
-	theme_wall = STONE#G.blocks.METAL
-	theme_special = LABTILES
+		_create_block(blockname, block)
+
+
+func to_dict():
+	var r = {}
+	for b in _blocks:
+		r[b.sid] = b
+	return r
 
 
 func get_block(id: int) -> Block:
@@ -56,7 +36,6 @@ func get_block_by_name(block_name: String) -> Block:
 	for b in _blocks:
 		if b.sid == block_name:
 			return b
-	assert(false)
 	return null
 
 

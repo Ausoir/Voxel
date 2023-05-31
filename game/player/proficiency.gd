@@ -2,7 +2,7 @@ extends Node
 
 
 var _unit
-var unarmed := 0.0
+var unarmed := 3.0
 var blade := 0.0
 var blunt := 0.0
 var spear := 0.0

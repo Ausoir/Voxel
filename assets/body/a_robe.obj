@@ -4,7 +4,7 @@
 o 
 
 # material
-mtllib a_labcoat.mtl
+mtllib a_robe.mtl
 usemtl palette
 
 # normals

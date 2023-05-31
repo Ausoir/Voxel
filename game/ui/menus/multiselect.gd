@@ -6,6 +6,7 @@ func add_button(text, callback):
 	button.set_text(text)
 	$Panel/VBox.add_child(button)
 	button.connect("pressed", Callable(self, "_on_press").bind(callback))
+	return button
 
 
 func _on_press(callback):

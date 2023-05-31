@@ -25,6 +25,12 @@ var _scene_cache = {}
 var _image_cache = {}
 
 
+func clean():
+	for child in get_children():
+		child.queue_free()
+		remove_child(child)
+
+
 func get_image(imgname: String):
 	var sprite = _image_cache.get(imgname)
 	if sprite == null:
@@ -57,7 +63,7 @@ func make_item(itemname: String):
 			item = Item.new()
 		
 		item.sid = itemname
-		item.sprite = load("res://assets/" + dat.spritename + ".png")
+		item.sprite = get_image(dat.spritename)
 		if dat.has("modelname"):
 			item.model = _get_model(dat.modelname)
 		else:

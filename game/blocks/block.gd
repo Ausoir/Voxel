@@ -35,3 +35,9 @@ func on_hover(_pos: Vector3):
 
 func on_turn(_pos: Vector3):
 	pass
+
+
+func on_step(_pos: Vector3):
+	var mat = data.get("material", "dirt")
+	if mat != "none":
+		G.sfx.play("step_"+mat, _pos)

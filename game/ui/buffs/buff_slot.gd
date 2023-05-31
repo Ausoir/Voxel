@@ -12,7 +12,10 @@ func set_buff(p):
 
 
 func update_cooldown():
-	_label.set_text(str(_buff.duration))
+	if _buff.duration == -1:
+		_label.set_text("")
+	else:
+		_label.set_text(str(_buff.duration))
 
 
 func update_sprite():

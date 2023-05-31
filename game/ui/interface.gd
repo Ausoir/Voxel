@@ -13,12 +13,13 @@ var _unit
 @onready var label = $Center/Label
 @onready var desc = $Description
 @onready var msg = $Message
+@onready var sidetext = $Sidetext
+@onready var fade = $Fade
 
 
 func _ready():
 	get_tree().get_root().connect("size_changed", Callable(self, "on_resize"))
 	on_resize()
-	fadein()
 
 
 func set_unit(unit):
@@ -32,7 +33,7 @@ func set_unit(unit):
 
 func on_resize():
 	screen_size = get_viewport().get_visible_rect()
-	$Fade.set_size(screen_size.size)
+	fade.set_size(screen_size.size)
 
 
 func set_label(txt):
@@ -42,6 +43,10 @@ func set_label(txt):
 
 func set_message(txt):
 	msg.display(txt)
+
+
+func set_sidetext(txt):
+	sidetext.display(txt)
 
 
 func set_description(txt, pos, right=false):
@@ -68,6 +73,7 @@ func display(p):
 		$Animation.play("tint")
 		menu_container.add_child(p)
 		p.set_unit(_unit)
+		p.on_display()
 	else:
 		clear()
 
@@ -77,10 +83,12 @@ func clear():
 	on = false
 	desc.hide()
 	$Animation.stop()
-	$Fade.color = Color.TRANSPARENT
+	sidetext.hide()
+	fade.color = Color.TRANSPARENT
 	$HotBar.show()
 	$Center/Crosshair.show()
 	for i in menu_container.get_children():
+		i.on_close()
 		menu_container.remove_child(i)
 
 

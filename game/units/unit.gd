@@ -172,7 +172,7 @@ func _physics_process(delta):
 	elif action.action == null:
 		animator.play("RESET")
 		_wait_time += delta
-		if _wait_time > 3.0:
+		if _wait_time > 4.0:
 			emit_signal("wait")
 
 	velocity.x += motor.x
@@ -184,10 +184,11 @@ func _physics_process(delta):
 	var prev_motion = motion
 	motion = _box_mover.get_motion(get_global_position(), motion, _aabb, _terrain)
 	if abs(motion.y) < 0.001 and prev_motion.y < -0.001:
-		grounded = true
 		friction = max(0, .92 + prev_motion.y * 5)
-		if _last_velocity_y < -.25:
+		if !grounded:
 			_last_velocity_y = 0
+			G.sfx.play("land", position)
+		grounded = true
 	if abs(motion.y) > 0.001:
 		grounded = false
 		_last_velocity_y = prev_motion.y
@@ -201,4 +202,8 @@ func _physics_process(delta):
 
 
 func on_step():
-	G.sfx.play("step_wood", position)
+	if grounded:
+		var down = position + Vector3.DOWN
+		var block = G.tool.get_block(down)
+		if block != null:
+			block.on_step(down)

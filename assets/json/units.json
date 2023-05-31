@@ -1,46 +1,8 @@
 {
-	"bunny": {
-		"model": "unit/bunny",
-		"ai": "beast",
-		"souls": [
-			"shadow"
-		],
-		"data": {
-			"damage": 4,
-			"health": 12,
-			"loot": [
-				[
-					0.5,
-					"scout essence"
-				]
-			]
-		}
-	},
-	"security": {
-		"head": "head/head",
-		"ai": "human",
-		"slots": [
-			"body",
-			"head",
-			"accessory"
-		],
-		"equipments": [
-			"security outfit",
-			"security cap",
-			"flashlight"
-		],
-		"items": [
-			"taser"
-		],
-		"data": {
-			"health": 30
-		}
-	},
-	"janitor": {
+	"warrior": {
 		"head": "head/head5",
 		"slots": [
 			"body",
-			"head",
 			"accessory"
 		],
 		"equipments": [
@@ -49,10 +11,7 @@
 		],
 		"items": [
 			"gasblade",
-			"pistol",
-			"remover",
-			"summon",
-			"vampire essence"
+			"potion"
 		],
 		"souls": [
 			"shadow essence",
@@ -94,6 +53,37 @@
 		"data": {
 			"health": 30,
 			"range": 10
+		}
+	},
+	"bunny": {
+		"model": "unit/bunny",
+		"ai": "beast",
+		"data": {
+			"damage": 4,
+			"health": 12,
+			"loot": [
+				[
+					0.5,
+					"scout essence"
+				]
+			]
+		}
+	},
+	"rat": {
+		"model": "unit/bunny",
+		"ai": "beast",
+		"souls": [
+			"shadow"
+		],
+		"data": {
+			"damage": 4,
+			"health": 12,
+			"loot": [
+				[
+					0.5,
+					"scout essence"
+				]
+			]
 		}
 	}
 }

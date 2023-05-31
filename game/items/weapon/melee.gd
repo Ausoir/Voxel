@@ -36,6 +36,7 @@ func use2(_user: Node3D):
 	_user.buffs.add("regeneration", 5)
 	_user.animator.play("swing_down")
 	G.ui.set_message("You have not enough shit stuff!")
+	_user.action.set_next("idle", .2)
 
 
 func on_held_tick(_user: Node3D):

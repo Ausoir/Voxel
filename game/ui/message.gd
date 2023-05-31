@@ -1,11 +1,12 @@
 extends RichTextLabel
 
-
+@export var show_time = 3
 var _lifetime = 0
+
 
 func display(txt):
 	set_text(txt)
-	_lifetime = 3
+	_lifetime = show_time
 	show()
 	set_process(true)
 

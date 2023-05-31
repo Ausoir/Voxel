@@ -35,6 +35,12 @@ func on_interact(_pos: Vector3, _user: Node3D):
 
 func on_activate(_pos: Vector3, _user: Node3D):
 	_user.action.set_next("idle", 0)
+	var exc = link(_pos, [])
+	for i in exc:
+		open(i, _user)
+
+
+func open(_pos: Vector3, _user: Node3D):
 	var voxel = G.tool.get_voxel(_pos)
 	var above = G.tool.get_voxel(_pos + Vector3.UP)
 	if above == voxel:
@@ -54,6 +60,13 @@ func on_activate(_pos: Vector3, _user: Node3D):
 	if voxel == voxels[1]:
 		door.rotation.y = PI / -2.0
 		door.position.x += 1
-	door.get_node("Animator").play("open")
-	G.sfx.play("door_metal", door.position)
+	door.on_activate(_user)
 
+
+func link(_pos: Vector3, exc):
+	exc.append(_pos)
+	for i in G.CARDINALS:
+		var neighbor = _pos + i
+		if G.tool.get_voxel(neighbor) in voxels and !(neighbor in exc):
+			link(neighbor, exc)
+	return exc

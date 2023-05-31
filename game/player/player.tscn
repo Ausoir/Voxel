@@ -16,7 +16,6 @@ radius = 16.0
 script = ExtResource("1_5b4wf")
 
 [node name="VoxelViewer" type="VoxelViewer" parent="."]
-view_distance = 257
 
 [node name="View" type="SpringArm3D" parent="."]
 collision_mask = 14

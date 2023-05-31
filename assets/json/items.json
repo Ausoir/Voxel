@@ -1,42 +1,35 @@
 {
-	"security cap": {
-		"spritename": "head/h_cap_sprite",
-		"model2name": "head/h_cap",
-		"script": "equipment/helmet",
-		"delay": 1,
-		"part": "head",
+	"potion": {
+		"spritename": "item/potion",
+		"modelname": "item/potion3d-0-potion",
+		"script": "consumable/consumable",
 		"data": {
-			"space": 3
-		}
-	},
-	"night goggle": {
-		"spritename": "item/flier",
-		"script": "equipment/flashlight",
-		"model2name": "head/h_cap",
-		"delay": 1,
-		"part": "head",
-		"data": {
-			"light": 40,
-			"light spread": 180,
-			"light color": [
-				0,
-				1,
-				0
+			"buffs": [
+				[
+					"regeneration",
+					5
+				],
+				[
+					"slow",
+					3
+				]
 			]
 		}
 	},
-	"scouter helmet": {
-		"spritename": "item/flier",
-		"script": "equipment/helmet",
-		"model2name": "head/scouter_helm",
+	"rags": {
+		"spritename": "body/a_rags_sprite",
+		"modelname": "item/bag_cloth",
+		"model2name": "body/a_rags",
+		"script": "equipment/armor",
 		"delay": 1,
-		"part": "head",
+		"part": "body",
 		"data": {
-
+			"space": 2
 		}
 	},
 	"suit": {
 		"spritename": "body/a_suit_sprite",
+		"modelname": "item/bag_cloth",
 		"model2name": "body/a_suit",
 		"script": "equipment/armor",
 		"delay": 1,
@@ -46,8 +39,9 @@
 		}
 	},
 	"robe": {
-		"spritename": "body/a_labcoat_sprite",
-		"model2name": "body/a_labcoat",
+		"spritename": "body/a_robe_sprite",
+		"modelname": "item/bag_cloth",
+		"model2name": "body/a_robe",
 		"script": "equipment/armor",
 		"delay": 1,
 		"part": "body",
@@ -58,7 +52,6 @@
 	"lantern": {
 		"spritename": "item/flier",
 		"script": "equipment/spotlight",
-		"delay": 1,
 		"part": "accessory",
 		"data": {
 			"desc": "Lights the way.",
@@ -67,6 +60,22 @@
 				1,
 				0.8,
 				0
+			]
+		}
+	},
+	"abyssal lantern": {
+		"spritename": "item/flier",
+		"script": "equipment/spotlight",
+		"part": "accessory",
+		"data": {
+			"desc": "Provides great amount of light.",
+			"value": 20,
+			"light": 30,
+			"light spread": 180,
+			"light color": [
+				0,
+				0,
+				1
 			]
 		}
 	},
@@ -158,9 +167,9 @@
 		"type": "bow",
 		"data": {
 			"projectile": "arrow",
-			"speed": 0.5,
+			"speed": 0.4,
 			"spread": 0.2,
-			"damage": 5
+			"damage": 8
 		}
 	},
 	"goblin bow": {
@@ -170,7 +179,7 @@
 		"type": "bow",
 		"data": {
 			"projectile": "arrow",
-			"speed": 0.5,
+			"speed": 0.8,
 			"spread": 0.2,
 			"damage": 5,
 			"inflict": [
@@ -216,7 +225,7 @@
 			"projectile": "laser",
 			"speed": 2,
 			"spread": 0.2,
-			"damage": 2,
+			"damage": 4,
 			"delay": 0.5
 		}
 	},
@@ -290,6 +299,7 @@
 	},
 	"goblin essence": {
 		"spritename": "item/essence",
+		"modelname": "item/essence",
 		"part": "essence",
 		"data": {
 			"desc": "Your attacks apply poison that slows the victim.",
@@ -298,6 +308,7 @@
 	},
 	"earth essence": {
 		"spritename": "item/essence",
+		"modelname": "item/essence",
 		"part": "essence",
 		"data": {
 			"desc": "Touch a solid wall to pass through. Increase health by 10.",
@@ -307,6 +318,7 @@
 	},
 	"scout essence": {
 		"spritename": "item/essence",
+		"modelname": "item/essence",
 		"part": "essence",
 		"data": {
 			"desc": "Visualize damage done when units are damaged. Increase move speed by 1.",
@@ -316,6 +328,7 @@
 	},
 	"warrior essence": {
 		"spritename": "item/essence",
+		"modelname": "item/essence",
 		"part": "essence",
 		"data": {
 			"desc": "Recover some health after taking hit.",
@@ -324,6 +337,7 @@
 	},
 	"vampire essence": {
 		"spritename": "item/essence",
+		"modelname": "item/essence",
 		"part": "essence",
 		"data": {
 			"desc": "Recover some health after dealing damage. Requires 2 essence slots.",
@@ -333,6 +347,7 @@
 	},
 	"psychic essence": {
 		"spritename": "item/essence",
+		"modelname": "item/essence",
 		"part": "essence",
 		"data": {
 			"desc": "With bare hands, shoot a wave of psychic blast forward.",
@@ -341,6 +356,7 @@
 	},
 	"bomb essence": {
 		"spritename": "item/essence",
+		"modelname": "item/essence",
 		"part": "essence",
 		"data": {
 			"desc": "Create a bomb.",
@@ -349,6 +365,7 @@
 	},
 	"shadow essence": {
 		"spritename": "item/essence",
+		"modelname": "item/essence",
 		"part": "essence",
 		"data": {
 			"desc": "Turn invisible.",
@@ -357,6 +374,7 @@
 	},
 	"wind essence": {
 		"spritename": "item/essence",
+		"modelname": "item/essence",
 		"part": "essence",
 		"data": {
 			"desc": "Charge to target position, knocking down everything at the destination.",
@@ -365,6 +383,7 @@
 	},
 	"assassin essence": {
 		"spritename": "item/essence",
+		"modelname": "item/essence",
 		"part": "essence",
 		"data": {
 			"desc": "Faint dagger attacks.",
@@ -377,6 +396,7 @@
 	},
 	"berserker essence": {
 		"spritename": "item/essence",
+		"modelname": "item/essence",
 		"part": "essence",
 		"data": {
 			"desc": "Gain 20% attack speed with blunt weapons.",
@@ -389,6 +409,7 @@
 	},
 	"spearmaster essence": {
 		"spritename": "item/essence",
+		"modelname": "item/essence",
 		"part": "essence",
 		"data": {
 			"desc": "Faint spear attacks.",
@@ -401,6 +422,7 @@
 	},
 	"blademaster essence": {
 		"spritename": "item/essence",
+		"modelname": "item/essence",
 		"part": "essence",
 		"data": {
 			"desc": "Faint attacks with bladed weapons.",
@@ -413,6 +435,7 @@
 	},
 	"goblin armor": {
 		"spritename": "body/a_security_sprite",
+		"modelname": "item/bag_cloth",
 		"model2name": "body/a_goblin_warrior",
 		"script": "equipment/armor",
 		"delay": 1,

@@ -1,11 +1,63 @@
 {
+	"#shop": [
+		[
+			0.01,
+			"eblade"
+		],
+		[
+			0.02,
+			"glaive"
+		],
+		[
+			0.03,
+			"cleaver"
+		],
+		[
+			0.04,
+			"lantern"
+		],
+		[
+			0.05,
+			"robe"
+		],
+		[
+			0.06,
+			"suit"
+		],
+		[
+			0.07,
+			"bow"
+		],
+		[
+			0.08,
+			"crossbow"
+		],
+		[
+			0.09,
+			"pistol"
+		],
+		[
+			0.1,
+			"pistol"
+		]
+	],
+	"#village": [
+		[
+			0.1,
+			"warrior"
+		],
+		[
+			0.9,
+			"bunny"
+		]
+	],
 	"#fortress": [
 		[
 			0.5,
 			"#goblins"
 		],
 		[
-			0.99,
+			0.7,
 			"#animals"
 		]
 	],

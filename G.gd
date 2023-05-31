@@ -3,6 +3,7 @@ extends Node
 signal post_ready
 
 const COLLISION_DESCRIPTION = ["interact", "sight", "unit", "projectile"]
+const CARDINALS = [Vector3(1, 0, 0), Vector3(0, 0, -1), Vector3(-1, 0, 0), Vector3(0, 0, 1)]
 const GRAVITY = 40.0
 const HORIZONTAL_PLANE = Plane(Vector3.UP, 0)
 const V_HALF = Vector3(.5, .5, .5)
@@ -12,6 +13,7 @@ var rng = preload("res://game/rng.gd").new()
 var player
 var you
 var noisemap
+var vars = {"map": "town"}
 @onready var terrain = get_node("/root/Game/Terrain")
 @onready var late_loader = get_node("/root/Game/Terrain/LateLoader")
 @onready var tool = get_node("/root/Game/Tool")
@@ -31,4 +33,6 @@ func _ready():
 
 
 func get_biome(_pos: Vector3):
-	return G.noisemap.get_pixel(_pos.x, _pos.z).r
+	var x = int(_pos.x) % 128
+	var z = int(_pos.z) % 128
+	return G.noisemap.get_pixel(x, z).r

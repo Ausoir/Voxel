@@ -1,5 +1,6 @@
 extends VoxelGeneratorScript
 
+const Map_JSON = preload("res://assets/json/maps.json")
 const _CHANNEL = VoxelBuffer.CHANNEL_TYPE
 const _BLOCK_SIZE = 16
 const CORNER = 0
@@ -8,65 +9,69 @@ const MIDDLE = 2
 const IMAGE_DIR = "res://assets/maps/"
 const Y_COORD = 0
 
-var _late_loads = {}
-var _prop_late_loads = {}
-var _img_corners = ["cafe_", "dorms_", "office_", "lab_"]
-var pois = {
-	Vector3i(0, Y_COORD, 0): [_img_corners, [0]],
-	Vector3i(48, Y_COORD, 0): [_img_corners, [1]],
-	Vector3i(0, Y_COORD, 48): [_img_corners, [3]],
-	Vector3i(48, Y_COORD, 48): [_img_corners, [2]],
+var map
+var offset = Vector3i()
+var _mutex = Mutex.new()
+var _pois_rotations = {
+	Vector3i(0, Y_COORD, 0): [0],
+	Vector3i(48, Y_COORD, 0): [1],
+	Vector3i(0, Y_COORD, 48): [3],
+	Vector3i(48, Y_COORD, 48): [2],
 }
-var _id_cache = {}
+var _palette = {}
+var _pois
+var spawn_points = []
 
 
 func _init():
-	var new = {}
+	if !G.post_ready.is_connected(post_ready):
+		G.post_ready.connect(post_ready)
+	var maps = Map_JSON.get_data()
+	map = maps.get(G.vars.map)
+	var imgs = map.variants.duplicate()
+	_pois = {}
 	for x in range(0, 100, 16):
 		for z in range(0, 100, 16):
-			new[Vector3i(x, Y_COORD, z)] = []
-	for i in pois.keys():
-		var image_path = G.rng.pick_and_pop(pois[i][0])
+			_pois[Vector3i(x, Y_COORD, z)] = []
+	for i in _pois_rotations.keys():
+		var image_path = G.rng.pick_and_pop(imgs)
 		for _story in range(5):
-			var image = load(str(IMAGE_DIR, image_path, _story, ".png")).get_image()
-			var rotation = G.rng.pick(pois[i][1])
+			var image = load(str(IMAGE_DIR, image_path, " (", _story+1, ").png")).get_image()
+			var rotation = G.rng.pick(_pois_rotations[i])
 			if rotation == 1:
 				image.rotate_90(CLOCKWISE)
 			elif rotation == 2:
 				image.rotate_180()
 			elif rotation == 3:
 				image.rotate_90(COUNTERCLOCKWISE)
-			new[i + Vector3i(0, 0, 0)].append(_crop(image, 0, 0))
-			new[i + Vector3i(16, 0, 0)].append(_crop(image, 1, 0))
-			new[i + Vector3i(32, 0, 0)].append(_crop(image, 2, 0))
-			new[i + Vector3i(0, 0, 16)].append(_crop(image, 0, 1))
-			new[i + Vector3i(0, 0, 32)].append(_crop(image, 0, 2))
-			new[i + Vector3i(16, 0, 16)].append(_crop(image, 1, 1))
-			new[i + Vector3i(32, 0, 16)].append(_crop(image, 2, 1))
-			new[i + Vector3i(16, 0, 32)].append(_crop(image, 1, 2))
-			new[i + Vector3i(32, 0, 32)].append(_crop(image, 2, 2))
-	pois = new
+			_pois[i + Vector3i(0, 0, 0)].append(_crop(image, 0, 0))
+			_pois[i + Vector3i(16, 0, 0)].append(_crop(image, 1, 0))
+			_pois[i + Vector3i(32, 0, 0)].append(_crop(image, 2, 0))
+			_pois[i + Vector3i(0, 0, 16)].append(_crop(image, 0, 1))
+			_pois[i + Vector3i(0, 0, 32)].append(_crop(image, 0, 2))
+			_pois[i + Vector3i(16, 0, 16)].append(_crop(image, 1, 1))
+			_pois[i + Vector3i(32, 0, 16)].append(_crop(image, 2, 1))
+			_pois[i + Vector3i(16, 0, 32)].append(_crop(image, 1, 2))
+			_pois[i + Vector3i(32, 0, 32)].append(_crop(image, 2, 2))
 
 
-func _get_block_id(blockname):
-	var id = _id_cache.get(blockname)
-	if id == null:
-		var block = G.blocks.get_block_by_name(blockname)
-		if block == null:
-			print("block '" + blockname + "' not found")
-			assert(false)
-			return null
-		id = block.id
-		_id_cache[blockname] = id
-	return id
+func post_ready():
+	_palette = G.blocks.to_dict()
+	for i in map.palette.keys():
+		var v = map.palette[i]
+		_palette[i] = G.blocks.get_block_by_name(v)
 
 
 func _generate_block(buffer: VoxelBuffer, origin: Vector3i, _lod: int):
-	buffer.fill(0, _CHANNEL)
-	if origin.y == Y_COORD and !pois.is_empty():
-		var poi = pois.get(origin)
-		if poi != null:
-			_load_image(buffer, origin, poi)
+	if origin.y == Y_COORD:
+		buffer.fill_area(_palette["soil"].id,
+			Vector3.ZERO, Vector3(16, 6, 16), _CHANNEL)
+		if !_pois.is_empty():
+			var poi = _pois.get(origin - offset)
+			if poi != null:
+				_load_image(buffer, origin, poi)
+	else:
+		buffer.fill(0, _CHANNEL)
 	buffer.compress_uniform_channels()
 
 
@@ -93,10 +98,10 @@ func _load_image(buffer: VoxelBuffer, origin: Vector3i, images):
 	for i in lists:
 		_cll += i[0]
 		_cpll += i[1]
-	_late_loads[origin] = _cll
-	_prop_late_loads[origin] = _cpll
-	G.late_loader.load_blocks = _late_loads
-	G.late_loader.load_props = _prop_late_loads
+	_mutex.lock()
+	G.late_loader.load_blocks[origin] = _cll
+	G.late_loader.load_props[origin] = _cpll
+	_mutex.unlock()
 
 
 func _load_wall(buffer: VoxelBuffer, origin: Vector3, wall_image, x, y, z):
@@ -110,19 +115,23 @@ func _load_wall(buffer: VoxelBuffer, origin: Vector3, wall_image, x, y, z):
 		var ox = x + origin.x
 		var oy = y + origin.y
 		var oz = z + origin.z
-		match ([r, g, b]):
+		var key = [r, g, b]
+		match (key):
 			[4,4,4]:
 				buffer.set_voxel(2, x, y+1, z, _CHANNEL)
 				buffer.set_voxel(2, x, y+2, z, _CHANNEL)
 				buffer.set_voxel(2, x, y+3, z, _CHANNEL)
 			[0,0,0]:
-				buffer.fill_area(G.blocks.theme_wall,
+				buffer.fill_area(_palette["wall"].voxels[0],
+					Vector3(x, y, z), Vector3(x + 1, y+5, z + 1), _CHANNEL)
+			[1,1,1]:
+				buffer.fill_area(_palette["wall2"].voxels[0],
 					Vector3(x, y, z), Vector3(x + 1, y+5, z + 1), _CHANNEL)
 			[2,2,2]:
-				buffer.fill_area(G.blocks.theme_wall,
+				buffer.fill_area(_palette["wall"].voxels[0],
 					Vector3(x, y, z), Vector3(x + 1, y+3, z + 1), _CHANNEL)
 			[3,3,3]:
-				buffer.fill_area(G.blocks.theme_wall,
+				buffer.fill_area(_palette["wall"].voxels[0],
 					Vector3(x, y, z), Vector3(x + 1, y+2, z + 1), _CHANNEL)
 			[2,1,0]:
 				_add_to_arr(_chunk_late_loads,ox,oy+1,oz,"table")
@@ -135,13 +144,13 @@ func _load_wall(buffer: VoxelBuffer, origin: Vector3, wall_image, x, y, z):
 			[2,0,2]:
 				_add_to_arr(_chunk_late_loads,ox,oy+1,oz,"barrel")
 			[0,1,4]:
-				buffer.fill_area(G.blocks.theme_wall,
+				buffer.fill_area(_palette["wall"].voxels[0],
 					Vector3(x, y, z), Vector3(x + 1, y+5, z + 1), _CHANNEL)
-				buffer.set_voxel(G.blocks.GLASS, x, y+2, z, _CHANNEL)
+				buffer.set_voxel(_palette["glass"].voxels[0], x, y+2, z, _CHANNEL)
 			[0,4,4]:
-				buffer.fill_area(G.blocks.theme_wall,
+				buffer.fill_area(_palette["wall"].voxels[0],
 					Vector3(x, y, z), Vector3(x + 1, y+5, z + 1), _CHANNEL)
-				buffer.set_voxel(G.blocks.MIRROR, x, y+2, z, _CHANNEL)
+				buffer.set_voxel(_palette["mirror"].voxels[0], x, y+2, z, _CHANNEL)
 			[1,0,1]:
 				_add_to_arr(_chunk_late_loads,ox,oy+1,oz,"bookcase")
 				_add_to_arr(_chunk_late_loads,ox,oy+2,oz,"bookcase")
@@ -156,13 +165,15 @@ func _load_wall(buffer: VoxelBuffer, origin: Vector3, wall_image, x, y, z):
 			[1,1,0]:
 				_add_to_arr(_chunk_late_loads,ox,oy+1,oz,"solar panel")
 			[2,0,0]:
-				buffer.set_voxel(G.blocks.theme_wall, x, y+3, z, _CHANNEL)
-				buffer.set_voxel(G.blocks.theme_wall, x, y+4, z, _CHANNEL)
+				buffer.set_voxel(_palette["wall"].voxels[0], x, y+3, z, _CHANNEL)
+				buffer.set_voxel(_palette["wall"].voxels[0], x, y+4, z, _CHANNEL)
 				_add_to_arr(_chunk_late_loads,ox,oy+1,oz,"shutter")
 			[3,1,0]:
 				_add_to_arr(_chunk_late_loads,ox,oy+1,oz,"sofa")
+			[3,0,0]:
+				_add_to_arr(_chunk_late_loads,ox,oy+1,oz,"campfire")
 			[4,0,0]:
-				buffer.set_voxel(G.blocks.theme_wall, x, y+3, z, _CHANNEL)
+				buffer.set_voxel(_palette["wall"].voxels[0], x, y+3, z, _CHANNEL)
 				_add_to_arr(_chunk_late_loads,ox,oy+1,oz,"door")
 				_add_to_arr(_chunk_late_loads,ox,oy+4,oz,"vent")
 			[4,0,1]:
@@ -184,14 +195,17 @@ func _load_wall(buffer: VoxelBuffer, origin: Vector3, wall_image, x, y, z):
 				_chunk_prop_late_loads.append([Vector3(ox, oy+1, oz), "bed"])
 			[4,3,0]:
 				_chunk_prop_late_loads.append([Vector3(ox, oy+1, oz), "toilet"])
+				spawn_points.append(Vector3(ox, oy+4, oz))
 			[0,4,1]:
 				_chunk_prop_late_loads.append([Vector3(ox, oy+1, oz), "pot"])
 			[4,4,1]:
 				_chunk_prop_late_loads.append([Vector3(ox, oy+3, oz), "torch"])
-#				buffer.set_voxel(G.blocks.theme_wall, x, y, z, _CHANNEL)
-#				_add_to_arr(_chunk_late_loads,ox,oy+4,oz,"square light")w
 			[4,4,2]:
 				_add_to_arr(_chunk_late_loads,ox,oy+4,oz,"strong light")
+			_:
+				var override = map.override.get(str(r,g,b))
+				if override != null:
+					_chunk_prop_late_loads.append([Vector3(ox, oy+1, oz), override])
 	return [_chunk_late_loads, _chunk_prop_late_loads]
 
 
@@ -202,32 +216,31 @@ func _load_floor(buffer: VoxelBuffer, _origin: Vector3, ceiling_pixel: Color, x,
 		var r := roundi(ceiling_pixel.r * 4)
 		var g := roundi(ceiling_pixel.g * 4)
 		var b := roundi(ceiling_pixel.b * 4)
-		match ([r, g, b]):
+		var key = [r, g, b]
+		match (key):
 			[1,1,1]:
-				buffer.set_voxel(G.blocks.theme_alley, x, y, z, _CHANNEL)
+				buffer.set_voxel(_palette["alley"].voxels[0], x, y, z, _CHANNEL)
 			[2,2,2]:
-				buffer.fill_area(G.blocks.theme_wall,
+				buffer.fill_area(_palette["wall"].voxels[0],
 					Vector3(x, y-4, z), Vector3(x + 1, y-1, z + 1), _CHANNEL)
 			[3,3,3]:
-				buffer.fill_area(G.blocks.theme_wall,
+				buffer.fill_area(_palette["wall"].voxels[0],
 					Vector3(x, y-4, z), Vector3(x + 1, y, z + 1), _CHANNEL)
 			[3,4,0]:
-				buffer.set_voxel(G.blocks.theme_road, x, y, z, _CHANNEL)
+				buffer.set_voxel(_palette["road"].voxels[0], x, y, z, _CHANNEL)
 			[3,0,4]:
-				buffer.set_voxel(G.blocks.theme_special, x, y, z, _CHANNEL)
+				buffer.set_voxel(_palette["special"].voxels[0], x, y, z, _CHANNEL)
 			[2,1,0]:
-				buffer.set_voxel(G.blocks.CARPET, x, y, z, _CHANNEL)
+				buffer.set_voxel(_palette["carpet"].voxels[0], x, y, z, _CHANNEL)
 			[0,1,4]:
-				buffer.set_voxel(G.blocks.GLASS, x, y, z, _CHANNEL)
+				buffer.set_voxel(_palette["glass"].voxels[0], x, y, z, _CHANNEL)
 			[4,2,0]:
-				buffer.set_voxel(G.blocks.theme_tiles, x, y, z, _CHANNEL)
-			_:
-				buffer.set_voxel(G.blocks.theme_wall, x, y, z, _CHANNEL)
+				buffer.set_voxel(_palette["tiles"].voxels[0], x, y, z, _CHANNEL)
+			[4,4,4]:
+				buffer.set_voxel(_palette["wall"].voxels[0], x, y, z, _CHANNEL)
 	return [_chunk_late_loads, _chunk_prop_late_loads]
 
 
 func _add_to_arr(arr, x,y,z, blockname):
-	var blockid = _get_block_id(blockname)
-	if blockid != null:
-		arr.append([Vector3(x,y,z), blockid])
+	arr.append([Vector3(x,y,z), _palette[blockname].id])
 

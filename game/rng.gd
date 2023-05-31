@@ -14,6 +14,10 @@ func rf():
 	return rng.randf()
 
 
+func rir(p1, p2):
+	return rng.randi_range(p1, p2)
+
+
 func percent(p):
 	return rng.randf() < p
 
@@ -46,6 +50,12 @@ func roll(times, p):
 
 
 func get_combo(dat, val: float):
-	for i in dat:
-		if val < i[0]:
-			return i[1]
+	if dat != null:
+		for i in dat:
+			if val < i[0]:
+				return i[1]
+
+
+func arb_rf(sd):
+	var val = rand_from_seed(sd)[0]
+	return float(val % 10000 / 10000.0)

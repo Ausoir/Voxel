@@ -1,0 +1,46 @@
+{
+	"town": {
+		"spawn": "#village",
+		"variants": [
+			"town/town",
+			"town/blank",
+			"town/blank",
+			"town/tower"
+		],
+		"palette": {
+			"road": "soil",
+			"tiles": "wood",
+			"alley": "wood",
+			"wall": "brick",
+			"wall2": "metal",
+			"special": "labtiles",
+			"carpet": "carpet",
+			"glass": "glass"
+		},
+		"override": {
+			"024": "../npc/shopkeep",
+			"124": "../npc/stashkeep",
+			"224": "../npc/healer",
+			"324": "../npc/transporter"
+		}
+	},
+	"fortress": {
+		"spawn": "#fortress",
+		"variants": [
+			"fortress/cafe",
+			"fortress/dorms",
+			"fortress/office",
+			"fortress/lab"
+		],
+		"palette": {
+			"road": "wood",
+			"alley": "brick",
+			"tiles": "wood",
+			"wall": "stone",
+			"wall2": "metal",
+			"special": "labtiles",
+			"carpet": "carpet",
+			"glass": "glass"
+		}
+	}
+}

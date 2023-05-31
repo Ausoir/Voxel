@@ -1,18 +1,29 @@
 extends Node
 
-
-var vars
 var unit
 @onready var proficiency = $Proficiency
+@onready var _viewer = $VoxelViewer
 
 
 func _ready():
 	G.player = self
-	var u = G.stock.make_humanoid(self, Vector3(), "janitor")
-	set_unit(u)
-	$Interface.set_unit(unit)
 	$Save.load_data()
-	unit.on_mesh_set()
+	var u = G.stock.make_humanoid(self, Vector3(), G.vars.name)
+	set_unit(u)
+
+
+func load_map(p):
+	G.stock.clean()
+	G.turn.clear()
+	G.vars.map = p
+	_viewer.position = Vector3(256, 0, 0)
+	G.terrain.generator.offset = Vector3i(256, 0, 0)
+	G.terrain.generator._init()
+	G.terrain.get_node("LateLoader").start(1)
+	unit.global_position = Vector3(256 + 64 + 15, 12, 15)
+	unit.buffs.clean()
+	G.ui.clear()
+	G.ui.fade.color = Color.BLACK
 
 
 func set_unit(p):
@@ -32,4 +43,6 @@ func set_unit(p):
 	$View.set_unit(unit)
 	$Control.set_unit(unit)
 	proficiency.set_unit(unit)
+	$Interface.set_unit(unit)
 	$View.zoom_distance(0)
+	unit.on_mesh_set()

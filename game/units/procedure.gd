@@ -61,6 +61,7 @@ func stop_walk():
 func use():
 	face_front()
 	if _unit.action.delay <= 0:
+#		_unit.animator.play("RESET")
 		var inv_item = _unit.equipment.get_held_item()
 		if inv_item != null:
 			inv_item.use(_unit)

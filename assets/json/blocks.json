@@ -3,7 +3,10 @@
 		"icon": " ",
 		"voxels": [
 			"air"
-		]
+		],
+		"data": {
+			"material": "none"
+		}
 	},
 	"void": {
 		"voxels": [
@@ -26,7 +29,10 @@
 		"icon": ".",
 		"voxels": [
 			"stone"
-		]
+		],
+		"data": {
+			"material": "stone"
+		}
 	},
 	"glass": {
 		"icon": "-",
@@ -34,7 +40,7 @@
 			"glass"
 		],
 		"data": {
-			"effort": 4
+			"material": "metal"
 		}
 	},
 	"wood": {
@@ -43,7 +49,7 @@
 			"wood"
 		],
 		"data": {
-			"effort": 6
+			"material": "wood"
 		}
 	},
 	"metal": {
@@ -52,20 +58,26 @@
 			"metal"
 		],
 		"data": {
-			"effort": 8
+			"material": "metal"
 		}
 	},
 	"tiles": {
 		"icon": "+",
 		"voxels": [
 			"tiles"
-		]
+		],
+		"data": {
+			"material": "stone"
+		}
 	},
 	"table": {
 		"icon": "T",
 		"voxels": [
 			"table"
-		]
+		],
+		"data": {
+			"material": "wood"
+		}
 	},
 	"solar panel": {
 		"voxels": [
@@ -75,7 +87,10 @@
 	"brick": {
 		"voxels": [
 			"brick"
-		]
+		],
+		"data": {
+			"material": "stone"
+		}
 	},
 	"chair": {
 		"voxels": [
@@ -163,9 +178,9 @@
 			"fridge"
 		]
 	},
-	"oven": {
+	"campfire": {
 		"voxels": [
-			"oven"
+			"campfire"
 		]
 	},
 	"cabinet": {

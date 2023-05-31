@@ -13,7 +13,7 @@
 
 [sub_resource type="Animation" id="1"]
 resource_name = "fadein"
-length = 1.5
+length = 3.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -21,7 +21,7 @@ tracks/0/path = NodePath("Fade:color")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 1.5),
+"times": PackedFloat32Array(0, 2),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
@@ -67,7 +67,7 @@ libraries = {
 
 [node name="Fade" type="ColorRect" parent="."]
 mouse_filter = 1
-color = Color(0, 0, 0, 0.266667)
+color = Color(0, 0, 0, 1)
 
 [node name="BuffList" type="VBoxContainer" parent="."]
 custom_minimum_size = Vector2(64, 0)
@@ -161,3 +161,21 @@ text = "This item is a must have for soemthing that does nothing."
 fit_content = true
 
 [node name="Message" parent="." instance=ExtResource("10_dbsvl")]
+
+[node name="Sidetext" parent="." instance=ExtResource("10_dbsvl")]
+clip_contents = false
+custom_minimum_size = Vector2(240, 96)
+anchors_preset = -1
+anchor_left = 0.1
+anchor_top = 0.5
+anchor_right = 0.1
+anchor_bottom = 0.5
+offset_left = 0.0
+offset_top = -48.0
+offset_right = 240.0
+offset_bottom = 48.0
+grow_horizontal = 1
+grow_vertical = 2
+size_flags_horizontal = 0
+scroll_active = false
+show_time = 999999

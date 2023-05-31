@@ -67,13 +67,13 @@ _data = {
 script = ExtResource("1_vbrro")
 
 [node name="Area" type="Area3D" parent="."]
-transform = Transform3D(1, -4.46638e-06, 0, 4.46638e-06, 1, -4.46638e-06, 1.99485e-11, 4.46638e-06, 1, 0, 0, 0)
+transform = Transform3D(1, -4.46638e-06, 4.85723e-17, 4.46638e-06, 1, -4.46638e-06, 1.99485e-11, 4.46638e-06, 1, 0, 0, 0)
 
 [node name="Shape" type="CollisionShape3D" parent="Area"]
 shape = SubResource("BoxShape3D_08pbs")
 
 [node name="Mesh" type="MeshInstance3D" parent="Area"]
-transform = Transform3D(1, 0, 0, 0, 1, -1.74846e-07, 0, 1.74846e-07, 1, 0, 0, 0)
+transform = Transform3D(0.5, 0, 0, 0, 0.5, -8.7423e-08, 0, 8.7423e-08, 0.5, 0, 0, 0)
 skeleton = NodePath("../..")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

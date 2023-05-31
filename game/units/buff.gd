@@ -7,6 +7,8 @@ static func make_buff(unit, name, dur):
 		r = Regeneration
 	elif name == "invisibility":
 		r = Invisibility
+	elif name == "vision":
+		r = Vision
 	else:
 		r = Buff
 		undefined = true
@@ -35,10 +37,11 @@ class Buff:
 
 
 	func on_turn():
-		duration -= 1
-		if duration <= 0:
+		if duration == 0:
 			on_end()
 			return false
+		elif duration > 0:
+			duration -= 1
 		return true
 
 
@@ -88,4 +91,17 @@ class Invisibility extends Buff:
 	func on_stack(new_dur):
 		if !interrupted:
 			duration = max(new_dur, duration)
+
+
+class Vision extends Buff:
+	func on_start():
+		if unit == G.you:
+			var viewer = G.player.get_node("VoxelViewer")
+			viewer.set_requires_visuals(false)
+	func on_end():
+		if unit == G.you:
+			var viewer = G.player.get_node("VoxelViewer")
+			viewer.set_requires_visuals(true)
+	func get_description():
+		return super() + "Gain vision through walls."
 

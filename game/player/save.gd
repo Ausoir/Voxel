@@ -16,13 +16,11 @@ func load_player_data():
 	if data == null:
 		data = get_json_from_dir(TEMPLATE_PATH)
 	if data != null:
-		var player = get_parent()
-		if "position" in data:
-			player.unit.global_position = Vector3(data.position[0], data.position[1]+2.5, data.position[2])
-		player.vars = data.vars
 		if data.seed == -1:
 			data.seed = Time.get_unix_time_from_system()
+		data.seed = int(data.seed)
 		G.rng.set_seed(data.seed)
+		G.vars = data
 
 
 func load_prop_data():
@@ -36,16 +34,20 @@ func load_prop_data():
 
 func save_data():
 	save_player_data()
-	save_prop_data()
 
 
 func save_player_data():
 	G.you.save_name = null
+	var r = {}
 	data = G.you.serialize()
+	for key in data.keys():
+		r[key] = data[key]
+	for key in G.vars.keys():
+		r[key] = G.vars[key]
 	save(PATH, data)
 
 
-func save_prop_data():
+func _save_prop_data(): #unused
 	var r = []
 	for i in G.stock.get_children():
 		if i.get("save_name") != null:

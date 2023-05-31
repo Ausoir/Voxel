@@ -2,7 +2,7 @@ extends Node
 
 
 var load_blocks = {}
-var load_props = []
+var load_props = {}
 
 
 func _on_timeout():
@@ -20,3 +20,7 @@ func _on_timeout():
 			G.stock.make_object(pos, objectname)
 	load_blocks.clear()
 	load_props.clear()
+	var spawn_point = G.rng.pick(G.terrain.generator.spawn_points)
+	if spawn_point != null:
+		G.you.global_position = spawn_point + G.V2_HALF
+		G.ui.fadein()

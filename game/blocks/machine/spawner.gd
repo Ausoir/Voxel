@@ -3,7 +3,7 @@ extends "../block.gd"
 
 func on_tick(_pos: Vector3):
 	var biome = G.get_biome(_pos)
-	var units = G.stock.make_group("#fortress", biome)
+	var units = G.stock.make_group(G.terrain.generator.map.spawn, biome)
 	if units != null:
 		var unit = G.stock.make_group(units, G.rng.rf())
 		if unit != null:

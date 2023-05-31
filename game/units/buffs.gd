@@ -41,5 +41,16 @@ func on_turn():
 	return !states.is_empty()
 
 
+func clean(all=false):
+	var keys = states.keys()
+	for i in keys:
+		var state = states[i]
+		if all or state.duration != -1:
+			state.duration = 0
+			if !state.on_turn():
+				states.erase(i)
+	emit_signal("changed")
+
+
 func remove():
 	G.turn.remove(_callable)

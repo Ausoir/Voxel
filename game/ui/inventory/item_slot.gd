@@ -1,11 +1,10 @@
 extends Control
 
 signal pressed
-signal hover
-signal unhover
 
 @onready var _selection = $Selection
 @onready var _display = $TextureRect
+var item
 
 
 func _gui_input(event):
@@ -38,8 +37,10 @@ func set_selected(select):
 		_selection.hide()
 
 
-func set_item(item, fallback=null):
-	if item == null:
+func set_item(p, fallback=null):
+	item = p
+	if p == null:
 		_display.set_texture(fallback)
 	else:
 		_display.set_texture(item.sprite)
+

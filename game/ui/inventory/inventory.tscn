@@ -1,11 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://df61y5kiskymw"]
+[gd_scene load_steps=6 format=3 uid="uid://df61y5kiskymw"]
 
 [ext_resource type="Script" path="res://game/ui/inventory/inventory.gd" id="1_bojd4"]
 [ext_resource type="PackedScene" uid="uid://dnw7dhsgvwt1c" path="res://game/ui/inventory/essencebar.tscn" id="2_mcwyr"]
 [ext_resource type="PackedScene" uid="uid://c33bivnxnt6ej" path="res://game/ui/inventory/equipbar.tscn" id="2_vlo80"]
 [ext_resource type="PackedScene" uid="uid://boqt44mpwm2cb" path="res://game/ui/inventory/itembar.tscn" id="3_tvmt4"]
 [ext_resource type="Script" path="res://game/ui/inventory/drag_item.gd" id="4_ybpr6"]
-[ext_resource type="FontVariation" uid="uid://4cs7wvho51lb" path="res://assets/font_acme.tres" id="5_utbf0"]
 
 [node name="Inventory" type="Control"]
 layout_mode = 3
@@ -68,19 +67,6 @@ layout_mode = 2
 
 [node name="ItemBar" parent="Panel/VBox" instance=ExtResource("3_tvmt4")]
 layout_mode = 2
-
-[node name="RichTextLabel" type="RichTextLabel" parent="."]
-clip_contents = false
-layout_mode = 1
-anchors_preset = -1
-offset_left = 640.0
-offset_right = 896.0
-theme_override_constants/line_separation = 4
-theme_override_fonts/normal_font = ExtResource("5_utbf0")
-theme_override_font_sizes/normal_font_size = 28
-bbcode_enabled = true
-fit_content = true
-scroll_active = false
 
 [node name="Dragging" type="TextureRect" parent="."]
 visible = false

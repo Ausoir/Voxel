@@ -13,7 +13,11 @@ var _previous_mouse_mode := 0
 
 func _ready():
 	G.ui.get_node("Fade").connect("gui_input", Callable(self, "_on_background_gui_input"))
-	$RichTextLabel.set_text(G.player.proficiency.get_description())
+
+
+func on_display():
+	var desc = G.player.proficiency.get_description()
+	G.ui.set_sidetext(str("[color=GOLD]Gold[/color]: ",G.vars.gold,"\n\n",desc))
 
 
 func set_unit(unit):
