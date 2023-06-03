@@ -53,9 +53,15 @@ func force_set_next(new_action, new_delay, callback=null):
 func bind(key, callback):
 	_binding[key] = callback
 
+
+func get_percentage():
+	if _max_delay > 0:
+		return delay / _max_delay
+	return 0
+
  
 func get_progress_percentage():
 	if show_progress and delay > 0:
-		return delay / _max_delay
+		return get_percentage()
 	else:
 		return -1

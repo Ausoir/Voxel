@@ -1,44 +1,182 @@
 {
 	"#shop": [
 		[
-			0.01,
+			0.02,
+			"teleport scroll"
+		],
+		[
+			0.12,
+			"healing potion"
+		],
+		[
+			0.19,
+			"mana potion"
+		],
+		[
+			0.2,
 			"eblade"
 		],
 		[
-			0.02,
+			0.21,
 			"glaive"
 		],
 		[
-			0.03,
+			0.22,
 			"cleaver"
 		],
 		[
-			0.04,
+			0.23,
 			"lantern"
 		],
 		[
-			0.05,
+			0.24,
 			"robe"
 		],
 		[
-			0.06,
+			0.25,
 			"suit"
 		],
 		[
-			0.07,
+			0.26,
 			"bow"
 		],
 		[
-			0.08,
+			0.27,
 			"crossbow"
 		],
 		[
-			0.09,
+			0.28,
 			"pistol"
 		],
 		[
+			0.29,
+			"suit"
+		],
+		[
+			0.3,
+			"leather armor"
+		],
+		[
+			0.31,
+			"chainmail"
+		],
+		[
+			0.32,
+			"platemail"
+		],
+		[
+			0.33,
+			"greatsword"
+		],
+		[
+			0.34,
+			"goblin bow"
+		],
+		[
+			0.35,
+			"quarterstaff"
+		],
+		[
+			0.36,
+			"katana"
+		],
+		[
+			0.37,
+			"mace"
+		],
+		[
+			0.38,
+			"staff of death"
+		],
+		[
+			0.39,
+			"stick"
+		],
+		[
+			0.4,
+			"gas lantern"
+		]
+	],
+	"#essence": [
+		[
+			0.03,
+			"goblin essence"
+		],
+		[
+			0.06,
+			"earth essence"
+		],
+		[
+			0.09,
+			"scout essence"
+		],
+		[
+			0.12,
+			"warrior essence"
+		],
+		[
+			0.15,
+			"vampire essence"
+		],
+		[
+			0.18,
+			"psychic essence"
+		],
+		[
+			0.21,
+			"bomb essence"
+		],
+		[
+			0.24,
+			"shadow essence"
+		],
+		[
+			0.27,
+			"wind essence"
+		],
+		[
+			0.30,
+			"assassin essence"
+		],
+		[
+			0.33,
+			"berserker essence"
+		],
+		[
+			0.36,
+			"spearmaster essence"
+		],
+		[
+			0.39,
+			"blademaster essence"
+		],
+		[
+			0.42,
+			"soul of metal"
+		],
+		[
+			0.45,
+			"soul of blood"
+		],
+	],
+	"#treasure": [
+		[
+			0.2,
+			"#essence"
+		],
+		[
+			1,
+			"#shop"
+		]
+	],
+	"#trash": [
+		[
 			0.1,
-			"pistol"
+			"stick"
+		],
+		[
+			0.2,
+			"rags"
 		]
 	],
 	"#village": [
@@ -61,20 +199,46 @@
 			"#animals"
 		]
 	],
+	"#cave": [
+		[
+			0.7,
+			"#goblins"
+		],
+		[
+			0.7,
+			"#animals"
+		]
+	],
 	"#goblins": [
 		[
-			0.2,
-			"goblin warrior"
+			0.05,
+			"goblin shaman"
 		],
 		[
 			0.4,
+			"goblin warrior"
+		],
+		[
+			0.7,
 			"goblin ranger"
 		]
 	],
 	"#animals": [
 		[
 			0.8,
+			"chicken"
+		],
+		[
+			0.5,
 			"bunny"
+		],
+		[
+			0.4,
+			"rat"
+		],
+		[
+			0.1,
+			"chicken alpha"
 		]
 	]
 }

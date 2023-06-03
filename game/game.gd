@@ -11,5 +11,5 @@ func _notification(what: int):
 func _save_world():
 	pass
 #	$Terrain.save_modified_blocks()
-#	get_node("Player/Save").save_data()
+	get_node("Player/Save").save_data()
 

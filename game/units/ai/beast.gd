@@ -1,11 +1,6 @@
 extends "./pilot.gd"
 
 
-func _ready():
-	super()
-	_unit.attack.connect(on_attack)
-
-
 func _do_attack(_delta):
 	if _dist <= melee_range:
 		var hitvoxel = G.tool.raycast(_from, _to, _dist, 8)
@@ -22,11 +17,3 @@ func _do_attack(_delta):
 	else:
 		_pathing.target = G.you.position.floor()
 		_pathing.perform(_delta)
-
-
-func on_attack():
-	var damage = _unit.data.get("damage", 1)
-	var buffs = _unit.data.get("inflict", [])
-	G.you.on_damaged(_unit.position, damage, buffs)
-	_unit.emit_signal("weapon", "unarmed", G.you)
-	G.sfx.play("hit_flesh", _unit.position)

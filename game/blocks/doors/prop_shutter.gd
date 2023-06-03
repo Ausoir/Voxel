@@ -7,7 +7,7 @@ var callback = Callable(self, "on_activate")
 
 
 func _ready():
-	save_name = "game/blocks/doors/prop_shutter"
+	sid = "game/blocks/doors/prop_shutter"
 
 
 func on_interact(_user: Node3D):

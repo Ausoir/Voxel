@@ -6,15 +6,18 @@ func use(_user: Node3D):
 	_user.animator.play("RESET")
 	if !_pickup(_user):
 		if !_interact(_user):
-			_user.skills.on_touch()
+			if !_user.skills.on_touch():
+				return false
+	return true
 
 
 func _pickup(_user: Node3D):
-	var hits = get_interact_object(_user)
-	if !hits.is_empty():
-		var _item = hits.collider.get_parent()
-		_item.on_interact(_user)
-		return true
+	if _user.get_type() == 1:
+		var hits = get_interact_object(_user)
+		if !hits.is_empty():
+			var _item = hits.collider.get_parent()
+			_item.on_interact(_user)
+			return true
 	return false
 
 
@@ -22,8 +25,9 @@ func _interact(_user: Node3D):
 	var hit = get_pointed_block(_user)
 	if hit != null:
 		var block = G.tool.get_block(hit.position)
-		if block.on_interact(hit.position, _user):
-			return true
+		if block != null:
+			if block.on_interact(hit.position, _user):
+				return true
 	return false
 
 

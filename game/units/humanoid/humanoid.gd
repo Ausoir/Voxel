@@ -1,11 +1,8 @@
 extends "res://game/units/unit.gd"
 
-const Hand = preload("../../items/hand.gd")
-
 var _weapon_callback
 var _previous_held
 var headmesh
-var hand
 
 @onready var held_item_model = $Model/Item
 @onready var equipment = $Equipment
@@ -15,7 +12,11 @@ func _ready():
 	super()
 	equipment.set_unit(self)
 	equipment.connect("selected", Callable(self, "_on_held_select"))
-	hand = Hand.new()
+	attack.disconnect(on_attack)
+
+
+func get_type():
+	return 1
 
 
 func set_material(p):
@@ -61,7 +62,7 @@ func _on_held_select():
 			item.on_held(self)
 	if item == null:
 		held_item_model.hide()
-		_weapon_callback = Callable(hand, "on_held_tick")
+		_weapon_callback = Callable(procedure.hand, "on_held_tick")
 	else:
 		held_item_model.show()
 		held_item_model.set_mesh(item.model)
@@ -71,3 +72,18 @@ func _on_held_select():
 func remove():
 	super()
 	equipment.remove()
+
+
+func serialize():
+	var r = super()
+	r["equips"] = equipment.serialize()
+	return r
+
+
+func set_fp_visibility(p):
+	if p:
+		$Model/Body/Mesh.show()
+		$Model/Body/Head.show()
+	else:
+		$Model/Body/Mesh.hide()
+		$Model/Body/Head.hide()

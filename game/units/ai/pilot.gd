@@ -18,11 +18,10 @@ var priority = 5
 func _ready():
 	_unit.camera = _unit
 	_pathing.set_unit(_unit)
-	_unit.forward = -_unit.get_transform().basis.z.normalized()
 
 
 func _physics_process(_delta):
-	if task != null:
+	if task != null and _unit.grounded:
 		task.call(_delta)
 	if in_range:
 		_timeout = 0
@@ -52,6 +51,8 @@ func deaggro():
 
 
 func perceive():
+	if _dist <= G.player.noise:
+		return true
 	var prop = G.tool.raycast(_from, _unit.forward, _dist, 2)
 	return prop == null
 

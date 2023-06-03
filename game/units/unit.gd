@@ -4,6 +4,7 @@ signal attack
 signal attacked
 signal wait
 signal weapon
+signal death
 
 const HEALTHBAR = preload("./healthbar/healthbar.tscn")
 
@@ -16,7 +17,6 @@ var _flash_tween
 var _healthbar
 var _wait_time = 0
 
-var sid = "unit"
 var motor = Vector3()
 var forward
 var camera
@@ -32,7 +32,7 @@ var skills = preload("./skills/skills.gd").new()
 var overlay_mat = preload("./flash_red.tres").duplicate()
 var pilot
 var health: int = 1
-var armor: int = 0
+var defense: int = 0
 var essence = []
 
 var _mesh
@@ -46,8 +46,8 @@ func _ready():
 	action.set_unit(self)
 	buffs.set_unit(self)
 	skills.set_unit(self)
+	procedure.set_unit(self)
 	_box_mover.set_collision_mask(4)
-	procedure.on_ready(self)
 	_box_mover.set_step_climbing_enabled(true)
 	_box_mover.set_max_step_height(1)
 	_mesh = get_node(_mesh_path)
@@ -55,6 +55,12 @@ func _ready():
 	_space_state_params = PhysicsPointQueryParameters3D.new()
 	_space_state_params.collision_mask = 16
 	_space_state_params.set_exclude([$Body.get_rid()])
+	attack.connect(on_attack)
+	forward = -get_transform().basis.z.normalized()
+
+
+func get_type():
+	return 0
 
 
 func perceived(p):
@@ -62,22 +68,26 @@ func perceived(p):
 
 
 func take_hit(dmg):
-	if _healthbar == null:
-		_healthbar = HEALTHBAR.instantiate()
-		_healthbar.position = Vector3(0, size.y + 0.1, 0)
-		add_child(_healthbar)
-		_healthbar.set_max(data.get("health", 1))
 	if dmg > 0:
-		dmg = max(1, dmg - armor)
+		dmg = max(1, dmg - defense)
 	if dmg != 0 and "scout" in G.you.essence:
 		G.stock.make_text(self, Vector3(0, size.y + 0.1, 0), dmg)
 	health -= dmg
+	show_healthbar()
 	if health <= 0:
 		die()
 	else:
-		_healthbar.set_current(health)
 		if dmg > 0:
-			emit_signal("attacked")
+			emit_signal("attacked", dmg)
+
+
+func show_healthbar():
+	if _healthbar == null:
+		_healthbar = HEALTHBAR.instantiate()
+		_healthbar.position = Vector3(0, size.y, 0)
+		add_child(_healthbar)
+		_healthbar.set_max(data.get("health", 1))
+	_healthbar.set_current(health)
 
 
 func on_damaged(_pos: Vector3, damage: int, inflict):
@@ -130,11 +140,13 @@ func get_center():
 
 
 func die():
+	emit_signal("death")
 	motor = Vector3()
 	pilot.set_physics_process(false)
 	$Body.collision_layer = 0
 	animator.play("die")
 	action.force_set_next("idle", 999)
+	health = 0
 	_healthbar.set_current(0)
 	var itemname = G.stock.make_group(data.get("loot"), G.rng.rf())
 	if itemname != null:
@@ -158,10 +170,13 @@ func _physics_process(delta):
 		var hits = _space_state.intersect_point(_space_state_params, 1)
 		for hit in hits:
 			var t = hit.collider.get_parent()
-			velocity += (position - t.position).normalized() * 4
+			motor = (position - t.position).normalized() * 4
 			t.action.set_next("idle", .5)
 			action.set_next("idle", .5)
-			motor = Vector3.ZERO
+	elif position.y < -16:
+		if health > 0:
+			die()
+		return
 
 	if motor.length_squared() > 0:
 		_wait_time = 0
@@ -207,3 +222,22 @@ func on_step():
 		var block = G.tool.get_block(down)
 		if block != null:
 			block.on_step(down)
+
+
+func on_attack():
+	var damage = data.get("damage", 1)
+	var inflict = data.get("inflict", [])
+	_space_state_params.position = position + forward * size.z
+	var hits = _space_state.intersect_point(_space_state_params, 1)
+	for hit in hits:
+		var t = hit.collider.get_parent()
+		t.on_damaged(position, damage, inflict)
+		emit_signal("weapon", "unarmed", t, damage)
+		G.sfx.play("hit_flesh", position)
+
+
+func set_fp_visibility(p):
+	if p:
+		show()
+	else:
+		hide()

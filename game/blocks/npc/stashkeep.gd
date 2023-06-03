@@ -6,7 +6,7 @@ var _menu
 
 
 func _ready():
-	save_name = "game/blocks/npc/shop"
+	sid = "game/blocks/npc/shop"
 	var pos = position.floor()
 	G.tool.set_voxel(pos, 3)
 	_menu = INTERFACE.instantiate()
@@ -26,5 +26,11 @@ func on_interact(_user: Node3D):
 
 func on_activate(_user: Node3D):
 	G.sfx.play("door_open", position)
+	_menu.load_stash = G.vars.stash
+	_menu.on_set = on_set
 	G.ui.display(_menu)
 	G.ui.set_message('Storage Keeper: "I keep your items safe, until you die!"')
+
+
+func on_set(idx, item):
+	G.vars.stash[idx] = item.sid

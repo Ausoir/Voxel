@@ -1,6 +1,14 @@
 {
 	"town": {
+		"env": "outside",
 		"spawn": "#village",
+		"down": [
+			"fortress",
+			"cave"
+		],
+		"item": null,
+		"treasure": null,
+		"trash": "#trash",
 		"variants": [
 			"town/town",
 			"town/blank",
@@ -18,19 +26,28 @@
 			"glass": "glass"
 		},
 		"override": {
-			"024": "../npc/shopkeep",
-			"124": "../npc/stashkeep",
-			"224": "../npc/healer",
-			"324": "../npc/transporter"
-		}
+			"024": "npc/shopkeep",
+			"124": "npc/stashkeep",
+			"224": "npc/healer",
+			"324": "npc/transporter"
+		},
+		"special": []
 	},
 	"fortress": {
+		"env": "cave",
 		"spawn": "#fortress",
+		"down": [
+			"fortress"
+		],
+		"item": "#shop",
+		"treasure": "#treasure",
+		"trash": "#trash",
 		"variants": [
 			"fortress/cafe",
 			"fortress/dorms",
 			"fortress/office",
-			"fortress/lab"
+			"fortress/lab",
+			"fortress/stairs"
 		],
 		"palette": {
 			"road": "wood",
@@ -41,6 +58,47 @@
 			"special": "labtiles",
 			"carpet": "carpet",
 			"glass": "glass"
-		}
+		},
+		"special": [
+			"machine/entrance",
+			"machine/entrance",
+			"machine/exit",
+			"machine/exit",
+			"machine/exit"
+		]
+	},
+	"cave": {
+		"env": "cave",
+		"spawn": "#cave",
+		"down": [
+			"town"
+		],
+		"item": "#shop",
+		"treasure": "#treasure",
+		"trash": "#trash",
+		"variants": [
+			"cave/cave1",
+			"cave/cave2",
+			"cave/cave3",
+			"cave/cave4",
+			"cave/stairs"
+		],
+		"palette": {
+			"road": "stone",
+			"alley": "stone",
+			"tiles": "stone",
+			"wall": "stone",
+			"wall2": "stone",
+			"special": "stone",
+			"carpet": "carpet",
+			"glass": "glass"
+		},
+		"special": [
+			"machine/entrance",
+			"machine/entrance",
+			"machine/exit",
+			"machine/exit",
+			"machine/exit"
+		]
 	}
 }

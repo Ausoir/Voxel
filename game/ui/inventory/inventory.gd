@@ -17,21 +17,28 @@ func _ready():
 
 func on_display():
 	var desc = G.player.proficiency.get_description()
-	G.ui.set_sidetext(str("[color=GOLD]Gold[/color]: ",G.vars.gold,"\n\n",desc))
+	var txt = str("Level ",G.you.data.get("level",1),"  ",G.you.sid.capitalize(),"\n")
+	txt += str("[color=GOLD]Gold[/color]: ",G.vars.gold,"\n")
+	txt += str("[color=RED]Health[/color]: ",G.you.health,"/",G.you.data.health,"\n")
+	txt += str("[color=BLUE]Mana[/color]: ",G.vars.mana,"/",G.vars.max_mana,"\n")
+	txt += str("[color=GREEN]Speed[/color]: ",G.you.procedure.speed*10,"\n")
+	txt += str("[color=DARK_SLATE_BLUE]Defense[/color]: ",G.you.defense,"\n")
+	G.ui.set_sidetext(txt + desc)
 
 
 func set_unit(unit):
 	if _unit != unit:
 		_unit = unit
-		_inv = unit.equipment
-		_equipbar.set_unit(unit)
-		_essencebar.set_unit(unit)
-		_itembar.set_unit(unit)
-		_itembar.show_selection = false
-		update_views()
-		_inv.connect("selected", Callable(_equipbar, "update_items"))
-		_inv.connect("selected", Callable(_itembar, "update_items"))
-		_inv.connect("changed", Callable(self, "update_views"))
+		if unit.get_type() == 1:
+			_inv = unit.equipment
+			_equipbar.set_unit(unit)
+			_essencebar.set_unit(unit)
+			_itembar.set_unit(unit)
+			_itembar.show_selection = false
+			update_views()
+			_inv.connect("selected", Callable(_equipbar, "update_items"))
+			_inv.connect("selected", Callable(_itembar, "update_items"))
+			_inv.connect("changed", Callable(self, "update_views"))
 
 
 func update_views():

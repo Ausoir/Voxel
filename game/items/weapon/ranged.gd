@@ -1,4 +1,4 @@
-extends "./weapon.gd"
+extends "../item.gd"
 
 const Laser = preload("./projectile/laser.tscn")
 const Arrow = preload("./projectile/arrow.tscn")
@@ -12,7 +12,7 @@ func use(_user: Node3D):
 	if animation != null:
 		var speed = data.get("speed", 1.0)
 		var anim_dur = animation.get_length() * (1 / speed)
-		_user.animator.seek(0, true)
+		_user.animator.stop()
 		_user.animator.play(anim_name, .1, speed)
 		_user.action.force_set_next("use", anim_dur * .5 - .1, use_callback.bind(_user))
 		_user.action.show_progress = true
@@ -61,4 +61,4 @@ func on_shoot(_user: Node3D):
 
 func on_attack(_victim, _user):
 	var weapon_type = data.get("type", "bow")
-	_user.emit_signal("weapon", weapon_type, _victim)
+	_user.emit_signal("weapon", weapon_type, _victim, data.get("damage", 1))

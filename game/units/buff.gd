@@ -5,10 +5,20 @@ static func make_buff(unit, name, dur):
 		r = Slow
 	elif name == "regeneration":
 		r = Regeneration
+	elif name == "clarity":
+		r = Clarity
 	elif name == "invisibility":
 		r = Invisibility
 	elif name == "vision":
 		r = Vision
+	elif name == "stoneskin":
+		r = Stoneskin
+	elif name == "corrosion":
+		r = Corrosion
+	elif name == "daze":
+		r = Daze
+	elif name == "silence":
+		r = Silence
 	else:
 		r = Buff
 		undefined = true
@@ -59,9 +69,9 @@ class Buff:
 
 class Slow extends Buff:
 	func on_start():
-		unit.procedure.speed *= .5
+		unit.procedure.speed -= .2
 	func on_end():
-		unit.procedure.speed *= 2
+		unit.procedure.speed += .2
 	func get_description():
 		return super() + "Movement speed slowed by 50%."
 
@@ -74,6 +84,15 @@ class Regeneration extends Buff:
 		return super()
 	func get_description():
 		return super() + "Regenerate 8% health per second."
+
+
+class Clarity extends Buff:
+	func on_turn():
+		if unit == G.you:
+			G.vars.mana += 1
+		return super()
+	func get_description():
+		return super() + "Regenerate 1 mana per second."
 
 
 class Invisibility extends Buff:
@@ -104,4 +123,32 @@ class Vision extends Buff:
 			viewer.set_requires_visuals(true)
 	func get_description():
 		return super() + "Gain vision through walls."
+
+
+class Stoneskin extends Buff:
+	func on_start():
+		unit.defense += 5
+	func on_end():
+		unit.defense -= 5
+	func get_description():
+		return super() + "Negate incoming damage by 5."
+
+
+class Corrosion extends Buff:
+	func on_start():
+		unit.defense -= 3
+	func on_end():
+		unit.defense += 3
+	func get_description():
+		return super() + "Increase all damage taken by 3."
+
+
+class Daze extends Buff:
+	func get_description():
+		return super() + "Disables interation for the duration."
+
+
+class Silence extends Buff:
+	func get_description():
+		return super() + "Disables abilities for the duration."
 

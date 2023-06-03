@@ -6,12 +6,13 @@ var _menu
 
 
 func _ready():
-	save_name = "game/blocks/npc/transporter"
+	sid = "game/blocks/npc/transporter"
 	var pos = position.floor()
 	G.tool.set_voxel(pos, 3)
 	_menu = MULTISELECT.instantiate()
-	for i in ["Enter <Tower>"]:
-		_menu.add_button(i, on_press.bind("fortress"))
+	for i in G.mapdata.down:
+		var txt = str("Enter <",i.capitalize(),">")
+		_menu.add_button(txt, on_press.bind(i))
 
 
 func remove():
@@ -33,5 +34,4 @@ func on_activate(_user: Node3D):
 
 
 func on_press(to):
-	G.ui.clear()
 	G.player.load_map(to)

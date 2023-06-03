@@ -1,7 +1,12 @@
 extends "res://game/ui/menus/base.gd"
 
+const ITEMSLOT = preload("res://game/ui/inventory/item_slot.tscn")
+
 var _inv
 var _unit
+var on_set
+var load_stash = []
+var placeable = true
 @onready var _equipbar = $Panel/VBox/EquipBar
 @onready var _itembar = $Panel/VBox/ItemBar
 @onready var _stash = $Panel/VBox/Stash
@@ -10,6 +15,10 @@ var _unit
 
 func _ready():
 	G.ui.get_node("Fade").connect("gui_input", Callable(self, "_on_background_gui_input"))
+	for itemname in load_stash:
+		var new = ITEMSLOT.instantiate()
+		_stash.add_child(new)
+		new.set_item(G.stock.make_item(itemname))
 
 
 func set_unit(unit):
@@ -48,12 +57,12 @@ func _on_stash_pressed(slot, idx):
 	if !_dragged_item.visible:
 		if slot_item == null:
 			return
+		on_set.call(idx, null)
 		slot.set_item(null)
-		G.vars.stash[idx] = null
 		_dragged_item.start(slot_item)
-	else:
+	elif placeable:
+		on_set.call(idx, _dragged_item.item.sid)
 		slot.set_item(_dragged_item.item)
-		G.vars.stash[idx] = _dragged_item.item.sid
 		if slot_item == null:
 			_dragged_item.stop()
 		else:

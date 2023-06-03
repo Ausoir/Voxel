@@ -78,7 +78,7 @@ func make_item(itemname: String):
 func make_object(pos: Vector3, itemname: String):
 	var scene = _scene_cache.get(itemname)
 	if scene == null:
-		var dir = str("res://game/blocks/objects/", itemname, ".tscn")
+		var dir = str("res://game/blocks/", itemname, ".tscn")
 		scene = load(dir)
 		_scene_cache[itemname] = scene
 	var item = scene.instantiate()
@@ -88,8 +88,8 @@ func make_object(pos: Vector3, itemname: String):
 	return item
 
 
-func make_any(parent: Node, pos: Vector3, itemname: String):
-	var r = make_humanoid(parent, pos, itemname)
+func make_any(parent: Node, pos: Vector3, itemname: String, equips=null):
+	var r = make_humanoid(parent, pos, itemname, equips)
 	if r == null:
 		r = make_unit(pos, itemname)
 	return r
@@ -107,14 +107,16 @@ func make_unit(pos: Vector3, itemname: String):
 		unit.data = data.get("data", {}).duplicate()
 		unit.position = pos
 		unit.health = unit.data.get("health", 1)
-		unit.armor = unit.data.get("armor", 0)
+		unit.defense = unit.data.get("defense", 0)
+		if "speed" in unit.data:
+			unit.procedure.speed = unit.data.speed
 		for i in data.get("souls", []):
 			unit.essence.append(i)
 		_attach_ai(unit, data)
 		return unit
 
 
-func make_humanoid(parent: Node, pos: Vector3, itemname: String):
+func make_humanoid(parent: Node, pos: Vector3, itemname: String, custom_data=null):
 	var dict = Unit_JSON.get_data()
 	var data = dict.get(itemname)
 	if data != null and "head" in data:
@@ -123,20 +125,24 @@ func make_humanoid(parent: Node, pos: Vector3, itemname: String):
 		unit.headmesh = head_model
 		unit.set_head_mesh(head_model)
 		unit.data = data.get("data", {}).duplicate()
+		if custom_data != null:
+			unit.data.merge(custom_data, true)
+		unit.health = unit.data.get("health", 1)
+		unit.defense = unit.data.get("defense", 0)
+		if "speed" in unit.data:
+			unit.procedure.speed = unit.data.speed
 		parent.add_child(unit)
-		for i in data.slots:
+		for i in unit.data.slots:
 			unit.equipment.add_slot(i)
-		for i in data.equipments:
+		for i in unit.data.equipments:
 			unit.equipment.wear(G.stock.make_item(i))
-		for i in data.items:
+		for i in unit.data.items:
 			unit.equipment.pickup(G.stock.make_item(i))
-		for i in data.get("souls", []):
+		for i in unit.data.get("souls", []):
 			unit.equipment.absorb(G.stock.make_item(i))
 		unit.equipment.set_held_index(0)
 		unit.sid = itemname
 		unit.position = pos
-		unit.health = unit.data.get("health", 1)
-		unit.armor = unit.data.get("armor", 0)
 		_attach_ai(unit, data)
 		return unit
 
@@ -154,6 +160,12 @@ func _attach_ai(unit, data):
 	pilot.set_script(ai_script)
 	unit.pilot = pilot
 	unit.add_child(pilot)
+
+
+func remove_ai(unit):
+	var pilot := Node.new()
+	pilot.set_script(IBlank)
+	unit.pilot = pilot
 
 
 func make_particle(_pos: Vector3, _particlename: String):

@@ -1,11 +1,11 @@
 extends Node3D
 
-var save_name
+var sid
 
 
 func serialize():
 	var r = {
-		"name": save_name,
+		"name": sid,
 		"position": [global_position.x, global_position.y, global_position.z],
 	}
 	return r

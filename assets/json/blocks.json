@@ -79,11 +79,6 @@
 			"material": "wood"
 		}
 	},
-	"solar panel": {
-		"voxels": [
-			"solarpanel"
-		]
-	},
 	"brick": {
 		"voxels": [
 			"brick"
@@ -96,6 +91,16 @@
 		"voxels": [
 			"chair"
 		]
+	},
+	"chest": {
+		"voxels": [
+			"chest"
+		],
+		"data": {
+			"time": 1,
+			"loot": "treasure"
+		},
+		"script": "container/chest"
 	},
 	"spawner": {
 		"voxels": [
@@ -141,7 +146,7 @@
 		"voxels": [
 			"square light"
 		],
-		"script": "lights/light"
+		"script": "light/light"
 	},
 	"strong light": {
 		"voxels": [
@@ -150,13 +155,7 @@
 		"data": {
 			"light": 10
 		},
-		"script": "lights/light"
-	},
-	"locker": {
-		"voxels": [
-			"locker"
-		],
-		"script": "containers/locker"
+		"script": "light/light"
 	},
 	"mirror": {
 		"voxels": [
@@ -171,7 +170,12 @@
 	"trashcan": {
 		"voxels": [
 			"trashcan"
-		]
+		],
+		"data": {
+			"time": 1,
+			"loot": "trash"
+		},
+		"script": "container/chest"
 	},
 	"fridge": {
 		"voxels": [
@@ -191,7 +195,12 @@
 	"shelf": {
 		"voxels": [
 			"shelf"
-		]
+		],
+		"data": {
+			"time": 2,
+			"loot": "trash"
+		},
+		"script": "container/chest"
 	},
 	"stonework": {
 		"voxels": [
@@ -221,7 +230,12 @@
 	"crate": {
 		"voxels": [
 			"crate"
-		]
+		],
+		"data": {
+			"time": 3,
+			"loot": "trash"
+		},
+		"script": "container/chest"
 	},
 	"vent": {
 		"voxels": [
@@ -231,6 +245,11 @@
 	"barrel": {
 		"voxels": [
 			"barrel"
-		]
+		],
+		"data": {
+			"time": 4,
+			"loot": "trash"
+		},
+		"script": "container/chest"
 	}
 }

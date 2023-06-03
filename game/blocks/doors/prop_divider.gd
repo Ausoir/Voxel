@@ -6,7 +6,7 @@ var voxel_pos
 
 
 func _ready():
-	save_name = "game/blocks/doors/prop_divider"
+	sid = "game/blocks/doors/prop_divider"
 
 
 func on_interact(_user: Node3D):

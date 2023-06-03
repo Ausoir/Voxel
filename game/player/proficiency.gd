@@ -2,18 +2,30 @@ extends Node
 
 
 var _unit
-var unarmed := 3.0
-var blade := 0.0
-var blunt := 0.0
-var spear := 0.0
-var dagger := 0.0
-var bow := 0.0
-var firearm := 0.0
-var wand := 0.0
-var armor := 0.0
-var dodge := 0.0
-var psych := 0.0
-var earth := 0.0
+var list = {
+	"unarmed": 0.0,
+	"blade": 0.0,
+	"blunt": 0.0,
+	"spear": 0.0,
+	"dagger": 0.0,
+	"bow": 0.0,
+	"firearm": 0.0,
+	"wand": 0.0,
+	"armor": 0.0,
+	"dodge": 0.0,
+	"aura": 0.0,
+	"psych": 0.0,
+	"earth": 0.0,
+}
+
+
+func unserialize(p):
+	for i in p.keys():
+		list[i] = p[i]
+
+
+func serialize():
+	return list
 
 
 func set_unit(p):
@@ -21,22 +33,23 @@ func set_unit(p):
 	_unit.attacked.connect(on_attacked)
 	_unit.weapon.connect(on_attack)
 	_unit.skills.special.connect(on_essence)
+	var profs = _unit.data.get("proficiency", {})
+	for key in profs.keys():
+		set(key, profs[key])
 
 
 func get_description():
-	var list = ["unarmed", "blade", "blunt", "spear", "dagger", "bow", "firearm", "wand", "armor", "dodge", "psych", "earth"]
 	var r = ""
-	for i in list:
-		var val = get(i)
-		if val != null and val > 0:
-			var level = floor(val)
-			var percent = val - level
-			r += str("[color=#691]", i.to_upper(), "[/color] :  ", level, " [b](", percent," %)[/b]", "\n")
+	for i in list.keys():
+		var val = list[i]
+		var level = floor(val)
+		var percent = val - level
+		r += str("[color=#691]", i.to_upper(), "[/color] :  ", level, " [b](", percent," %)[/b]", "\n")
 	return r
 
 
 func check_req(prof, amount):
-	var property = get(prof)
+	var property = list.get(prof)
 	if property != null:
 		if property >= amount:
 			return true
@@ -45,25 +58,32 @@ func check_req(prof, amount):
 
 
 func increase(prof, amount):
-	var property = get(prof)
+	var property = list.get(prof)
 	if property != null:
 		var past_lvl = floor(property)
 		property += amount
 		var current_lvl = floor(property)
 		if current_lvl != past_lvl:
+			on_level(prof)
 			var msg = str("[",prof.capitalize(),"] skill now level ",current_lvl,"!")
 			G.ui.set_message(msg)
-		set(prof, property)
+		list[prof] = property
 
 
-func on_attacked():
-	increase("dodge", 0.01)
+func on_level(prof):
+	if prof == "armor" or prof == "dodge":
+		_unit.data.health += 3
 
 
-func on_attack(_type, _victim):
-	increase(_type, 0.01)
+func on_attacked(dmg):
+	increase("armor", 0.01 * dmg)
+	increase("dodge", 0.01 * dmg)
+
+
+func on_attack(_type, _victim, dmg):
+	increase(_type, 0.01 * dmg)
 
 
 func on_essence(_ess):
-	increase(_ess, 0.01)
+	increase(_ess, 0.05)
 

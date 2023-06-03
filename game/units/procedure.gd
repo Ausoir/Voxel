@@ -1,13 +1,16 @@
 extends Node
 
-var speed = 0.5
+const Hand = preload("res://game/items/hand.gd")
+
+var speed = 0.4
 var turn_speed = 0.2
+var hand
 var _unit
 
 
-func on_ready(unit):
+func set_unit(unit):
 	_unit = unit
-	_unit.action.bind("climb", Callable(self, "climb"))
+	hand = Hand.new()
 
 
 func face_front():
@@ -19,13 +22,17 @@ func pickup(item):
 	_unit.equipment.set_item_by_index(_unit.equipment.get_held_index(), item)
 
 
-func jump(jump_force):
+func jump_ready():
+	_unit.animator.play("jump_ready")
+
+
+func jump(p):
+	_unit.animator.play("jump")
 	_unit.grounded = false
-	_unit.velocity.y = jump_force
+	_unit.velocity.y = p * 12
 	var toward = _unit.get_transform().basis.z.normalized()
 	var forward_vel = G.HORIZONTAL_PLANE.project(toward)
-	_unit.velocity += forward_vel * 5
-	_unit.animator.play("jump_start")
+	_unit.velocity += forward_vel * p * 5
 
 
 func climb():
@@ -61,20 +68,24 @@ func stop_walk():
 func use():
 	face_front()
 	if _unit.action.delay <= 0:
-#		_unit.animator.play("RESET")
-		var inv_item = _unit.equipment.get_held_item()
-		if inv_item != null:
-			inv_item.use(_unit)
-		else:
-			_unit.hand.use(_unit)
+		if !_unit.buffs.has("Daze"):
+			if _unit.get_type() == 1:
+				var inv_item = _unit.equipment.get_held_item()
+				if inv_item != null:
+					inv_item.use(_unit)
+				else:
+					hand.use(_unit)
+			else:
+				if !hand.use(_unit):
+					_unit.animator.play("tackle")
 
 
 func use2():
 	face_front()
 	if _unit.action.delay <= 0:
-		var inv_item = _unit.equipment.get_held_item()
-		if inv_item != null:
-			inv_item.use2(_unit)
-		else:
-			_unit.hand.use(_unit)
-
+		if !_unit.buffs.has("Silence"):
+			if _unit.get_type() == 1:
+				var inv_item = _unit.equipment.get_held_item()
+				if inv_item != null and inv_item.use2(_unit):
+					return
+			_unit.skills.on_ability()

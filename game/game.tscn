@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://jw87ksrcnjjc"]
+[gd_scene load_steps=13 format=3 uid="uid://jw87ksrcnjjc"]
 
 [ext_resource type="Script" path="res://game/stock.gd" id="4_vprdk"]
 [ext_resource type="Script" path="res://game/game.gd" id="5"]
@@ -11,24 +11,6 @@
 [ext_resource type="Script" path="res://game/blocks/blocks.gd" id="12"]
 [ext_resource type="Script" path="res://game/blocks/tool.gd" id="12_td8s1"]
 [ext_resource type="Script" path="res://game/turn.gd" id="13_b3j7b"]
-
-[sub_resource type="Environment" id="2"]
-background_color = Color(1, 1, 1, 1)
-ambient_light_source = 1
-reflected_light_source = 1
-sdfgi_read_sky_light = false
-glow_mix = 0.1
-glow_bloom = 0.05
-fog_light_color = Color(0, 0, 0, 1)
-fog_light_energy = 0.1
-fog_density = 0.0
-fog_sky_affect = 0.0
-volumetric_fog_density = 1.0
-volumetric_fog_albedo = Color(0, 0, 0, 1)
-volumetric_fog_emission_energy = 0.2
-volumetric_fog_gi_inject = 0.0
-volumetric_fog_anisotropy = 0.0
-adjustment_saturation = 1.5
 
 [sub_resource type="VoxelMesherBlocky" id="VoxelMesherBlocky_lmotj"]
 library = ExtResource("6_jl7ow")
@@ -47,9 +29,6 @@ script = ExtResource("4_vprdk")
 
 [node name="Sfx" parent="." instance=ExtResource("11_fpy06")]
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("2")
-
 [node name="Terrain" type="VoxelTerrain" parent="."]
 generator = ExtResource("6_ll1tk")
 mesher = SubResource("VoxelMesherBlocky_lmotj")
@@ -62,13 +41,6 @@ run_stream_in_editor = false
 one_shot = true
 autostart = true
 script = ExtResource("7_0y0mg")
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-0.966579, 0.104335, -0.234176, -0.0734221, 0.762518, 0.642787, 0.245629, 0.638499, -0.729373, 0, 0, 0)
-light_energy = 0.8
-light_bake_mode = 1
-shadow_enabled = true
-directional_shadow_fade_start = 1.0
 
 [node name="Player" parent="." instance=ExtResource("6")]
 

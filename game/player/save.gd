@@ -7,8 +7,8 @@ var data
 
 
 func load_data():
-	load_player_data()
-	load_prop_data()
+#	load_prop_data()
+	return load_player_data()
 
 
 func load_player_data():
@@ -21,6 +21,10 @@ func load_player_data():
 		data.seed = int(data.seed)
 		G.rng.set_seed(data.seed)
 		G.vars = data
+		G.set_map("town")
+		G.player.proficiency.unserialize(data.proficiency)
+	var u = G.stock.make_any(G.player, Vector3(), G.vars.name, G.vars.unit)
+	return u
 
 
 func load_prop_data():
@@ -37,20 +41,20 @@ func save_data():
 
 
 func save_player_data():
-	G.you.save_name = null
 	var r = {}
+	for key in G.vars.keys():
+		r[key] = G.vars[key]
 	data = G.you.serialize()
 	for key in data.keys():
 		r[key] = data[key]
-	for key in G.vars.keys():
-		r[key] = G.vars[key]
-	save(PATH, data)
+	r["proficiency"] = G.player.proficiency.serialize()
+	save(PATH, r)
 
 
 func _save_prop_data(): #unused
 	var r = []
 	for i in G.stock.get_children():
-		if i.get("save_name") != null:
+		if i.get("sid") != null:
 			var prop_data = i.serialize()
 			r.append(prop_data)
 	save(PROP_PATH, r)

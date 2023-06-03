@@ -13,9 +13,11 @@ func on_wear(_user):
 			light = SpotLight3D.new()
 			light.spot_range = data.get("light", 5)
 			light.spot_angle = spread
+			light.light_energy = .5 + (light.spot_range / 10.0)
 		else:
 			light = OmniLight3D.new()
 			light.omni_range = data.get("light", 5)
+			light.light_energy = .5 + (light.omni_range / 10.0)
 		if "light color" in data:
 			var color = data.get("light color")
 			light.set_color(Color(color[0], color[1], color[2]))

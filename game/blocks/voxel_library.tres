@@ -1,4 +1,4 @@
-[gd_resource type="VoxelBlockyLibrary" load_steps=82 format=3 uid="uid://chr1cj53hbsgq"]
+[gd_resource type="VoxelBlockyLibrary" load_steps=84 format=3 uid="uid://chr1cj53hbsgq"]
 
 [ext_resource type="ArrayMesh" uid="uid://0h8p56h5cmc5" path="res://assets/blocks/slab_ns.obj" id="1_rgc8a"]
 [ext_resource type="Material" uid="uid://bs5u0ea1vrq7v" path="res://assets/blocks/terrain_biome.tres" id="2_d8tyi"]
@@ -14,9 +14,10 @@
 [ext_resource type="ArrayMesh" uid="uid://b56o0dis2lbu" path="res://assets/blocks/highblock.obj" id="10_3x1kf"]
 [ext_resource type="ArrayMesh" uid="uid://bqmptq15xfn5t" path="res://assets/blocks/platform.obj" id="11_ob6tc"]
 [ext_resource type="ArrayMesh" uid="uid://c8u656ifyh2k5" path="res://assets/blocks/smallblock.obj" id="12_pdsyl"]
+[ext_resource type="ArrayMesh" uid="uid://baos6jt7jfx8o" path="res://assets/objects/o_chest.obj" id="12_yiu8m"]
+[ext_resource type="Texture2D" uid="uid://xomgnw5ls5lh" path="res://assets/objects/o_chest.png" id="13_b5yf5"]
 [ext_resource type="Texture2D" uid="uid://mvylw0idbxn6" path="res://assets/texture/chair.png" id="13_o3yrs"]
 [ext_resource type="ArrayMesh" uid="uid://b1tyqhlpw8s02" path="res://assets/blocks/tinyblock.obj" id="14_5acuo"]
-[ext_resource type="Material" uid="uid://deh76dvd8kdvl" path="res://assets/blocks/metal_texture_transparent.tres" id="14_wnxvx"]
 [ext_resource type="ArrayMesh" uid="uid://mb4myutoeckb" path="res://assets/blocks/campfire.obj" id="15_6siy2"]
 [ext_resource type="Texture2D" uid="uid://dby2wmfnr7ccx" path="res://assets/texture/table.png" id="16_58lxi"]
 [ext_resource type="Texture2D" uid="uid://cjo3olxgprwa3" path="res://assets/blocks/campfire.png" id="16_ljb50"]
@@ -192,21 +193,18 @@ collision_enabled_0 = true
 voxel_name = &"beacon"
 collision_mask = 0
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qrbar"]
+albedo_texture = ExtResource("13_b5yf5")
+
 [sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_simpm"]
-voxel_name = &"solarpanel"
+voxel_name = &"chest"
 transparent = true
 transparency_index = 4
-geometry_type = 1
-collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
+geometry_type = 2
+custom_mesh = ExtResource("12_yiu8m")
+collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 0.5, 1)])
 collision_mask = 13
-cube_geometry_padding_y = null
-cube_tiles_left = Vector2(3, 1)
-cube_tiles_right = Vector2(3, 1)
-cube_tiles_bottom = Vector2(0, 0)
-cube_tiles_top = Vector2(4, 1)
-cube_tiles_back = Vector2(0, 0)
-cube_tiles_front = Vector2(0, 0)
-material_override_0 = ExtResource("14_wnxvx")
+material_override_0 = SubResource("StandardMaterial3D_qrbar")
 collision_enabled_0 = true
 
 [sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_aogu6"]
@@ -349,7 +347,7 @@ voxel_name = &"occluder"
 geometry_type = 2
 custom_mesh = SubResource("PlaneMesh_qs40n")
 collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
-collision_mask = 12
+collision_mask = 13
 collision_enabled_0 = false
 
 [sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_bqls3"]
@@ -504,7 +502,6 @@ voxel_name = &"special"
 geometry_type = 2
 custom_mesh = SubResource("TextMesh_kr2n2")
 collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
-collision_mask = 12
 collision_enabled_0 = true
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ltvb7"]

@@ -1,2 +1,60 @@
-{"name":null,"seed":-1,"position":[16,8,16],"map":"town","gold":90,"stash":[null,null,null,null],"name":"warrior"}
-
+{
+    "unit":
+    {
+        "equipments":
+        [
+            "platemail",
+            "lantern"
+        ],
+        "items":
+        [
+            "spear",
+            "cleaver"
+        ],
+        "slots":
+        [
+            "body",
+            "accessory"
+        ],
+        "souls":
+        [
+            "psychic essence",
+            "soul of metal",
+        ],
+	    "level": 2,
+    },
+    "gold": 90,
+    "mana": 5,
+    "map": "town",
+    "max_mana": 5,
+    "name": "scholar",
+    "position":
+    [
+        0,0,0
+    ],
+    "proficiency":
+    {
+        "armor": 0,
+        "aura": 0,
+        "blade": 0,
+        "blunt": 0,
+        "bow": 0,
+        "dagger": 0,
+        "dodge": 0,
+        "earth": 0,
+        "firearm": 0,
+        "necromancy": 0,
+        "psych": 0,
+        "spear": 0,
+        "unarmed": 0,
+        "wand": 0
+    },
+    "seed": -1,
+    "stash":
+    [
+        null,
+        null,
+        null,
+        null
+    ]
+}

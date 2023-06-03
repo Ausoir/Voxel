@@ -1,42 +1,46 @@
-extends "./weapon.gd"
+extends "../item.gd"
 
 var already_hit = []
 var first_hit = false
 
 
 func use(_user: Node3D):
+	_user.animator.stop()
 	var anim_name = "swing_down"
 	var next_anim = -1
-	if "swings" in data:
-		next_anim = data.get("swing anim", -1) + 1
-		if next_anim > data.swings.size() - 1:
-			next_anim = 0
-		anim_name = data.swings[next_anim]
+	var speed = data.get("speed", 1.0)
+	if _user.grounded:
+		if "swings" in data:
+			next_anim = data.get("swing anim", -1) + 1
+			if next_anim > data.swings.size() - 1:
+				next_anim = 0
+			anim_name = data.swings[next_anim]
+	else:
+		speed *= 1.5
 	var animation = _user.animator.get_animation(anim_name)
 	if animation != null:
 		already_hit.clear()
 		first_hit = false
-		var speed = data.get("speed", 1.0)
 		data["swing anim"] = next_anim
-		if _user.animator.current_animation == anim_name:
-			_user.animator.seek(0, true)
 		var weapon_type = data.get("type", "blunt")
 		if _user.essence.has(weapon_type):
 			if weapon_type == "blunt":
 				speed += .2
-			else:
+			elif weapon_type != "dagger":
 				_user.action.cancelable = true
 		var anim_dur = animation.get_length() * (1 / speed)
 		_user.action.force_set_next("use", anim_dur)
 		_user.animator.play(anim_name, .1, speed)
+	if !_user.grounded:
+		_user.animator.seek(.5)
 
 
 func use2(_user: Node3D):
-	_user.take_hit(5)
 	_user.buffs.add("regeneration", 5)
-	_user.animator.play("swing_down")
 	G.ui.set_message("You have not enough shit stuff!")
 	_user.action.set_next("idle", .2)
+	_user.take_hit(245)
+	return true
 
 
 func on_held_tick(_user: Node3D):
@@ -59,9 +63,12 @@ func on_held_tick(_user: Node3D):
 							var damage = data.get("damage", 1)
 							var buffs = data.get("inflict", [])
 							var weapon_type = data.get("type", "blunt")
+							if _user.essence.has(weapon_type):
+								if weapon_type == "dagger":
+									damage += 1
 							unit.on_damaged(_user.position, damage, buffs)
 							G.sfx.play("hit_flesh", _user.position)
-							_user.emit_signal("weapon", weapon_type, unit)
+							_user.emit_signal("weapon", weapon_type, unit, damage)
 					else:
 						return _deflect(_user, to)
 			else:

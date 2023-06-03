@@ -1,5 +1,5 @@
 {
-	"potion": {
+	"healing potion": {
 		"spritename": "item/potion",
 		"modelname": "item/potion3d-0-potion",
 		"script": "consumable/consumable",
@@ -16,26 +16,56 @@
 			]
 		}
 	},
+	"mana potion": {
+		"spritename": "item/potion",
+		"modelname": "item/potion3d-0-potion",
+		"script": "consumable/consumable",
+		"data": {
+			"buffs": [
+				[
+					"clarity",
+					5
+				],
+				[
+					"daze",
+					3
+				],
+				[
+					"silence",
+					3
+				]
+			]
+		}
+	},
+	"teleport scroll": {
+		"spritename": "item/scroll",
+		"modelname": "item/scroll3d-0-scroll",
+		"script": "consumable/teleport",
+		"data": {
+			"speed": 1,
+			"to": "cave"
+		}
+	},
+	"gold": {
+		"spritename": "item/gold",
+		"modelname": "item/gold3d-0-gold",
+		"script": "consumable/gold",
+		"data": {
+			"speed": 2,
+			"gold": [
+				1,
+				8
+			]
+		}
+	},
 	"rags": {
 		"spritename": "body/a_rags_sprite",
 		"modelname": "item/bag_cloth",
 		"model2name": "body/a_rags",
 		"script": "equipment/armor",
-		"delay": 1,
 		"part": "body",
 		"data": {
-			"space": 2
-		}
-	},
-	"suit": {
-		"spritename": "body/a_suit_sprite",
-		"modelname": "item/bag_cloth",
-		"model2name": "body/a_suit",
-		"script": "equipment/armor",
-		"delay": 1,
-		"part": "body",
-		"data": {
-			"space": 2
+			"space": 1
 		}
 	},
 	"robe": {
@@ -43,10 +73,54 @@
 		"modelname": "item/bag_cloth",
 		"model2name": "body/a_robe",
 		"script": "equipment/armor",
-		"delay": 1,
 		"part": "body",
 		"data": {
-			"space": 5
+			"space": 4
+		}
+	},
+	"suit": {
+		"spritename": "body/a_suit_sprite",
+		"modelname": "item/bag_cloth",
+		"model2name": "body/a_suit",
+		"script": "equipment/armor",
+		"part": "body",
+		"data": {
+			"health": 20,
+			"space": 4
+		}
+	},
+	"leather armor": {
+		"spritename": "body/a_leather_sprite",
+		"modelname": "item/bag_cloth",
+		"model2name": "body/a_leather",
+		"script": "equipment/armor",
+		"part": "body",
+		"data": {
+			"space": 3,
+			"defense": 1
+		}
+	},
+	"chainmail": {
+		"spritename": "body/a_chainmail_sprite",
+		"modelname": "item/bag_cloth",
+		"model2name": "body/a_chainmail",
+		"script": "equipment/armor",
+		"part": "body",
+		"data": {
+			"space": 2,
+			"defense": 2
+		}
+	},
+	"platemail": {
+		"spritename": "body/a_plate_sprite",
+		"modelname": "item/bag_cloth",
+		"model2name": "body/a_plate",
+		"script": "equipment/armor",
+		"part": "body",
+		"data": {
+			"space": 1,
+			"defense": 4,
+			"health": 20
 		}
 	},
 	"lantern": {
@@ -55,10 +129,25 @@
 		"part": "accessory",
 		"data": {
 			"desc": "Lights the way.",
-			"light": 10,
+			"light": 12,
 			"light color": [
 				1,
 				0.8,
+				0
+			]
+		}
+	},
+	"gas lantern": {
+		"spritename": "item/flier",
+		"script": "equipment/spotlight",
+		"part": "accessory",
+		"data": {
+			"desc": "Lights the way.",
+			"light": 20,
+			"light spread": 70,
+			"light color": [
+				1,
+				0.6,
 				0
 			]
 		}
@@ -83,7 +172,6 @@
 		"spritename": "item/flier",
 		"modelname": "item/flier-0-flier",
 		"script": "terraform/placer",
-		"delay": 0,
 		"data": {
 			"buildables": [
 				"shutter",
@@ -97,19 +185,87 @@
 	"remover": {
 		"spritename": "item/flier",
 		"modelname": "item/flier-0-flier",
-		"script": "terraform/remover",
-		"delay": 0
+		"script": "terraform/remover"
 	},
 	"summon": {
 		"spritename": "item/flier",
 		"modelname": "item/flier-0-flier",
 		"script": "spawner/summon"
 	},
+	"stick": {
+		"spritename": "weapon/stick",
+		"modelname": "weapon/stick3d",
+		"script": "weapon/melee",
+		"type": "blunt",
+		"data": {
+			"speed": 2,
+			"damage": 4,
+			"swings": [
+				"swing_down",
+				"swing_right",
+				"swing_left"
+			]
+		}
+	},
+	"mace": {
+		"spritename": "weapon/mace",
+		"modelname": "weapon/mace3d",
+		"script": "weapon/melee",
+		"type": "blunt",
+		"data": {
+			"speed": 0.4,
+			"damage": 12,
+			"swings": [
+				"swing_down",
+				"swing_right",
+				"swing_left"
+			]
+		}
+	},
 	"cleaver": {
 		"spritename": "weapon/cleaver",
 		"modelname": "weapon/cleaver3d",
 		"script": "weapon/melee",
-		"type": "dagger"
+		"type": "dagger",
+		"data": {
+			"speed": 2,
+			"damage": 6,
+			"swings": [
+				"swing_forward",
+				"swing_right"
+			]
+		}
+	},
+	"quarterstaff": {
+		"spritename": "weapon/quarterstaff",
+		"modelname": "weapon/quarterstaff3d",
+		"script": "weapon/melee",
+		"type": "blunt",
+		"data": {
+			"speed": 2,
+			"damage": 6,
+			"swings": [
+				"swing_down",
+				"swing_forward",
+				"swing_right",
+				"swing_left"
+			]
+		}
+	},
+	"katana": {
+		"spritename": "weapon/katana",
+		"modelname": "weapon/katana3d",
+		"script": "weapon/melee",
+		"type": "blade",
+		"data": {
+			"speed": 2,
+			"damage": 10,
+			"swings": [
+				"swing_down",
+				"swing_right",
+				"swing_left"
+			]
+		}
 	},
 	"eblade": {
 		"spritename": "weapon/eblade",
@@ -118,7 +274,6 @@
 		"type": "dagger",
 		"data": {
 			"speed": 1.5,
-			"delay": 0.5,
 			"damage": 8,
 			"swings": [
 				"swing_forward",
@@ -140,12 +295,25 @@
 			]
 		}
 	},
+	"spear": {
+		"spritename": "weapon/spear",
+		"modelname": "weapon/spear3d-0-spear",
+		"script": "weapon/melee",
+		"type": "spear",
+		"data": {
+			"damage": 6,
+			"swings": [
+				"swing_forward"
+			]
+		}
+	},
 	"glaive": {
 		"spritename": "weapon/glaive",
 		"modelname": "weapon/glaive3d",
 		"script": "weapon/melee",
 		"type": "spear",
 		"data": {
+			"damage": 10,
 			"swings": [
 				"swing_forward",
 				"swing_left",
@@ -168,7 +336,7 @@
 		"data": {
 			"projectile": "arrow",
 			"speed": 0.4,
-			"spread": 0.2,
+			"spread": 0.15,
 			"damage": 8
 		}
 	},
@@ -198,9 +366,20 @@
 		"data": {
 			"projectile": "arrow",
 			"speed": 0.5,
-			"delay": 1,
-			"spread": 0.1,
+			"spread": 0.05,
 			"damage": 10
+		}
+	},
+	"staff of death": {
+		"spritename": "weapon/staff",
+		"modelname": "weapon/staff3d-0-staff",
+		"script": "weapon/ranged",
+		"type": "firearm",
+		"data": {
+			"projectile": "laser",
+			"speed": 0.5,
+			"spread": 0.1,
+			"damage": 16
 		}
 	},
 	"taser": {
@@ -210,10 +389,9 @@
 		"type": "firearm",
 		"data": {
 			"projectile": "laser",
-			"speed": 0.8,
-			"spread": 0.1,
-			"damage": 7,
-			"delay": 1.5
+			"speed": 0.6,
+			"spread": 0,
+			"damage": 5
 		}
 	},
 	"pistol": {
@@ -225,8 +403,7 @@
 			"projectile": "laser",
 			"speed": 2,
 			"spread": 0.2,
-			"damage": 4,
-			"delay": 0.5
+			"damage": 4
 		}
 	},
 	"rocket": {
@@ -238,8 +415,7 @@
 			"projectile": "rocket",
 			"speed": 0.2,
 			"spread": 0.1,
-			"damage": 5,
-			"delay": 2
+			"damage": 5
 		}
 	},
 	"greatsword": {
@@ -253,6 +429,10 @@
 				"swing_left",
 				"swing_right",
 				"swing_down"
+			],
+			"req": [
+				"blade",
+				5
 			]
 		}
 	},
@@ -260,7 +440,6 @@
 		"spritename": "weapon/eblade",
 		"modelname": "weapon/eblade3d-0-eblade",
 		"script": "terraform/placer",
-		"delay": 0,
 		"data": {
 			"buildables": [
 				"generator"
@@ -299,7 +478,7 @@
 	},
 	"goblin essence": {
 		"spritename": "item/essence",
-		"modelname": "item/essence",
+		"modelname": "item/essence3d",
 		"part": "essence",
 		"data": {
 			"desc": "Your attacks apply poison that slows the victim.",
@@ -308,7 +487,7 @@
 	},
 	"earth essence": {
 		"spritename": "item/essence",
-		"modelname": "item/essence",
+		"modelname": "item/essence3d",
 		"part": "essence",
 		"data": {
 			"desc": "Touch a solid wall to pass through. Increase health by 10.",
@@ -318,7 +497,7 @@
 	},
 	"scout essence": {
 		"spritename": "item/essence",
-		"modelname": "item/essence",
+		"modelname": "item/essence3d",
 		"part": "essence",
 		"data": {
 			"desc": "Visualize damage done when units are damaged. Increase move speed by 1.",
@@ -328,7 +507,7 @@
 	},
 	"warrior essence": {
 		"spritename": "item/essence",
-		"modelname": "item/essence",
+		"modelname": "item/essence3d",
 		"part": "essence",
 		"data": {
 			"desc": "Recover some health after taking hit.",
@@ -337,7 +516,7 @@
 	},
 	"vampire essence": {
 		"spritename": "item/essence",
-		"modelname": "item/essence",
+		"modelname": "item/essence3d",
 		"part": "essence",
 		"data": {
 			"desc": "Recover some health after dealing damage. Requires 2 essence slots.",
@@ -347,7 +526,7 @@
 	},
 	"psychic essence": {
 		"spritename": "item/essence",
-		"modelname": "item/essence",
+		"modelname": "item/essence3d",
 		"part": "essence",
 		"data": {
 			"desc": "With bare hands, shoot a wave of psychic blast forward.",
@@ -356,7 +535,7 @@
 	},
 	"bomb essence": {
 		"spritename": "item/essence",
-		"modelname": "item/essence",
+		"modelname": "item/essence3d",
 		"part": "essence",
 		"data": {
 			"desc": "Create a bomb.",
@@ -365,16 +544,34 @@
 	},
 	"shadow essence": {
 		"spritename": "item/essence",
-		"modelname": "item/essence",
+		"modelname": "item/essence3d",
 		"part": "essence",
 		"data": {
 			"desc": "Turn invisible.",
 			"essence": "shadow"
 		}
 	},
+	"soul of metal": {
+		"spritename": "item/essence",
+		"modelname": "item/essence3d",
+		"part": "essence",
+		"data": {
+			"desc": "Turn weapons into mana. More damage gives chance for more mana.",
+			"essence": "metal"
+		}
+	},
+	"soul of blood": {
+		"spritename": "item/essence",
+		"modelname": "item/essence3d",
+		"part": "essence",
+		"data": {
+			"desc": "When out of mana, standing still will convert 3 health into 3 mana.",
+			"essence": "blood"
+		}
+	},
 	"wind essence": {
 		"spritename": "item/essence",
-		"modelname": "item/essence",
+		"modelname": "item/essence3d",
 		"part": "essence",
 		"data": {
 			"desc": "Charge to target position, knocking down everything at the destination.",
@@ -383,10 +580,10 @@
 	},
 	"assassin essence": {
 		"spritename": "item/essence",
-		"modelname": "item/essence",
+		"modelname": "item/essence3d",
 		"part": "essence",
 		"data": {
-			"desc": "Faint dagger attacks.",
+			"desc": "Gain +1 damage with daggers.",
 			"req": [
 				"dagger",
 				5
@@ -396,7 +593,7 @@
 	},
 	"berserker essence": {
 		"spritename": "item/essence",
-		"modelname": "item/essence",
+		"modelname": "item/essence3d",
 		"part": "essence",
 		"data": {
 			"desc": "Gain 20% attack speed with blunt weapons.",
@@ -409,7 +606,7 @@
 	},
 	"spearmaster essence": {
 		"spritename": "item/essence",
-		"modelname": "item/essence",
+		"modelname": "item/essence3d",
 		"part": "essence",
 		"data": {
 			"desc": "Faint spear attacks.",
@@ -422,7 +619,7 @@
 	},
 	"blademaster essence": {
 		"spritename": "item/essence",
-		"modelname": "item/essence",
+		"modelname": "item/essence3d",
 		"part": "essence",
 		"data": {
 			"desc": "Faint attacks with bladed weapons.",
@@ -438,7 +635,6 @@
 		"modelname": "item/bag_cloth",
 		"model2name": "body/a_goblin_warrior",
 		"script": "equipment/armor",
-		"delay": 1,
 		"part": "body",
 		"data": {
 			"space": 3

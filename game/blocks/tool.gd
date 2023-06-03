@@ -28,9 +28,10 @@ func remove_block(pos: Vector3):
 	var hit_raw_id = _tool.get_voxel(pos)
 	if hit_raw_id != 0:
 		var block = _blocks.get_block_by_voxel(hit_raw_id)
+		if block != null:
+			block.on_remove(pos)
 		_tool.value = 0
 		_tool.do_point(pos)
-		block.on_remove(pos)
 
 
 func set_block_by_name(pos: Vector3, block_name: String, look_dir: Vector3):

@@ -17,7 +17,7 @@ func use(_user: Node3D):
 
 
 func use2(_user: Node3D):
-	_user.animator.play("swing_down")
+	return false
 
 
 func use_callback(_user: Node3D):
@@ -25,7 +25,7 @@ func use_callback(_user: Node3D):
 
 
 func get_pointed_block(_user: Node3D, col=3):
-	var origin = _user.camera.global_position
+	var origin = _user.get_head()
 	var hit = G.tool.raycast(origin, _user.forward, 1.3, col)
 	return hit
 
@@ -39,10 +39,14 @@ func get_user_block(_user: Node3D):
 func drop(_user):
 	var user_pos = get_user_block(_user)
 	if user_pos != null:
-		var floor_item = to_prop_item()
-		floor_item.position = Vector3(user_pos.previous_position) + G.V2_HALF
-		G.stock.add_child(floor_item)
-		floor_item.on_drop()
+		drop_at(user_pos.previous_position)
+
+
+func drop_at(_pos):
+	var floor_item = to_prop_item()
+	floor_item.position = Vector3(_pos) + G.V2_HALF
+	G.stock.add_child(floor_item)
+	floor_item.on_drop()
 
 
 func to_prop_item():
@@ -74,3 +78,4 @@ func on_unwear(_user):
 
 func on_held_tick(_user: Node3D):
 	pass
+	

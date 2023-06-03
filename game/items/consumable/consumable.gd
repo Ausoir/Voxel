@@ -17,4 +17,6 @@ func use(_user: Node3D):
 func use_callback(_user: Node3D):
 	for buff in data.get("buffs", []):
 		_user.buffs.add(buff[0], buff[1])
+	_user.equipment.free_held()
+	queue_free()
 

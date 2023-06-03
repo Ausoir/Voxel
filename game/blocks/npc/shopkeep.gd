@@ -6,7 +6,7 @@ var _menu
 
 
 func _ready():
-	save_name = "game/blocks/npc/shop"
+	sid = "game/blocks/npc/shop"
 	var pos = position.floor()
 	G.tool.set_voxel(pos, 3)
 	_menu = INTERFACE.instantiate()

@@ -10,8 +10,6 @@ var _unit
 var _yaw = 0
 var _pitch = 0
 var _offset = Vector3()
-var _player_mesh
-var _player_helm_mesh
 var _override_pos
 
 
@@ -26,8 +24,6 @@ func set_override(p):
 
 func set_unit(p):
 	_unit = p
-	_player_mesh = _unit.get_node("Model/Body/Mesh")
-	_player_helm_mesh = _unit.get_node("Model/Body/Head")
 
 
 func _process(_delta):
@@ -55,13 +51,15 @@ func update_rotations(motion):
 func zoom_distance(zoom):
 	distance = clamp(distance + zoom * 0.5, 0, 5)
 	if distance == 0:
-		_player_mesh.hide()
-		_player_helm_mesh.hide()
+		_unit.set_fp_visibility(false)
 		_offset = Vector3(0, _unit.size.y * 2.0/3, 0)
+		if _unit._healthbar != null:
+			_unit._healthbar.position = Vector3(0, .1, .5)
 	else:
-		_player_mesh.show()
-		_player_helm_mesh.show()
+		_unit.set_fp_visibility(true)
 		_offset = Vector3(0, _unit.size.y - .2, 0)
+		if _unit._healthbar != null:
+			_unit._healthbar.position = Vector3(0, _unit.size.y, 0)
 	update_rotations(Vector3())
 
 

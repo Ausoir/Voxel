@@ -82,14 +82,14 @@ func set_item_by_index(i, item):
 	if i < eq_size:
 		var key = equipment.keys()[i]
 		unwear(key)
-		wear(item)
+		return wear(item)
 	else:
 		var ieq_size = eq_size + _inventory.size()
 		if i < ieq_size:
 			_inventory[i - eq_size] = item
+			emit_signal("selected")
 		else:
 			return absorb(item)
-	emit_signal("selected")
 
 
 func get_index_type(i):
@@ -119,6 +119,10 @@ func get_item_by_index(i):
 			return _inventory[i - eq_size]
 		elif i < ieq_size + essence.size():
 			return essence[i - ieq_size]
+
+
+func free_held():
+	set_item_by_index(_held_index, null)
 
 
 func increment_held_index(i):
@@ -154,7 +158,7 @@ func apply_change(data, mult=1):
 	add_essence(data.get("soul", 0) * mult)
 	_unit.procedure.speed += data.get("speed", 0) * mult
 	_unit.health += data.get("health", 0) * mult
-	_unit.armor += data.get("armor", 0) * mult
+	_unit.defense += data.get("defense", 0) * mult
 
 
 func pickup(item):
@@ -169,11 +173,13 @@ func wear(item):
 	if item != null and item.part != null:
 		if item.part in equipment:
 			if equipment[item.part] == null:
-				equipment[item.part] = item
-				item.on_wear(_unit)
-				apply_change(item.data)
-				emit_signal("changed")
-				return true
+				var reqs = item.data.get("req")
+				if _unit != G.you or reqs == null or G.player.proficiency.check_req(reqs[0], reqs[1]):
+					equipment[item.part] = item
+					item.on_wear(_unit)
+					apply_change(item.data)
+					emit_signal("changed")
+					return true
 	return false
 
 
@@ -202,3 +208,26 @@ func set_swinging(p):
 
 func remove():
 	pass
+
+
+func serialize():
+	var equips = []
+	var esss = []
+	var items = []
+	var slots = equipment.keys()
+	for i in slots:
+		if equipment[i] != null:
+			equips.append(equipment[i].sid)
+	for i in _inventory:
+		if i != null:
+			items.append(i.sid)
+	for i in essence:
+		if i != null:
+			esss.append(i.sid)
+	var r = {
+		"slots": equipment.keys(),
+		"equipments": equips,
+		"items": items,
+		"souls": esss,
+	}
+	return r

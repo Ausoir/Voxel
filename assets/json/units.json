@@ -1,6 +1,30 @@
 {
-	"warrior": {
-		"head": "head/head5",
+	"rogue": {
+		"head": "head/head3",
+		"slots": [
+			"body",
+			"accessory"
+		],
+		"equipments": [
+			"leather armor",
+			"lantern"
+		],
+		"items": [
+			"bow"
+		],
+		"souls": [],
+		"data": {
+			"level": 1,
+			"health": 26,
+			"proficiency": {
+				"dodge": 2,
+				"blade": 2,
+				"bow": 2
+			}
+		}
+	},
+	"scholar": {
+		"head": "head/head4",
 		"slots": [
 			"body",
 			"accessory"
@@ -10,16 +34,61 @@
 			"lantern"
 		],
 		"items": [
-			"gasblade",
-			"potion"
+			"cleaver",
+			"spear"
 		],
 		"souls": [
-			"shadow essence",
-			"spearmaster essence"
+			"psychic essence",
+			"soul of metal"
 		],
 		"data": {
-			"level": 3,
-			"health": 100
+			"level": 1,
+			"health": 20,
+			"proficiency": {
+				"psychic": 3,
+				"necromancy": 3
+			}
+		}
+	},
+	"warrior": {
+		"head": "head/head5",
+		"slots": [
+			"body",
+			"accessory"
+		],
+		"equipments": [
+			"chainmail",
+			"lantern"
+		],
+		"items": [
+			"cleaver"
+		],
+		"souls": [],
+		"data": {
+			"level": 1,
+			"health": 32,
+			"proficiency": {
+				"armor": 2,
+				"dodge": 2,
+				"blade": 2,
+				"spear": 2
+			}
+		}
+	},
+	"goblin shaman": {
+		"head": "head/h_goblin",
+		"ai": "human",
+		"slots": [
+			"body"
+		],
+		"equipments": [
+			"goblin armor"
+		],
+		"items": [
+			"glaive"
+		],
+		"data": {
+			"health": 50
 		}
 	},
 	"goblin warrior": {
@@ -32,7 +101,7 @@
 			"goblin armor"
 		],
 		"items": [
-			"glaive"
+			"spear"
 		],
 		"data": {
 			"health": 30
@@ -69,8 +138,72 @@
 			]
 		}
 	},
+	"chicken": {
+		"model": "unit/chicken",
+		"ai": "beast",
+		"data": {
+			"damage": 4,
+			"health": 8,
+			"speed": 0.4,
+			"loot": []
+		}
+	},
+	"chicken alpha": {
+		"model": "unit/chickenalpha",
+		"ai": "beast",
+		"souls": [
+			"vampire",
+			"warrior"
+		],
+		"data": {
+			"damage": 4,
+			"defense": 1,
+			"health": 50,
+			"speed": 0.4,
+			"loot": [
+				[
+					0.1,
+					"vampire essence"
+				],
+				[
+					0.1,
+					"warrior essence"
+				]
+			]
+		}
+	},
+	"duckdog": {
+		"model": "unit/duckdog",
+		"ai": "beast",
+		"data": {
+			"damage": 4,
+			"health": 12,
+			"speed": 0.8,
+			"loot": [
+				[
+					0.5,
+					"earth essence"
+				]
+			]
+		}
+	},
+	"squirrel": {
+		"model": "unit/squirrel",
+		"ai": "beast",
+		"data": {
+			"damage": 4,
+			"health": 12,
+			"speed": 0.6,
+			"loot": [
+				[
+					0.5,
+					"scout essence"
+				]
+			]
+		}
+	},
 	"rat": {
-		"model": "unit/bunny",
+		"model": "unit/rat",
 		"ai": "beast",
 		"souls": [
 			"shadow"
@@ -80,8 +213,25 @@
 			"health": 12,
 			"loot": [
 				[
-					0.5,
-					"scout essence"
+					0.1,
+					"shadow essence"
+				]
+			]
+		}
+	},
+	"robot": {
+		"model": "unit/robot",
+		"ai": "beast",
+		"souls": [],
+		"data": {
+			"damage": 4,
+			"defense": 5,
+			"health": 40,
+			"speed": 0.2,
+			"loot": [
+				[
+					0.1,
+					"potion"
 				]
 			]
 		}

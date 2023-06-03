@@ -17,10 +17,13 @@ func set_unit(p):
 func on_touch():
 	if !perform("earth"):
 		if !perform("bomb"):
-			perform("psychic")
+			if !perform("psychic"):
+				return false
+	return true
 
 func on_wait():
-	perform("shadow")
+	if !perform("metal"):
+		perform("blood")
 
 func on_hit():
 	perform("warrior")
@@ -30,11 +33,18 @@ func on_attack(_victim):
 	perform("vampire")
 	perform("goblin")
 
+func on_ability():
+	perform("shadow")
+
 
 func perform(ess):
 	if ess in _unit.essence:
 		if ess == "warrior":
 			return recover(4, 30)
+		elif ess == "metal":
+			return metal()
+		elif ess == "blood":
+			return sublimation()
 		elif !_unit.buffs.has("exhaustion"):
 			if ess == "earth":
 				return passwall()
@@ -62,24 +72,46 @@ func recover(regen, cd):
 		_unit.buffs.add("regeneration cooldown", cd)
 
 
+func metal():
+	var hand = _unit.procedure.hand
+	var hits = hand.get_interact_object(_unit)
+	if !hits.is_empty():
+		var _item = hits.collider.get_parent()
+		var dmg = _item.base.data.get("damage", 0)
+		_unit.buffs.add("clarity", G.rng.rir(1, dmg))
+		_item.remove()
+		emit_signal("special", "earth")
+
+
+func sublimation():
+	if G.vars.mana == 0:
+		_unit.take_hit(3)
+		_unit.buffs.add("clarity", 3)
+
+
 func invisibility():
-	if !_unit.buffs.has("invisibility"):
-		G.sfx.play("fade", _unit.position)
-	_unit.buffs.add("invisibility", 3)
+	if req_mana(2):
+		if !_unit.buffs.has("invisibility"):
+			G.sfx.play("fade", _unit.position)
+		_unit.buffs.add("invisibility", 3)
+		emit_signal("special", "aura")
 
 
 func psychic():
-	var anim_name = "shoot"
-	var animation = _unit.animator.get_animation(anim_name)
-	if animation != null:
-		var anim_dur = animation.get_length()
-		_unit.animator.seek(0, true)
-		_unit.animator.play(anim_name)
-		_unit.action.force_set_next("use", anim_dur * .5 - .1, psychic_shoot)
-		_unit.action.show_progress = true
-		_unit.action.cancelable = true
-		_unit.buffs.add("exhaustion", 4)
-		G.sfx.play("cast_psych", _unit.position)
+	if req_mana(1):
+		var anim_name = "blast"
+		var animation = _unit.animator.get_animation(anim_name)
+		if animation != null:
+			var anim_dur = animation.get_length()
+			_unit.animator.seek(0, true)
+			_unit.animator.play(anim_name)
+			_unit.action.force_set_next("use", anim_dur * .5 - .1)
+			_unit.action.show_progress = true
+			_unit.action.cancelable = true
+			_unit.buffs.add("exhaustion", 4)
+			G.sfx.play("cast_psych", _unit.position)
+			if !_unit.attack.is_connected(psychic_shoot):
+				_unit.attack.connect(psychic_shoot)
 
 
 func psychic_shoot():
@@ -88,7 +120,9 @@ func psychic_shoot():
 	rocket.damage = 7
 	rocket.position = _unit.get_center()
 	G.stock.add_child(rocket)
-	rocket.set_direction(_unit.forward)
+	var spread = .15
+	var projectile_direction = G.rng.v3_spread(spread,spread,spread) + _unit.forward
+	rocket.set_direction(projectile_direction)
 	_unit.action.set_next("idle", .5)
 
 
@@ -126,4 +160,11 @@ func passwall():
 			return true
 func passwall_tick(_user, to):
 	_user.position = _user.position.lerp(to, 0.01)
+
+
+func req_mana(p):
+	if G.vars.mana >= p:
+		G.vars.mana -= p
+		return true
+	return false
 

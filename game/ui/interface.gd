@@ -15,6 +15,7 @@ var _unit
 @onready var msg = $Message
 @onready var sidetext = $Sidetext
 @onready var fade = $Fade
+@onready var animation = $Animation
 
 
 func _ready():
@@ -24,11 +25,19 @@ func _ready():
 
 func set_unit(unit):
 	_unit = unit
-	$HotBar/ItemBar.set_unit(unit)
 	$Center/Progress.set_unit(unit)
 	$BuffList.set_unit(unit)
-	unit.equipment.connect("selected", Callable($HotBar/ItemBar, "update_items"))
-	unit.equipment.connect("changed", Callable($HotBar/ItemBar, "update_views"))
+	if unit.get_type() == 1:
+		$HotBar/ItemBar.set_unit(unit)
+		unit.equipment.connect("selected", Callable($HotBar/ItemBar, "update_items"))
+		unit.equipment.connect("changed", Callable($HotBar/ItemBar, "update_views"))
+	else:
+		$HotBar/ItemBar.hide()
+	unit.attacked.connect(on_hit)
+
+
+func on_hit():
+	animation.play("red")
 
 
 func on_resize():
@@ -42,7 +51,10 @@ func set_label(txt):
 
 
 func set_message(txt):
-	msg.display(txt)
+	if txt == null:
+		msg.display("")
+	else:
+		msg.display(str(txt))
 
 
 func set_sidetext(txt):
@@ -61,7 +73,7 @@ func set_description(txt, pos, right=false):
 
 
 func fadein():
-	$Animation.play("fadein")
+	animation.play("fadein")
 
 
 func display(p):
@@ -70,7 +82,7 @@ func display(p):
 		on = true
 		$HotBar.hide()
 		$Center/Crosshair.hide()
-		$Animation.play("tint")
+		animation.play("tint")
 		menu_container.add_child(p)
 		p.set_unit(_unit)
 		p.on_display()
@@ -82,7 +94,7 @@ func clear():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	on = false
 	desc.hide()
-	$Animation.stop()
+	animation.stop()
 	sidetext.hide()
 	fade.color = Color.TRANSPARENT
 	$HotBar.show()
@@ -96,3 +108,5 @@ func _process(_delta):
 	last_touch_time += _delta
 	if showfps:
 		n_fps.set_text(str(Engine.get_frames_per_second())+' FPS')
+	if on:
+		_unit.show_healthbar()
