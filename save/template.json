@@ -1,15 +1,27 @@
 {
+    "gold": 90,
+    "map": "town",
+    "seed": -1,
+    "stash":
+    [
+        null,
+        null,
+        null,
+        null
+    ],
     "unit":
     {
+        "buffs":
+        [],
         "equipments":
         [
-            "platemail",
-            "lantern"
+            "suit",
+            "gas lantern"
         ],
         "items":
         [
             "spear",
-            "cleaver"
+            "staff of death"
         ],
         "slots":
         [
@@ -19,42 +31,26 @@
         "souls":
         [
             "psychic essence",
-            "soul of metal",
+            "soul of metal"
         ],
-	    "level": 2,
-    },
-    "gold": 90,
-    "mana": 5,
-    "map": "town",
-    "max_mana": 5,
-    "name": "scholar",
-    "position":
-    [
-        0,0,0
-    ],
-    "proficiency":
-    {
-        "armor": 0,
-        "aura": 0,
-        "blade": 0,
-        "blunt": 0,
-        "bow": 0,
-        "dagger": 0,
-        "dodge": 0,
-        "earth": 0,
-        "firearm": 0,
-        "necromancy": 0,
-        "psych": 0,
-        "spear": 0,
-        "unarmed": 0,
-        "wand": 0
-    },
-    "seed": -1,
-    "stash":
-    [
-        null,
-        null,
-        null,
-        null
-    ]
+        "mana": 3,
+        "name": "scholar",
+        "proficiency":
+        {
+            "armor": 0,
+            "aura": 0,
+            "blade": 0,
+            "blunt": 0,
+            "bow": 0,
+            "dagger": 0,
+            "dodge": 0,
+            "earth": 0,
+            "firearm": 0,
+            "necromancy": 0,
+            "psych": 0,
+            "spear": 0,
+            "unarmed": 0,
+            "wand": 0
+        }
+    }
 }

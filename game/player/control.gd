@@ -1,6 +1,6 @@
 extends Node
 
-const Blocks = preload("../blocks/blocks.gd")
+const Blocks = preload("res://game/block/blocks.gd")
 const MENU_INVENTORY = preload("res://game/ui/inventory/inventory.tscn")
 const MENU_SETTINGS = preload("res://game/ui/settings.tscn")
 
@@ -59,6 +59,7 @@ func _physics_process(_delta):
 				else:
 					_unit.action.set_next("jump", 1)
 			elif Input.is_action_just_released("jump"):
+				G.player.noise = 6
 				_unit.procedure.jump(1 - max(0, _unit.action.get_percentage()-.2))
 			else:
 				if Input.is_action_pressed("sneak"):

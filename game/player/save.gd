@@ -7,7 +7,6 @@ var data
 
 
 func load_data():
-#	load_prop_data()
 	return load_player_data()
 
 
@@ -22,18 +21,10 @@ func load_player_data():
 		G.rng.set_seed(data.seed)
 		G.vars = data
 		G.set_map("town")
-		G.player.proficiency.unserialize(data.proficiency)
-	var u = G.stock.make_any(G.player, Vector3(), G.vars.name, G.vars.unit)
+	var u = G.stock.make_any(G.player, Vector3(), G.vars.unit.name, G.vars.unit)
+	u.health = G.vars.get("health", u.health)
+	u.mana = G.vars.get("mana", u.mana)
 	return u
-
-
-func load_prop_data():
-	data = get_json_from_dir(PROP_PATH)
-	if data != null:
-		for i in data:
-			var scene = load("res://" + i.name + ".tscn").instantiate()
-			G.stock.add_child(scene)
-			scene.position = Vector3(i.position[0], i.position[1], i.position[2])
 
 
 func save_data():
@@ -41,13 +32,11 @@ func save_data():
 
 
 func save_player_data():
-	var r = {}
-	for key in G.vars.keys():
-		r[key] = G.vars[key]
-	data = G.you.serialize()
-	for key in data.keys():
-		r[key] = data[key]
-	r["proficiency"] = G.player.proficiency.serialize()
+	G.vars["health"] = G.you.health
+	G.vars["mana"] = G.you.mana
+	var r = G.vars.duplicate()
+	var unit_data = G.you.serialize()
+	r["unit"] = unit_data
 	save(PATH, r)
 
 

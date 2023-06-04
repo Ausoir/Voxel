@@ -1,0 +1,156 @@
+[gd_scene load_steps=14 format=3 uid="uid://vixoefaaxj8f"]
+
+[ext_resource type="Script" path="res://game/block/doors/prop_door.gd" id="1_5qy6j"]
+[ext_resource type="ArrayMesh" uid="uid://5xmindpboht3" path="res://assets/blocks/sideslab_ns.obj" id="1_u5f4w"]
+[ext_resource type="Texture2D" uid="uid://cjixikwj37edg" path="res://assets/texture/doorbottom.png" id="2_luify"]
+[ext_resource type="Texture2D" uid="uid://ctov3wqnwqwoo" path="res://assets/texture/doortop.png" id="4_v4r5f"]
+
+[sub_resource type="Animation" id="Animation_rc0cq"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Collision:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Collision:rotation:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="Animation" id="Animation_60epc"]
+resource_name = "close"
+length = 0.5
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Collision:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(-0.95, -0.25, -0.7, 0.25, -0.8, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.5)
+}
+
+[sub_resource type="Animation" id="Animation_7d23e"]
+resource_name = "close2"
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Collision:rotation:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(-1.5708, 0, 0, 0, 0, 0, -0.4, 0, 0, 0),
+"times": PackedFloat32Array(0, 0.6)
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.6),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"_on_close"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_3dmg4"]
+resource_name = "open"
+length = 0.5
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Collision:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, -0.95, -0.25, -0.7, 0.25, -0.8),
+"times": PackedFloat32Array(0, 0.5)
+}
+
+[sub_resource type="Animation" id="Animation_jw0m2"]
+resource_name = "open2"
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Collision:rotation:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0, 0, -1.5708, -0.4, 0, 0, 0),
+"times": PackedFloat32Array(0, 0.6)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_lt6xh"]
+_data = {
+"RESET": SubResource("Animation_rc0cq"),
+"close": SubResource("Animation_60epc"),
+"close2": SubResource("Animation_7d23e"),
+"open": SubResource("Animation_3dmg4"),
+"open2": SubResource("Animation_jw0m2")
+}
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_42y7s"]
+size = Vector3(1, 2, 0.2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_skckg"]
+albedo_texture = ExtResource("2_luify")
+metallic_specular = 0.0
+texture_filter = 0
+texture_repeat = false
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bsij4"]
+albedo_texture = ExtResource("4_v4r5f")
+metallic_specular = 0.0
+texture_filter = 0
+texture_repeat = false
+
+[node name="Door" type="Node3D"]
+script = ExtResource("1_5qy6j")
+
+[node name="Animator" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_lt6xh")
+}
+
+[node name="Collision" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
+
+[node name="Shape" type="CollisionShape3D" parent="Collision"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1, 0)
+shape = SubResource("BoxShape3D_42y7s")
+
+[node name="Body" type="MeshInstance3D" parent="Collision"]
+transform = Transform3D(0.995, 0, 0, 0, 1, 0, 0, 0, 0.995, 0, 0, -0.5)
+mesh = ExtResource("1_u5f4w")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_skckg")
+
+[node name="Body2" type="MeshInstance3D" parent="Collision"]
+transform = Transform3D(0.995, 0, 0, 0, 0.99, 0, 0, 0, 0.995, 0, 1, -0.5)
+mesh = ExtResource("1_u5f4w")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_bsij4")
+
+[connection signal="animation_finished" from="Animator" to="." method="_on_animator_animation_finished"]

@@ -1,6 +1,7 @@
 {
 	"rogue": {
 		"head": "head/head3",
+		"body": "body/a_underwear",
 		"slots": [
 			"body",
 			"accessory"
@@ -25,6 +26,7 @@
 	},
 	"scholar": {
 		"head": "head/head4",
+		"body": "body/a_underwear",
 		"slots": [
 			"body",
 			"accessory"
@@ -34,12 +36,10 @@
 			"lantern"
 		],
 		"items": [
-			"cleaver",
-			"spear"
+			"stick"
 		],
 		"souls": [
-			"psychic essence",
-			"soul of metal"
+			"psychic essence"
 		],
 		"data": {
 			"level": 1,
@@ -52,6 +52,7 @@
 	},
 	"warrior": {
 		"head": "head/head5",
+		"body": "body/a_underwear",
 		"slots": [
 			"body",
 			"accessory"
@@ -77,6 +78,7 @@
 	},
 	"goblin shaman": {
 		"head": "head/h_goblin",
+		"body": "body/a_goblin_warrior",
 		"ai": "human",
 		"slots": [
 			"body"
@@ -87,12 +89,20 @@
 		"items": [
 			"glaive"
 		],
+		"souls": [],
+		"buffs": [
+			[
+				"regeneration",
+				-1
+			]
+		],
 		"data": {
-			"health": 50
+			"health": 40
 		}
 	},
 	"goblin warrior": {
 		"head": "head/h_goblin",
+		"body": "body/a_goblin_warrior",
 		"ai": "human",
 		"slots": [
 			"body"
@@ -103,12 +113,14 @@
 		"items": [
 			"spear"
 		],
+		"souls": [],
 		"data": {
-			"health": 30
+			"health": 25
 		}
 	},
 	"goblin ranger": {
 		"head": "head/h_goblin",
+		"body": "body/a_goblin_warrior",
 		"ai": "shooter",
 		"slots": [
 			"body"
@@ -117,10 +129,26 @@
 			"goblin armor"
 		],
 		"items": [
-			"bow"
+			"goblin bow"
 		],
+		"souls": [],
 		"data": {
-			"health": 30,
+			"health": 20,
+			"range": 10
+		}
+	},
+	"skeleton warrior": {
+		"head": "head/h_skull",
+		"body": "body/a_skeleton",
+		"ai": "shooter",
+		"slots": [],
+		"equipments": [],
+		"items": [
+			"goblin bow"
+		],
+		"souls": [],
+		"data": {
+			"health": 20,
 			"range": 10
 		}
 	},
@@ -181,7 +209,7 @@
 			"speed": 0.8,
 			"loot": [
 				[
-					0.5,
+					0.1,
 					"earth essence"
 				]
 			]
@@ -196,8 +224,8 @@
 			"speed": 0.6,
 			"loot": [
 				[
-					0.5,
-					"scout essence"
+					0.1,
+					"agility essence"
 				]
 			]
 		}

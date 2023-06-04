@@ -16,11 +16,11 @@ func _ready():
 
 
 func on_display():
-	var desc = G.player.proficiency.get_description()
+	var desc = G.you.proficiency.get_description()
 	var txt = str("Level ",G.you.data.get("level",1),"  ",G.you.sid.capitalize(),"\n")
 	txt += str("[color=GOLD]Gold[/color]: ",G.vars.gold,"\n")
 	txt += str("[color=RED]Health[/color]: ",G.you.health,"/",G.you.data.health,"\n")
-	txt += str("[color=BLUE]Mana[/color]: ",G.vars.mana,"/",G.vars.max_mana,"\n")
+	txt += str("[color=BLUE]Mana[/color]: ",G.you.mana,"/",G.you.data.mana,"\n")
 	txt += str("[color=GREEN]Speed[/color]: ",G.you.procedure.speed*10,"\n")
 	txt += str("[color=DARK_SLATE_BLUE]Defense[/color]: ",G.you.defense,"\n")
 	G.ui.set_sidetext(txt + desc)

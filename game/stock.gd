@@ -1,8 +1,8 @@
 extends Node
 
 
-const Library := preload("res://game/blocks/voxel_library.tres")
-const Item = preload("res://game/items/item.gd")
+const Library := preload("res://game/block/voxel_library.tres")
+const Item = preload("res://game/item/item.gd")
 const Item_JSON = preload("res://assets/json/items.json")
 const Item_Bag = preload("res://assets/item/bag.obj")
 const Unit_JSON = preload("res://assets/json/units.json")
@@ -12,14 +12,15 @@ const P_explosion = preload("res://game/fx/explosion/explosion.tscn")
 const P_deflect = preload("res://game/fx/explosion/deflect.tscn")
 const P_demolish = preload("res://game/fx/other/demolish.tscn")
 const P_bleed = preload("res://game/fx/bleed/bleed.tscn")
+const P_clarity = preload("res://game/fx/buff/clarity.tscn")
+const P_dodge = preload("res://game/fx/explosion/dodge.tscn")
 const Text = preload("res://game/fx/text.tscn")
-const Unit = preload("res://game/units/unit.tscn")
-const Humanoid = preload("res://game/units/humanoid/humanoid.tscn")
-const Underwear = preload("res://assets/unit/a_underwear.obj")
-const IBlank = preload("res://game/units/ai/blank.gd")
-const IBeast = preload("res://game/units/ai/beast.gd")
-const IHuman = preload("res://game/units/ai/sentient.gd")
-const IShooter = preload("res://game/units/ai/shooter.gd")
+const Unit = preload("res://game/unit/unit.tscn")
+const Humanoid = preload("res://game/unit/humanoid/humanoid.tscn")
+const IBlank = preload("res://game/unit/ai/blank.gd")
+const IBeast = preload("res://game/unit/ai/beast.gd")
+const IHuman = preload("res://game/unit/ai/sentient.gd")
+const IShooter = preload("res://game/unit/ai/shooter.gd")
 var _model_cache = {}
 var _scene_cache = {}
 var _image_cache = {}
@@ -52,17 +53,16 @@ func _get_model(modelname: String):
 
 func make_item(itemname: String):
 	var dict = Item_JSON.get_data()
-	var dat = dict.get(itemname)
+	var split = itemname.split(":")
+	var dat = dict.get(split[0])
 	if dat != null:
 		var item : Item
 		var script = dat.get("script")
 		if script != null:
-			var dir = str("res://game/items", "/", script, ".gd")
+			var dir = str("res://game/item", "/", script, ".gd")
 			item = load(dir).new()
 		else:
 			item = Item.new()
-		
-		item.sid = itemname
 		item.sprite = get_image(dat.spritename)
 		if dat.has("modelname"):
 			item.model = _get_model(dat.modelname)
@@ -72,13 +72,22 @@ func make_item(itemname: String):
 			item.model2 = _get_model(dat.model2name)
 		item.part = dat.get("part")
 		item.data = dat.get("data", {}).duplicate()
+		if !("value" in item.data):
+			item.data["value"] = 1
+		if split.size() > 1:
+			var sd = int(split[1])
+			if sd == -1:
+				sd = G.rng.get_item_seed()
+				itemname = str(split[0], ":", sd)
+			item.imbue(sd)
+		item.sid = itemname
 		return item
 
 
 func make_object(pos: Vector3, itemname: String):
 	var scene = _scene_cache.get(itemname)
 	if scene == null:
-		var dir = str("res://game/blocks/", itemname, ".tscn")
+		var dir = str("res://game/object/", itemname, ".tscn")
 		scene = load(dir)
 		_scene_cache[itemname] = scene
 	var item = scene.instantiate()
@@ -88,31 +97,40 @@ func make_object(pos: Vector3, itemname: String):
 	return item
 
 
-func make_any(parent: Node, pos: Vector3, itemname: String, equips=null):
-	var r = make_humanoid(parent, pos, itemname, equips)
+func make_any(parent: Node, pos: Vector3, itemname: String, custom=null):
+	var r = make_humanoid(parent, pos, itemname, custom)
 	if r == null:
-		r = make_unit(pos, itemname)
+		r = make_unit(pos, itemname, custom)
 	return r
 
 
-func make_unit(pos: Vector3, itemname: String):
+func make_unit(pos: Vector3, itemname: String, custom_data=null):
 	var dict = Unit_JSON.get_data()
 	var data = dict.get(itemname)
 	if data != null:
-		var model = _get_model(data.model)
 		var unit = Unit.instantiate()
-		add_child(unit)
-		unit.set_mesh(model)
 		unit.sid = itemname
+		var rawdata = data.duplicate()
 		unit.data = data.get("data", {}).duplicate()
+		if custom_data != null:
+			rawdata.merge(custom_data, true)
+			unit.data.merge(custom_data.data, true)
+		add_child(unit)
+		var model = _get_model(data.model)
+		unit.set_mesh(model)
 		unit.position = pos
 		unit.health = unit.data.get("health", 1)
+		unit.mana = unit.data.get("mana", 0)
+		if !("mana" in unit.data):
+			unit.data["mana"] = unit.mana
 		unit.defense = unit.data.get("defense", 0)
+		unit.buffs.unserialize(rawdata.get("buffs", []))
+		unit.proficiency.unserialize(rawdata.get("proficiency"))
 		if "speed" in unit.data:
 			unit.procedure.speed = unit.data.speed
-		for i in data.get("souls", []):
+		for i in rawdata.get("souls", []):
 			unit.essence.append(i)
-		_attach_ai(unit, data)
+		_attach_ai(unit, rawdata)
 		return unit
 
 
@@ -121,29 +139,38 @@ func make_humanoid(parent: Node, pos: Vector3, itemname: String, custom_data=nul
 	var data = dict.get(itemname)
 	if data != null and "head" in data:
 		var unit = Humanoid.instantiate()
-		var head_model = _get_model(data.head)
-		unit.headmesh = head_model
-		unit.set_head_mesh(head_model)
+		var rawdata = data.duplicate()
 		unit.data = data.get("data", {}).duplicate()
 		if custom_data != null:
-			unit.data.merge(custom_data, true)
+			rawdata.merge(custom_data, true)
+			unit.data.merge(custom_data.data, true)
+		var head_model = _get_model(rawdata.head)
+		unit.headmesh = head_model
+		unit.set_head_mesh(head_model)
 		unit.health = unit.data.get("health", 1)
+		unit.mana = unit.data.get("mana", 0)
+		if !("mana" in unit.data):
+			unit.data["mana"] = unit.mana
 		unit.defense = unit.data.get("defense", 0)
 		if "speed" in unit.data:
 			unit.procedure.speed = unit.data.speed
 		parent.add_child(unit)
-		for i in unit.data.slots:
+		var body_model = _get_model(rawdata.body)
+		unit.set_mesh(body_model)
+		for i in rawdata.slots:
 			unit.equipment.add_slot(i)
-		for i in unit.data.equipments:
-			unit.equipment.wear(G.stock.make_item(i))
-		for i in unit.data.items:
-			unit.equipment.pickup(G.stock.make_item(i))
-		for i in unit.data.get("souls", []):
-			unit.equipment.absorb(G.stock.make_item(i))
+		for i in rawdata.equipments:
+			unit.equipment.wear(make_item(i))
+		for i in rawdata.items:
+			unit.equipment.pickup(make_item(i))
+		for i in rawdata.souls:
+			unit.equipment.absorb(make_item(i))
 		unit.equipment.set_held_index(0)
+		unit.buffs.unserialize(rawdata.get("buffs", []))
+		unit.proficiency.unserialize(rawdata.get("proficiency"))
 		unit.sid = itemname
 		unit.position = pos
-		_attach_ai(unit, data)
+		_attach_ai(unit, rawdata)
 		return unit
 
 
@@ -203,6 +230,10 @@ func make_group(itemname, rf):
 		var dict = Group_JSON.get_data()
 		var data = dict.get(itemname)
 		if data != null:
-			return G.rng.get_combo(data, rf)
+			var r = G.rng.get_combo(data, rf)
+			if r != null and r[0] == "#":
+				return make_group(r, rf)
+			else:
+				return r
 	else:
 		return G.rng.get_combo(itemname, rf)

@@ -21,7 +21,7 @@ var you
 var noisemap
 var vars
 var mapdata = Map_JSON.get_data().get("town")
-var _env
+var env
 @onready var terrain = get_node("/root/Game/Terrain")
 @onready var late_loader = get_node("/root/Game/Terrain/LateLoader")
 @onready var tool = get_node("/root/Game/Tool")
@@ -45,10 +45,10 @@ func set_map(p):
 	var maps = Map_JSON.get_data()
 	mapdata = maps.get(vars.map)
 	var game = get_node("/root/Game")
-	if _env != null:
-		game.remove_child(_env)
-	_env = _envs[mapdata.get("env", "outside")]
-	game.add_child.call_deferred(_env)
+	if env != null:
+		game.remove_child(env)
+	env = _envs[mapdata.get("env", "outside")]
+	game.add_child.call_deferred(env)
 
 
 func get_biome(_pos: Vector3):

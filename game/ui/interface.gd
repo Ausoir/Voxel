@@ -36,7 +36,7 @@ func set_unit(unit):
 	unit.attacked.connect(on_hit)
 
 
-func on_hit():
+func on_hit(_dmg):
 	animation.play("red")
 
 

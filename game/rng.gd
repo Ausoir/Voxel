@@ -10,6 +10,10 @@ func set_seed(sd):
 	rng.seed = sd
 
 
+func get_item_seed():
+	return rng.randi_range(0, 9999999)
+
+
 func rf():
 	return rng.randf()
 

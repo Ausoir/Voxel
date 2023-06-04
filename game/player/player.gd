@@ -6,7 +6,6 @@ var unit
 var noise = 0
 var _newmap_offset = 0
 var _frame = 0
-@onready var proficiency = $Proficiency
 @onready var _viewer = $VoxelViewer
 
 
@@ -29,10 +28,10 @@ func load_map(p):
 		G.terrain.generator.post_ready()
 		G.terrain.get_node("LateLoader").start(1)
 		unit.position = Vector3(_newmap_offset + 64 + 15, 12, 15)
-		unit.buffs.clean()
 		G.ui.clear()
 		G.ui.fade.color = Color.BLACK
 		_viewer.position = Vector3(_newmap_offset, 0, 0)
+		G.turn.add(unit.buffs.on_turn)
 
 
 func set_unit(p):
@@ -57,7 +56,6 @@ func set_unit(p):
 	unit.body.set_collision_mask_value(6, false)
 	$View.set_unit(unit)
 	$Control.set_unit(unit)
-	proficiency.set_unit(unit)
 	$Interface.set_unit(unit)
 	$View.zoom_distance(0)
 	unit.on_mesh_set()
@@ -66,7 +64,7 @@ func set_unit(p):
 
 
 func on_death():
-	var u = G.stock.make_unit(Vector3(), "rat")
+	var u = G.stock.make_any(Vector3(), G.vars.unit.name)
 	set_unit(u)
 
 

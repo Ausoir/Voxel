@@ -6,7 +6,7 @@ var turn_idx = 0
 var _frame = 0
 
 
-func _ready():
+func _init():
 	clear()
 
 

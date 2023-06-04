@@ -3,8 +3,8 @@
 		"env": "outside",
 		"spawn": "#village",
 		"down": [
-			"fortress",
-			"cave"
+			"cave",
+			"fortress"
 		],
 		"item": null,
 		"treasure": null,
@@ -31,7 +31,10 @@
 			"224": "npc/healer",
 			"324": "npc/transporter"
 		},
-		"special": []
+		"special": [],
+		"spawnables": [
+			"chair"
+		]
 	},
 	"fortress": {
 		"env": "cave",
@@ -39,7 +42,7 @@
 		"down": [
 			"fortress"
 		],
-		"item": "#shop",
+		"item": "#shelf",
 		"treasure": "#treasure",
 		"trash": "#trash",
 		"variants": [
@@ -60,11 +63,11 @@
 			"glass": "glass"
 		},
 		"special": [
-			"machine/entrance",
-			"machine/entrance",
-			"machine/exit",
-			"machine/exit",
-			"machine/exit"
+			"portal/entrance",
+			"portal/entrance",
+			"portal/exit",
+			"portal/exit",
+			"portal/exit"
 		]
 	},
 	"cave": {
@@ -73,7 +76,7 @@
 		"down": [
 			"town"
 		],
-		"item": "#shop",
+		"item": "#shelf",
 		"treasure": "#treasure",
 		"trash": "#trash",
 		"variants": [
@@ -94,11 +97,16 @@
 			"glass": "glass"
 		},
 		"special": [
-			"machine/entrance",
-			"machine/entrance",
-			"machine/exit",
-			"machine/exit",
-			"machine/exit"
+			"portal/entrance",
+			"portal/entrance",
+			"portal/exit",
+			"portal/exit",
+			"portal/exit"
+		],
+		"spawnables": [
+			"chair",
+			"carpet",
+			"stone"
 		]
 	}
 }

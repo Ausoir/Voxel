@@ -126,6 +126,7 @@ sneak={
 3d_physics/layer_4="Projectile"
 3d_physics/layer_5="Pathing"
 3d_physics/layer_6="Perception"
+3d_physics/layer_8="Camera"
 
 [physics]
 

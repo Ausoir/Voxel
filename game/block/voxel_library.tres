@@ -1,0 +1,654 @@
+[gd_resource type="VoxelBlockyLibrary" load_steps=86 format=3 uid="uid://chr1cj53hbsgq"]
+
+[ext_resource type="ArrayMesh" uid="uid://fwb38pl3a8jv" path="res://assets/blocks/slab_ew.obj" id="1_2pls5"]
+[ext_resource type="Texture2D" uid="uid://cjixikwj37edg" path="res://assets/texture/doorbottom.png" id="2_7fbs0"]
+[ext_resource type="ArrayMesh" uid="uid://0h8p56h5cmc5" path="res://assets/blocks/slab_ns.obj" id="3_orr8j"]
+[ext_resource type="Texture2D" uid="uid://ctov3wqnwqwoo" path="res://assets/texture/doortop.png" id="4_w0a7x"]
+[ext_resource type="Material" uid="uid://df1d0n5htjwej" path="res://assets/blocks/terrain_texture.tres" id="5_f00mb"]
+[ext_resource type="Material" uid="uid://boa8jg111g4fk" path="res://assets/blocks/terrain_texture_transparent.tres" id="6_x4j2p"]
+[ext_resource type="ArrayMesh" uid="uid://b56o0dis2lbu" path="res://assets/blocks/highblock.obj" id="7_6k1hr"]
+[ext_resource type="Texture2D" uid="uid://dg4xw3wf1pm6g" path="res://assets/texture/locker.png" id="8_uo64c"]
+[ext_resource type="ArrayMesh" uid="uid://c8u656ifyh2k5" path="res://assets/blocks/smallblock.obj" id="9_h0u1q"]
+[ext_resource type="Texture2D" uid="uid://mvylw0idbxn6" path="res://assets/texture/chair.png" id="10_rfbf5"]
+[ext_resource type="ArrayMesh" uid="uid://b1tyqhlpw8s02" path="res://assets/blocks/tinyblock.obj" id="11_qnwd0"]
+[ext_resource type="ArrayMesh" uid="uid://baos6jt7jfx8o" path="res://assets/objects/o_chest.obj" id="12_lxmgm"]
+[ext_resource type="Texture2D" uid="uid://xomgnw5ls5lh" path="res://assets/objects/o_chest.png" id="13_vreon"]
+[ext_resource type="Texture2D" uid="uid://i8rytnqf2ynw" path="res://assets/texture/walkway.png" id="14_ui8va"]
+[ext_resource type="Texture2D" uid="uid://dby2wmfnr7ccx" path="res://assets/texture/table.png" id="15_0x3li"]
+[ext_resource type="ArrayMesh" uid="uid://mb4myutoeckb" path="res://assets/blocks/campfire.obj" id="16_hkrry"]
+[ext_resource type="Texture2D" uid="uid://cjo3olxgprwa3" path="res://assets/blocks/campfire.png" id="17_ahjro"]
+[ext_resource type="ArrayMesh" uid="uid://cgbg53ajnxx2p" path="res://assets/blocks/half.obj" id="18_ei3hv"]
+[ext_resource type="Texture2D" uid="uid://bs8hyhkvnux7h" path="res://assets/texture/sofa.png" id="19_w3vwo"]
+[ext_resource type="ArrayMesh" uid="uid://orubern31au" path="res://assets/objects/o_barrel.obj" id="20_v546i"]
+[ext_resource type="Texture2D" uid="uid://eet8id1xl55c" path="res://assets/objects/o_barrel.png" id="21_24ikr"]
+[ext_resource type="Material" uid="uid://bs5u0ea1vrq7v" path="res://assets/blocks/terrain_biome.tres" id="22_8f8kj"]
+[ext_resource type="ArrayMesh" uid="uid://bqmptq15xfn5t" path="res://assets/blocks/platform.obj" id="23_rjj4g"]
+[ext_resource type="Texture2D" uid="uid://lh3oxxormfob" path="res://assets/texture/light_square.png" id="24_x5ety"]
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_uj7mi"]
+voxel_name = &"air"
+collision_mask = 0
+
+[sub_resource type="TextMesh" id="TextMesh_fhkls"]
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_giaje"]
+voxel_name = &"void"
+geometry_type = 2
+custom_mesh = SubResource("TextMesh_fhkls")
+collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
+collision_mask = 16
+collision_enabled_0 = false
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iis4p"]
+albedo_texture = ExtResource("2_7fbs0")
+metallic_specular = 0.0
+texture_filter = 0
+texture_repeat = false
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_evrag"]
+voxel_name = &"doorbottom_ew"
+geometry_type = 2
+custom_mesh = ExtResource("1_2pls5")
+collision_aabbs = Array[AABB]([AABB(0.4, 0, 0, 0.2, 1, 1)])
+collision_mask = 15
+material_override_0 = SubResource("StandardMaterial3D_iis4p")
+collision_enabled_0 = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dwlvj"]
+albedo_texture = ExtResource("2_7fbs0")
+metallic_specular = 0.0
+texture_filter = 0
+texture_repeat = false
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_rmcmf"]
+voxel_name = &"doorbottom_ns"
+geometry_type = 2
+custom_mesh = ExtResource("3_orr8j")
+collision_aabbs = Array[AABB]([AABB(0, 0, 0.4, 1, 1, 0.2)])
+collision_mask = 15
+material_override_0 = SubResource("StandardMaterial3D_dwlvj")
+collision_enabled_0 = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6ct4k"]
+albedo_texture = ExtResource("4_w0a7x")
+metallic_specular = 0.0
+texture_filter = 0
+texture_repeat = false
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_4yoce"]
+voxel_name = &"doortop_ew"
+geometry_type = 2
+custom_mesh = ExtResource("1_2pls5")
+collision_aabbs = Array[AABB]([AABB(0.4, 0, 0, 0.2, 1, 1)])
+collision_mask = 15
+material_override_0 = SubResource("StandardMaterial3D_6ct4k")
+collision_enabled_0 = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_565gw"]
+albedo_texture = ExtResource("4_w0a7x")
+metallic_specular = 0.0
+texture_filter = 0
+texture_repeat = false
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_7rgeb"]
+voxel_name = &"doortop_ns"
+geometry_type = 2
+custom_mesh = ExtResource("3_orr8j")
+collision_aabbs = Array[AABB]([AABB(0, 0, 0.4, 1, 1, 0.2)])
+collision_mask = 15
+material_override_0 = SubResource("StandardMaterial3D_565gw")
+collision_enabled_0 = true
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_jsfy2"]
+voxel_name = &"tiles"
+geometry_type = 1
+collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
+collision_mask = 15
+cube_geometry_padding_y = null
+cube_tiles_left = Vector2(11, 0)
+cube_tiles_right = Vector2(11, 0)
+cube_tiles_bottom = Vector2(3, 0)
+cube_tiles_top = Vector2(11, 0)
+cube_tiles_back = Vector2(11, 0)
+cube_tiles_front = Vector2(11, 0)
+material_override_0 = ExtResource("5_f00mb")
+collision_enabled_0 = true
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_3nyny"]
+voxel_name = &"table"
+transparent = true
+transparency_index = 3
+geometry_type = 1
+collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
+collision_mask = 13
+cube_geometry_padding_y = null
+cube_tiles_left = Vector2(1, 1)
+cube_tiles_right = Vector2(1, 1)
+cube_tiles_bottom = Vector2(1, 1)
+cube_tiles_top = Vector2(0, 1)
+cube_tiles_back = Vector2(1, 1)
+cube_tiles_front = Vector2(1, 1)
+material_override_0 = ExtResource("6_x4j2p")
+collision_enabled_0 = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_760jc"]
+albedo_texture = ExtResource("8_uo64c")
+texture_filter = 0
+texture_repeat = false
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_c38dr"]
+voxel_name = &"locker"
+transparent = true
+transparency_index = 9
+geometry_type = 2
+custom_mesh = ExtResource("7_6k1hr")
+collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1.5, 1)])
+collision_mask = 15
+material_override_0 = SubResource("StandardMaterial3D_760jc")
+collision_enabled_0 = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_acj42"]
+transparency = 1
+depth_draw_mode = 1
+albedo_texture = ExtResource("10_rfbf5")
+texture_filter = 0
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_bmt5v"]
+voxel_name = &"chair"
+geometry_type = 2
+custom_mesh = ExtResource("9_h0u1q")
+collision_mask = 9
+material_override_0 = SubResource("StandardMaterial3D_acj42")
+collision_enabled_0 = true
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_vhnvs"]
+voxel_name = &"build site"
+transparent = true
+transparency_index = 1
+geometry_type = 1
+custom_mesh = ExtResource("11_qnwd0")
+collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
+cube_geometry_padding_y = null
+cube_tiles_left = Vector2(2, 1)
+cube_tiles_right = Vector2(2, 1)
+cube_tiles_bottom = Vector2(0, 0)
+cube_tiles_top = Vector2(0, 0)
+cube_tiles_back = Vector2(2, 1)
+cube_tiles_front = Vector2(2, 1)
+material_override_0 = ExtResource("6_x4j2p")
+collision_enabled_0 = true
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_ie47q"]
+voxel_name = &"wood"
+geometry_type = 1
+collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
+collision_mask = 15
+cube_geometry_padding_y = null
+cube_tiles_left = Vector2(0, 1)
+cube_tiles_right = Vector2(0, 1)
+cube_tiles_bottom = Vector2(0, 1)
+cube_tiles_top = Vector2(0, 1)
+cube_tiles_back = Vector2(0, 1)
+cube_tiles_front = Vector2(0, 1)
+material_override_0 = ExtResource("5_f00mb")
+collision_enabled_0 = true
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_uoa5r"]
+voxel_name = &"beacon"
+collision_mask = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qrbar"]
+albedo_texture = ExtResource("13_vreon")
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_simpm"]
+voxel_name = &"chest"
+transparent = true
+transparency_index = 4
+geometry_type = 2
+custom_mesh = ExtResource("12_lxmgm")
+collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 0.5, 1)])
+collision_mask = 13
+material_override_0 = SubResource("StandardMaterial3D_qrbar")
+collision_enabled_0 = true
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_aogu6"]
+voxel_name = &"brick"
+geometry_type = 1
+collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
+collision_mask = 15
+cube_geometry_padding_y = null
+cube_tiles_left = Vector2(12, 0)
+cube_tiles_right = Vector2(12, 0)
+cube_tiles_bottom = Vector2(12, 0)
+cube_tiles_top = Vector2(12, 0)
+cube_tiles_back = Vector2(12, 0)
+cube_tiles_front = Vector2(12, 0)
+material_override_0 = ExtResource("5_f00mb")
+collision_enabled_0 = true
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_uhhby"]
+voxel_name = &"crate"
+geometry_type = 1
+collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
+collision_mask = 15
+cube_geometry_padding_y = null
+cube_tiles_left = Vector2(10, 1)
+cube_tiles_right = Vector2(10, 1)
+cube_tiles_bottom = Vector2(10, 1)
+cube_tiles_top = Vector2(10, 1)
+cube_tiles_back = Vector2(10, 1)
+cube_tiles_front = Vector2(10, 1)
+material_override_0 = ExtResource("5_f00mb")
+collision_enabled_0 = true
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_yuatu"]
+voxel_name = &"counter"
+geometry_type = 1
+collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
+collision_mask = 13
+cube_geometry_padding_y = null
+cube_tiles_left = Vector2(7, 1)
+cube_tiles_right = Vector2(7, 1)
+cube_tiles_bottom = Vector2(6, 1)
+cube_tiles_top = Vector2(6, 1)
+cube_tiles_back = Vector2(7, 1)
+cube_tiles_front = Vector2(7, 1)
+material_override_0 = ExtResource("5_f00mb")
+collision_enabled_0 = true
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_lqvan"]
+voxel_name = &"mirror"
+geometry_type = 1
+collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
+collision_mask = 13
+cube_geometry_padding_y = null
+cube_tiles_left = Vector2(5, 0)
+cube_tiles_right = Vector2(5, 0)
+cube_tiles_bottom = Vector2(5, 0)
+cube_tiles_top = Vector2(5, 0)
+cube_tiles_back = Vector2(5, 0)
+cube_tiles_front = Vector2(5, 0)
+material_override_0 = ExtResource("5_f00mb")
+collision_enabled_0 = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b1rag"]
+albedo_texture = ExtResource("14_ui8va")
+texture_filter = 0
+texture_repeat = false
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_16x5r"]
+voxel_name = &"shutter_ew"
+geometry_type = 2
+custom_mesh = ExtResource("1_2pls5")
+collision_aabbs = Array[AABB]([AABB(0.4, 0, 0, 0.2, 1, 1)])
+collision_mask = 15
+material_override_0 = SubResource("StandardMaterial3D_b1rag")
+collision_enabled_0 = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yac0q"]
+albedo_texture = ExtResource("14_ui8va")
+texture_filter = 0
+texture_repeat = false
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_m3pmb"]
+voxel_name = &"shutter_ns"
+geometry_type = 2
+custom_mesh = ExtResource("3_orr8j")
+collision_aabbs = Array[AABB]([AABB(0, 0, 0.4, 1, 1, 0.2)])
+collision_mask = 15
+material_override_0 = SubResource("StandardMaterial3D_yac0q")
+collision_enabled_0 = true
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_5htbc"]
+voxel_name = &"trashcan"
+geometry_type = 1
+collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
+collision_mask = 15
+cube_geometry_padding_y = null
+cube_tiles_left = Vector2(8, 1)
+cube_tiles_right = Vector2(8, 1)
+cube_tiles_bottom = Vector2(4, 0)
+cube_tiles_top = Vector2(9, 1)
+cube_tiles_back = Vector2(8, 1)
+cube_tiles_front = Vector2(8, 1)
+material_override_0 = ExtResource("5_f00mb")
+collision_enabled_0 = true
+
+[sub_resource type="QuadMesh" id="QuadMesh_qt84h"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yiwpf"]
+cull_mode = 2
+albedo_texture = ExtResource("15_0x3li")
+texture_filter = 0
+texture_repeat = false
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_w8bgq"]
+voxel_name = &"divider_ew"
+geometry_type = 2
+custom_mesh = SubResource("QuadMesh_qt84h")
+collision_aabbs = Array[AABB]([AABB(0.4, 0, 0, 0.2, 1, 1)])
+collision_mask = 15
+material_override_0 = SubResource("StandardMaterial3D_yiwpf")
+collision_enabled_0 = true
+
+[sub_resource type="QuadMesh" id="QuadMesh_27jbt"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g6wxf"]
+cull_mode = 2
+albedo_texture = ExtResource("15_0x3li")
+texture_filter = 0
+texture_repeat = false
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_qub03"]
+voxel_name = &"divider_ns"
+geometry_type = 2
+custom_mesh = SubResource("QuadMesh_27jbt")
+collision_aabbs = Array[AABB]([AABB(0, 0, 0.4, 1, 1, 0.2)])
+collision_mask = 15
+material_override_0 = SubResource("StandardMaterial3D_g6wxf")
+collision_enabled_0 = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_qs40n"]
+flip_faces = true
+size = Vector2(1, 1)
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_v1cdj"]
+voxel_name = &"occluder"
+geometry_type = 2
+custom_mesh = SubResource("PlaneMesh_qs40n")
+collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
+collision_mask = 13
+collision_enabled_0 = false
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_bqls3"]
+voxel_name = &"fridge"
+geometry_type = 1
+collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
+collision_mask = 15
+cube_geometry_padding_y = null
+cube_tiles_left = Vector2(0, 2)
+cube_tiles_right = Vector2(0, 2)
+cube_tiles_bottom = Vector2(6, 1)
+cube_tiles_top = Vector2(6, 1)
+cube_tiles_back = Vector2(0, 2)
+cube_tiles_front = Vector2(0, 2)
+material_override_0 = ExtResource("5_f00mb")
+collision_enabled_0 = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_khjof"]
+albedo_texture = ExtResource("17_ahjro")
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_2t24w"]
+voxel_name = &"campfire"
+geometry_type = 2
+custom_mesh = ExtResource("16_hkrry")
+collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 0.2, 1)])
+collision_mask = 15
+material_override_0 = SubResource("StandardMaterial3D_khjof")
+collision_enabled_0 = true
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_ptem7"]
+voxel_name = &"shelf"
+transparent = true
+transparency_index = 1
+geometry_type = 1
+collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
+collision_mask = 15
+cube_geometry_padding_y = null
+cube_tiles_left = Vector2(4, 2)
+cube_tiles_right = Vector2(4, 2)
+cube_tiles_bottom = Vector2(0, 1)
+cube_tiles_top = Vector2(0, 1)
+cube_tiles_back = Vector2(4, 2)
+cube_tiles_front = Vector2(4, 2)
+material_override_0 = ExtResource("6_x4j2p")
+collision_enabled_0 = true
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_13evt"]
+voxel_name = &"cabinet"
+geometry_type = 1
+collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
+collision_mask = 15
+cube_geometry_padding_y = null
+cube_tiles_left = Vector2(3, 2)
+cube_tiles_right = Vector2(3, 2)
+cube_tiles_bottom = Vector2(0, 1)
+cube_tiles_top = Vector2(0, 1)
+cube_tiles_back = Vector2(3, 2)
+cube_tiles_front = Vector2(3, 2)
+material_override_0 = ExtResource("5_f00mb")
+collision_enabled_0 = true
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_p337g"]
+voxel_name = &"stonework"
+geometry_type = 1
+collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
+collision_mask = 15
+cube_geometry_padding_y = null
+cube_tiles_left = Vector2(6, 0)
+cube_tiles_right = Vector2(6, 0)
+cube_tiles_bottom = Vector2(6, 0)
+cube_tiles_top = Vector2(6, 0)
+cube_tiles_back = Vector2(6, 0)
+cube_tiles_front = Vector2(6, 0)
+material_override_0 = ExtResource("5_f00mb")
+collision_enabled_0 = true
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_idgm8"]
+voxel_name = &"labtiles"
+geometry_type = 1
+collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
+collision_mask = 15
+cube_geometry_padding_y = null
+cube_tiles_left = Vector2(8, 0)
+cube_tiles_right = Vector2(8, 0)
+cube_tiles_bottom = Vector2(3, 0)
+cube_tiles_top = Vector2(8, 0)
+cube_tiles_back = Vector2(8, 0)
+cube_tiles_front = Vector2(8, 0)
+material_override_0 = ExtResource("5_f00mb")
+collision_enabled_0 = true
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_qn3xr"]
+voxel_name = &"carpet"
+geometry_type = 1
+collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
+collision_mask = 15
+cube_geometry_padding_y = null
+cube_tiles_left = Vector2(9, 0)
+cube_tiles_right = Vector2(9, 0)
+cube_tiles_bottom = Vector2(3, 0)
+cube_tiles_top = Vector2(9, 0)
+cube_tiles_back = Vector2(9, 0)
+cube_tiles_front = Vector2(9, 0)
+material_override_0 = ExtResource("5_f00mb")
+collision_enabled_0 = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_17cke"]
+albedo_texture = ExtResource("19_w3vwo")
+texture_filter = 0
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_1urtk"]
+voxel_name = &"sofa"
+geometry_type = 2
+custom_mesh = ExtResource("18_ei3hv")
+material_override_0 = SubResource("StandardMaterial3D_17cke")
+collision_enabled_0 = true
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_cdx6i"]
+voxel_name = &"bookcase"
+geometry_type = 1
+collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
+collision_mask = 15
+cube_geometry_padding_y = null
+cube_tiles_left = Vector2(5, 2)
+cube_tiles_right = Vector2(5, 2)
+cube_tiles_bottom = Vector2(0, 1)
+cube_tiles_top = Vector2(0, 1)
+cube_tiles_back = Vector2(5, 2)
+cube_tiles_front = Vector2(5, 2)
+material_override_0 = ExtResource("5_f00mb")
+collision_enabled_0 = true
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_k7wqy"]
+voxel_name = &"vent"
+geometry_type = 1
+collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
+collision_mask = 15
+cube_geometry_padding_y = null
+cube_tiles_left = Vector2(11, 1)
+cube_tiles_right = Vector2(11, 1)
+cube_tiles_bottom = Vector2(11, 1)
+cube_tiles_top = Vector2(11, 1)
+cube_tiles_back = Vector2(11, 1)
+cube_tiles_front = Vector2(11, 1)
+material_override_0 = ExtResource("5_f00mb")
+collision_enabled_0 = true
+
+[sub_resource type="TextMesh" id="TextMesh_kr2n2"]
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_h6jyf"]
+voxel_name = &"special"
+geometry_type = 2
+custom_mesh = SubResource("TextMesh_kr2n2")
+collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
+collision_enabled_0 = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ltvb7"]
+albedo_texture = ExtResource("21_24ikr")
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_7hw05"]
+voxel_name = &"barrel"
+geometry_type = 2
+custom_mesh = ExtResource("20_v546i")
+collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
+collision_mask = 15
+material_override_0 = SubResource("StandardMaterial3D_ltvb7")
+collision_enabled_0 = true
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_gx8u8"]
+voxel_name = &"soil"
+geometry_type = 1
+collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
+collision_mask = 15
+cube_geometry_padding_y = null
+cube_tiles_left = Vector2(0, 0)
+cube_tiles_right = Vector2(0, 0)
+cube_tiles_bottom = Vector2(0, 0)
+cube_tiles_top = Vector2(0, 0)
+cube_tiles_back = Vector2(0, 0)
+cube_tiles_front = Vector2(0, 0)
+material_override_0 = ExtResource("22_8f8kj")
+collision_enabled_0 = true
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_rgf7t"]
+voxel_name = &"metal"
+geometry_type = 1
+collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
+collision_mask = 15
+cube_geometry_padding_y = null
+cube_tiles_left = Vector2(3, 0)
+cube_tiles_right = Vector2(3, 0)
+cube_tiles_bottom = Vector2(3, 0)
+cube_tiles_top = Vector2(3, 0)
+cube_tiles_back = Vector2(3, 0)
+cube_tiles_front = Vector2(3, 0)
+material_override_0 = ExtResource("5_f00mb")
+collision_enabled_0 = true
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_w0ngp"]
+voxel_name = &"glass"
+transparent = true
+transparency_index = 1
+geometry_type = 1
+collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
+collision_mask = 13
+cube_geometry_padding_y = null
+cube_tiles_left = Vector2(2, 0)
+cube_tiles_right = Vector2(2, 0)
+cube_tiles_bottom = Vector2(2, 0)
+cube_tiles_top = Vector2(2, 0)
+cube_tiles_back = Vector2(2, 0)
+cube_tiles_front = Vector2(2, 0)
+material_override_0 = ExtResource("6_x4j2p")
+collision_enabled_0 = true
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_0ymlb"]
+voxel_name = &"stone"
+color = Color(0.521569, 0.521569, 0.521569, 1)
+geometry_type = 1
+collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
+collision_mask = 15
+cube_geometry_padding_y = null
+cube_tiles_left = Vector2(1, 0)
+cube_tiles_right = Vector2(1, 0)
+cube_tiles_bottom = Vector2(1, 0)
+cube_tiles_top = Vector2(1, 0)
+cube_tiles_back = Vector2(1, 0)
+cube_tiles_front = Vector2(1, 0)
+material_override_0 = ExtResource("5_f00mb")
+collision_enabled_0 = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rdyjk"]
+transparency = 1
+depth_draw_mode = 1
+shading_mode = 0
+specular_mode = 2
+disable_ambient_light = true
+albedo_texture = ExtResource("24_x5ety")
+texture_filter = 0
+disable_receive_shadows = true
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_ic1d8"]
+voxel_name = &"square light"
+random_tickable = true
+geometry_type = 2
+custom_mesh = ExtResource("23_rjj4g")
+collision_aabbs = Array[AABB]([AABB(0, 0.5, 0, 1, 0.5, 1)])
+collision_mask = 15
+material_override_0 = SubResource("StandardMaterial3D_rdyjk")
+collision_enabled_0 = true
+
+[resource]
+bake_tangents = false
+voxels/0 = SubResource("VoxelBlockyModel_uj7mi")
+voxels/1 = SubResource("VoxelBlockyModel_giaje")
+voxels/2 = SubResource("VoxelBlockyModel_uoa5r")
+voxels/3 = SubResource("VoxelBlockyModel_v1cdj")
+voxels/4 = SubResource("VoxelBlockyModel_h6jyf")
+voxels/5 = SubResource("VoxelBlockyModel_gx8u8")
+voxels/6 = SubResource("VoxelBlockyModel_rgf7t")
+voxels/7 = SubResource("VoxelBlockyModel_w0ngp")
+voxels/8 = SubResource("VoxelBlockyModel_0ymlb")
+voxels/9 = SubResource("VoxelBlockyModel_ic1d8")
+voxels/10 = SubResource("VoxelBlockyModel_evrag")
+voxels/11 = SubResource("VoxelBlockyModel_rmcmf")
+voxels/12 = SubResource("VoxelBlockyModel_4yoce")
+voxels/13 = SubResource("VoxelBlockyModel_7rgeb")
+voxels/14 = SubResource("VoxelBlockyModel_jsfy2")
+voxels/15 = SubResource("VoxelBlockyModel_3nyny")
+voxels/16 = SubResource("VoxelBlockyModel_c38dr")
+voxels/17 = SubResource("VoxelBlockyModel_bmt5v")
+voxels/18 = SubResource("VoxelBlockyModel_vhnvs")
+voxels/19 = SubResource("VoxelBlockyModel_ie47q")
+voxels/20 = SubResource("VoxelBlockyModel_simpm")
+voxels/21 = SubResource("VoxelBlockyModel_aogu6")
+voxels/22 = SubResource("VoxelBlockyModel_uhhby")
+voxels/23 = SubResource("VoxelBlockyModel_yuatu")
+voxels/24 = SubResource("VoxelBlockyModel_lqvan")
+voxels/25 = SubResource("VoxelBlockyModel_16x5r")
+voxels/26 = SubResource("VoxelBlockyModel_m3pmb")
+voxels/27 = SubResource("VoxelBlockyModel_5htbc")
+voxels/28 = SubResource("VoxelBlockyModel_w8bgq")
+voxels/29 = SubResource("VoxelBlockyModel_qub03")
+voxels/30 = SubResource("VoxelBlockyModel_bqls3")
+voxels/31 = SubResource("VoxelBlockyModel_2t24w")
+voxels/32 = SubResource("VoxelBlockyModel_ptem7")
+voxels/33 = SubResource("VoxelBlockyModel_13evt")
+voxels/34 = SubResource("VoxelBlockyModel_p337g")
+voxels/35 = SubResource("VoxelBlockyModel_idgm8")
+voxels/36 = SubResource("VoxelBlockyModel_qn3xr")
+voxels/37 = SubResource("VoxelBlockyModel_1urtk")
+voxels/38 = SubResource("VoxelBlockyModel_cdx6i")
+voxels/39 = SubResource("VoxelBlockyModel_k7wqy")
+voxels/40 = SubResource("VoxelBlockyModel_7hw05")

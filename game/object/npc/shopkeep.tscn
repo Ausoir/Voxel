@@ -1,0 +1,44 @@
+[gd_scene load_steps=8 format=3 uid="uid://dypojckspmuqk"]
+
+[ext_resource type="ArrayMesh" uid="uid://3oq3ewuxot0k" path="res://assets/body/a_underwear.obj" id="1_p4oqx"]
+[ext_resource type="Script" path="res://game/object/npc/shopkeep.gd" id="1_x85nv"]
+[ext_resource type="ArrayMesh" uid="uid://ckgnadjxpn4f1" path="res://assets/head/head.obj" id="2_gx6g0"]
+[ext_resource type="ArrayMesh" uid="uid://c8u656ifyh2k5" path="res://assets/blocks/smallblock.obj" id="2_iiylv"]
+[ext_resource type="Texture2D" uid="uid://mvylw0idbxn6" path="res://assets/texture/chair.png" id="3_a8m4p"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_kunlo"]
+size = Vector3(0.8, 1.2, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gr05s"]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+albedo_texture = ExtResource("3_a8m4p")
+texture_filter = 0
+
+[node name="NPC" type="Node3D"]
+script = ExtResource("1_x85nv")
+
+[node name="Collision" type="Area3D" parent="."]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+
+[node name="Shape" type="CollisionShape3D" parent="Collision"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("BoxShape3D_kunlo")
+
+[node name="Body" type="Node3D" parent="Collision"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Collision/Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, -0.5)
+mesh = ExtResource("2_iiylv")
+surface_material_override/0 = SubResource("StandardMaterial3D_gr05s")
+
+[node name="Mesh" type="MeshInstance3D" parent="Collision/Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = ExtResource("1_p4oqx")
+skeleton = NodePath("")
+
+[node name="Head" type="MeshInstance3D" parent="Collision/Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = ExtResource("2_gx6g0")
+skeleton = NodePath("")

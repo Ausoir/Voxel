@@ -1,16 +1,40 @@
 {
 	"#shop": [
 		[
-			0.02,
+			0.04,
 			"teleport scroll"
 		],
 		[
-			0.12,
+			0.08,
 			"healing potion"
 		],
 		[
-			0.19,
+			0.1,
 			"mana potion"
+		],
+		[
+			0.12,
+			"arrows:30"
+		],
+		[
+			0.13,
+			"poisoned arrows:14"
+		],
+		[
+			0.14,
+			"lethal arrows:9"
+		],
+		[
+			0.17,
+			"bullets:40"
+		],
+		[
+			0.18,
+			"abyssal lantern"
+		],
+		[
+			0.19,
+			"nomad armor"
 		],
 		[
 			0.2,
@@ -135,7 +159,7 @@
 			"wind essence"
 		],
 		[
-			0.30,
+			0.3,
 			"assassin essence"
 		],
 		[
@@ -152,20 +176,132 @@
 		],
 		[
 			0.42,
-			"soul of metal"
+			"agility essence"
 		],
 		[
 			0.45,
+			"soul of metal"
+		],
+		[
+			0.48,
 			"soul of blood"
 		],
+		[
+			0.51,
+			"divine essence"
+		],
+		[
+			0.54,
+			"cat essence"
+		]
 	],
-	"#treasure": [
+	"#ego": [
+		[
+			0.05,
+			"goblin"
+		],
+		[
+			0.1,
+			"earth"
+		],
+		[
+			0.15,
+			"scout"
+		],
 		[
 			0.2,
-			"#essence"
+			"warrior"
+		],
+		[
+			0.25,
+			"vampire"
+		],
+		[
+			0.3,
+			"psychic"
+		],
+		[
+			0.35,
+			"bomb"
+		],
+		[
+			0.4,
+			"shadow"
+		],
+		[
+			0.45,
+			"wind"
+		],
+		[
+			0.5,
+			"dagger"
+		],
+		[
+			0.55,
+			"blunt"
+		],
+		[
+			0.6,
+			"spear"
+		],
+		[
+			0.65,
+			"blade"
+		],
+		[
+			0.7,
+			"bow"
+		],
+		[
+			0.75,
+			"firearm"
+		],
+		[
+			0.8,
+			"agility"
+		],
+		[
+			0.85,
+			"metal"
+		],
+		[
+			0.9,
+			"blood"
+		],
+		[
+			0.95,
+			"vision"
 		],
 		[
 			1,
+			"nighteye"
+		]
+	],
+	"#treasure": [
+		[
+			0.3,
+			"#essence"
+		],
+		[
+			0.8,
+			"#shop"
+		],
+		[
+			0.9,
+			"gold"
+		],
+		[
+			1,
+			"pure gold"
+		]
+	],
+	"#shelf": [
+		[
+			0.1,
+			"gold"
+		],
+		[
+			0.9,
 			"#shop"
 		]
 	],
@@ -211,7 +347,7 @@
 	],
 	"#goblins": [
 		[
-			0.05,
+			0.04,
 			"goblin shaman"
 		],
 		[

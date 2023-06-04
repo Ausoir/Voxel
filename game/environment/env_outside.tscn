@@ -8,7 +8,7 @@ sky_material = SubResource("ProceduralSkyMaterial_tkd6s")
 [sub_resource type="Environment" id="2"]
 background_mode = 2
 sky = SubResource("Sky_kkb6r")
-ambient_light_source = 1
+ambient_light_source = 2
 sdfgi_read_sky_light = false
 glow_mix = 0.1
 glow_bloom = 0.05
@@ -16,11 +16,6 @@ fog_light_color = Color(0, 0, 0, 1)
 fog_light_energy = 0.1
 fog_density = 0.0
 fog_sky_affect = 0.0
-volumetric_fog_density = 1.0
-volumetric_fog_albedo = Color(0, 0, 0, 1)
-volumetric_fog_emission_energy = 0.2
-volumetric_fog_gi_inject = 0.0
-volumetric_fog_anisotropy = 0.0
 adjustment_saturation = 1.5
 
 [node name="WorldEnvironment" type="WorldEnvironment"]

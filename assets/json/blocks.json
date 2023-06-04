@@ -146,7 +146,7 @@
 		"voxels": [
 			"square light"
 		],
-		"script": "light/light"
+		"script": "machine/light"
 	},
 	"strong light": {
 		"voxels": [
@@ -155,7 +155,7 @@
 		"data": {
 			"light": 10
 		},
-		"script": "light/light"
+		"script": "machine/light"
 	},
 	"mirror": {
 		"voxels": [

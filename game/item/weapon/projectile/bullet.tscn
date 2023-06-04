@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3 uid="uid://c48omnais3kut"]
+
+[ext_resource type="Script" path="res://game/item/weapon/projectile/bullet.gd" id="1_hh03u"]
+[ext_resource type="Texture2D" uid="uid://dc4pmn04r6u2m" path="res://assets/texture/bullet.png" id="2_p2amg"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_hnhqv"]
+size = Vector2(0.8, 0.2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o7qka"]
+transparency = 1
+cull_mode = 2
+shading_mode = 0
+albedo_texture = ExtResource("2_p2amg")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_er0rt"]
+transparency = 1
+cull_mode = 2
+shading_mode = 0
+albedo_texture = ExtResource("2_p2amg")
+
+[node name="Rocket" type="Node3D"]
+script = ExtResource("1_hh03u")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("QuadMesh_hnhqv")
+surface_material_override/0 = SubResource("StandardMaterial3D_o7qka")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, -1, 4.37114e-08, 0, -4.37114e-08, -1, 1, -4.37114e-08, 1.91069e-15, 0, 0, 0)
+mesh = SubResource("QuadMesh_hnhqv")
+surface_material_override/0 = SubResource("StandardMaterial3D_er0rt")

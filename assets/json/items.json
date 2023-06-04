@@ -4,6 +4,8 @@
 		"modelname": "item/potion3d-0-potion",
 		"script": "consumable/consumable",
 		"data": {
+			"desc": "Regenerate health.",
+			"value": 8,
 			"buffs": [
 				[
 					"regeneration",
@@ -17,10 +19,12 @@
 		}
 	},
 	"mana potion": {
-		"spritename": "item/potion",
-		"modelname": "item/potion3d-0-potion",
+		"spritename": "item/potion_blue",
+		"modelname": "item/potion_blue3d-0-potion_blue",
 		"script": "consumable/consumable",
 		"data": {
+			"desc": "Regenerate mana.",
+			"value": 6,
 			"buffs": [
 				[
 					"clarity",
@@ -42,6 +46,19 @@
 		"modelname": "item/scroll3d-0-scroll",
 		"script": "consumable/teleport",
 		"data": {
+			"desc": "Teleport back to town.",
+			"value": 40,
+			"speed": 0.2,
+			"to": "town"
+		}
+	},
+	"cave scroll": {
+		"spritename": "item/scroll",
+		"modelname": "item/scroll3d-0-scroll",
+		"script": "consumable/teleport",
+		"data": {
+			"desc": "Teleport to the caves.",
+			"value": 40,
 			"speed": 1,
 			"to": "cave"
 		}
@@ -51,11 +68,84 @@
 		"modelname": "item/gold3d-0-gold",
 		"script": "consumable/gold",
 		"data": {
+			"desc": "Use to obtain gold.",
 			"speed": 2,
 			"gold": [
-				1,
-				8
+				4,
+				32
 			]
+		}
+	},
+	"pure gold": {
+		"spritename": "item/gold",
+		"modelname": "item/gold3d-0-gold",
+		"script": "consumable/gold",
+		"data": {
+			"desc": "Use to obtain large amounts of gold.",
+			"speed": 2,
+			"gold": [
+				80,
+				300
+			]
+		}
+	},
+	"arrows": {
+		"spritename": "item/arrow",
+		"modelname": "item/arrow3d-0-arrow",
+		"script": "consumable/ammunition",
+		"data": {
+			"desc": "Required to shoot bow type weapons.",
+			"ammo": "bow",
+			"value": 10,
+			"power": 10
+		}
+	},
+	"poisoned arrows": {
+		"spritename": "item/arrow",
+		"modelname": "item/arrow3d-0-arrow",
+		"script": "consumable/ammunition",
+		"data": {
+			"desc": "Arrows laced with goblin poison. Slows and poisons.",
+			"ammo": "bow",
+			"value": 30,
+			"power": 15,
+			"inflict": [
+				[
+					"slow",
+					3
+				],
+				[
+					"poison",
+					3
+				]
+			]
+		}
+	},
+	"lethal arrows": {
+		"spritename": "item/arrow",
+		"modelname": "item/arrow3d-0-arrow",
+		"script": "consumable/ammunition",
+		"data": {
+			"desc": "Arrows laced with deadly poison that lasts 10 turns. Flies very slow.",
+			"ammo": "bow",
+			"value": 50,
+			"power": 5,
+			"inflict": [
+				[
+					"poison",
+					10
+				]
+			]
+		}
+	},
+	"bullets": {
+		"spritename": "item/bullet",
+		"modelname": "item/bullet3d-0-bullet",
+		"script": "consumable/ammunition",
+		"data": {
+			"desc": "Required to shoot firearm type weapons.",
+			"ammo": "firearm",
+			"value": 30
 		}
 	},
 	"rags": {
@@ -75,7 +165,9 @@
 		"script": "equipment/armor",
 		"part": "body",
 		"data": {
-			"space": 4
+			"value": 25,
+			"space": 4,
+			"mana": 2
 		}
 	},
 	"suit": {
@@ -85,8 +177,10 @@
 		"script": "equipment/armor",
 		"part": "body",
 		"data": {
-			"health": 20,
-			"space": 4
+			"value": 150,
+			"space": 4,
+			"mana": 7,
+			"health": 20
 		}
 	},
 	"leather armor": {
@@ -96,8 +190,22 @@
 		"script": "equipment/armor",
 		"part": "body",
 		"data": {
+			"value": 80,
 			"space": 3,
 			"defense": 1
+		}
+	},
+	"nomad armor": {
+		"spritename": "body/a_nomad_sprite",
+		"modelname": "item/bag_cloth",
+		"model2name": "body/a_nomad",
+		"script": "equipment/armor",
+		"part": "body",
+		"data": {
+			"value": 250,
+			"space": 4,
+			"defense": 1,
+			"health": 20
 		}
 	},
 	"chainmail": {
@@ -107,6 +215,7 @@
 		"script": "equipment/armor",
 		"part": "body",
 		"data": {
+			"value": 150,
 			"space": 2,
 			"defense": 2
 		}
@@ -118,6 +227,7 @@
 		"script": "equipment/armor",
 		"part": "body",
 		"data": {
+			"value": 320,
 			"space": 1,
 			"defense": 4,
 			"health": 20
@@ -129,6 +239,7 @@
 		"part": "accessory",
 		"data": {
 			"desc": "Lights the way.",
+			"value": 20,
 			"light": 12,
 			"light color": [
 				1,
@@ -143,8 +254,9 @@
 		"part": "accessory",
 		"data": {
 			"desc": "Lights the way.",
+			"value": 50,
 			"light": 20,
-			"light spread": 70,
+			"light spread": 85,
 			"light color": [
 				1,
 				0.6,
@@ -158,7 +270,7 @@
 		"part": "accessory",
 		"data": {
 			"desc": "Provides great amount of light.",
-			"value": 20,
+			"value": 250,
 			"light": 30,
 			"light spread": 180,
 			"light color": [
@@ -199,9 +311,8 @@
 		"type": "blunt",
 		"data": {
 			"speed": 2,
-			"damage": 4,
+			"damage": 2,
 			"swings": [
-				"swing_down",
 				"swing_right",
 				"swing_left"
 			]
@@ -213,6 +324,7 @@
 		"script": "weapon/melee",
 		"type": "blunt",
 		"data": {
+			"value": 50,
 			"speed": 0.4,
 			"damage": 12,
 			"swings": [
@@ -228,8 +340,9 @@
 		"script": "weapon/melee",
 		"type": "dagger",
 		"data": {
-			"speed": 2,
-			"damage": 6,
+			"value": 40,
+			"speed": 4,
+			"damage": 4,
 			"swings": [
 				"swing_forward",
 				"swing_right"
@@ -242,6 +355,7 @@
 		"script": "weapon/melee",
 		"type": "blunt",
 		"data": {
+			"value": 40,
 			"speed": 2,
 			"damage": 6,
 			"swings": [
@@ -258,6 +372,7 @@
 		"script": "weapon/melee",
 		"type": "blade",
 		"data": {
+			"value": 200,
 			"speed": 2,
 			"damage": 10,
 			"swings": [
@@ -273,8 +388,9 @@
 		"script": "weapon/melee",
 		"type": "dagger",
 		"data": {
-			"speed": 1.5,
-			"damage": 8,
+			"value": 160,
+			"speed": 4,
+			"damage": 6,
 			"swings": [
 				"swing_forward",
 				"swing_right"
@@ -287,7 +403,8 @@
 		"script": "weapon/melee",
 		"type": "blade",
 		"data": {
-			"speed": 1.5,
+			"value": 200,
+			"speed": 1,
 			"damage": 8,
 			"swings": [
 				"swing_forward",
@@ -301,6 +418,7 @@
 		"script": "weapon/melee",
 		"type": "spear",
 		"data": {
+			"value": 80,
 			"damage": 6,
 			"swings": [
 				"swing_forward"
@@ -313,7 +431,9 @@
 		"script": "weapon/melee",
 		"type": "spear",
 		"data": {
-			"damage": 10,
+			"value": 250,
+			"speed": 0.5,
+			"damage": 14,
 			"swings": [
 				"swing_forward",
 				"swing_left",
@@ -334,10 +454,12 @@
 		"script": "weapon/ranged",
 		"type": "bow",
 		"data": {
+			"value": 50,
 			"projectile": "arrow",
-			"speed": 0.4,
+			"speed": 0.75,
 			"spread": 0.15,
-			"damage": 8
+			"damage": 5,
+			"noise": 8
 		}
 	},
 	"goblin bow": {
@@ -346,13 +468,20 @@
 		"script": "weapon/ranged",
 		"type": "bow",
 		"data": {
+			"desc": "This bow applies deadly poison to its victims.",
+			"value": 120,
 			"projectile": "arrow",
-			"speed": 0.8,
+			"speed": 0.5,
 			"spread": 0.2,
-			"damage": 5,
+			"noise": 8,
+			"damage": 4,
 			"inflict": [
 				[
 					"slow",
+					3
+				],
+				[
+					"poison",
 					3
 				]
 			]
@@ -364,22 +493,28 @@
 		"script": "weapon/ranged",
 		"type": "bow",
 		"data": {
+			"desc": "Highly accurate with devastating damage.",
 			"projectile": "arrow",
+			"value": 250,
 			"speed": 0.5,
 			"spread": 0.05,
-			"damage": 10
+			"damage": 12,
+			"noise": 12
 		}
 	},
 	"staff of death": {
 		"spritename": "weapon/staff",
-		"modelname": "weapon/staff3d-0-staff",
+		"modelname": "weapon/staff3d",
 		"script": "weapon/ranged",
-		"type": "firearm",
+		"type": "wand",
 		"data": {
+			"desc": "Shoot a deadly energy bolt.",
 			"projectile": "laser",
+			"value": 400,
 			"speed": 0.5,
 			"spread": 0.1,
-			"damage": 16
+			"damage": 16,
+			"noise": 16
 		}
 	},
 	"taser": {
@@ -388,10 +523,13 @@
 		"script": "weapon/ranged",
 		"type": "firearm",
 		"data": {
+			"desc": "Shoot destructive lasers.",
+			"value": 300,
 			"projectile": "laser",
-			"speed": 0.6,
+			"speed": 1,
 			"spread": 0,
-			"damage": 5
+			"damage": 10,
+			"noise": 16
 		}
 	},
 	"pistol": {
@@ -400,10 +538,13 @@
 		"script": "weapon/ranged",
 		"type": "firearm",
 		"data": {
+			"desc": "Very inaccurate.",
+			"value": 100,
 			"projectile": "laser",
 			"speed": 2,
 			"spread": 0.2,
-			"damage": 4
+			"damage": 5,
+			"noise": 12
 		}
 	},
 	"rocket": {
@@ -412,10 +553,13 @@
 		"script": "weapon/ranged",
 		"type": "firearm",
 		"data": {
+			"desc": "Shoot rockets that destroys terrain.",
+			"value": 500,
 			"projectile": "rocket",
 			"speed": 0.2,
 			"spread": 0.1,
-			"damage": 5
+			"damage": 16,
+			"noise": 20
 		}
 	},
 	"greatsword": {
@@ -424,7 +568,10 @@
 		"script": "weapon/melee",
 		"type": "blade",
 		"data": {
-			"speed": 0.7,
+			"desc": "This is a great sword.",
+			"value": 300,
+			"speed": 0.6,
+			"damage": 16,
 			"swings": [
 				"swing_left",
 				"swing_right",
@@ -533,6 +680,24 @@
 			"essence": "psychic"
 		}
 	},
+	"divine essence": {
+		"spritename": "item/essence",
+		"modelname": "item/essence3d",
+		"part": "essence",
+		"data": {
+			"desc": "When standing still, gain vision through walls.",
+			"essence": "vision"
+		}
+	},
+	"cat essence": {
+		"spritename": "item/essence",
+		"modelname": "item/essence3d",
+		"part": "essence",
+		"data": {
+			"desc": "When standing still, gain vision through the dark.",
+			"essence": "nighteye"
+		}
+	},
 	"bomb essence": {
 		"spritename": "item/essence",
 		"modelname": "item/essence3d",
@@ -628,6 +793,41 @@
 				5
 			],
 			"essence": "blade"
+		}
+	},
+	"elven essence": {
+		"spritename": "item/essence",
+		"modelname": "item/essence3d",
+		"part": "essence",
+		"data": {
+			"desc": "Make no noise with ranged weapons.",
+			"req": [
+				"bow",
+				5
+			],
+			"essence": "bow"
+		}
+	},
+	"dwarven essence": {
+		"spritename": "item/essence",
+		"modelname": "item/essence3d",
+		"part": "essence",
+		"data": {
+			"desc": "Take no damage when aiming with firearms.",
+			"req": [
+				"firearm",
+				5
+			],
+			"essence": "firearm"
+		}
+	},
+	"agility essence": {
+		"spritename": "item/essence",
+		"modelname": "item/essence3d",
+		"part": "essence",
+		"data": {
+			"desc": "Gain 15% chance to dodge attacks.",
+			"essence": "agility"
 		}
 	},
 	"goblin armor": {
