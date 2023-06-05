@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dtgiqn6kp51k0"]
+[gd_scene load_steps=9 format=3 uid="uid://dtgiqn6kp51k0"]
 
 [ext_resource type="Script" path="res://game/player/player.gd" id="1_5b4wf"]
 [ext_resource type="Script" path="res://game/player/camera.gd" id="2_fxmqn"]
@@ -7,23 +7,35 @@
 [ext_resource type="Script" path="res://game/player/perception.gd" id="5_ixl5i"]
 [ext_resource type="Script" path="res://game/player/save.gd" id="6_o67dg"]
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_brrdt"]
+radius = 0.1
+
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_oe41g"]
 height = 12.0
-radius = 16.0
+radius = 14.0
 
 [node name="Player" type="Node3D"]
 script = ExtResource("1_5b4wf")
 
 [node name="VoxelViewer" type="VoxelViewer" parent="."]
 
-[node name="View" type="SpringArm3D" parent="."]
-collision_mask = 134
-spring_length = 2.0
-margin = 0.2
+[node name="Cam" type="Node3D" parent="."]
 script = ExtResource("2_fxmqn")
 
-[node name="Camera" type="Camera3D" parent="View"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
+[node name="View" type="SpringArm3D" parent="Cam"]
+collision_mask = 130
+spring_length = 2.0
+
+[node name="Node3D" type="Node3D" parent="Cam/View"]
+
+[node name="Clipper" type="StaticBody3D" parent="Cam"]
+collision_layer = 0
+collision_mask = 130
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Cam/Clipper"]
+shape = SubResource("SphereShape3D_brrdt")
+
+[node name="Camera" type="Camera3D" parent="Cam/Clipper"]
 current = true
 fov = 90.0
 

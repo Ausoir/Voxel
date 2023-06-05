@@ -6,13 +6,7 @@ func _ready():
 	G.sfx.play("shoot_gun", position)
 
 
-func on_collide(hit):
-	if hit.collider.collision_layer & 8 > 0:
-		var unit = hit.collider.get_parent()
-		unit.on_damaged(position, damage, inflict)
-		if on_attack != null:
-			on_attack.call(unit)
-	else:
-		G.stock.make_debris(hit.position, 3)
-	G.stock.make_particle(hit.position, "explosion")
-	G.sfx.play("explode_short", hit.position)
+func on_effect(_pos):
+	G.stock.make_debris(_pos, 3)
+	G.stock.make_particle(_pos, "explosion")
+	G.sfx.play("explode_short", _pos)

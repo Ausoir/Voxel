@@ -15,7 +15,7 @@ func update_cooldown():
 	if _buff.duration == -1:
 		_label.set_text("")
 	else:
-		_label.set_text(str(_buff.duration))
+		_label.set_text(str(_buff.duration+1))
 
 
 func update_sprite():

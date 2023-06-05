@@ -5,7 +5,8 @@ var speed := 20.0
 var _remaining_time := 10.0
 var _ss
 var _ssparams
-var col_mask = 12
+var motion
+var col_mask = 8
 var damage = 1
 var on_attack
 var inflict = []
@@ -30,14 +31,16 @@ func _physics_process(delta: float):
 	
 	var trans = global_transform
 	var crossed_distance := speed * delta
-	var motion := crossed_distance * _direction
+	motion = crossed_distance * _direction
 	
 	_ssparams.from = trans.origin
 	_ssparams.to = trans.origin + motion
 	_ssparams.collision_mask = col_mask
 	var hit = _ss.intersect_ray(_ssparams)
 	if !hit.is_empty():
-		on_collide(hit)
+		if hit.collider != G.terrain:
+			on_collide(hit)
+		on_effect(hit.position)
 		queue_free()
 	else:
 		trans.origin += motion
@@ -45,11 +48,11 @@ func _physics_process(delta: float):
 
 
 func on_collide(hit):
-	if hit.collider.collision_layer & 8 > 0:
-		var unit = hit.collider.get_parent()
-		unit.on_damaged(position, damage, [])
-		if on_attack != null:
-			on_attack.call(unit)
-	else:
-		G.stock.make_debris(hit.position, 3)
-	G.stock.make_particle(hit.position, "explosion")
+	var unit = hit.collider.get_parent()
+	unit.on_damaged(position, damage, inflict)
+	if on_attack != null:
+		on_attack.call(unit)
+
+
+func on_effect(_pos):
+	pass

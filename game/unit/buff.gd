@@ -3,6 +3,8 @@ static func make_buff(unit, name, dur):
 	var undefined = false
 	if name == "slow":
 		r = Slow
+	elif name == "sleep":
+		r = Sleep
 	elif name == "regeneration":
 		r = Regeneration
 	elif name == "clarity":
@@ -75,22 +77,35 @@ class Buff:
 
 class Slow extends Buff:
 	func on_start():
-		unit.procedure.speed -= .2
+		unit.procedure.speed -= .3
 	func on_end():
-		unit.procedure.speed += .2
+		unit.procedure.speed += .3
 	func get_description():
-		return super() + "Movement speed slowed by 50%."
+		return super() + "Movement speed slowed by 3."
+
+
+class Sleep extends Buff:
+	func on_start():
+		unit.alert = false
+		if unit.health > 0:
+			unit.animator.play("down")
+			unit.action.force_set_next("sleep", 9999)
+	func on_end():
+		unit.alert = true
+		if unit.health > 0:
+			unit.action.delay = 0
+	func get_description():
+		return super() + "Wake when taking damage."
 
 
 class Regeneration extends Buff:
 	func on_turn():
 		var max_hp = unit.data.get("health", 1)
-		var inc = max(1, int(max_hp * 0.08))
-		unit.health = min(unit.health + inc, max_hp)
+		unit.health = min(unit.health + 1, max_hp)
 		unit.show_healthbar()
 		return super()
 	func get_description():
-		return super() + "Regenerate 8% health per second."
+		return super() + "Regenerate 1 health per second."
 
 
 class Poison extends Buff:
@@ -105,10 +120,12 @@ class Clarity extends Buff:
 	func on_start():
 		G.stock.make_particle(unit.get_head(), "clarity")
 	func on_turn():
-		unit.mana = min(unit.data.get("mana", 0), unit.mana + 1)
+		var max_hp = unit.data.get("mana", 1)
+		var inc = max(1, int(max_hp * 0.08))
+		unit.mana = min(unit.mana + inc, max_hp)
 		return super()
 	func get_description():
-		return super() + "Regenerate 1 mana per second."
+		return super() + "Regenerate 8% mana per second."
 
 
 class Invisibility extends Buff:
@@ -133,7 +150,7 @@ class Vision extends Buff:
 	func on_start():
 		if unit == G.you:
 			G.terrain.set_material_override(mat)
-			G.player.get_node("View/Camera").far = 7 + unit.get_prof("psych") * 3
+			G.player.get_node("View/Camera").far = 8 + unit.get_prof("psych") * 4
 	func on_end():
 		if unit == G.you:
 			G.terrain.set_material_override(null)

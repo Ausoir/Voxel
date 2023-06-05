@@ -9,7 +9,8 @@ var list = {
 	"dagger": 0.0,
 	"bow": 0.0,
 	"firearm": 0.0,
-	"wand": 0.0,
+	"ambush": 0.0,
+	"staff": 0.0,
 	"armor": 0.0,
 	"dodge": 0.0,
 	"aura": 0.0,
@@ -33,6 +34,7 @@ func set_unit(p):
 	_unit.attacked.connect(on_attacked)
 	_unit.weapon.connect(on_attack)
 	_unit.special.connect(on_essence)
+	_unit.critical.connect(on_ambush)
 	var profs = _unit.data.get("proficiency", {})
 	for key in profs.keys():
 		set(key, profs[key])
@@ -81,6 +83,10 @@ func on_attacked(dmg):
 
 func on_attack(_type, _victim, dmg):
 	increase(_type, 0.01 * dmg)
+
+
+func on_ambush(_victim):
+	increase("ambush", 0.1)
 
 
 func on_essence(_ess):

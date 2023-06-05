@@ -1,28 +1,40 @@
 {
 	"#shop": [
 		[
-			0.04,
-			"teleport scroll"
+			0.03,
+			"teleport scroll:-1"
 		],
 		[
-			0.08,
-			"healing potion"
+			0.05,
+			"healing potion:-1"
+		],
+		[
+			0.07,
+			"mana potion:-1"
 		],
 		[
 			0.1,
-			"mana potion"
+			"invisibility potion:-1"
 		],
 		[
-			0.12,
+			0.11,
 			"arrows:30"
 		],
 		[
-			0.13,
+			0.12,
 			"poisoned arrows:14"
 		],
 		[
+			0.13,
+			"lethal arrows:8"
+		],
+		[
 			0.14,
-			"lethal arrows:9"
+			"sleep arrows:8"
+		],
+		[
+			0.15,
+			"bullets:32"
 		],
 		[
 			0.17,
@@ -30,95 +42,115 @@
 		],
 		[
 			0.18,
-			"abyssal lantern"
+			"abyssal lantern:-1"
 		],
 		[
 			0.19,
-			"nomad armor"
+			"nomad armor:-1"
 		],
 		[
 			0.2,
-			"eblade"
+			"eblade:-1"
 		],
 		[
 			0.21,
-			"glaive"
+			"glaive:-1"
 		],
 		[
 			0.22,
-			"cleaver"
+			"cleaver:-1"
 		],
 		[
 			0.23,
-			"lantern"
+			"lantern:-1"
 		],
 		[
 			0.24,
-			"robe"
+			"robe:-1"
 		],
 		[
 			0.25,
-			"suit"
+			"suit:-1"
 		],
 		[
 			0.26,
-			"bow"
+			"short bow:-1"
 		],
 		[
 			0.27,
-			"crossbow"
+			"crossbow:-1"
 		],
 		[
 			0.28,
-			"pistol"
+			"pistol:-1"
 		],
 		[
 			0.29,
-			"suit"
+			"suit:-1"
 		],
 		[
 			0.3,
-			"leather armor"
+			"leather armor:-1"
 		],
 		[
 			0.31,
-			"chainmail"
+			"chainmail:-1"
 		],
 		[
 			0.32,
-			"platemail"
+			"platemail:-1"
 		],
 		[
 			0.33,
-			"greatsword"
+			"greatsword:-1"
 		],
 		[
 			0.34,
-			"goblin bow"
+			"goblin bow:-1"
 		],
 		[
 			0.35,
-			"quarterstaff"
+			"quarterstaff:-1"
 		],
 		[
 			0.36,
-			"katana"
+			"katana:-1"
 		],
 		[
 			0.37,
-			"mace"
+			"mace:-1"
 		],
 		[
 			0.38,
-			"staff of death"
+			"staff of death:-1"
 		],
 		[
 			0.39,
-			"stick"
+			"stick:-1"
 		],
 		[
 			0.4,
-			"gas lantern"
+			"gas lantern:-1"
+		],
+		[
+			0.41,
+			"survival bow:-1"
+		],
+		[
+			0.42,
+			"longbow:-1"
+		],
+		[
+			0.43,
+			"composite bow:-1"
+		],
+		[
+			0.44,
+			"recurve bow:-1"
+		],
+		[
+			0.45,
+			"rifle:-1"
 		]
 	],
 	"#essence": [
@@ -317,32 +349,16 @@
 	],
 	"#village": [
 		[
-			0.1,
+			0.3,
 			"warrior"
 		],
 		[
+			0.6,
+			"scholar"
+		],
+		[
 			0.9,
-			"bunny"
-		]
-	],
-	"#fortress": [
-		[
-			0.5,
-			"#goblins"
-		],
-		[
-			0.7,
-			"#animals"
-		]
-	],
-	"#cave": [
-		[
-			0.7,
-			"#goblins"
-		],
-		[
-			0.7,
-			"#animals"
+			"rogue"
 		]
 	],
 	"#goblins": [
@@ -361,20 +377,28 @@
 	],
 	"#animals": [
 		[
-			0.8,
-			"chicken"
-		],
-		[
-			0.5,
+			0.4,
 			"bunny"
 		],
 		[
-			0.4,
+			0.5,
 			"rat"
 		],
 		[
-			0.1,
+			0.6,
+			"duckdog"
+		],
+		[
+			0.9,
+			"squirrel"
+		],
+		[
+			0.91,
 			"chicken alpha"
+		],
+		[
+			1,
+			"chicken"
 		]
 	]
 }

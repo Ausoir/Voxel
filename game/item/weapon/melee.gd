@@ -35,14 +35,8 @@ func use(_user: Node3D):
 		else:
 			_user.action.force_set_next("use", anim_dur)
 		_user.animator.play(anim_name, .1, speed)
-
-
-func use2(_user: Node3D):
-	_user.buffs.add("regeneration", 5)
-	G.ui.set_message("You have not enough shit stuff!")
-	_user.action.set_next("idle", .2)
-	_user.take_hit(245)
-	return true
+	if _user.velocity.y < -1:
+		_user.animator.seek(.6)
 
 
 func on_held_tick(_user: Node3D):
@@ -68,7 +62,10 @@ func on_held_tick(_user: Node3D):
 							if _user.has_essence(weapon_type):
 								if weapon_type == "dagger":
 									damage += 1
-							var damage_roll = G.rng.rir(min(damage, _user.get_prof(weapon_type)), damage)
+							var damage_roll = G.rng.damage_roll(damage, _user.get_prof(weapon_type))
+							if !unit.alert:
+								_user.emit_signal("critical", unit)
+								damage += _user.get_prof("ambush") * 4
 							unit.on_damaged(_user.position, damage_roll, buffs)
 							G.sfx.play("hit_flesh", _user.position)
 							_user.emit_signal("weapon", weapon_type, unit, damage)
@@ -88,4 +85,4 @@ func _deflect(_user: Node3D, _at: Vector3):
 	_user.animator.play("RESET")
 	_user.equipment.swinging = false
 	G.sfx.play("hit_glance", _user.position)
-	G.player.noise = 14
+	G.player.set_noise(8)

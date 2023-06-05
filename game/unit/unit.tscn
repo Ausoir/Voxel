@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://deg2hepx3hxbb"]
+[gd_scene load_steps=12 format=3 uid="uid://deg2hepx3hxbb"]
 
 [ext_resource type="Script" path="res://game/unit/unit.gd" id="1_bm7jk"]
 [ext_resource type="ArrayMesh" uid="uid://cnld3h001cg7" path="res://assets/unit/squirrel.obj" id="2_ktw0w"]
@@ -239,10 +239,27 @@ tracks/3/keys = {
 }]
 }
 
+[sub_resource type="Animation" id="Animation_g0iqr"]
+resource_name = "down"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Model:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 1.5708)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_xtjas"]
 _data = {
 "RESET": SubResource("Animation_gxnwv"),
 "die": SubResource("Animation_jc8jw"),
+"down": SubResource("Animation_g0iqr"),
 "jump": SubResource("Animation_kq23y"),
 "jump_ready": SubResource("Animation_1381g"),
 "tackle": SubResource("Animation_yljhu"),

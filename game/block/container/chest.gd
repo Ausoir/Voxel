@@ -35,7 +35,7 @@ func on_activate(_pos: Vector3, _user: Node3D):
 	for i in range(4):
 		if inside & bit > 0:
 			var loot_type = data.get("loot", "treasure")
-			var itemname = G.stock.make_group(G.mapdata.get(loot_type), randf())
+			var itemname = G.stock.make_group(G.mapdata.get(loot_type))
 			if itemname != null:
 				items.append(itemname)
 		bit = bit << 1

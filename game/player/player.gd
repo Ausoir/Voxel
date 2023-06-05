@@ -17,6 +17,7 @@ func _ready():
 
 func load_map(p):
 	if G.vars.map != p:
+		G.terrain.get_node("LateLoader").stop()
 		if p == "#down":
 			p = G.rng.pick(G.mapdata.down)
 		G.stock.clean()
@@ -54,18 +55,24 @@ func set_unit(p):
 	unit.faction = 1
 	unit.add_child(addon)
 	unit.body.set_collision_mask_value(6, false)
-	$View.set_unit(unit)
+	unit.take_hit(0)
+	$Cam.set_unit(unit)
 	$Control.set_unit(unit)
 	$Interface.set_unit(unit)
-	$View.zoom_distance(0)
+	$Cam.zoom_distance(0)
 	unit.on_mesh_set()
 	unit._box_mover.set_step_climbing_enabled(false)
 	unit.death.connect(on_death)
+	unit.alert = true
 
 
 func on_death():
-	var u = G.stock.make_any(Vector3(), G.vars.unit.name)
+	var u = G.stock.make_any_unit(Vector3(), G.vars.unit.name)
 	set_unit(u)
+
+
+func set_noise(p):
+	noise = max(noise, p)
 
 
 func _process(_delta):

@@ -16,9 +16,15 @@ func on_place(_pos: Vector3):
 	var above = _pos + Vector3.UP
 	var current_voxel = G.tool.get_voxel(_pos)
 	G.tool.set_voxel(above, current_voxel)
+	var meta = "Open Shutters"
+	G.tool.get_tool().set_voxel_metadata(_pos, meta)
+	G.tool.get_tool().set_voxel_metadata(above, meta)
 
 
 func on_remove(_pos: Vector3):
+	var above = _pos + Vector3.UP
+	G.tool.get_tool().set_voxel_metadata(_pos, null)
+	G.tool.get_tool().set_voxel_metadata(above, null)
 	if door != null:
 		G.stock.remove_child(door)
 		door.queue_free()

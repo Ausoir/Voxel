@@ -32,7 +32,7 @@ func _interact(_user: Node3D):
 
 
 func get_interact_object(_user: Node3D):
-	var origin = _user.camera.global_position
+	var origin = _user.get_center()
 	return G.tool.collide_prop_by_line(origin, origin + _user.forward * 2, 1)
 
 

@@ -22,6 +22,11 @@ func rir(p1, p2):
 	return rng.randi_range(p1, p2)
 
 
+func damage_roll(dmg, prof):
+	var min_dmg = min(dmg/2 + prof, dmg)
+	return rir(min_dmg, dmg)
+
+
 func percent(p):
 	return rng.randf() < p
 
@@ -53,8 +58,10 @@ func roll(times, p):
 	return v
 
 
-func get_combo(dat, val: float):
+func get_combo(dat, val = -1):
 	if dat != null:
+		if val == -1:
+			val = rf()
 		for i in dat:
 			if val < i[0]:
 				return i[1]

@@ -10,8 +10,9 @@ func _ready():
 		var itemname = PRIORITY[i]
 		var item = G.stock.make_item(itemname)
 		inventory.append(item)
+	G.rng.set_seed(G.vars.seed + 123456)
 	for _i in range(5, 32):
-		var itemname = G.stock.make_group("#shop", G.rng.arb_rf(G.vars.seed + _i))
+		var itemname = G.stock.make_group("#shop")
 		if itemname != null:
 			var item = G.stock.make_item(itemname)
 			inventory.append(item)

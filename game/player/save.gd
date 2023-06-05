@@ -21,7 +21,7 @@ func load_player_data():
 		G.rng.set_seed(data.seed)
 		G.vars = data
 		G.set_map("town")
-	var u = G.stock.make_any(G.player, Vector3(), G.vars.unit.name, G.vars.unit)
+	var u = G.stock.make_any_unit(G.player, Vector3(), G.vars.unit.name, G.vars.unit)
 	u.health = G.vars.get("health", u.health)
 	u.mana = G.vars.get("mana", u.mana)
 	return u

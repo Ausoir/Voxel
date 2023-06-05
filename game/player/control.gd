@@ -19,7 +19,7 @@ const _hotbar_keys = {
 }
 
 
-@onready var _camera = get_node("../View")
+@onready var _camera = get_node("../Cam")
 @onready var _interface = get_node("../Interface")
 
 var _unit
@@ -51,45 +51,63 @@ func _physics_process(_delta):
 		_unit.velocity.z *= .97
 		_unit.grounded = true
 	if !_interface.on:
-		_unit.motor = Vector3()
 		if _unit.grounded:
-			if _unit.action.action == null and Input.is_action_pressed("jump"):
+			var has_moved = true
+			if Input.is_action_pressed("sneak"):
+				if _debug_mode:
+					_unit.velocity.y -= 12
+			if Input.is_action_pressed("up"):
+				if Input.is_action_pressed("left"):
+					_unit.procedure.walk(1, -1)
+				elif Input.is_action_pressed("right"):
+					_unit.procedure.walk(1, 1)
+				else:
+					_unit.procedure.walk(1, 0)
+			elif Input.is_action_pressed("down"):
+				if Input.is_action_pressed("left"):
+					_unit.procedure.walk(-1, -1)
+				elif Input.is_action_pressed("right"):
+					_unit.procedure.walk(-1, 1)
+				else:
+					_unit.procedure.walk(-1, 0)
+			else:
+				if Input.is_action_pressed("left"):
+					_unit.procedure.walk(0, -1)
+				elif Input.is_action_pressed("right"):
+					_unit.procedure.walk(0, 1)
+				else:
+					has_moved = false
+			if has_moved:
+				if _unit.procedure.speedmod == 1:
+					G.player.set_noise(4)
+				if _unit.procedure.speed < 0:
+					G.ui.set_message("Too heavy!")
+			else:
+				_unit.motor = Vector3()
+				_unit.procedure.face_front()
+		if _unit.action.can_set():
+			if Input.is_action_pressed("use"):
+				_unit.procedure.use()
+			elif Input.is_action_pressed("use2"):
+				_unit.procedure.use2()
+			elif Input.is_action_pressed("jump"):
 				if _debug_mode:
 					_unit.velocity.y += 12
-				else:
-					_unit.action.set_next("jump", 1)
+				elif _unit.action.delay <= 0:
+					if _unit.grounded or !_unit.skills.perform("wind"):
+						_unit.action.set_next("jump", 999)
+						_unit.action.cancelable = true
+						_unit.procedure.speedmod = 0.5
 			elif Input.is_action_just_released("jump"):
-				G.player.noise = 6
-				_unit.procedure.jump(1 - max(0, _unit.action.get_percentage()-.2))
+				if _unit.grounded:
+					var time = _unit.action.get_time()
+					if time < .5:
+						_unit.procedure.jump(time*2)
+			elif _unit.action.action != null:
+				_unit.action.set_next("idle", 0)
+				_unit.procedure.speedmod = 1
 			else:
-				if Input.is_action_pressed("sneak"):
-					if _debug_mode:
-						_unit.velocity.y -= 12
-				if Input.is_action_pressed("up"):
-					if Input.is_action_pressed("left"):
-						_unit.action.set_next("walkUL", 0)
-					elif Input.is_action_pressed("right"):
-						_unit.action.set_next("walkUR", 0)
-					else:
-						_unit.action.set_next("walkU", 0)
-				elif Input.is_action_pressed("down"):
-					if Input.is_action_pressed("left"):
-						_unit.action.set_next("walkDL", 0)
-					elif Input.is_action_pressed("right"):
-						_unit.action.set_next("walkDR", 0)
-					else:
-						_unit.action.set_next("walkD", 0)
-				else:
-					if Input.is_action_pressed("left"):
-						_unit.action.set_next("walkL", 0)
-					elif Input.is_action_pressed("right"):
-						_unit.action.set_next("walkR", 0)
-		if Input.is_action_pressed("use"):
-			_unit.procedure.use()
-		elif Input.is_action_pressed("use2"):
-			_unit.procedure.use2()
-		elif _unit.action.action != null:
-			_unit.action.set_next("idle", 0)
+				_unit.procedure.speedmod = 1
 	_unit.action.on_process(_delta)
 
 
@@ -104,13 +122,15 @@ func _unhandled_input(event):
 			elif Input.is_action_just_pressed("zoom in"):
 				_camera.zoom_distance(-1)
 			elif Input.is_action_just_pressed("select next"):
-				if _unit.action.set_next("wield", 0.6, _unit.equipment.increment_held_index.bind(1)):
+				if _unit.action.set_next("wield", 1, _unit.equipment.increment_held_index.bind(1)):
 					_unit.animator.play("RESET")
 					_unit.action.show_progress = true
+				_unit.procedure.speedmod = 0.5
 			elif Input.is_action_just_pressed("select previous"):
-				if _unit.action.set_next("wield", 0.6, _unit.equipment.increment_held_index.bind(-1)):
+				if _unit.action.set_next("wield", 1, _unit.equipment.increment_held_index.bind(-1)):
 					_unit.animator.play("RESET")
 					_unit.action.show_progress = true
+				_unit.procedure.speedmod = 0.5
 	elif event is InputEventKey:
 		if Input.is_action_just_pressed("ui_menu"):
 			_interface.display(_menu_settings)
@@ -123,7 +143,8 @@ func _unhandled_input(event):
 		elif event.pressed:
 			if _hotbar_keys.has(event.keycode):
 				var v = _hotbar_keys[event.keycode]
-				if _unit.action.set_next("wield", 0.6, _unit.equipment.set_held_index.bind(v)):
+				if _unit.action.set_next("wield", 1, _unit.equipment.set_held_index.bind(v)):
 					_unit.animator.play("RESET")
 					_unit.action.show_progress = true
+				_unit.procedure.speedmod = 0.5
 

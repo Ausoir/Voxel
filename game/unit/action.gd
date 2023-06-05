@@ -31,10 +31,14 @@ func on_process(delta):
 
 
 func set_next(new_action, new_delay, callback=null):
-	if (action == null and delay <= 0) or cancelable:
+	if can_set():
 		force_set_next(new_action, new_delay, callback)
 		return true
 	return false
+
+
+func can_set():
+	return delay <= 0 or cancelable
 
 
 func force_set_next(new_action, new_delay, callback=null):
@@ -58,6 +62,10 @@ func get_percentage():
 	if _max_delay > 0:
 		return delay / _max_delay
 	return 0
+
+
+func get_time():
+	return _max_delay - delay
 
  
 func get_progress_percentage():

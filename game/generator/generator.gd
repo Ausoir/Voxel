@@ -20,7 +20,6 @@ var _palette = {}
 var _pois
 var spawn_points
 var item_points
-var bounds = [99999, 99999, -99999, -99999]
 
 
 func _init():
@@ -62,16 +61,16 @@ func post_ready():
 		_palette[i] = G.blocks.get_block_by_name(v)
 
 
+func get_bounds():
+	return [offset.x, offset.z, offset.x + 48*2, offset.z + 48*2]
+
+
 func _generate_block(buffer: VoxelBuffer, origin: Vector3i, _lod: int):
 	if origin.y == Y_COORD:
 		buffer.fill_area(_palette["soil"].id,
 			Vector3.ZERO, Vector3(16, 6, 16), _CHANNEL)
 		if !_pois.is_empty():
 			var poi_pos = origin - offset
-			bounds[0] = min(bounds[0], poi_pos.x)
-			bounds[1] = min(bounds[1], poi_pos.z)
-			bounds[2] = max(bounds[2], poi_pos.x)
-			bounds[3] = max(bounds[3], poi_pos.z)
 			var poi = _pois.get(poi_pos)
 			if poi != null:
 				_load_image(buffer, origin, poi)
@@ -241,6 +240,8 @@ func _load_floor(buffer: VoxelBuffer, _origin: Vector3, ceiling_pixel: Color, x,
 			[4,2,0]:
 				buffer.set_voxel(_palette["tiles"].voxels[0], x, y, z, _CHANNEL)
 			[4,4,4]:
+				buffer.set_voxel(_palette["wall"].voxels[0], x, y, z, _CHANNEL)
+			[0,0,0]:
 				buffer.set_voxel(_palette["wall"].voxels[0], x, y, z, _CHANNEL)
 	return [_chunk_late_loads, _chunk_prop_late_loads]
 

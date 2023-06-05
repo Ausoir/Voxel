@@ -18,11 +18,12 @@ var priority = 5
 func _ready():
 	_unit.camera = _unit
 	_pathing.set_unit(_unit)
+	_unit.attacked.connect(on_attacked)
 
 
 func _physics_process(_delta):
 	_unit.motor = Vector3.ZERO
-	if task != null and _unit.grounded:
+	if task != null:
 		task.call(_delta)
 	if in_range:
 		_timeout = 0
@@ -35,8 +36,7 @@ func _physics_process(_delta):
 			_unit.forward = _from.direction_to(_to)
 			_dist = _from.distance_to(_to)
 			if priority > 2 and perceive():
-				task = _do_attack
-				priority = 1
+				aggro()
 	else:
 		_timeout += _delta
 		if _timeout > 8.0:
@@ -45,18 +45,32 @@ func _physics_process(_delta):
 
 
 func deaggro():
+	_unit.alert = false
 	_unit.procedure.stop_walk()
 	priority = 5
 	task = null
 	_to = _from
 
 
+func aggro():
+	task = _do_attack
+	priority = 1
+	_unit.alert = true
+
+
 func perceive():
 	if _dist <= G.player.noise:
 		return true
-	var prop = G.tool.raycast(_from, _unit.forward, _dist, 2)
-	return prop == null
+	var dir_to = _unit.transform.basis.z.normalized()
+	var angle = dir_to.dot(_unit.forward)
+	if angle > .5:
+		var prop = G.tool.raycast(_from, _unit.forward, _dist, 2)
+		return prop == null
 
 
 func _do_attack(_delta):
 	pass
+
+
+func on_attacked(_dmg):
+	aggro()

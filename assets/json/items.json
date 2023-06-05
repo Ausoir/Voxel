@@ -6,6 +6,7 @@
 		"data": {
 			"desc": "Regenerate health.",
 			"value": 8,
+			"weight": 1,
 			"buffs": [
 				[
 					"regeneration",
@@ -25,6 +26,7 @@
 		"data": {
 			"desc": "Regenerate mana.",
 			"value": 6,
+			"weight": 1,
 			"buffs": [
 				[
 					"clarity",
@@ -37,6 +39,22 @@
 				[
 					"silence",
 					3
+				]
+			]
+		}
+	},
+	"invisibility potion": {
+		"spritename": "item/potion_cyan",
+		"modelname": "item/potion_cyan3d-0-potion_cyan",
+		"script": "consumable/consumable",
+		"data": {
+			"desc": "Turn invisible.",
+			"value": 10,
+			"speed": 0.8,
+			"buffs": [
+				[
+					"invisibility",
+					5
 				]
 			]
 		}
@@ -97,7 +115,18 @@
 			"desc": "Required to shoot bow type weapons.",
 			"ammo": "bow",
 			"value": 10,
-			"power": 10
+			"power": 15
+		}
+	},
+	"makeshift arrows": {
+		"spritename": "item/arrow",
+		"modelname": "item/arrow3d-0-arrow",
+		"script": "consumable/ammunition",
+		"data": {
+			"desc": "Required to shoot bow type weapons.",
+			"ammo": "bow",
+			"value": 1,
+			"power": 8
 		}
 	},
 	"poisoned arrows": {
@@ -126,13 +155,25 @@
 		"modelname": "item/arrow3d-0-arrow",
 		"script": "consumable/ammunition",
 		"data": {
-			"desc": "Arrows laced with deadly poison that lasts 10 turns. Flies very slow.",
+			"ammo": "bow",
+			"value": 50,
+			"power": 5,
+			"damage": 15,
+			"spread": -0.1
+		}
+	},
+	"sleep arrows": {
+		"spritename": "item/arrow",
+		"modelname": "item/arrow3d-0-arrow",
+		"script": "consumable/ammunition",
+		"data": {
+			"desc": "These arrows make its victims fall asleep.",
 			"ammo": "bow",
 			"value": 50,
 			"power": 5,
 			"inflict": [
 				[
-					"poison",
+					"sleep",
 					10
 				]
 			]
@@ -145,6 +186,7 @@
 		"data": {
 			"desc": "Required to shoot firearm type weapons.",
 			"ammo": "firearm",
+			"power": 50,
 			"value": 30
 		}
 	},
@@ -155,7 +197,10 @@
 		"script": "equipment/armor",
 		"part": "body",
 		"data": {
-			"space": 1
+			"space": 1,
+			"defense": 0,
+			"health": 0,
+			"mana": 0
 		}
 	},
 	"robe": {
@@ -166,6 +211,8 @@
 		"part": "body",
 		"data": {
 			"value": 25,
+			"weight": 1,
+			"defense": 0,
 			"space": 4,
 			"mana": 2
 		}
@@ -178,6 +225,8 @@
 		"part": "body",
 		"data": {
 			"value": 150,
+			"weight": 1,
+			"defense": 0,
 			"space": 4,
 			"mana": 7,
 			"health": 20
@@ -191,6 +240,7 @@
 		"part": "body",
 		"data": {
 			"value": 80,
+			"weight": 1,
 			"space": 3,
 			"defense": 1
 		}
@@ -203,6 +253,7 @@
 		"part": "body",
 		"data": {
 			"value": 250,
+			"weight": 1,
 			"space": 4,
 			"defense": 1,
 			"health": 20
@@ -216,6 +267,7 @@
 		"part": "body",
 		"data": {
 			"value": 150,
+			"weight": 1,
 			"space": 2,
 			"defense": 2
 		}
@@ -228,13 +280,15 @@
 		"part": "body",
 		"data": {
 			"value": 320,
+			"weight": 2,
 			"space": 1,
 			"defense": 4,
 			"health": 20
 		}
 	},
 	"lantern": {
-		"spritename": "item/flier",
+		"spritename": "item/lantern",
+		"modelname": "item/lantern3d-0-lantern",
 		"script": "equipment/spotlight",
 		"part": "accessory",
 		"data": {
@@ -249,7 +303,8 @@
 		}
 	},
 	"gas lantern": {
-		"spritename": "item/flier",
+		"spritename": "item/lantern",
+		"modelname": "item/lantern3d-0-lantern",
 		"script": "equipment/spotlight",
 		"part": "accessory",
 		"data": {
@@ -265,7 +320,8 @@
 		}
 	},
 	"abyssal lantern": {
-		"spritename": "item/flier",
+		"spritename": "item/lantern",
+		"modelname": "item/lantern3d-0-lantern",
 		"script": "equipment/spotlight",
 		"part": "accessory",
 		"data": {
@@ -308,8 +364,9 @@
 		"spritename": "weapon/stick",
 		"modelname": "weapon/stick3d",
 		"script": "weapon/melee",
-		"type": "blunt",
 		"data": {
+			"type": "blunt",
+			"weight": 0,
 			"speed": 2,
 			"damage": 2,
 			"swings": [
@@ -322,11 +379,12 @@
 		"spritename": "weapon/mace",
 		"modelname": "weapon/mace3d",
 		"script": "weapon/melee",
-		"type": "blunt",
 		"data": {
+			"type": "blunt",
 			"value": 50,
+			"weight": 3,
 			"speed": 0.4,
-			"damage": 12,
+			"damage": 14,
 			"swings": [
 				"swing_down",
 				"swing_right",
@@ -338,9 +396,10 @@
 		"spritename": "weapon/cleaver",
 		"modelname": "weapon/cleaver3d",
 		"script": "weapon/melee",
-		"type": "dagger",
 		"data": {
+			"type": "dagger",
 			"value": 40,
+			"weight": 1,
 			"speed": 4,
 			"damage": 4,
 			"swings": [
@@ -353,9 +412,10 @@
 		"spritename": "weapon/quarterstaff",
 		"modelname": "weapon/quarterstaff3d",
 		"script": "weapon/melee",
-		"type": "blunt",
 		"data": {
+			"type": "staff",
 			"value": 40,
+			"weight": 2,
 			"speed": 2,
 			"damage": 6,
 			"swings": [
@@ -370,9 +430,10 @@
 		"spritename": "weapon/katana",
 		"modelname": "weapon/katana3d",
 		"script": "weapon/melee",
-		"type": "blade",
 		"data": {
+			"type": "blade",
 			"value": 200,
+			"weight": 2,
 			"speed": 2,
 			"damage": 10,
 			"swings": [
@@ -386,9 +447,10 @@
 		"spritename": "weapon/eblade",
 		"modelname": "weapon/eblade3d-0-eblade",
 		"script": "weapon/melee",
-		"type": "dagger",
 		"data": {
+			"type": "dagger",
 			"value": 160,
+			"weight": 0,
 			"speed": 4,
 			"damage": 6,
 			"swings": [
@@ -401,9 +463,11 @@
 		"spritename": "weapon/gasblade",
 		"modelname": "weapon/gasblade3d",
 		"script": "weapon/melee",
-		"type": "blade",
 		"data": {
+			"desc": "Extremely light.",
+			"type": "blade",
 			"value": 200,
+			"weight": 0,
 			"speed": 1,
 			"damage": 8,
 			"swings": [
@@ -416,9 +480,10 @@
 		"spritename": "weapon/spear",
 		"modelname": "weapon/spear3d-0-spear",
 		"script": "weapon/melee",
-		"type": "spear",
 		"data": {
+			"type": "spear",
 			"value": 80,
+			"weight": 3,
 			"damage": 6,
 			"swings": [
 				"swing_forward"
@@ -429,9 +494,10 @@
 		"spritename": "weapon/glaive",
 		"modelname": "weapon/glaive3d",
 		"script": "weapon/melee",
-		"type": "spear",
 		"data": {
+			"type": "spear",
 			"value": 250,
+			"weight": 4,
 			"speed": 0.5,
 			"damage": 14,
 			"swings": [
@@ -448,17 +514,60 @@
 			]
 		}
 	},
-	"bow": {
+	"short bow": {
 		"spritename": "weapon/bow",
 		"modelname": "weapon/bow3d-0-bow",
 		"script": "weapon/ranged",
-		"type": "bow",
 		"data": {
+			"type": "bow",
 			"value": 50,
-			"projectile": "arrow",
-			"speed": 0.75,
+			"weight": 2,
+			"speed": 0.3,
 			"spread": 0.15,
-			"damage": 5,
+			"damage": 10,
+			"noise": 10
+		}
+	},
+	"survival bow": {
+		"spritename": "weapon/bow",
+		"modelname": "weapon/bow3d-0-bow",
+		"script": "weapon/ranged",
+		"data": {
+			"type": "bow",
+			"desc": "This bow is ideal for ambush.",
+			"value": 100,
+			"weight": 0,
+			"speed": 0.3,
+			"spread": 0.1,
+			"damage": 6,
+			"noise": 3
+		}
+	},
+	"composite bow": {
+		"spritename": "weapon/bow",
+		"modelname": "weapon/bow3d-0-bow",
+		"script": "weapon/ranged",
+		"data": {
+			"type": "bow",
+			"value": 200,
+			"weight": 2,
+			"speed": 0.2,
+			"spread": 0.1,
+			"damage": 12,
+			"noise": 5
+		}
+	},
+	"recurve bow": {
+		"spritename": "weapon/bow",
+		"modelname": "weapon/bow3d-0-bow",
+		"script": "weapon/ranged",
+		"data": {
+			"type": "bow",
+			"value": 200,
+			"weight": 1,
+			"speed": 0.65,
+			"spread": 0.2,
+			"damage": 10,
 			"noise": 8
 		}
 	},
@@ -466,12 +575,12 @@
 		"spritename": "weapon/bow",
 		"modelname": "weapon/bow3d-0-bow",
 		"script": "weapon/ranged",
-		"type": "bow",
 		"data": {
+			"type": "bow",
 			"desc": "This bow applies deadly poison to its victims.",
 			"value": 120,
-			"projectile": "arrow",
-			"speed": 0.5,
+			"weight": 2,
+			"speed": 0.3,
 			"spread": 0.2,
 			"noise": 8,
 			"damage": 4,
@@ -487,90 +596,110 @@
 			]
 		}
 	},
+	"longbow": {
+		"spritename": "weapon/bow",
+		"modelname": "weapon/bow3d-0-bow",
+		"script": "weapon/ranged",
+		"data": {
+			"type": "bow",
+			"value": 200,
+			"weight": 2,
+			"speed": 0.15,
+			"spread": 0.1,
+			"damage": 18,
+			"noise": 12
+		}
+	},
 	"crossbow": {
 		"spritename": "weapon/crossbow",
 		"modelname": "weapon/crossbow3d",
 		"script": "weapon/ranged",
-		"type": "bow",
 		"data": {
+			"type": "bow",
 			"desc": "Highly accurate with devastating damage.",
-			"projectile": "arrow",
 			"value": 250,
-			"speed": 0.5,
+			"weight": 2,
+			"speed": 0.2,
 			"spread": 0.05,
-			"damage": 12,
+			"damage": 14,
 			"noise": 12
+		}
+	},
+	"staff of magic": {
+		"spritename": "weapon/staff",
+		"modelname": "weapon/staff3d",
+		"script": "weapon/ranged",
+		"data": {
+			"type": "staff",
+			"desc": "Shoot a deadly energy bolt to decimate enemies in an area.",
+			"value": 200,
+			"weight": 2,
+			"speed": 0.2,
+			"spread": 0.1,
+			"damage": 20,
+			"noise": 30,
+			"manause": 1,
+			"radius": 2,
+			"power": 4
 		}
 	},
 	"staff of death": {
 		"spritename": "weapon/staff",
 		"modelname": "weapon/staff3d",
 		"script": "weapon/ranged",
-		"type": "wand",
 		"data": {
-			"desc": "Shoot a deadly energy bolt.",
-			"projectile": "laser",
-			"value": 400,
-			"speed": 0.5,
-			"spread": 0.1,
-			"damage": 16,
-			"noise": 16
-		}
-	},
-	"taser": {
-		"spritename": "weapon/taser",
-		"modelname": "weapon/taser3d-0-taser",
-		"script": "weapon/ranged",
-		"type": "firearm",
-		"data": {
-			"desc": "Shoot destructive lasers.",
+			"type": "staff",
+			"desc": "Shoot a deadly energy bolt to decimate enemies in an area.",
 			"value": 300,
-			"projectile": "laser",
-			"speed": 1,
+			"weight": 2,
+			"speed": 0.3,
 			"spread": 0,
-			"damage": 10,
-			"noise": 16
+			"damage": 30,
+			"noise": 16,
+			"manause": 2,
+			"radius": 3,
+			"power": 5
 		}
 	},
 	"pistol": {
 		"spritename": "weapon/pistol",
 		"modelname": "weapon/pistol3d",
 		"script": "weapon/ranged",
-		"type": "firearm",
 		"data": {
+			"type": "firearm",
 			"desc": "Very inaccurate.",
 			"value": 100,
-			"projectile": "laser",
-			"speed": 2,
+			"weight": 1,
+			"speed": 1.5,
 			"spread": 0.2,
-			"damage": 5,
+			"damage": 10,
 			"noise": 12
 		}
 	},
-	"rocket": {
-		"spritename": "weapon/launcher",
-		"modelname": "weapon/launcher3d",
+	"rifle": {
+		"spritename": "weapon/taser",
+		"modelname": "weapon/taser3d-0-taser",
 		"script": "weapon/ranged",
-		"type": "firearm",
 		"data": {
-			"desc": "Shoot rockets that destroys terrain.",
-			"value": 500,
-			"projectile": "rocket",
-			"speed": 0.2,
-			"spread": 0.1,
-			"damage": 16,
-			"noise": 20
+			"type": "firearm",
+			"value": 300,
+			"weight": 3,
+			"speed": 0.1,
+			"spread": 0,
+			"damage": 15,
+			"noise": 16
 		}
 	},
 	"greatsword": {
 		"spritename": "weapon/greatsword",
 		"modelname": "weapon/greatsword3d",
 		"script": "weapon/melee",
-		"type": "blade",
 		"data": {
+			"type": "blade",
 			"desc": "This is a great sword.",
 			"value": 300,
 			"speed": 0.6,
+			"weight": 4,
 			"damage": 16,
 			"swings": [
 				"swing_left",
@@ -739,7 +868,7 @@
 		"modelname": "item/essence3d",
 		"part": "essence",
 		"data": {
-			"desc": "Charge to target position, knocking down everything at the destination.",
+			"desc": "Double jump to fly toward the direction you are facing.",
 			"essence": "wind"
 		}
 	},
@@ -800,7 +929,7 @@
 		"modelname": "item/essence3d",
 		"part": "essence",
 		"data": {
-			"desc": "Make no noise with ranged weapons.",
+			"desc": "When out of arrows, stand still to craft some.",
 			"req": [
 				"bow",
 				5
@@ -813,12 +942,25 @@
 		"modelname": "item/essence3d",
 		"part": "essence",
 		"data": {
-			"desc": "Take no damage when aiming with firearms.",
+			"desc": "Gain ability to run and gun.",
 			"req": [
 				"firearm",
 				5
 			],
 			"essence": "firearm"
+		}
+	},
+	"magical essence": {
+		"spritename": "item/essence",
+		"modelname": "item/essence3d",
+		"part": "essence",
+		"data": {
+			"desc": "Shoot twice with staves.",
+			"req": [
+				"staff",
+				6
+			],
+			"essence": "staff"
 		}
 	},
 	"agility essence": {

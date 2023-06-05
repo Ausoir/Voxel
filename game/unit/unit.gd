@@ -5,8 +5,11 @@ signal attacked
 signal wait
 signal special
 signal weapon
+signal critical
 signal death
 
+const STEP_SOUND_HEIGHT = Vector3(0, -.1, 0)
+const COLLISION_CENTER = Vector3(0, .2, 0)
 const HEALTHBAR = preload("./healthbar/healthbar.tscn")
 
 var _last_velocity_y = 0
@@ -33,6 +36,7 @@ var skills = preload("./skills/skills.gd").new()
 var proficiency = preload("./skills/proficiency.gd").new()
 var overlay_mat = preload("./flash_red.tres").duplicate()
 var pilot
+var alert = false
 var health: int = 1
 var mana: int = 0
 var defense: int = 0
@@ -57,7 +61,7 @@ func _ready():
 	_mesh = get_node(_mesh_path)
 	_space_state = get_viewport().get_world_3d().get_direct_space_state()
 	_space_state_params = PhysicsPointQueryParameters3D.new()
-	_space_state_params.collision_mask = 16
+	_space_state_params.set_collision_mask(body.get_collision_mask())
 	_space_state_params.set_exclude([$Body.get_rid()])
 	attack.connect(on_attack)
 	forward = -get_transform().basis.z.normalized()
@@ -73,7 +77,11 @@ func perceived(p):
 
 func take_hit(dmg):
 	if dmg > 0:
+		alert = true
 		dmg = max(1, dmg - defense)
+		buffs.set_duration("invisibility", 0)
+		buffs.set_duration("regeneration", 0)
+		buffs.set_duration("sleep", 0)
 	if dmg != 0 and "scout" in G.you.essence:
 		G.stock.make_text(self, Vector3(0, size.y + 0.1, 0), dmg)
 	health -= dmg
@@ -100,17 +108,22 @@ func has_essence(p):
 
 func on_damaged(_pos: Vector3, damage: int, inflict):
 	action.set_next("hit", .3)
-	G.player.noise = 16
-	var ess = 0
-	if has_essence("agility"):
-		ess = .15
-	if G.rng.percent(get_prof("dodge")*3 + ess):
-		G.stock.make_particle(position + Vector3(0, size.y/2, 0), "dodge")
-		G.sfx.play("dodge", position)
-		if "scout" in G.you.essence:
-			G.stock.make_text(self, Vector3(0, size.y + 0.1, 0), "DODGE")
-		emit_signal("special", "dodge")
-		return
+	G.player.set_noise(14)
+	if alert:
+		var ess = 0
+		if has_essence("agility"):
+			ess = .15
+		if G.rng.percent(get_prof("dodge")*3 + ess):
+			G.stock.make_particle(position + Vector3(0, size.y/2, 0), "dodge")
+			G.sfx.play("dodge", position)
+			if "scout" in G.you.essence:
+				G.stock.make_text(self, Vector3(0, size.y + 0.1, 0), "DODGE")
+			emit_signal("special", "dodge")
+			return
+	else:
+		G.stock.make_particle(position + Vector3(0, size.y/2, 0), "demolish")
+		G.sfx.play("critical", position)
+		damage *= 2
 	if _mesh.material_overlay == null:
 		G.stock.make_particle(position + Vector3(0, size.y/2, 0), "bleed")
 		start_flash(Color.RED)
@@ -165,7 +178,7 @@ func die():
 	action.force_set_next("idle", 999)
 	health = 0
 	_healthbar.set_current(0)
-	var itemname = G.stock.make_group(data.get("loot"), G.rng.rf())
+	var itemname = G.stock.make_group(data.get("loot"))
 	if itemname != null:
 		var item = G.stock.make_item(itemname)
 		item.drop(self)
@@ -182,20 +195,21 @@ func remove():
 
 
 func _physics_process(delta):
-	var center = position + Vector3(0, .2, 0)
-	_space_state_params.position = center
-	var hits = _space_state.intersect_point(_space_state_params, 1)
-	if !hits.is_empty():
-		motor = Vector3()
-	for hit in hits:
-		var t = hit.collider.get_parent()
-		motor += (position - t.position).normalized() * 4
-		t.action.set_next("idle", .5)
-		action.set_next("idle", .5)
-	if !grounded and position.y < -8:
+	if grounded:
+		var center = position + COLLISION_CENTER
+		_space_state_params.position = center
+		var hits = _space_state.intersect_point(_space_state_params, 3)
+		for hit in hits:
+			var t = hit.collider.get_parent()
+			velocity += (position - t.position).normalized() * 4
+			t.action.set_next("idle", .5)
+			action.set_next("idle", .5)
+	elif position.y < -8:
 		if health > 0:
 			die()
 		return
+	else:
+		motor = Vector3()
 
 	if motor.length_squared() > 0:
 		_wait_time = 0
@@ -222,6 +236,8 @@ func _physics_process(delta):
 		if !grounded:
 			_last_velocity_y = 0
 			G.sfx.play("land", position)
+			if G.you == self:
+				G.player.set_noise(6)
 		grounded = true
 	if abs(motion.y) > 0.001:
 		grounded = false
@@ -237,7 +253,7 @@ func _physics_process(delta):
 
 func on_step():
 	if grounded:
-		var down = position + Vector3.DOWN
+		var down = position + STEP_SOUND_HEIGHT
 		var block = G.tool.get_block(down)
 		if block != null:
 			block.on_step(down)
@@ -265,14 +281,21 @@ func set_fp_visibility(p):
 func get_prof(p):
 	var val = proficiency.list.get(p)
 	if val != null:
-		return val
+		return int(val)
 	return 0
+
+
+func req_mana(p):
+	if mana >= p:
+		mana -= p
+		return true
+	return false
 
 
 func serialize():
 	var r = super()
+	data["proficiency"] = proficiency.serialize()
 	r["data"] = data
 	r["buffs"] = buffs.serialize()
-	r["proficiency"] = proficiency.serialize()
 	return r
 

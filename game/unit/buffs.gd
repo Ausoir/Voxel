@@ -39,6 +39,12 @@ func has(p):
 	return p in states
 
 
+func set_duration(p, dur):
+	var state = states.get(p)
+	if state != null:
+		state.duration = dur
+
+
 func on_turn():
 	var dirty = false
 	var keys = states.keys()

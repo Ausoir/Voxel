@@ -12,4 +12,3 @@ func _save_world():
 	pass
 #	$Terrain.save_modified_blocks()
 	get_node("Player/Save").save_data()
-

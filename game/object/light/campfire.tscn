@@ -94,8 +94,8 @@ shader_parameter/noisemap = SubResource("NoiseTexture2D_yfg2s")
 mesh = ExtResource("1_kehth")
 
 [node name="Body" type="StaticBody3D" parent="."]
-collision_layer = 13
-collision_mask = 13
+collision_layer = 8
+collision_mask = 8
 
 [node name="Shape" type="CollisionShape3D" parent="Body"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)

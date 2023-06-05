@@ -5,46 +5,20 @@ var load_blocks = {}
 var load_props = {}
 var _frame = 0
 var _bounds
-var _interests
-var _times = 0
+var _spawns
 
 
 func _ready():
+	stop()
+
+
+func stop():
 	set_process(false)
 
 
-func _get_interest_point():
-	for _i in range(400):
-		var x = G.rng.rir(_bounds[0], _bounds[2])
-		var y = G.rng.rir(0, 32)
-		var z = G.rng.rir(_bounds[1], _bounds[3])
-		var pos = Vector3(x, y, z)
-		if G.tool.get_voxel(pos) in _interests:
-			var above = Vector3(x, y+1, z)
-			if G.tool.get_voxel(above) == 0:
-				return above
-
-
-func _process(delta):
-	_frame += delta
-	if _frame > .2:
-		_frame -= .2
-		_times -= 1
-		if _times <= 0:
-			set_process(false)
-		else:
-			for _i in range(4):
-				var interest_point = _get_interest_point()
-				if interest_point != null:
-					spawn(interest_point)
-
-
 func _on_timeout():
-	_bounds = G.terrain.generator.bounds
-	_interests = []
-	for i in G.mapdata.spawnables:
-		var voxel = G.blocks.get_block_by_name(i).voxels[0]
-		_interests.append(voxel)
+	_bounds = G.terrain.generator.get_bounds()
+	_spawns = G.mapdata.spawns.duplicate()
 	for key in load_blocks.keys():
 		var chunk = load_blocks[key]
 		for next in chunk:
@@ -60,27 +34,42 @@ func _on_timeout():
 	load_blocks.clear()
 	load_props.clear()
 	var spawn_point = G.rng.pick(G.terrain.generator.spawn_points)
-	if spawn_point == null:
-		spawn_point = G.rng.pick_and_pop(_get_interest_point())
 	G.you.global_position = spawn_point + G.V2_HALF
 	G.ui.fadein()
-	for i in G.mapdata.special:
-		var interest_point = _get_interest_point()
-		if interest_point != null:
-			if G.tool.get_tool().get_voxel(interest_point) == 0:
-				G.stock.make_object(interest_point, i)
 	for pos in G.terrain.generator.item_points:
-		var itemname = G.stock.make_group(G.mapdata.item, G.rng.rf())
+		var itemname = G.stock.make_group(G.mapdata.item)
 		if itemname != null:
 			var item = G.stock.make_item(itemname)
 			item.drop_at(pos)
-	_times = 60
 	set_process(true)
 
 
-func spawn(_pos):
-	if G.tool.get_tool().get_voxel(_pos) == 0:
-		var biome = G.get_biome(_pos)
-		var unit = G.stock.make_group(G.mapdata.spawn, biome)
-		if unit != null:
-			G.stock.make_any(G.stock, _pos + G.V_HALF, unit)
+func _process(delta):
+	_frame += delta
+	if _frame > .2:
+		_frame -= .2
+		var current_spawning = _spawns.pop_front()
+		if current_spawning == null:
+			set_process(false)
+		else:
+			var search_voxels = []
+			for block in current_spawning[0]:
+				var voxel = G.blocks.get_block_by_name(block).voxels[0]
+				search_voxels.append(voxel)
+			for _i in range(current_spawning[1]):
+				var interest_point = _get_interest_point(search_voxels)
+				if interest_point != null:
+					G.stock.make_any(interest_point + G.V_HALF, current_spawning[2])
+
+
+func _get_interest_point(voxels):
+	for _i in range(200):
+		var x = G.rng.rir(_bounds[0], _bounds[2])
+		var y = G.rng.rir(0, 32)
+		var z = G.rng.rir(_bounds[1], _bounds[3])
+		var pos = Vector3(x, y, z)
+		var voxel = G.tool.get_voxel(pos)
+		if voxel in voxels:
+			var above = Vector3(x, y+1, z)
+			if G.tool.get_voxel(above) < 5:
+				return above

@@ -163,13 +163,14 @@ func absorb(ess):
 	return -1
 
 
-func apply_change(data, mult=1):
-	add_inventory(data.get("space", 0) * mult)
-	add_essence(data.get("soul", 0) * mult)
+func apply_change(data, mult=1, skip=false):
+	if !skip:
+		add_inventory(data.get("space", 0) * mult)
+		add_essence(data.get("soul", 0) * mult)
 	_unit.data.health += data.get("health", 0) * mult
 	_unit.data.mana += data.get("mana", 0) * mult
-	_unit.procedure.speed += data.get("speed", 0) * mult
 	_unit.defense += data.get("defense", 0) * mult
+	_unit.procedure.speed -= data.get("weight", 0)*.1 * mult
 
 
 func pickup(item):
@@ -228,12 +229,14 @@ func serialize():
 	var slots = equipment.keys()
 	for i in slots:
 		if equipment[i] != null:
+			apply_change(equipment[i].data, -1, true)
 			equips.append(equipment[i].sid)
 	for i in _inventory:
 		if i != null:
 			items.append(i.sid)
 	for i in essence:
 		if i != null:
+			apply_change(i.data, -1)
 			esss.append(i.sid)
 	var r = {
 		"slots": equipment.keys(),

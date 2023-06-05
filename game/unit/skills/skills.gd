@@ -20,9 +20,10 @@ func on_touch():
 	return true
 
 func on_wait():
-	perform("blood")
-	if !perform("vision"):
-		perform("nighteye")
+	if !perform("blood"):
+		if !perform("bow"):
+			if !perform("vision"):
+				perform("nighteye")
 
 func on_hit(_dmg):
 	perform("warrior")
@@ -49,6 +50,8 @@ func perform(ess):
 			return xray_vision()
 		elif ess == "nighteye":
 			return night_vision()
+		elif ess == "bow":
+			return craft_arrows()
 		elif !_unit.buffs.has("exhaustion"):
 			if ess == "earth":
 				return passwall()
@@ -60,21 +63,38 @@ func perform(ess):
 				return invisibility()
 			elif ess == "goblin":
 				return slow(3)
+			elif ess == "wind":
+				return fly()
 			elif ess == "vampire":
-				if req_mana(1):
+				if _unit.req_mana(1):
 					return recover(1, 8)
 	return false
+
+
+func fly():
+	var aura = _unit.get_prof("aura")
+	if aura > 2 or _unit.req_mana(1):
+		_unit.animator.play("jump_ready")
+		var forward = -_unit.camera.basis.z.normalized()
+		_unit.velocity += forward * (16+aura)
+		_unit.action.set_next("special", 0.8 - aura*.1)
+		_unit.buffs.add("exhaustion", max(1, 8 - aura))
+		_unit.emit_signal("special", "aura")
+	return true
 
 
 func slow(p):
 	_param.buffs.add("slow", p)
 	G.sfx.play("buff_slow", _unit.position)
+	return true
 
 
 func recover(regen, cd):
 	if !_unit.buffs.has("regeneration cooldown"):
 		_unit.buffs.add("regeneration", regen)
 		_unit.buffs.add("regeneration cooldown", cd)
+		return true
+	return false
 
 
 func metal():
@@ -86,21 +106,28 @@ func metal():
 		_unit.buffs.add("clarity", G.rng.rir(min(dmg, _unit.get_prof("earth")), dmg))
 		_item.remove()
 		_unit.emit_signal("special", "earth")
+		return true
+	return false
 
 
 func sublimation():
 	if _unit.mana == 0:
+		_unit.mana = 1
 		_unit.take_hit(5)
 		_unit.buffs.add("clarity", 2 + _unit.get_prof("necromancy"))
 		_unit.emit_signal("special", "necromancy")
+		return true
+	return false
 
 
 func invisibility():
-	if req_mana(max(1, 3 - _unit.get_prof("aura"))):
+	if _unit.req_mana(1):
 		if !_unit.buffs.has("invisibility"):
 			G.sfx.play("fade", _unit.position)
-		_unit.buffs.add("invisibility", 3)
-		_unit.emit_signal("special", "aura")
+			_unit.buffs.add("invisibility", 3+_unit.get_prof("aura"))
+			_unit.emit_signal("special", "aura")
+			return true
+	return false
 
 
 func psychic():
@@ -119,10 +146,12 @@ func psychic():
 			_unit.emit_signal("special", "psych")
 			if !_unit.attack.is_connected(psychic_shoot):
 				_unit.attack.connect(psychic_shoot)
+			return true
+	return false
 
 
 func psychic_shoot():
-	if req_mana(1):
+	if _unit.req_mana(1):
 		var rocket = Laser.instantiate()
 		rocket.damage = 5 + _unit.get_prof("psych")
 		rocket.position = _unit.get_center()
@@ -131,7 +160,9 @@ func psychic_shoot():
 		var projectile_direction = G.rng.v3_spread(spread,spread,spread) + _unit.forward
 		rocket.set_direction(projectile_direction)
 		_unit.action.set_next("idle", .5)
-		_unit.buffs.add("clarity", G.rng.rir(0, 3))
+		_unit.buffs.add("clarity", G.rng.rir(0, 2))
+		return true
+	return false
 
 
 func plant_bomb():
@@ -145,14 +176,29 @@ func plant_bomb():
 		G.stock.add_child(bomb)
 		_unit.buffs.add("exhaustion", 10)
 		return true
+	return false
 
 
 func xray_vision():
 	_unit.buffs.add("vision", 0)
+	return true
 
 
 func night_vision():
 	_unit.buffs.add("nighteye", _unit.get_prof("psych"))
+	return true
+
+
+func craft_arrows():
+	if _unit.get_type() == 1:
+		var ammo = _unit.equipment.find_item_by_data("ammo", "bow")
+		if ammo == null:
+			var item = G.stock.make_item("makeshift arrows:8")
+			G.sfx.play("craft", _unit.position)
+			if !_unit.equipment.pickup(item):
+				item.drop(_unit)
+			return true
+	return false
 
 
 func passwall():
@@ -170,13 +216,7 @@ func passwall():
 			_unit.start_flash(Color.SADDLE_BROWN)
 			G.sfx.play("cast_water", _unit.position)
 			return true
+	return false
 func passwall_tick(_user, to):
 	_user.position = _user.position.lerp(to, 0.01)
-
-
-func req_mana(p):
-	if _unit.mana >= p:
-		_unit.mana -= p
-		return true
-	return false
 

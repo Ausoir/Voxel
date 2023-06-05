@@ -1,7 +1,15 @@
 {
 	"town": {
 		"env": "outside",
-		"spawn": "#village",
+		"spawns": [
+			[
+				[
+					"chair"
+				],
+				80,
+				"#village"
+			]
+		],
 		"down": [
 			"cave",
 			"fortress"
@@ -30,17 +38,57 @@
 			"124": "npc/stashkeep",
 			"224": "npc/healer",
 			"324": "npc/transporter"
-		},
-		"special": [],
-		"spawnables": [
-			"chair"
-		]
+		}
 	},
 	"fortress": {
 		"env": "cave",
-		"spawn": "#fortress",
 		"down": [
 			"fortress"
+		],
+		"spawns": [
+			[
+				[
+					"wood",
+					"brick",
+					"stone",
+					"labtiles",
+					"carpet"
+				],
+				2,
+				"portal/entrance"
+			],
+			[
+				[
+					"wood",
+					"brick",
+					"stone",
+					"labtiles",
+					"carpet"
+				],
+				2,
+				"portal/exit"
+			],
+			[
+				[
+					"chair"
+				],
+				200,
+				"#goblins"
+			],
+			[
+				[
+					"labtiles"
+				],
+				120,
+				"#animals"
+			],
+			[
+				[
+					"brick"
+				],
+				120,
+				"#animals"
+			]
 		],
 		"item": "#shelf",
 		"treasure": "#treasure",
@@ -61,18 +109,44 @@
 			"special": "labtiles",
 			"carpet": "carpet",
 			"glass": "glass"
-		},
-		"special": [
-			"portal/entrance",
-			"portal/entrance",
-			"portal/exit",
-			"portal/exit",
-			"portal/exit"
-		]
+		}
 	},
 	"cave": {
 		"env": "cave",
 		"spawn": "#cave",
+		"spawns": [
+			[
+				[
+					"stone",
+					"carpet"
+				],
+				2,
+				"portal/entrance"
+			],
+			[
+				[
+					"stone",
+					"carpet"
+				],
+				1,
+				"portal/exit"
+			],
+			[
+				[
+					"chair",
+					"carpet"
+				],
+				160,
+				"#goblins"
+			],
+			[
+				[
+					"stone"
+				],
+				120,
+				"#animals"
+			]
+		],
 		"down": [
 			"town"
 		],
@@ -95,18 +169,6 @@
 			"special": "stone",
 			"carpet": "carpet",
 			"glass": "glass"
-		},
-		"special": [
-			"portal/entrance",
-			"portal/entrance",
-			"portal/exit",
-			"portal/exit",
-			"portal/exit"
-		],
-		"spawnables": [
-			"chair",
-			"carpet",
-			"stone"
-		]
+		}
 	}
 }

@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://d0tgv7vwpva48"]
+[gd_scene load_steps=22 format=3 uid="uid://d0tgv7vwpva48"]
 
 [ext_resource type="Script" path="res://game/unit/humanoid/humanoid.gd" id="1_2jek4"]
 [ext_resource type="ArrayMesh" uid="uid://ob0fvgnwm8ql" path="res://assets/weapon/eblade3d-0-eblade.obj" id="2_gnevv"]
@@ -326,6 +326,7 @@ tracks/2/keys = {
 
 [sub_resource type="Animation" id="Animation_exkay"]
 resource_name = "shoot"
+length = 0.7
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -333,7 +334,7 @@ tracks/0/path = NodePath("Model/Item:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.4, 0.5, 1),
+"times": PackedFloat32Array(0, 0.4, 0.5, 0.7),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [Vector3(-0.306363, 0.459507, -0.0334154), Vector3(-0.225885, 0.439113, 0.279242), Vector3(-0.290761, 0.447968, -0.147691), Vector3(-0.311377, 0.477419, -0.0239757)]
@@ -345,7 +346,7 @@ tracks/1/path = NodePath("Model/Item:rotation")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.4, 0.5, 1),
+"times": PackedFloat32Array(0, 0.4, 0.5, 0.7),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [Vector3(1.5708, 0, 1.5708), Vector3(3.14159, 0, 1.5708), Vector3(2.79253, 0, 1.5708), Vector3(2.0944, 0, 1.5708)]
@@ -357,7 +358,7 @@ tracks/2/path = NodePath("Model/Body:rotation")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.4, 0.5, 1),
+"times": PackedFloat32Array(0, 0.4, 0.5, 0.7),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [Vector3(0, 0, 0), Vector3(0, 0.785398, 0), Vector3(0, -0.310477, 0), Vector3(0, 0, 0)]
@@ -831,15 +832,101 @@ tracks/6/keys = {
 }]
 }
 
+[sub_resource type="Animation" id="Animation_jl1b3"]
+resource_name = "shoot2"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Model/Item:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.5, 0.8, 0.9, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(-0.306363, 0.459507, -0.0334154), Vector3(-0.225885, 0.439113, 0.279242), Vector3(-0.290761, 0.447968, -0.147691), Vector3(-0.225885, 0.439113, 0.279242), Vector3(-0.290761, 0.447968, -0.147691), Vector3(-0.311377, 0.477419, -0.0239757)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Model/Item:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.5, 0.8, 0.9, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(1.5708, 0, 1.5708), Vector3(3.14159, 0, 1.5708), Vector3(2.79253, 0, 1.5708), Vector3(3.14159, 0, 1.5708), Vector3(2.79253, 0, 1.5708), Vector3(2.0944, 0, 1.5708)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Model/Body:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.5, 0.8, 0.9, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0.785398, 0), Vector3(0, -0.310477, 0), Vector3(0, 0.785398, 0), Vector3(0, -0.310477, 0), Vector3(0, 0, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Model:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/4/type = "method"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.5, 0.9),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [&"attack"],
+"method": &"emit_signal"
+}, {
+"args": [&"attack"],
+"method": &"emit_signal"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_iusnr"]
+resource_name = "down"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Model:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(-1.5708, 0, 0)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_xtjas"]
 _data = {
 "RESET": SubResource("Animation_gxnwv"),
 "blast": SubResource("Animation_shllu"),
 "die": SubResource("Animation_1kx31"),
+"down": SubResource("Animation_iusnr"),
 "eat": SubResource("Animation_qqh8t"),
 "jump": SubResource("Animation_yljhu"),
 "jump_ready": SubResource("Animation_g53bn"),
 "shoot": SubResource("Animation_exkay"),
+"shoot2": SubResource("Animation_jl1b3"),
 "swing_down": SubResource("Animation_ka4hm"),
 "swing_forward": SubResource("Animation_13ekp"),
 "swing_left": SubResource("Animation_gs7qj"),

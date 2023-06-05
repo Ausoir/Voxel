@@ -1,26 +1,53 @@
-[gd_scene load_steps=5 format=3 uid="uid://dyf43s4p26s26"]
+[gd_scene load_steps=8 format=3 uid="uid://dyf43s4p26s26"]
 
 [ext_resource type="Script" path="res://game/item/weapon/projectile/laser.gd" id="1_1x122"]
-[ext_resource type="Texture2D" uid="uid://sjr7gawya76m" path="res://assets/texture/laser.png" id="2_jcsth"]
-
-[sub_resource type="QuadMesh" id="QuadMesh_hnhqv"]
-size = Vector2(1, 0.3)
+[ext_resource type="Texture2D" uid="uid://bjw45syqtu186" path="res://assets/texture/flare.png" id="2_cp2p0"]
+[ext_resource type="Texture2D" uid="uid://dsf3nsrt72ehb" path="res://game/fx/bleed/ease_in_out_expo.tres" id="3_g33rm"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_730i1"]
-transparency = 1
-cull_mode = 2
+blend_mode = 1
 shading_mode = 0
-albedo_texture = ExtResource("2_jcsth")
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("2_cp2p0")
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_42gjh"]
+direction = Vector3(0, 0, -1)
+gravity = Vector3(0, -8, 0)
+initial_velocity_max = 4.0
+angle_min = -720.0
+angle_max = 720.0
+scale_min = 0.5
+scale_max = 2.0
+scale_curve = ExtResource("3_g33rm")
+hue_variation_min = -1.0
+hue_variation_max = 1.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_3pnrg"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_5k4hl"]
+radius = 2.0
 
 [node name="Rocket" type="Node3D"]
 script = ExtResource("1_1x122")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
-mesh = SubResource("QuadMesh_hnhqv")
-surface_material_override/0 = SubResource("StandardMaterial3D_730i1")
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+material_override = SubResource("StandardMaterial3D_730i1")
+amount = 12
+lifetime = 0.5
+process_material = SubResource("ParticleProcessMaterial_42gjh")
+draw_pass_1 = SubResource("QuadMesh_3pnrg")
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
-transform = Transform3D(-4.37114e-08, -1, 4.37114e-08, 0, -4.37114e-08, -1, 1, -4.37114e-08, 1.91069e-15, 0, 0, 0)
-mesh = SubResource("QuadMesh_hnhqv")
-surface_material_override/0 = SubResource("StandardMaterial3D_730i1")
+[node name="Area3D" type="Area3D" parent="."]
+collision_layer = 8
+collision_mask = 8
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("SphereShape3D_5k4hl")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
+[connection signal="body_exited" from="Area3D" to="." method="_on_area_3d_body_exited"]

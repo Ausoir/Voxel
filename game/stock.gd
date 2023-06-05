@@ -20,7 +20,7 @@ const Humanoid = preload("res://game/unit/humanoid/humanoid.tscn")
 const IBlank = preload("res://game/unit/ai/blank.gd")
 const IBeast = preload("res://game/unit/ai/beast.gd")
 const IHuman = preload("res://game/unit/ai/sentient.gd")
-const IShooter = preload("res://game/unit/ai/shooter.gd")
+const IAlly = preload("res://game/unit/ai/ally.gd")
 var _model_cache = {}
 var _scene_cache = {}
 var _image_cache = {}
@@ -97,7 +97,7 @@ func make_object(pos: Vector3, itemname: String):
 	return item
 
 
-func make_any(parent: Node, pos: Vector3, itemname: String, custom=null):
+func make_any_unit(parent: Node, pos: Vector3, itemname: String, custom=null):
 	var r = make_humanoid(parent, pos, itemname, custom)
 	if r == null:
 		r = make_unit(pos, itemname, custom)
@@ -125,12 +125,13 @@ func make_unit(pos: Vector3, itemname: String, custom_data=null):
 			unit.data["mana"] = unit.mana
 		unit.defense = unit.data.get("defense", 0)
 		unit.buffs.unserialize(rawdata.get("buffs", []))
-		unit.proficiency.unserialize(rawdata.get("proficiency"))
+		unit.proficiency.unserialize(unit.data.get("proficiency"))
 		if "speed" in unit.data:
 			unit.procedure.speed = unit.data.speed
 		for i in rawdata.get("souls", []):
 			unit.essence.append(i)
 		_attach_ai(unit, rawdata)
+		unit.turn_random()
 		return unit
 
 
@@ -171,6 +172,7 @@ func make_humanoid(parent: Node, pos: Vector3, itemname: String, custom_data=nul
 		unit.sid = itemname
 		unit.position = pos
 		_attach_ai(unit, rawdata)
+		unit.turn_random()
 		return unit
 
 
@@ -181,8 +183,8 @@ func _attach_ai(unit, data):
 		ai_script = IBeast
 	elif ai == "human":
 		ai_script = IHuman
-	elif ai == "shooter":
-		ai_script = IShooter
+	elif ai == "ally":
+		ai_script = IAlly
 	var pilot := Node.new()
 	pilot.set_script(ai_script)
 	unit.pilot = pilot
@@ -190,6 +192,7 @@ func _attach_ai(unit, data):
 
 
 func remove_ai(unit):
+	unit.pilot.queue_free()
 	var pilot := Node.new()
 	pilot.set_script(IBlank)
 	unit.pilot = pilot
@@ -224,16 +227,29 @@ func make_debris(_pos: Vector3, _amount: int):
 		debris.position = Vector3(_pos)
 		add_child(debris)
 
+func make_group_surely(itemname):
+	var r = make_group(itemname)
+	if r == null:
+		return make_group_surely(itemname)
+	return r
 
-func make_group(itemname, rf):
-	if itemname is String:
-		var dict = Group_JSON.get_data()
-		var data = dict.get(itemname)
-		if data != null:
-			var r = G.rng.get_combo(data, rf)
-			if r != null and r[0] == "#":
-				return make_group(r, rf)
-			else:
-				return r
-	else:
-		return G.rng.get_combo(itemname, rf)
+
+func make_group(itemname):
+	var dict = Group_JSON.get_data()
+	var data = dict.get(itemname)
+	if data != null:
+		var r = G.rng.get_combo(data)
+		if r != null and r[0] == "#":
+			return make_group(r)
+		else:
+			return r
+
+
+func make_any(_pos, itemname):
+	if itemname != null:
+		if itemname[0] == "#":
+			return make_any(_pos, make_group(itemname))
+		elif itemname[0] == "@":
+			return make_object(_pos, itemname)
+		else:
+			return make_any_unit(self, _pos, itemname)

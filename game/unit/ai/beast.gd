@@ -3,7 +3,7 @@ extends "./pilot.gd"
 
 func _do_attack(_delta):
 	if _dist <= melee_range:
-		var hitvoxel = G.tool.raycast(_from, _to, _dist, 4)
+		var hitvoxel = G.tool.raycast(_from, _unit.forward, _dist, 4)
 		if hitvoxel == null:
 			var atkspd = _unit.data.get("aspeed", 1)
 			if _unit.action.set_next("delay", atkspd):

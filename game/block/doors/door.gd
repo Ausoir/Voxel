@@ -17,10 +17,15 @@ func on_place(_pos: Vector3):
 	var current_voxel = G.tool.get_voxel(_pos)
 	var current_id = voxels.find(current_voxel)
 	G.tool.set_voxel(above, voxels[current_id + 2])
+	var meta = "Open Door"
+	G.tool.get_tool().set_voxel_metadata(_pos, meta)
+	G.tool.get_tool().set_voxel_metadata(above, meta)
 
 
 func on_remove(_pos: Vector3):
 	var above = _pos + Vector3.UP
+	G.tool.get_tool().set_voxel_metadata(_pos, null)
+	G.tool.get_tool().set_voxel_metadata(above, null)
 	G.tool.set_voxel(above, 0)
 	if door != null:
 		G.stock.remove_child(door)
@@ -56,3 +61,4 @@ func on_activate(_pos: Vector3, _user: Node3D):
 		door.position.x += 1
 	door.get_node("Animator").play("open2")
 	G.sfx.play("door_open", door.position)
+	G.player.set_noise(3)
