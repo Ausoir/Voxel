@@ -91,13 +91,13 @@ shader_parameter/noisemap = SubResource("NoiseTexture2D_yfg2s")
 [node name="light" type="Node3D"]
 script = ExtResource("1_8xtuj")
 
-[node name="Area3D" type="StaticBody3D" parent="."]
+[node name="Body" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-collision_layer = 32
+collision_layer = 40
 collision_mask = 32
 input_ray_pickable = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Body"]
 shape = SubResource("BoxShape3D_roy2d")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]

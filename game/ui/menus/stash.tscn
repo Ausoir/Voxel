@@ -1,7 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://dndmltr8ak37r"]
+[gd_scene load_steps=5 format=3 uid="uid://dndmltr8ak37r"]
 
 [ext_resource type="Script" path="res://game/ui/menus/stash.gd" id="1_exrt8"]
-[ext_resource type="PackedScene" uid="uid://cl7jb4jx1dmuv" path="res://game/ui/inventory/item_slot.tscn" id="2_jigst"]
 [ext_resource type="PackedScene" uid="uid://c33bivnxnt6ej" path="res://game/ui/inventory/equipbar.tscn" id="3_mdwd4"]
 [ext_resource type="PackedScene" uid="uid://boqt44mpwm2cb" path="res://game/ui/inventory/itembar.tscn" id="4_146ta"]
 [ext_resource type="Script" path="res://game/ui/inventory/drag_item.gd" id="5_l4gfo"]
@@ -46,18 +45,6 @@ layout_mode = 2
 [node name="Stash" type="HBoxContainer" parent="Panel/VBox"]
 layout_mode = 2
 alignment = 1
-
-[node name="InventorySlot" parent="Panel/VBox/Stash" instance=ExtResource("2_jigst")]
-layout_mode = 2
-
-[node name="InventorySlot2" parent="Panel/VBox/Stash" instance=ExtResource("2_jigst")]
-layout_mode = 2
-
-[node name="InventorySlot3" parent="Panel/VBox/Stash" instance=ExtResource("2_jigst")]
-layout_mode = 2
-
-[node name="InventorySlot4" parent="Panel/VBox/Stash" instance=ExtResource("2_jigst")]
-layout_mode = 2
 
 [node name="Label" type="Label" parent="Panel/VBox"]
 layout_mode = 2

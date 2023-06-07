@@ -1,34 +1,46 @@
 {
-	"town": {
+	"camp": {
 		"env": "outside",
-		"spawns": [
-			[
-				[
-					"chair"
-				],
-				80,
+		"spawns": {
+			"table": [
+				1,
+				"@"
+			],
+			"toilet": [
+				1,
+				"@"
+			],
+			"bed": [
+				1,
+				"@"
+			],
+			"chair": [
+				40,
 				"#village"
+			],
+			"soil": [
+				8,
+				"#animals"
 			]
-		],
+		},
 		"down": [
-			"cave",
-			"fortress"
+			"floor 1"
 		],
 		"item": null,
 		"treasure": null,
 		"trash": "#trash",
 		"variants": [
-			"town/town",
-			"town/blank",
-			"town/blank",
-			"town/tower"
+			"camp/town",
+			"camp/blank",
+			"camp/blank",
+			"camp/tower"
 		],
 		"palette": {
 			"road": "soil",
 			"tiles": "wood",
 			"alley": "wood",
 			"wall": "brick",
-			"wall2": "metal",
+			"wall2": "stone",
 			"special": "labtiles",
 			"carpet": "carpet",
 			"glass": "glass"
@@ -40,56 +52,161 @@
 			"324": "npc/transporter"
 		}
 	},
-	"fortress": {
+	"floor 1": {
 		"env": "cave",
 		"down": [
-			"fortress"
+			"floor 2"
 		],
-		"spawns": [
-			[
-				[
-					"wood",
-					"brick",
-					"stone",
-					"labtiles",
-					"carpet"
-				],
+		"spawns": {
+			"stonework": [
+				1,
+				"@"
+			],
+			"mattress": [
+				80,
+				"skeletal miner"
+			],
+			"bed": [
+				80,
+				"#undead"
+			],
+			"brick": [
 				2,
 				"portal/entrance"
 			],
-			[
-				[
-					"wood",
-					"brick",
-					"stone",
-					"labtiles",
-					"carpet"
-				],
+			"chair": [
 				2,
 				"portal/exit"
 			],
-			[
-				[
-					"chair"
-				],
-				200,
+			"stone": [
+				30,
+				"#cavern"
+			],
+			"wood": [
+				20,
+				"skeletal dog"
+			],
+			"table": [
+				4,
+				"chest"
+			]
+		},
+		"item": "#shelf",
+		"treasure": "#treasure",
+		"trash": "#trash",
+		"variants": [
+			"dungeon/jail",
+			"dungeon/jail",
+			"dungeon/barrack",
+			"dungeon/public",
+			"dungeon/mines",
+			"dungeon/mines"
+		],
+		"palette": {
+			"road": "stonework",
+			"alley": "stone",
+			"tiles": "wood",
+			"wall": "stone",
+			"wall2": "pole"
+		}
+	},
+	"floor 2": {
+		"env": "cave",
+		"spawns": {
+			"bed": [
+				1,
+				"@"
+			],
+			"mattress": [
+				20,
 				"#goblins"
 			],
-			[
-				[
-					"labtiles"
-				],
-				120,
-				"#animals"
+			"campfire": [
+				4,
+				"#goblins"
 			],
-			[
-				[
-					"brick"
-				],
-				120,
-				"#animals"
+			"chair": [
+				50,
+				"#goblins"
+			],
+			"brick": [
+				2,
+				"portal/entrance"
+			],
+			"stone": [
+				33,
+				"#cavern"
+			],
+			"wood": [
+				33,
+				"chest"
 			]
+		},
+		"down": [
+			"floor 3"
 		],
+		"item": "#trash",
+		"treasure": "#shelf",
+		"trash": "#barrel",
+		"variants": [
+			"cave/cave1",
+			"cave/cave2",
+			"cave/cave3",
+			"cave/cave4",
+			"cave/cave5",
+			"cave/cave6",
+			"cave/stairs"
+		],
+		"palette": {
+			"road": "brick",
+			"alley": "stone",
+			"tiles": "wood",
+			"wall": "stone",
+			"wall2": "pole",
+			"special": "stone",
+			"carpet": "carpet",
+			"glass": "pole"
+		}
+	},
+	"floor 3": {
+		"env": "cave",
+		"down": [
+			"floor 3"
+		],
+		"spawns": {
+			"bed": [
+				1,
+				"@"
+			],
+			"mattress": [
+				20,
+				"#goblins"
+			],
+			"campfire": [
+				4,
+				"#goblins"
+			],
+			"chair": [
+				50,
+				"#undead"
+			],
+			"wood": [
+				33,
+				"chest"
+			],
+			"carpet": [
+				2,
+				"portal/entrance"
+			],
+			"table": [
+				2,
+				"portal/exit"
+			],
+			"brick": [
+				33,
+				"#cavern"
+			]
+		},
 		"item": "#shelf",
 		"treasure": "#treasure",
 		"trash": "#trash",
@@ -105,70 +222,8 @@
 			"alley": "brick",
 			"tiles": "wood",
 			"wall": "stone",
-			"wall2": "metal",
-			"special": "labtiles",
-			"carpet": "carpet",
-			"glass": "glass"
-		}
-	},
-	"cave": {
-		"env": "cave",
-		"spawn": "#cave",
-		"spawns": [
-			[
-				[
-					"stone",
-					"carpet"
-				],
-				2,
-				"portal/entrance"
-			],
-			[
-				[
-					"stone",
-					"carpet"
-				],
-				1,
-				"portal/exit"
-			],
-			[
-				[
-					"chair",
-					"carpet"
-				],
-				160,
-				"#goblins"
-			],
-			[
-				[
-					"stone"
-				],
-				120,
-				"#animals"
-			]
-		],
-		"down": [
-			"town"
-		],
-		"item": "#shelf",
-		"treasure": "#treasure",
-		"trash": "#trash",
-		"variants": [
-			"cave/cave1",
-			"cave/cave2",
-			"cave/cave3",
-			"cave/cave4",
-			"cave/stairs"
-		],
-		"palette": {
-			"road": "stone",
-			"alley": "stone",
-			"tiles": "stone",
-			"wall": "stone",
-			"wall2": "stone",
-			"special": "stone",
-			"carpet": "carpet",
-			"glass": "glass"
+			"wall2": "pole",
+			"special": "labtiles"
 		}
 	}
 }

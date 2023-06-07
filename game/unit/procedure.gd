@@ -28,10 +28,9 @@ func jump_ready():
 
 
 func jump(p):
-	_unit.buffs.set_duration("invisibility", 0)
 	_unit.animator.play("jump")
 	_unit.grounded = false
-	_unit.velocity.y = p * 10
+	_unit.velocity.y = p * 8
 	var toward = _unit.get_transform().basis.z.normalized()
 	var forward_vel = G.HORIZONTAL_PLANE.project(toward)
 	_unit.velocity += forward_vel * p * 5
@@ -54,7 +53,7 @@ func walk(motor_forward, motor_side):
 func walk_toward(to):
 	_unit.motor.x = to.x - _unit.position.x
 	_unit.motor.z = to.z - _unit.position.z
-	_unit.motor = _unit.motor.normalized() * max(0, speed)
+	_unit.motor = _unit.motor.normalized() * max(0, speed) * speedmod
 
 
 func stop_walk():

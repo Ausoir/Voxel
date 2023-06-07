@@ -13,12 +13,6 @@
 			"void"
 		]
 	},
-	"special": {
-		"voxels": [
-			"special"
-		],
-		"script": "special"
-	},
 	"soil": {
 		"icon": ",",
 		"voxels": [
@@ -52,15 +46,6 @@
 			"material": "wood"
 		}
 	},
-	"metal": {
-		"icon": "#",
-		"voxels": [
-			"metal"
-		],
-		"data": {
-			"material": "metal"
-		}
-	},
 	"tiles": {
 		"icon": "+",
 		"voxels": [
@@ -86,6 +71,11 @@
 		"data": {
 			"material": "stone"
 		}
+	},
+	"pole": {
+		"voxels": [
+			"pole"
+		]
 	},
 	"chair": {
 		"voxels": [
@@ -177,9 +167,9 @@
 		},
 		"script": "container/chest"
 	},
-	"fridge": {
+	"wardrobe": {
 		"voxels": [
-			"fridge"
+			"wardrobe"
 		]
 	},
 	"campfire": {
@@ -205,12 +195,18 @@
 	"stonework": {
 		"voxels": [
 			"stonework"
-		]
+		],
+		"data": {
+			"material": "stone"
+		}
 	},
 	"labtiles": {
 		"voxels": [
 			"labtiles"
-		]
+		],
+		"data": {
+			"material": "metal"
+		}
 	},
 	"carpet": {
 		"voxels": [
@@ -251,5 +247,10 @@
 			"loot": "trash"
 		},
 		"script": "container/chest"
+	},
+	"mineral": {
+		"voxels": [
+			"mineral"
+		]
 	}
 }

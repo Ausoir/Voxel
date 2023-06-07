@@ -1,9 +1,9 @@
 {
-    "gold": 90,
+    "gold": 240,
     "health": 20,
-    "mana": 33,
+    "mana": 3,
     "map": "town",
-    "seed": 1685824229,
+    "seed": -1,
     "stash":
     [
         null,
@@ -15,11 +15,12 @@
     {
         "buffs":
         [
+            ["track", -1]
         ],
         "data":
         {
             "health": 20,
-            "level": 3,
+            "level": 1,
             "mana": 3,
             "proficiency":
             {
@@ -27,13 +28,15 @@
         },
         "equipments":
         [
-            "suit:-1",
-            "lantern:-1"
+            "leather armor",
+            "lantern"
         ],
         "items":
         [
-            "quarterstaff:-1",
-            "remover",
+            "spear",
+            "short bow",
+            "arrows:30",
+            "cave scroll",
         ],
         "name": "scholar",
         "slots":
@@ -43,9 +46,6 @@
         ],
         "souls":
         [
-            "psychic essence",
-            "wind essence",
-            "shadow essence",
         ]
     }
 }

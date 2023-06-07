@@ -15,7 +15,7 @@ func use(_user: Node3D):
 		var weapon_type = data.get("type", "bow")
 		_user.procedure.speedmod = 0
 		if weapon_type == "firearm" and _user.has_essence("firearm"):
-			_user.procedure.speedmod = .7
+			_user.procedure.speedmod = .8
 		elif weapon_type == "staff" and _user.has_essence("staff"):
 			anim_name = "shoot2"
 			animation = _user.animator.get_animation(anim_name)
@@ -80,6 +80,7 @@ func on_shoot(_user: Node3D):
 		rocket.damage = damage_roll
 		rocket.inflict = inflict
 		rocket.position = held_item.global_position + toward * item_length
+		rocket.shooter = _user
 		G.stock.add_child(rocket)
 		var projectile_direction = G.rng.v3_spread(spread,spread,spread) + _user.forward
 		rocket.speed = proj_speed

@@ -16,6 +16,7 @@ func use(_user: Node3D):
 			anim_name = data.swings[next_anim]
 	else:
 		speed += 1
+		_user.procedure.speedmod = 0
 	if _user.animator.current_animation == anim_name:
 		_user.animator.stop()
 	var animation = _user.animator.get_animation(anim_name)
@@ -24,19 +25,21 @@ func use(_user: Node3D):
 		first_hit = false
 		data["swing anim"] = next_anim
 		var weapon_type = data.get("type", "blunt")
-		if _user.has_essence(weapon_type):
-			if weapon_type == "blunt":
-				speed += .2
-			elif weapon_type != "dagger":
+		if weapon_type == "blade":
+			if _user.has_essence("blade"):
 				_user.action.cancelable = true
+				speed += 0.2
+		elif weapon_type == "spear":
+			if _user.has_essence("spear"):
+				_user.procedure.speedmod = .8
+		if _user.has_essence("berserk"):
+			speed += 0.25
 		var anim_dur = animation.get_length() * (1 / speed)
 		if data.get("swings", []).size() <= 1:
 			_user.action.force_set_next("use", anim_dur, _user.animator.stop)
 		else:
 			_user.action.force_set_next("use", anim_dur)
 		_user.animator.play(anim_name, .1, speed)
-	if _user.velocity.y < -1:
-		_user.animator.seek(.6)
 
 
 func on_held_tick(_user: Node3D):
@@ -57,16 +60,24 @@ func on_held_tick(_user: Node3D):
 						if !(unit in already_hit):
 							already_hit.append(unit)
 							var damage = data.get("damage", 1)
-							var buffs = data.get("inflict", [])
+							var inflict = data.get("inflict", [])
 							var weapon_type = data.get("type", "blunt")
 							if _user.has_essence(weapon_type):
 								if weapon_type == "dagger":
-									damage += 1
-							var damage_roll = G.rng.damage_roll(damage, _user.get_prof(weapon_type))
+									inflict = inflict.duplicate() + ["silence", 1]
+									if !unit.alert:
+										damage += 20
+								elif weapon_type == "blunt":
+									if !_user.buffs.has("exhaustion"):
+										inflict = inflict.duplicate() + ["sleep", 1]
+										_user.buffs.add("exhaustion", max(1, 10 - _user.get_prof("blunt")))
+										G.sfx.play("critical", _user.position)
 							if !unit.alert:
-								_user.emit_signal("critical", unit)
 								damage += _user.get_prof("ambush") * 4
-							unit.on_damaged(_user.position, damage_roll, buffs)
+								_user.emit_signal("critical", unit)
+							var damage_roll = G.rng.damage_roll(damage, _user.get_prof(weapon_type))
+							unit.last_hitter = _user
+							unit.on_damaged(_user.position, damage_roll, inflict)
 							G.sfx.play("hit_flesh", _user.position)
 							_user.emit_signal("weapon", weapon_type, unit, damage)
 					else:

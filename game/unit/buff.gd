@@ -1,6 +1,5 @@
-static func make_buff(unit, name, dur):
+static func get_buff(name):
 	var r
-	var undefined = false
 	if name == "slow":
 		r = Slow
 	elif name == "sleep":
@@ -27,31 +26,23 @@ static func make_buff(unit, name, dur):
 		r = Nighteye
 	elif name == "vision":
 		r = Vision
+	elif name == "flight":
+		r = Flight
 	else:
 		r = Buff
-		undefined = true
-	r = r.new(unit, dur)
-	r.name = name
-	var path
-	if undefined:
-		path = str("ui/def_", name.replace(" ", "_"))
-	else:
-		path = str("ui/st_", name.replace(" ", "_"))
-	r.sprite = G.stock.get_image(path)
 	return r
 
 
 class Buff:
-	var unit
+	var _unit
 	var name
 	var duration = 0
 	var sprite
 
 
 	func _init(punit, pdur):
-		unit = punit
+		_unit = punit
 		duration = pdur
-		on_start()
 
 
 	func on_turn():
@@ -60,6 +51,10 @@ class Buff:
 			return false
 		if duration > 0:
 			duration -= 1
+		return true
+
+
+	static func req_met(_p):
 		return true
 
 
@@ -77,32 +72,48 @@ class Buff:
 
 class Slow extends Buff:
 	func on_start():
-		unit.procedure.speed -= .3
+		_unit.procedure.speed -= .2
 	func on_end():
-		unit.procedure.speed += .3
+		_unit.procedure.speed += .2
 	func get_description():
-		return super() + "Movement speed slowed by 3."
+		return super() + "Movement speed slowed by 2."
 
 
 class Sleep extends Buff:
 	func on_start():
-		unit.alert = false
-		if unit.health > 0:
-			unit.animator.play("down")
-			unit.action.force_set_next("sleep", 9999)
+		_unit.alert = false
+		if _unit.health > 0:
+			_unit.animator.play("down")
+			_unit.action.force_set_next("sleep", 9999)
+			_unit.procedure.speedmod = 0
 	func on_end():
-		unit.alert = true
-		if unit.health > 0:
-			unit.action.delay = 0
+		_unit.alert = true
+		if _unit.health > 0:
+			_unit.action.delay = 0
+		_unit.procedure.speedmod = 1
 	func get_description():
 		return super() + "Wake when taking damage."
 
 
+class Down extends Buff:
+	func on_start():
+		if _unit.health > 0:
+			_unit.animator.play("down")
+			_unit.action.force_set_next("sleep", 9999)
+			_unit.procedure.speedmod = 0
+	func on_end():
+		if _unit.health > 0:
+			_unit.action.delay = 0
+		_unit.procedure.speedmod = 1
+	func get_description():
+		return super() + "Unable to act."
+
+
 class Regeneration extends Buff:
 	func on_turn():
-		var max_hp = unit.data.get("health", 1)
-		unit.health = min(unit.health + 1, max_hp)
-		unit.show_healthbar()
+		var max_hp = _unit.data.get("health", 1)
+		_unit.health = min(_unit.health + 1, max_hp)
+		_unit.show_healthbar()
 		return super()
 	func get_description():
 		return super() + "Regenerate 1 health per second."
@@ -110,7 +121,7 @@ class Regeneration extends Buff:
 
 class Poison extends Buff:
 	func on_turn():
-		unit.take_hit(1)
+		_unit.take_hit(1)
 		return super()
 	func get_description():
 		return super() + "Lose 1 health per second."
@@ -118,11 +129,11 @@ class Poison extends Buff:
 
 class Clarity extends Buff:
 	func on_start():
-		G.stock.make_particle(unit.get_head(), "clarity")
+		G.stock.make_particle(_unit.get_head(), "clarity")
 	func on_turn():
-		var max_hp = unit.data.get("mana", 1)
+		var max_hp = _unit.data.get("mana", 1)
 		var inc = max(1, int(max_hp * 0.08))
-		unit.mana = min(unit.mana + inc, max_hp)
+		_unit.mana = min(_unit.mana + inc, max_hp)
 		return super()
 	func get_description():
 		return super() + "Regenerate 8% mana per second."
@@ -131,10 +142,10 @@ class Clarity extends Buff:
 class Invisibility extends Buff:
 	var interrupted = false
 	func on_start():
-		unit.weapon.connect(on_interrupt)
-		unit.hide()
+		_unit.weapon.connect(on_interrupt)
+		_unit.hide()
 	func on_end():
-		unit.show()
+		_unit.show()
 	func get_description():
 		return super() + "Become invisible."
 	func on_interrupt(_type, _victim):
@@ -148,25 +159,23 @@ class Invisibility extends Buff:
 class Vision extends Buff:
 	var mat = preload("res://game/environment/xray.tres")
 	func on_start():
-		if unit == G.you:
+		if _unit == G.you:
 			G.terrain.set_material_override(mat)
-			G.player.get_node("View/Camera").far = 8 + unit.get_prof("psych") * 4
 	func on_end():
-		if unit == G.you:
+		if _unit == G.you:
 			G.terrain.set_material_override(null)
-			G.player.get_node("View/Camera").far = 4000
 	func get_description():
 		return super() + "Gain vision through walls. Vision distance scales with Psych."
 
 
 class Nighteye extends Buff:
 	func on_start():
-		if unit == G.you:
+		if _unit == G.you:
 			G.env.environment.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
 			G.env.environment.ambient_light_color = Color.GREEN
 			G.env.environment.ambient_light_energy = 4.0
 	func on_end():
-		if unit == G.you:
+		if _unit == G.you:
 			G.env.environment.ambient_light_source = Environment.AMBIENT_SOURCE_DISABLED
 	func get_description():
 		return super() + "Gain vision through the darkness."
@@ -174,18 +183,18 @@ class Nighteye extends Buff:
 
 class Stoneskin extends Buff:
 	func on_start():
-		unit.defense += 5
+		_unit.defense += 5
 	func on_end():
-		unit.defense -= 5
+		_unit.defense -= 5
 	func get_description():
 		return super() + "Negate incoming damage by 5."
 
 
 class Corrosion extends Buff:
 	func on_start():
-		unit.defense -= 3
+		_unit.defense -= 3
 	func on_end():
-		unit.defense += 3
+		_unit.defense += 3
 	func get_description():
 		return super() + "Increase all damage taken by 3."
 
@@ -200,7 +209,18 @@ class Silence extends Buff:
 		return super() + "Disables abilities for the duration."
 
 
+class Flight extends Buff:
+	static func req_met(punit):
+		return punit.physics_process == punit._walk_physics_process
+	func on_start():
+		_unit.physics_process = _unit._fly_physics_process
+	func on_end():
+		_unit.physics_process = _unit._walk_physics_process
+	func get_description():
+		return super() + "Fly."
+
+
 class Track extends Buff:
 	func get_description():
-		return super() + "Teleport to safety when downed."
+		return super() + "Teleport to safety when near death."
 

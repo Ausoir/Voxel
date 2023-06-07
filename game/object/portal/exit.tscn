@@ -1,8 +1,9 @@
-[gd_scene load_steps=12 format=3 uid="uid://df4imi2iymyjg"]
+[gd_scene load_steps=13 format=3 uid="uid://df4imi2iymyjg"]
 
 [ext_resource type="Script" path="res://game/object/portal/portal.gd" id="1_exya1"]
 [ext_resource type="Texture2D" uid="uid://bvsnwrbsad76s" path="res://assets/texture/rune.png" id="2_luiv4"]
 [ext_resource type="Texture2D" uid="uid://dixe5c3qe1e8j" path="res://assets/texture/radial.png" id="3_neuxd"]
+[ext_resource type="AudioStream" uid="uid://bi5pv2uu2mvyf" path="res://assets/sfx/bgm_portal.wav" id="4_qqst2"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_x6g5y"]
 
@@ -71,3 +72,9 @@ draw_pass_1 = SubResource("QuadMesh_pw5tp")
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 mesh = SubResource("QuadMesh_8exlk")
 skeleton = NodePath("../GPUParticles3D")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("4_qqst2")
+autoplay = true
+max_distance = 40.0
+doppler_tracking = 1

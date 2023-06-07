@@ -3,6 +3,7 @@ extends "res://game/unit/unit.gd"
 var _weapon_callback
 var _previous_held
 var headmesh
+var bodymesh
 
 @onready var held_item_model = $Model/Item
 @onready var equipment = $Equipment
@@ -57,9 +58,13 @@ func _on_held_select():
 	if item != _previous_held:
 		if _previous_held != null:
 			_previous_held.on_unheld(self)
+		else:
+			procedure.hand.on_unheld(self)
 		_previous_held = item
 		if item != null:
 			item.on_held(self)
+		else:
+			procedure.hand.on_held(self)
 	if item == null:
 		held_item_model.hide()
 		_weapon_callback = Callable(procedure.hand, "on_held_tick")
@@ -77,7 +82,7 @@ func has_essence(p):
 	var item = equipment.get_item_by_index(equipment.get_held_index())
 	if item != null and item.data.get("essence", "") == p:
 		return true
-	return equipment.check_essence(p)
+	return false
 
 
 func remove():

@@ -1,7 +1,7 @@
 extends Node3D
 
 var sid
-var toughness = 0
+var toughness = 5
 
 
 func serialize():
@@ -18,6 +18,10 @@ func turn_random():
 func on_damaged(_pos: Vector3, damage: int, _inflict):
 	if damage > toughness:
 		remove()
+
+
+func on_interact(_user: Node3D):
+	pass
 
 
 func remove():

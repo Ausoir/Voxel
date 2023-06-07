@@ -22,12 +22,6 @@ script = ExtResource("1_5b4wf")
 [node name="Cam" type="Node3D" parent="."]
 script = ExtResource("2_fxmqn")
 
-[node name="View" type="SpringArm3D" parent="Cam"]
-collision_mask = 130
-spring_length = 2.0
-
-[node name="Node3D" type="Node3D" parent="Cam/View"]
-
 [node name="Clipper" type="StaticBody3D" parent="Cam"]
 collision_layer = 0
 collision_mask = 130
@@ -65,5 +59,9 @@ shape = SubResource("CylinderShape3D_oe41g")
 [node name="Save" type="Node" parent="."]
 script = ExtResource("6_o67dg")
 
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
 [connection signal="body_entered" from="Addon/Perception" to="Addon/Perception" method="_on_body_entered"]
 [connection signal="body_exited" from="Addon/Perception" to="Addon/Perception" method="_on_body_exited"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

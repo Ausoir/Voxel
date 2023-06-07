@@ -59,6 +59,22 @@
 			]
 		}
 	},
+	"flight potion": {
+		"spritename": "item/potion_cyan",
+		"modelname": "item/potion_cyan3d-0-potion_cyan",
+		"script": "consumable/consumable",
+		"data": {
+			"desc": "Fly for a duration.",
+			"value": 10,
+			"speed": 0.8,
+			"buffs": [
+				[
+					"flight",
+					5
+				]
+			]
+		}
+	},
 	"teleport scroll": {
 		"spritename": "item/scroll",
 		"modelname": "item/scroll3d-0-scroll",
@@ -78,7 +94,7 @@
 			"desc": "Teleport to the caves.",
 			"value": 40,
 			"speed": 1,
-			"to": "cave"
+			"to": "floor 1"
 		}
 	},
 	"gold": {
@@ -107,6 +123,16 @@
 			]
 		}
 	},
+	"chaos essence": {
+		"spritename": "item/essence",
+		"modelname": "item/essence3d",
+		"script": "consumable/chaos",
+		"data": {
+			"desc": "Use to obtain a random essence.",
+			"speed": 1,
+			"exclude": []
+		}
+	},
 	"arrows": {
 		"spritename": "item/arrow",
 		"modelname": "item/arrow3d-0-arrow",
@@ -126,7 +152,7 @@
 			"desc": "Required to shoot bow type weapons.",
 			"ammo": "bow",
 			"value": 1,
-			"power": 8
+			"power": 12
 		}
 	},
 	"poisoned arrows": {
@@ -343,10 +369,7 @@
 		"data": {
 			"buildables": [
 				"shutter",
-				"door",
-				"divider",
-				"sink",
-				"toilet"
+				"dummy"
 			]
 		}
 	},
@@ -375,20 +398,71 @@
 			]
 		}
 	},
+	"pickaxe": {
+		"spritename": "weapon/pickaxe",
+		"modelname": "weapon/pickaxe3d",
+		"script": "weapon/melee",
+		"data": {
+			"type": "blunt",
+			"value": 100,
+			"weight": 2,
+			"speed": 0.4,
+			"damage": 9,
+			"health": 0,
+			"swings": [
+				"swing_down"
+			],
+			"inflict": [
+				[
+					"slow",
+					3
+				]
+			]
+		}
+	},
+	"hammer": {
+		"spritename": "weapon/hammer",
+		"modelname": "weapon/hammer3d",
+		"script": "weapon/melee",
+		"data": {
+			"type": "blunt",
+			"value": 120,
+			"weight": 2,
+			"speed": 0.5,
+			"damage": 10,
+			"health": 0,
+			"swings": [
+				"swing_left",
+				"swing_right"
+			],
+			"inflict": [
+				[
+					"slow",
+					3
+				]
+			]
+		}
+	},
 	"mace": {
 		"spritename": "weapon/mace",
 		"modelname": "weapon/mace3d",
 		"script": "weapon/melee",
 		"data": {
 			"type": "blunt",
-			"value": 50,
+			"value": 200,
 			"weight": 3,
 			"speed": 0.4,
 			"damage": 14,
+			"health": 0,
 			"swings": [
-				"swing_down",
-				"swing_right",
-				"swing_left"
+				"swing_left",
+				"swing_right"
+			],
+			"inflict": [
+				[
+					"slow",
+					3
+				]
 			]
 		}
 	},
@@ -400,29 +474,114 @@
 			"type": "dagger",
 			"value": 40,
 			"weight": 1,
-			"speed": 4,
-			"damage": 4,
+			"speed": 3,
+			"damage": 3,
 			"swings": [
 				"swing_forward",
 				"swing_right"
 			]
 		}
 	},
-	"quarterstaff": {
-		"spritename": "weapon/quarterstaff",
-		"modelname": "weapon/quarterstaff3d",
+	"shortsword": {
+		"spritename": "weapon/shortsword",
+		"modelname": "weapon/shortsword3d-0-shortsword",
 		"script": "weapon/melee",
 		"data": {
-			"type": "staff",
+			"type": "blade",
+			"value": 60,
+			"weight": 1,
+			"speed": 1,
+			"damage": 6,
+			"swings": [
+				"swing_forward",
+				"swing_left",
+				"swing_right"
+			]
+		}
+	},
+	"broadsword": {
+		"spritename": "weapon/broadsword",
+		"modelname": "weapon/broadsword3d",
+		"script": "weapon/melee",
+		"data": {
+			"type": "blade",
+			"value": 100,
+			"weight": 2,
+			"speed": 0.8,
+			"damage": 12,
+			"swings": [
+				"swing_left",
+				"swing_right"
+			]
+		}
+	},
+	"longsword": {
+		"spritename": "weapon/longsword",
+		"modelname": "weapon/longsword3d",
+		"script": "weapon/melee",
+		"data": {
+			"type": "blade",
+			"value": 160,
+			"weight": 3,
+			"speed": 0.6,
+			"damage": 8,
+			"defense": 1,
+			"swings": [
+				"swing_left",
+				"swing_right",
+				"swing_forward",
+				"swing_down"
+			]
+		}
+	},
+	"quarterstaff": {
+		"spritename": "weapon/quarterstaff",
+		"modelname": "weapon/quarterstaff3d-0-quarterstaff",
+		"script": "weapon/melee",
+		"data": {
+			"type": "blunt",
 			"value": 40,
 			"weight": 2,
 			"speed": 2,
-			"damage": 6,
+			"damage": 4,
 			"swings": [
 				"swing_down",
 				"swing_forward",
 				"swing_right",
 				"swing_left"
+			]
+		}
+	},
+	"tanto": {
+		"spritename": "weapon/tanto",
+		"modelname": "weapon/tanto3d",
+		"script": "weapon/melee",
+		"data": {
+			"type": "dagger",
+			"value": 180,
+			"weight": 1,
+			"speed": 1,
+			"damage": 10,
+			"swings": [
+				"swing_forward"
+			]
+		}
+	},
+	"wakizashi": {
+		"spritename": "weapon/katana",
+		"modelname": "weapon/katana3d",
+		"script": "weapon/melee",
+		"data": {
+			"type": "blade",
+			"value": 160,
+			"weight": 1,
+			"speed": 1.5,
+			"size": 0.2,
+			"damage": 7,
+			"swings": [
+				"swing_forward",
+				"swing_left",
+				"swing_right"
 			]
 		}
 	},
@@ -432,10 +591,10 @@
 		"script": "weapon/melee",
 		"data": {
 			"type": "blade",
-			"value": 200,
+			"value": 240,
 			"weight": 2,
-			"speed": 2,
-			"damage": 10,
+			"speed": 1.3,
+			"damage": 9,
 			"swings": [
 				"swing_down",
 				"swing_right",
@@ -449,10 +608,11 @@
 		"script": "weapon/melee",
 		"data": {
 			"type": "dagger",
-			"value": 160,
+			"value": 240,
 			"weight": 0,
-			"speed": 4,
-			"damage": 6,
+			"speed": 3,
+			"damage": 7,
+			"mana": 0,
 			"swings": [
 				"swing_forward",
 				"swing_right"
@@ -466,10 +626,11 @@
 		"data": {
 			"desc": "Extremely light.",
 			"type": "blade",
-			"value": 200,
+			"value": 300,
 			"weight": 0,
 			"speed": 1,
-			"damage": 8,
+			"mana": 2,
+			"damage": 6,
 			"swings": [
 				"swing_forward",
 				"swing_down"
@@ -482,11 +643,32 @@
 		"script": "weapon/melee",
 		"data": {
 			"type": "spear",
-			"value": 80,
+			"value": 60,
 			"weight": 3,
 			"damage": 6,
 			"swings": [
 				"swing_forward"
+			]
+		}
+	},
+	"trident": {
+		"spritename": "weapon/trident",
+		"modelname": "weapon/trident3d",
+		"script": "weapon/melee",
+		"data": {
+			"type": "spear",
+			"value": 160,
+			"weight": 3,
+			"speed": 0.7,
+			"damage": 8,
+			"swings": [
+				"swing_forward"
+			],
+			"inflict": [
+				[
+					"slow",
+					1
+				]
 			]
 		}
 	},
@@ -496,9 +678,9 @@
 		"script": "weapon/melee",
 		"data": {
 			"type": "spear",
-			"value": 250,
+			"value": 200,
 			"weight": 4,
-			"speed": 0.5,
+			"speed": 0.6,
 			"damage": 14,
 			"swings": [
 				"swing_forward",
@@ -524,8 +706,8 @@
 			"weight": 2,
 			"speed": 0.3,
 			"spread": 0.15,
-			"damage": 10,
-			"noise": 10
+			"damage": 9,
+			"noise": 8
 		}
 	},
 	"survival bow": {
@@ -540,7 +722,7 @@
 			"speed": 0.3,
 			"spread": 0.1,
 			"damage": 6,
-			"noise": 3
+			"noise": 2
 		}
 	},
 	"composite bow": {
@@ -553,22 +735,22 @@
 			"weight": 2,
 			"speed": 0.2,
 			"spread": 0.1,
-			"damage": 12,
+			"damage": 11,
 			"noise": 5
 		}
 	},
 	"recurve bow": {
-		"spritename": "weapon/bow",
-		"modelname": "weapon/bow3d-0-bow",
+		"spritename": "weapon/longbow",
+		"modelname": "weapon/longbow3d-0-longbow",
 		"script": "weapon/ranged",
 		"data": {
 			"type": "bow",
-			"value": 200,
+			"value": 120,
 			"weight": 1,
 			"speed": 0.65,
 			"spread": 0.2,
 			"damage": 10,
-			"noise": 8
+			"noise": 10
 		}
 	},
 	"goblin bow": {
@@ -597,8 +779,8 @@
 		}
 	},
 	"longbow": {
-		"spritename": "weapon/bow",
-		"modelname": "weapon/bow3d-0-bow",
+		"spritename": "weapon/longbow",
+		"modelname": "weapon/longbow3d-0-longbow",
 		"script": "weapon/ranged",
 		"data": {
 			"type": "bow",
@@ -606,7 +788,7 @@
 			"weight": 2,
 			"speed": 0.15,
 			"spread": 0.1,
-			"damage": 18,
+			"damage": 15,
 			"noise": 12
 		}
 	},
@@ -621,8 +803,8 @@
 			"weight": 2,
 			"speed": 0.2,
 			"spread": 0.05,
-			"damage": 14,
-			"noise": 12
+			"damage": 12,
+			"noise": 8
 		}
 	},
 	"staff of magic": {
@@ -636,7 +818,7 @@
 			"weight": 2,
 			"speed": 0.2,
 			"spread": 0.1,
-			"damage": 20,
+			"damage": 14,
 			"noise": 30,
 			"manause": 1,
 			"radius": 2,
@@ -654,11 +836,39 @@
 			"weight": 2,
 			"speed": 0.3,
 			"spread": 0,
-			"damage": 30,
+			"damage": 20,
 			"noise": 16,
 			"manause": 2,
 			"radius": 3,
 			"power": 5
+		}
+	},
+	"staff of sleep": {
+		"spritename": "weapon/staff",
+		"modelname": "weapon/staff3d",
+		"script": "weapon/ranged",
+		"data": {
+			"type": "staff",
+			"desc": "Knock out enemies in an area.",
+			"value": 200,
+			"weight": 2,
+			"speed": 0.1,
+			"spread": 0.2,
+			"damage": 0,
+			"noise": 0,
+			"manause": 2,
+			"radius": 3,
+			"power": 3,
+			"inflict": [
+				[
+					"slow",
+					10
+				],
+				[
+					"sleep",
+					10
+				]
+			]
 		}
 	},
 	"pistol": {
@@ -672,7 +882,7 @@
 			"weight": 1,
 			"speed": 1.5,
 			"spread": 0.2,
-			"damage": 10,
+			"damage": 11,
 			"noise": 12
 		}
 	},
@@ -685,8 +895,8 @@
 			"value": 300,
 			"weight": 3,
 			"speed": 0.1,
-			"spread": 0,
-			"damage": 15,
+			"spread": 0.05,
+			"damage": 13,
 			"noise": 16
 		}
 	},
@@ -700,25 +910,11 @@
 			"value": 300,
 			"speed": 0.6,
 			"weight": 4,
-			"damage": 16,
+			"damage": 15,
 			"swings": [
 				"swing_left",
 				"swing_right",
 				"swing_down"
-			],
-			"req": [
-				"blade",
-				5
-			]
-		}
-	},
-	"generator": {
-		"spritename": "weapon/eblade",
-		"modelname": "weapon/eblade3d-0-eblade",
-		"script": "terraform/placer",
-		"data": {
-			"buildables": [
-				"generator"
 			]
 		}
 	},
@@ -758,7 +954,8 @@
 		"part": "essence",
 		"data": {
 			"desc": "Your attacks apply poison that slows the victim.",
-			"essence": "goblin"
+			"essence": "goblin",
+			"value": 300
 		}
 	},
 	"earth essence": {
@@ -768,6 +965,7 @@
 		"data": {
 			"desc": "Touch a solid wall to pass through. Increase health by 10.",
 			"essence": "earth",
+			"value": 300,
 			"health": 10
 		}
 	},
@@ -778,6 +976,7 @@
 		"data": {
 			"desc": "Visualize damage done when units are damaged. Increase move speed by 1.",
 			"essence": "scout",
+			"value": 300,
 			"speed": 0.1
 		}
 	},
@@ -787,7 +986,8 @@
 		"part": "essence",
 		"data": {
 			"desc": "Recover some health after taking hit.",
-			"essence": "warrior"
+			"essence": "warrior",
+			"value": 300
 		}
 	},
 	"vampire essence": {
@@ -797,6 +997,7 @@
 		"data": {
 			"desc": "Recover some health after dealing damage. Requires 2 essence slots.",
 			"essence": "vampire",
+			"value": 300,
 			"soul": -1
 		}
 	},
@@ -806,7 +1007,18 @@
 		"part": "essence",
 		"data": {
 			"desc": "With bare hands, shoot a wave of psychic blast forward.",
-			"essence": "psychic"
+			"essence": "psychic",
+			"value": 300
+		}
+	},
+	"sleep essence": {
+		"spritename": "item/essence",
+		"modelname": "item/essence3d",
+		"part": "essence",
+		"data": {
+			"desc": "Touch to knock out a victim.",
+			"essence": "sleep",
+			"value": 300
 		}
 	},
 	"divine essence": {
@@ -814,8 +1026,9 @@
 		"modelname": "item/essence3d",
 		"part": "essence",
 		"data": {
-			"desc": "When standing still, gain vision through walls.",
-			"essence": "vision"
+			"desc": "When standing still, gain vision through walls. Must be at full health.",
+			"essence": "vision",
+			"value": 300
 		}
 	},
 	"cat essence": {
@@ -824,7 +1037,8 @@
 		"part": "essence",
 		"data": {
 			"desc": "When standing still, gain vision through the dark.",
-			"essence": "nighteye"
+			"essence": "nighteye",
+			"value": 300
 		}
 	},
 	"bomb essence": {
@@ -833,7 +1047,8 @@
 		"part": "essence",
 		"data": {
 			"desc": "Create a bomb.",
-			"essence": "bomb"
+			"essence": "bomb",
+			"value": 300
 		}
 	},
 	"shadow essence": {
@@ -842,7 +1057,18 @@
 		"part": "essence",
 		"data": {
 			"desc": "Turn invisible.",
-			"essence": "shadow"
+			"essence": "shadow",
+			"value": 300
+		}
+	},
+	"chameleon essence": {
+		"spritename": "item/essence",
+		"modelname": "item/essence3d",
+		"part": "essence",
+		"data": {
+			"desc": "Stand still to turn invisible.",
+			"essence": "camoflauge",
+			"value": 300
 		}
 	},
 	"soul of metal": {
@@ -851,7 +1077,8 @@
 		"part": "essence",
 		"data": {
 			"desc": "Turn weapons into mana. More damage gives chance for more mana.",
-			"essence": "metal"
+			"essence": "metal",
+			"value": 300
 		}
 	},
 	"soul of blood": {
@@ -859,8 +1086,9 @@
 		"modelname": "item/essence3d",
 		"part": "essence",
 		"data": {
-			"desc": "When out of mana, standing still will convert 3 health into 3 mana.",
-			"essence": "blood"
+			"desc": "When out of mana, standing still will convert health into mana. Efficiency scales with necromancy.",
+			"essence": "blood",
+			"value": 300
 		}
 	},
 	"wind essence": {
@@ -869,20 +1097,8 @@
 		"part": "essence",
 		"data": {
 			"desc": "Double jump to fly toward the direction you are facing.",
-			"essence": "wind"
-		}
-	},
-	"assassin essence": {
-		"spritename": "item/essence",
-		"modelname": "item/essence3d",
-		"part": "essence",
-		"data": {
-			"desc": "Gain +1 damage with daggers.",
-			"req": [
-				"dagger",
-				5
-			],
-			"essence": "dagger"
+			"essence": "wind",
+			"value": 300
 		}
 	},
 	"berserker essence": {
@@ -890,12 +1106,38 @@
 		"modelname": "item/essence3d",
 		"part": "essence",
 		"data": {
-			"desc": "Gain 20% attack speed with blunt weapons.",
+			"desc": "Gain 25% attack speed with melee weapons.",
+			"health": -5,
+			"essence": "berserk",
+			"value": 300
+		}
+	},
+	"assassin essence": {
+		"spritename": "item/essence",
+		"modelname": "item/essence3d",
+		"part": "essence",
+		"data": {
+			"desc": "Daggers apply silence to victims. Ambush with daggers deal up to +40 damage.",
+			"req": [
+				"dagger",
+				5
+			],
+			"essence": "dagger",
+			"value": 300
+		}
+	},
+	"crusher essence": {
+		"spritename": "item/essence",
+		"modelname": "item/essence3d",
+		"part": "essence",
+		"data": {
+			"desc": "Knock out enemies with blunt weapons.",
 			"req": [
 				"blunt",
 				5
 			],
-			"essence": "blunt"
+			"essence": "blunt",
+			"value": 300
 		}
 	},
 	"spearmaster essence": {
@@ -903,12 +1145,13 @@
 		"modelname": "item/essence3d",
 		"part": "essence",
 		"data": {
-			"desc": "Faint spear attacks.",
+			"desc": "Strafe when attacking with spears.",
 			"req": [
 				"spear",
 				5
 			],
-			"essence": "spear"
+			"essence": "spear",
+			"value": 300
 		}
 	},
 	"blademaster essence": {
@@ -916,12 +1159,13 @@
 		"modelname": "item/essence3d",
 		"part": "essence",
 		"data": {
-			"desc": "Faint attacks with bladed weapons.",
+			"desc": "Gain 20% attack speed and faint attacks with bladed weapons.",
 			"req": [
 				"blade",
 				5
 			],
-			"essence": "blade"
+			"essence": "blade",
+			"value": 300
 		}
 	},
 	"elven essence": {
@@ -934,7 +1178,8 @@
 				"bow",
 				5
 			],
-			"essence": "bow"
+			"essence": "bow",
+			"value": 300
 		}
 	},
 	"dwarven essence": {
@@ -947,7 +1192,8 @@
 				"firearm",
 				5
 			],
-			"essence": "firearm"
+			"essence": "firearm",
+			"value": 300
 		}
 	},
 	"magical essence": {
@@ -960,7 +1206,8 @@
 				"staff",
 				6
 			],
-			"essence": "staff"
+			"essence": "staff",
+			"value": 300
 		}
 	},
 	"agility essence": {
@@ -969,17 +1216,47 @@
 		"part": "essence",
 		"data": {
 			"desc": "Gain 15% chance to dodge attacks.",
-			"essence": "agility"
+			"essence": "agility",
+			"value": 300
 		}
 	},
-	"goblin armor": {
-		"spritename": "body/a_security_sprite",
-		"modelname": "item/bag_cloth",
-		"model2name": "body/a_goblin_warrior",
-		"script": "equipment/armor",
-		"part": "body",
+	"undead essence": {
+		"spritename": "item/essence",
+		"modelname": "item/essence3d",
+		"part": "essence",
 		"data": {
-			"space": 3
+			"health": -5,
+			"defense": 2,
+			"value": 300
+		}
+	},
+	"mule essence": {
+		"spritename": "item/essence",
+		"modelname": "item/essence3d",
+		"part": "essence",
+		"data": {
+			"space": 2,
+			"value": 300
+		}
+	},
+	"health essence": {
+		"spritename": "item/essence",
+		"modelname": "item/essence3d",
+		"part": "essence",
+		"data": {
+			"space": 2,
+			"health": 20,
+			"value": 300
+		}
+	},
+	"mana essence": {
+		"spritename": "item/essence",
+		"modelname": "item/essence3d",
+		"part": "essence",
+		"data": {
+			"space": 2,
+			"mana": 10,
+			"value": 300
 		}
 	}
 }

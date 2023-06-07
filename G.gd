@@ -20,8 +20,9 @@ var player
 var you
 var noisemap
 var vars
-var mapdata = Map_JSON.get_data().get("town")
+var mapdata = Map_JSON.get_data().get("camp")
 var env
+var filler_animator = AnimationPlayer.new()
 @onready var terrain = get_node("/root/Game/Terrain")
 @onready var late_loader = get_node("/root/Game/Terrain/LateLoader")
 @onready var tool = get_node("/root/Game/Tool")

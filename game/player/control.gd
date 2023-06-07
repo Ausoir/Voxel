@@ -25,37 +25,19 @@ const _hotbar_keys = {
 var _unit
 var _menu_settings = MENU_SETTINGS.instantiate()
 var _menu_inventory = MENU_INVENTORY.instantiate()
-var _debug_mode = false
 
 
 func set_unit(p):
 	_unit = p
 	_unit.camera = _camera
-	var _procedure = _unit.procedure
-	_unit.action.bind("walkU", Callable(_procedure, "walk").bind(1, 0))
-	_unit.action.bind("walkUL", Callable(_procedure, "walk").bind(1, -1))
-	_unit.action.bind("walkUR", Callable(_procedure, "walk").bind(1, 1))
-	_unit.action.bind("walkD", Callable(_procedure, "walk").bind(-1, 0))
-	_unit.action.bind("walkDL", Callable(_procedure, "walk").bind(-1, -1))
-	_unit.action.bind("walkDR", Callable(_procedure, "walk").bind(-1, 1))
-	_unit.action.bind("walkL", Callable(_procedure, "walk").bind(0, -1))
-	_unit.action.bind("walkR", Callable(_procedure, "walk").bind(0, 1))
-	_unit.action.bind("jump", Callable(_procedure, "jump_ready"))
+	_unit.action.bind("jump", _unit.procedure.jump_ready)
 
 
 func _physics_process(_delta):
 	_unit.forward = -_camera.get_transform().basis.z.normalized()
-	if _debug_mode:
-		_unit.velocity.y = 0
-		_unit.velocity.x *= .97
-		_unit.velocity.z *= .97
-		_unit.grounded = true
 	if !_interface.on:
 		if _unit.grounded:
 			var has_moved = true
-			if Input.is_action_pressed("sneak"):
-				if _debug_mode:
-					_unit.velocity.y -= 12
 			if Input.is_action_pressed("up"):
 				if Input.is_action_pressed("left"):
 					_unit.procedure.walk(1, -1)
@@ -79,7 +61,7 @@ func _physics_process(_delta):
 					has_moved = false
 			if has_moved:
 				if _unit.procedure.speedmod == 1:
-					G.player.set_noise(4)
+					G.player.set_noise(3)
 				if _unit.procedure.speed < 0:
 					G.ui.set_message("Too heavy!")
 			else:
@@ -91,9 +73,7 @@ func _physics_process(_delta):
 			elif Input.is_action_pressed("use2"):
 				_unit.procedure.use2()
 			elif Input.is_action_pressed("jump"):
-				if _debug_mode:
-					_unit.velocity.y += 12
-				elif _unit.action.delay <= 0:
+				if _unit.action.delay <= 0:
 					if _unit.grounded or !_unit.skills.perform("wind"):
 						_unit.action.set_next("jump", 999)
 						_unit.action.cancelable = true
@@ -139,7 +119,10 @@ func _unhandled_input(event):
 			_interface.display(_menu_inventory)
 			_unit.action.set_next("wield", 0.1)
 		elif Input.is_action_just_pressed("debug"):
-			_debug_mode = !_debug_mode
+			if _unit.physics_process == _unit._walk_physics_process:
+				_unit.physics_process = _unit._fly_physics_process
+			else:
+				_unit.physics_process = _unit._walk_physics_process
 		elif event.pressed:
 			if _hotbar_keys.has(event.keycode):
 				var v = _hotbar_keys[event.keycode]

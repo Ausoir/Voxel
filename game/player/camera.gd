@@ -13,7 +13,7 @@ var _offset = Vector3()
 var _override_pos
 var _box_mover = VoxelBoxMover.new()
 var _aabb = AABB(Vector3(-.2, -.2, -.2), Vector3(.4, .4, .4))
-@onready var _springarm : Vector3
+var _springarm : Vector3
 
 
 func _ready():

@@ -6,8 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://ctov3wqnwqwoo" path="res://assets/texture/doortop.png" id="4_w0a7x"]
 [ext_resource type="Material" uid="uid://df1d0n5htjwej" path="res://assets/blocks/terrain_texture.tres" id="5_f00mb"]
 [ext_resource type="Material" uid="uid://boa8jg111g4fk" path="res://assets/blocks/terrain_texture_transparent.tres" id="6_x4j2p"]
-[ext_resource type="ArrayMesh" uid="uid://b56o0dis2lbu" path="res://assets/blocks/highblock.obj" id="7_6k1hr"]
-[ext_resource type="Texture2D" uid="uid://dg4xw3wf1pm6g" path="res://assets/texture/locker.png" id="8_uo64c"]
+[ext_resource type="Shader" path="res://assets/blocks/mineral.gdshader" id="7_xv34s"]
 [ext_resource type="ArrayMesh" uid="uid://c8u656ifyh2k5" path="res://assets/blocks/smallblock.obj" id="9_h0u1q"]
 [ext_resource type="Texture2D" uid="uid://mvylw0idbxn6" path="res://assets/texture/chair.png" id="10_rfbf5"]
 [ext_resource type="ArrayMesh" uid="uid://b1tyqhlpw8s02" path="res://assets/blocks/tinyblock.obj" id="11_qnwd0"]
@@ -22,6 +21,7 @@
 [ext_resource type="ArrayMesh" uid="uid://orubern31au" path="res://assets/objects/o_barrel.obj" id="20_v546i"]
 [ext_resource type="Texture2D" uid="uid://eet8id1xl55c" path="res://assets/objects/o_barrel.png" id="21_24ikr"]
 [ext_resource type="Material" uid="uid://bs5u0ea1vrq7v" path="res://assets/blocks/terrain_biome.tres" id="22_8f8kj"]
+[ext_resource type="ArrayMesh" uid="uid://24odx4qj8uy5" path="res://assets/blocks/pole.obj" id="23_bda5g"]
 [ext_resource type="ArrayMesh" uid="uid://bqmptq15xfn5t" path="res://assets/blocks/platform.obj" id="23_rjj4g"]
 [ext_resource type="Texture2D" uid="uid://lh3oxxormfob" path="res://assets/texture/light_square.png" id="24_x5ety"]
 
@@ -36,7 +36,7 @@ voxel_name = &"void"
 geometry_type = 2
 custom_mesh = SubResource("TextMesh_fhkls")
 collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
-collision_mask = 16
+collision_mask = 0
 collision_enabled_0 = false
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iis4p"]
@@ -131,24 +131,27 @@ cube_tiles_front = Vector2(1, 1)
 material_override_0 = ExtResource("6_x4j2p")
 collision_enabled_0 = true
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_760jc"]
-albedo_texture = ExtResource("8_uo64c")
-texture_filter = 0
-texture_repeat = false
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_occfu"]
+render_priority = 0
+shader = ExtResource("7_xv34s")
+shader_parameter/Albedo = Color(0, 0.882353, 0.737255, 1)
+shader_parameter/Emission = Color(0, 0, 1, 1)
+shader_parameter/HowShiny = 3.0
+shader_parameter/Roughness = 0.3
 
 [sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_c38dr"]
-voxel_name = &"locker"
-transparent = true
-transparency_index = 9
+voxel_name = &"mineral"
 geometry_type = 2
-custom_mesh = ExtResource("7_6k1hr")
-collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1.5, 1)])
+custom_mesh = ExtResource("9_h0u1q")
+collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
 collision_mask = 15
-material_override_0 = SubResource("StandardMaterial3D_760jc")
+material_override_0 = SubResource("ShaderMaterial_occfu")
 collision_enabled_0 = true
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_acj42"]
-transparency = 1
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
 depth_draw_mode = 1
 albedo_texture = ExtResource("10_rfbf5")
 texture_filter = 0
@@ -361,7 +364,7 @@ collision_mask = 13
 collision_enabled_0 = false
 
 [sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_bqls3"]
-voxel_name = &"fridge"
+voxel_name = &"wardrobe"
 geometry_type = 1
 collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
 collision_mask = 15
@@ -505,14 +508,12 @@ cube_tiles_front = Vector2(11, 1)
 material_override_0 = ExtResource("5_f00mb")
 collision_enabled_0 = true
 
-[sub_resource type="TextMesh" id="TextMesh_kr2n2"]
-
-[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_h6jyf"]
-voxel_name = &"special"
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_0n66q"]
+voxel_name = &"nospawn"
 geometry_type = 2
-custom_mesh = SubResource("TextMesh_kr2n2")
-collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
-collision_enabled_0 = true
+custom_mesh = SubResource("TextMesh_fhkls")
+collision_mask = 0
+collision_enabled_0 = false
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ltvb7"]
 albedo_texture = ExtResource("21_24ikr")
@@ -541,19 +542,19 @@ cube_tiles_front = Vector2(0, 0)
 material_override_0 = ExtResource("22_8f8kj")
 collision_enabled_0 = true
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_up4lo"]
+albedo_color = Color(0.168627, 0.168627, 0.168627, 1)
+metallic = 1.0
+metallic_specular = 0.0
+roughness = 0.3
+
 [sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_rgf7t"]
-voxel_name = &"metal"
-geometry_type = 1
-collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
-collision_mask = 15
-cube_geometry_padding_y = null
-cube_tiles_left = Vector2(3, 0)
-cube_tiles_right = Vector2(3, 0)
-cube_tiles_bottom = Vector2(3, 0)
-cube_tiles_top = Vector2(3, 0)
-cube_tiles_back = Vector2(3, 0)
-cube_tiles_front = Vector2(3, 0)
-material_override_0 = ExtResource("5_f00mb")
+voxel_name = &"pole"
+geometry_type = 2
+custom_mesh = ExtResource("23_bda5g")
+collision_aabbs = Array[AABB]([AABB(0.3, 0, 0.3, 0.4, 1, 0.4)])
+collision_mask = 12
+material_override_0 = SubResource("StandardMaterial3D_up4lo")
 collision_enabled_0 = true
 
 [sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_w0ngp"]
@@ -615,7 +616,7 @@ voxels/0 = SubResource("VoxelBlockyModel_uj7mi")
 voxels/1 = SubResource("VoxelBlockyModel_giaje")
 voxels/2 = SubResource("VoxelBlockyModel_uoa5r")
 voxels/3 = SubResource("VoxelBlockyModel_v1cdj")
-voxels/4 = SubResource("VoxelBlockyModel_h6jyf")
+voxels/4 = SubResource("VoxelBlockyModel_0n66q")
 voxels/5 = SubResource("VoxelBlockyModel_gx8u8")
 voxels/6 = SubResource("VoxelBlockyModel_rgf7t")
 voxels/7 = SubResource("VoxelBlockyModel_w0ngp")

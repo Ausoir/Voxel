@@ -1,6 +1,6 @@
 [gd_scene load_steps=10 format=3 uid="uid://icdxjoyqx140"]
 
-[ext_resource type="Script" path="res://game/fx/explosion/explosion.gd" id="1_hqwuw"]
+[ext_resource type="Script" path="res://game/fx/timeout_animated.gd" id="1_hqwuw"]
 [ext_resource type="Texture2D" uid="uid://cfei41p1g0vwk" path="res://game/fx/explosion/smoke_particle.png" id="2_bkf88"]
 [ext_resource type="Texture2D" uid="uid://woohkfo3ame3" path="res://game/fx/fadeout.tres" id="3_dn3ya"]
 [ext_resource type="Texture2D" uid="uid://bm72dvaa5t3tl" path="res://game/fx/dissolve.tres" id="4_wpye3"]

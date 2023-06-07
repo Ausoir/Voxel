@@ -32,5 +32,5 @@ func on_activate(_user: Node3D):
 	G.ui.set_message('Storage Keeper: "I keep your items safe, until you die!"')
 
 
-func on_set(idx, item):
-	G.vars.stash[idx] = item.sid
+func on_set(idx, itemname):
+	G.vars.stash[idx] = itemname

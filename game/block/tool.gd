@@ -96,6 +96,24 @@ func block_box(pos, to, block_id, hollow=false):
 				set_block(Vector3i(tx, pos.y, tz), block_id, Vector3i.UP)
 
 
+func block_spawn(pos, to):
+	var dx = abs(pos.x - to.x)
+	var dy = abs(pos.y - to.y)
+	var dz = abs(pos.z - to.z)
+	for x in range(dx+1):
+		for y in range(dy+1):
+			for z in range(dz+1):
+				var mx = min(pos.x, to.x)
+				var my = min(pos.y, to.y)
+				var mz = min(pos.z, to.z)
+				var tx = mx + x
+				var ty = my + y
+				var tz = mz + z
+				var at = Vector3i(tx, ty, tz)
+				if _tool.get_voxel(at) < 2:
+					set_voxel(at, 4)
+
+
 func set_voxel(pos, voxel_id):
 	_tool.value = voxel_id
 	_tool.do_point(pos)

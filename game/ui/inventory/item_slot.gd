@@ -3,7 +3,6 @@ extends Control
 signal pressed
 
 @onready var _selection = $Selection
-@onready var _display = $TextureRect
 var item
 
 
@@ -40,7 +39,7 @@ func set_selected(select):
 func set_item(p, fallback=null):
 	item = p
 	if p == null:
-		_display.set_texture(fallback)
+		get_node("TextureRect").set_texture(fallback)
 	else:
-		_display.set_texture(item.sprite)
+		get_node("TextureRect").set_texture(item.sprite)
 

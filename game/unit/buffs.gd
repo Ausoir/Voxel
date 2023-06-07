@@ -26,12 +26,20 @@ func unserialize(p):
 
 func add(buffname, duration):
 	duration = int(duration)
-	if states.is_empty():
-		G.turn.add(on_turn)
+	var empty = states.is_empty()
 	if buffname in states:
 		states[buffname].on_stack(duration)
 	else:
-		states[buffname] = Buff.make_buff(_unit, buffname, duration)
+		var buff_class = Buff.get_buff(buffname)
+		if buff_class.req_met(_unit):
+			var buff = buff_class.new(_unit, duration)
+			buff.name = buffname
+			var path = str("ui/st_", buffname.replace(" ", "_"))
+			buff.sprite = G.stock.get_image(path)
+			states[buffname] = buff
+			buff.on_start()
+	if empty and !states.is_empty():
+		G.turn.add(on_turn)
 	emit_signal("changed")
 
 

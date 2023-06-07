@@ -91,6 +91,8 @@ func get_description():
 		r += str("\nMana Use: ", data.manause)
 	if "radius" in data:
 		r += str("\nEffect Radius: ", data.radius)
+	if "noise" in data:
+		r += str("\nNoise: ", data.noise)
 	if "power" in data:
 		r += str("\nProjectile Speed: ", data.power)
 	if "light" in data:
@@ -99,7 +101,7 @@ func get_description():
 		r += str("\nLight spread: ", data["light spread"])
 	for i in _options:
 		r += str("\n", i)
-	var color = ITEM_RANK_COLOR[clamp(rank, 0, 3)]
+	var color = ITEM_RANK_COLOR[clamp(rank, 0, 4)]
 	var title = str("[color=",color,"][b]",get_display_name().capitalize(),"[/b][/color]")
 	return str(title, "\n", r)
 
@@ -144,6 +146,8 @@ func imbue(sd):
 		candids.append("manause")
 	if "power" in data:
 		candids.append("power")
+	if "noise" in data:
+		candids.append("noise")
 	if "radius" in data:
 		candids.append("radius")
 	if "light" in data:
@@ -168,8 +172,7 @@ func imbue(sd):
 func imbue_option(opt, lvl):
 	match (opt):
 		"essence":
-			rank += 1
-			var ess = G.stock.make_group_surely("#ego")
+			var ess = G.rng.pick(G.stock.ego_list)
 			data["essence"] = ess
 			data.value += 100
 			_options.append(str("[color=ORANGE]Ego: ", ess.capitalize(), "[/color]"))
@@ -194,11 +197,11 @@ func imbue_option(opt, lvl):
 			_attach_option_description("Decreased weight", lvl)
 		"damage":
 			data.damage += lvl
-			data.value = int(data.value * (1 + lvl*.2))
+			data.value += lvl * 30
 			_attach_option_description("Added damage", lvl)
 		"damage*":
 			data.damage += int(data.damage * lvl*.2)
-			data.value = int(data.value * (1 + lvl*.2))
+			data.value += lvl * 30
 			_attach_option_description("Increased damage", lvl)
 		"speed":
 			data.speed += lvl * .1
@@ -225,6 +228,10 @@ func imbue_option(opt, lvl):
 			data.manause += lvl
 			data.value = int(data.value * (1 - lvl*.25))
 			_attach_option_description("Mana inefficiency", lvl)
+		"noise":
+			data.noise = max(0, data.noise - lvl)
+			data.value = int(data.value * (1 + lvl*.1))
+			_attach_option_description("Reduced noise", lvl)
 		"power":
 			data.power += lvl * 5
 			data.value = int(data.value * (1 + lvl*.05))

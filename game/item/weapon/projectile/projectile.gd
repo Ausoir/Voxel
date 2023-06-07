@@ -2,13 +2,14 @@ extends Node3D
 
 var _direction := Vector3(0, 0, 1)
 var speed := 20.0
-var _remaining_time := 10.0
+var _lifetime := 10.0
 var _ss
 var _ssparams
 var motion
 var col_mask = 8
 var damage = 1
 var on_attack
+var shooter
 var inflict = []
 
 
@@ -24,8 +25,8 @@ func set_direction(direction: Vector3):
 
 
 func _physics_process(delta: float):
-	_remaining_time -= delta
-	if _remaining_time <= 0:
+	_lifetime -= delta
+	if _lifetime <= 0:
 		queue_free()
 		return
 	
@@ -49,6 +50,7 @@ func _physics_process(delta: float):
 
 func on_collide(hit):
 	var unit = hit.collider.get_parent()
+	unit.last_hitter = shooter
 	unit.on_damaged(position, damage, inflict)
 	if on_attack != null:
 		on_attack.call(unit)

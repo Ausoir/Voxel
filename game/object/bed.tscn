@@ -1,10 +1,10 @@
 [gd_scene load_steps=3 format=3 uid="uid://u2nraja8dwo"]
 
-[ext_resource type="Script" path="res://game/object/single.gd" id="1_h12w2"]
+[ext_resource type="Script" path="res://game/object/prop.gd" id="1_sqqsd"]
 [ext_resource type="ArrayMesh" uid="uid://ej7xpnak2vd0" path="res://assets/objects/o_bed.obj" id="2_2ve0r"]
 
 [node name="Bed" type="Node3D"]
-script = ExtResource("1_h12w2")
+script = ExtResource("1_sqqsd")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = ExtResource("2_2ve0r")

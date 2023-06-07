@@ -1,5 +1,6 @@
-[gd_scene load_steps=7 format=3 uid="uid://cstnr423xd1ct"]
+[gd_scene load_steps=8 format=3 uid="uid://cstnr423xd1ct"]
 
+[ext_resource type="Script" path="res://game/fx/timeout.gd" id="1_gx8bg"]
 [ext_resource type="Texture2D" uid="uid://woohkfo3ame3" path="res://game/fx/fadeout.tres" id="1_k6g6a"]
 [ext_resource type="Texture2D" uid="uid://bmgw0ryroxvql" path="res://assets/texture/particle_demolish.png" id="1_sshhu"]
 [ext_resource type="Texture2D" uid="uid://yvfr3jm8cbcg" path="res://game/fx/shrink.tres" id="2_opv3m"]
@@ -37,6 +38,7 @@ size = Vector2(1, 1)
 orientation = 2
 
 [node name="demolish" type="Node3D"]
+script = ExtResource("1_gx8bg")
 
 [node name="Particles" type="GPUParticles3D" parent="."]
 emitting = false

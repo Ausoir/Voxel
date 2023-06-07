@@ -14,8 +14,12 @@ class pathnode:
 		pos = pnode
 
 	func set_h(destination):
-		h = pos.distance_squared_to(destination)
-	
+#		var dx = abs(pos.x - destination.x)
+#		var dy = abs(pos.y - destination.y) * 4
+#		var dz = abs(pos.z - destination.z)
+#		h = dx + dy + dz
+		h = pos.distance_to(destination)
+
 	func get_routes():
 		var r = []
 		var pos_center = pos+G.V_HALF
@@ -23,47 +27,50 @@ class pathnode:
 		var right = G.tool.raycast(pos_center, Vector3.RIGHT, 1, col) == null
 		var up = G.tool.raycast(pos_center, Vector3.FORWARD, 1, col) == null
 		var down = G.tool.raycast(pos_center, Vector3.BACK, 1, col) == null
-		var above = G.tool.raycast(pos_center, Vector3.UP, 1, col) == null
+		var empty_above = G.tool.raycast(pos_center, Vector3.UP, 1, col) == null
 		if left:
 			r.append(Vector3.LEFT)
-		else:
-			if above:
-				var aabove = G.tool.raycast(pos_center+Vector3.LEFT, Vector3.UP, 1, col) == null
-				if aabove:
-					r.append(Vector3(-1, 1, 0))
+		elif empty_above:
+			var above = pos_center + Vector3.UP
+			var can_jump = G.tool.raycast(above, Vector3.LEFT, 1, col) == null
+			if can_jump:
+				r.append(Vector3(-1, 1, 0))
 		if right:
 			r.append(Vector3.RIGHT)
-			if above:
-				var aabove = G.tool.raycast(pos_center+Vector3.RIGHT, Vector3.UP, 1, col) == null
-				if aabove:
-					r.append(Vector3(1, 1, 0))
+		elif empty_above:
+			var above = pos_center + Vector3.UP
+			var can_jump = G.tool.raycast(above, Vector3.RIGHT, 1, col) == null
+			if can_jump:
+				r.append(Vector3(1, 1, 0))
 		if up:
 			r.append(Vector3.FORWARD)
 			if left:
 				r.append(Vector3(-1, 0, -1))
 			if right:
 				r.append(Vector3(1, 0, -1))
-			if above:
-				var aabove = G.tool.raycast(pos_center+Vector3.FORWARD, Vector3.UP, 1, col) == null
-				if aabove:
-					r.append(Vector3(0, 1, -1))
+		elif empty_above:
+			var above = pos_center + Vector3.UP
+			var can_jump = G.tool.raycast(above, Vector3.FORWARD, 1, col) == null
+			if can_jump:
+				r.append(Vector3(0, 1, -1))
 		if down:
 			r.append(Vector3.BACK)
 			if left:
 				r.append(Vector3(-1, 0, 1))
 			if right:
 				r.append(Vector3(1, 0, 1))
-			if above:
-				var aabove = G.tool.raycast(pos_center+Vector3.BACK, Vector3.UP, 1, col) == null
-				if aabove:
-					r.append(Vector3(0, 1, 1))
+		elif empty_above:
+			var above = pos_center + Vector3.UP
+			var can_jump = G.tool.raycast(above, Vector3.BACK, 1, col) == null
+			if can_jump:
+				r.append(Vector3(0, 1, 1))
 		return r
 
 
 var _unit
 var target
-var _chase = 15
-var _iterations = 6
+var _chase = 12
+var _iterations = 7
 var _timeout = 0
 var _max_timeout = 1
 var open = null
@@ -91,18 +98,20 @@ func iterate(node):
 	open.pop_at(index)
 	closed.append(node)
 	var achieved = node.pos.distance_squared_to(target)
-	if achieved <= 1:
+	if achieved < 1:
 		return node
 	elif achieved < closest.pos.distance_squared_to(target):
 		closest = node
 	var options = node.get_routes()
 	for route in options:
-		var new = pathnode.new(node, node.pos + route)
-		new.g = node.g + 1
-		new.set_h(target)
-		new.f = new.h + new.g
-		if new.h < heuristic_threshold:
-			open.append(new)
+		if check_loop(closed, route) == null:
+			var new = pathnode.new(node, node.pos + route)
+			new.g = node.g + 1
+			new.set_h(target)
+			new.f = new.h + new.g
+#			G.stock.make_particle(new.pos + G.V2_HALF, "marker")
+			if new.h < heuristic_threshold:
+				open.append(new)
 
 
 func check_loop(loop, pos):
@@ -172,6 +181,5 @@ func reset():
 
 
 func debug_trace():
-	if G.frame % 16 == 0:
-		for i in result:
-			G.stock.make_particle(i, "demolish")
+	for i in result:
+		G.stock.make_particle(i + G.V2_HALF, "marker")

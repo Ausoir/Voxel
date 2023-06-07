@@ -8,10 +8,12 @@ var _from
 var _to
 var _dist = 999
 var _timeout = 0
+var _target
 var task
 var melee_range = 2
 var in_range = false
 var priority = 5
+var attack_function
 @onready var _unit = get_parent()
 
 
@@ -31,10 +33,9 @@ func _physics_process(_delta):
 			if priority < 5:
 				deaggro()
 		else:
-			_from = _unit.get_head()
-			_to = G.you.get_head()
-			_unit.forward = _from.direction_to(_to)
-			_dist = _from.distance_to(_to)
+			if _target == null:
+				_target = G.you
+			_update_target_params()
 			if priority > 2 and perceive():
 				aggro()
 	else:
@@ -42,6 +43,13 @@ func _physics_process(_delta):
 		if _timeout > 8.0:
 			deaggro()
 	_unit.action.on_process(_delta)
+
+
+func _update_target_params():
+	_from = _unit.get_head()
+	_to = _target.get_head()
+	_unit.forward = _from.direction_to(_to)
+	_dist = _from.distance_to(_to)
 
 
 func deaggro():
@@ -53,7 +61,7 @@ func deaggro():
 
 
 func aggro():
-	task = _do_attack
+	task = _chase
 	priority = 1
 	_unit.alert = true
 
@@ -68,9 +76,26 @@ func perceive():
 		return prop == null
 
 
-func _do_attack(_delta):
-	pass
-
-
 func on_attacked(_dmg):
-	aggro()
+	_target = _unit.last_hitter
+	if _target != null:
+		_update_target_params()
+		aggro()
+
+
+func _chase(_delta):
+	if _unit.action.can_set():
+		_unit.procedure.speedmod = 1
+	if _dist <= melee_range:
+		var hitvoxel = G.tool.raycast(_from, _unit.forward, _dist, 4)
+		if hitvoxel == null:
+			attack_function.call()
+		else:
+			_pathing.target = _to.floor()
+			_pathing.perform(_delta)
+	elif _dist <= APPROACH_RANGE:
+		var to = G.you.position
+		_unit.procedure.walk_toward(to)
+	else:
+		_pathing.target = _to.floor()
+		_pathing.perform(_delta)

@@ -8,22 +8,28 @@ const Item_Bag = preload("res://assets/item/bag.obj")
 const Unit_JSON = preload("res://assets/json/units.json")
 const Group_JSON = preload("res://assets/json/groups.json")
 const Debris = preload("res://game/fx/debris.tscn")
+const P_marker = preload("res://game/fx/other/marker.tscn")
 const P_explosion = preload("res://game/fx/explosion/explosion.tscn")
 const P_deflect = preload("res://game/fx/explosion/deflect.tscn")
 const P_demolish = preload("res://game/fx/other/demolish.tscn")
 const P_bleed = preload("res://game/fx/bleed/bleed.tscn")
 const P_clarity = preload("res://game/fx/buff/clarity.tscn")
-const P_dodge = preload("res://game/fx/explosion/dodge.tscn")
+const P_dodge = preload("res://game/fx/other/dodge.tscn")
 const Text = preload("res://game/fx/text.tscn")
 const Unit = preload("res://game/unit/unit.tscn")
 const Humanoid = preload("res://game/unit/humanoid/humanoid.tscn")
 const IBlank = preload("res://game/unit/ai/blank.gd")
-const IBeast = preload("res://game/unit/ai/beast.gd")
-const IHuman = preload("res://game/unit/ai/sentient.gd")
+const ISentient = preload("res://game/unit/ai/sentient.gd")
 const IAlly = preload("res://game/unit/ai/ally.gd")
 var _model_cache = {}
 var _scene_cache = {}
 var _image_cache = {}
+var ego_list = []
+var essence_list = []
+
+
+func _ready():
+	load_lists()
 
 
 func clean():
@@ -49,6 +55,17 @@ func _get_model(modelname: String):
 		model = load(str("res://assets/", modelname, ".obj"))
 		_model_cache[modelname] = model
 	return model
+
+
+func load_lists():
+	var dict = Item_JSON.get_data()
+	for key in dict.keys():
+		var dat = dict[key]
+		if "part" in dat and dat.part == "essence":
+			essence_list.append(key)
+			var ego = dat.data.get("essence")
+			if ego != null:
+				ego_list.append(ego)
 
 
 func make_item(itemname: String):
@@ -91,7 +108,7 @@ func make_object(pos: Vector3, itemname: String):
 		scene = load(dir)
 		_scene_cache[itemname] = scene
 	var item = scene.instantiate()
-	item.position = pos + G.V2_HALF
+	item.position = pos
 	item.rotation.y = G.tool.get_rotation_from_marker(pos) * PI/2
 	add_child(item)
 	return item
@@ -119,17 +136,18 @@ func make_unit(pos: Vector3, itemname: String, custom_data=null):
 		var model = _get_model(data.model)
 		unit.set_mesh(model)
 		unit.position = pos
+		unit.faction = data.get("faction", 2)
 		unit.health = unit.data.get("health", 1)
 		unit.mana = unit.data.get("mana", 0)
 		if !("mana" in unit.data):
 			unit.data["mana"] = unit.mana
 		unit.defense = unit.data.get("defense", 0)
-		unit.buffs.unserialize(rawdata.get("buffs", []))
 		unit.proficiency.unserialize(unit.data.get("proficiency"))
 		if "speed" in unit.data:
 			unit.procedure.speed = unit.data.speed
-		for i in rawdata.get("souls", []):
+		for i in rawdata.get("ego", []):
 			unit.essence.append(i)
+		unit.buffs.unserialize(rawdata.get("buffs", []))
 		_attach_ai(unit, rawdata)
 		unit.turn_random()
 		return unit
@@ -148,6 +166,7 @@ func make_humanoid(parent: Node, pos: Vector3, itemname: String, custom_data=nul
 		var head_model = _get_model(rawdata.head)
 		unit.headmesh = head_model
 		unit.set_head_mesh(head_model)
+		unit.faction = data.get("faction", 2)
 		unit.health = unit.data.get("health", 1)
 		unit.mana = unit.data.get("mana", 0)
 		if !("mana" in unit.data):
@@ -157,6 +176,7 @@ func make_humanoid(parent: Node, pos: Vector3, itemname: String, custom_data=nul
 			unit.procedure.speed = unit.data.speed
 		parent.add_child(unit)
 		var body_model = _get_model(rawdata.body)
+		unit.bodymesh = body_model
 		unit.set_mesh(body_model)
 		for i in rawdata.slots:
 			unit.equipment.add_slot(i)
@@ -177,12 +197,10 @@ func make_humanoid(parent: Node, pos: Vector3, itemname: String, custom_data=nul
 
 
 func _attach_ai(unit, data):
-	var ai = data.get("ai", "blank")
-	var ai_script = IBlank
-	if ai == "beast":
-		ai_script = IBeast
-	elif ai == "human":
-		ai_script = IHuman
+	var ai = data.get("ai", "")
+	var ai_script = ISentient
+	if ai == "blank":
+		ai_script = IBlank
 	elif ai == "ally":
 		ai_script = IAlly
 	var pilot := Node.new()
@@ -249,7 +267,6 @@ func make_any(_pos, itemname):
 	if itemname != null:
 		if itemname[0] == "#":
 			return make_any(_pos, make_group(itemname))
-		elif itemname[0] == "@":
-			return make_object(_pos, itemname)
 		else:
 			return make_any_unit(self, _pos, itemname)
+

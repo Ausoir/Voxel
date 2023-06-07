@@ -1,11 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://cyj2xvpsuqkrh"]
+[gd_scene load_steps=4 format=3 uid="uid://cyj2xvpsuqkrh"]
 
+[ext_resource type="Script" path="res://game/object/prop.gd" id="1_831we"]
 [ext_resource type="ArrayMesh" uid="uid://c75fbkpsj2d0b" path="res://assets/objects/o_poophole.obj" id="2_f0lki"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_5dahq"]
 size = Vector3(0.6, 0.3, 0.6)
 
 [node name="Toilet" type="Node3D"]
+script = ExtResource("1_831we")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.25)

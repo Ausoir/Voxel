@@ -18,12 +18,10 @@ var _pois_rotations = {
 }
 var _palette = {}
 var _pois
-var spawn_points
 var item_points
 
 
 func _init():
-	spawn_points = []
 	item_points = []
 	if !G.post_ready.is_connected(post_ready):
 		G.post_ready.connect(post_ready)
@@ -62,18 +60,19 @@ func post_ready():
 
 
 func get_bounds():
-	return [offset.x, offset.z, offset.x + 48*2, offset.z + 48*2]
+	return [offset.x, offset.z, offset.x + 95, offset.z + 95]
 
 
 func _generate_block(buffer: VoxelBuffer, origin: Vector3i, _lod: int):
 	if origin.y == Y_COORD:
-		buffer.fill_area(_palette["soil"].id,
-			Vector3.ZERO, Vector3(16, 6, 16), _CHANNEL)
 		if !_pois.is_empty():
 			var poi_pos = origin - offset
 			var poi = _pois.get(poi_pos)
 			if poi != null:
 				_load_image(buffer, origin, poi)
+				_pois.erase(poi)
+				if _pois.is_empty():
+					print("Done!")
 	else:
 		buffer.fill(0, _CHANNEL)
 	buffer.compress_uniform_channels()
@@ -129,14 +128,17 @@ func _load_wall(buffer: VoxelBuffer, origin: Vector3, wall_image, x, y, z):
 				buffer.fill_area(_palette["wall"].voxels[0],
 					Vector3(x, y, z), Vector3(x + 1, y+5, z + 1), _CHANNEL)
 			[1,1,1]:
-				buffer.fill_area(_palette["wall2"].voxels[0],
-					Vector3(x, y, z), Vector3(x + 1, y+5, z + 1), _CHANNEL)
+				buffer.fill_area(_palette["wall"].voxels[0],
+					Vector3(x, y, z), Vector3(x + 1, y+4, z + 1), _CHANNEL)
 			[2,2,2]:
 				buffer.fill_area(_palette["wall"].voxels[0],
 					Vector3(x, y, z), Vector3(x + 1, y+3, z + 1), _CHANNEL)
 			[3,3,3]:
 				buffer.fill_area(_palette["wall"].voxels[0],
 					Vector3(x, y, z), Vector3(x + 1, y+2, z + 1), _CHANNEL)
+			[3,4,4]:
+				buffer.fill_area(_palette["wall2"].voxels[0],
+					Vector3(x, y, z), Vector3(x + 1, y+5, z + 1), _CHANNEL)
 			[2,1,0]:
 				_add_to_arr(_chunk_late_loads,ox,oy+1,oz,"table")
 				_add_interest(item_points, Vector3(ox, oy+2, oz), .1)
@@ -176,31 +178,31 @@ func _load_wall(buffer: VoxelBuffer, origin: Vector3, wall_image, x, y, z):
 				_chunk_prop_late_loads.append([Vector3(ox, oy+1, oz), "light/campfire"])
 			[4,0,0]:
 				buffer.set_voxel(_palette["wall"].voxels[0], x, y+3, z, _CHANNEL)
+				buffer.set_voxel(_palette["wall"].voxels[0], x, y+4, z, _CHANNEL)
 				_add_to_arr(_chunk_late_loads,ox,oy+1,oz,"door")
-				_add_to_arr(_chunk_late_loads,ox,oy+4,oz,"vent")
-			[4,0,1]:
-				_add_to_arr(_chunk_late_loads,ox,oy+1,oz,"oven")
-			[4,0,2]:
-				_chunk_prop_late_loads.append([Vector3(ox, oy+1, oz), "vender"])
 			[4,0,3]:
-				_add_to_arr(_chunk_late_loads,ox,oy+1,oz,"fridge")
-				_add_to_arr(_chunk_late_loads,ox,oy+2,oz,"fridge")
+				_add_to_arr(_chunk_late_loads,ox,oy+1,oz,"wardrobe")
+				_add_to_arr(_chunk_late_loads,ox,oy+2,oz,"wardrobe")
 			[4,2,0]:
 				_add_to_arr(_chunk_late_loads,ox,oy+1,oz,"counter")
 				_add_interest(item_points, Vector3(ox, oy+2, oz), .1)
+			[4,2,1]:
+				_chunk_prop_late_loads.append([Vector3(ox, oy+1, oz), "dummy"])
 			[4,3,2]:
 				buffer.set_voxel(2, x, y+1, z, _CHANNEL)
 				_add_to_arr(_chunk_late_loads,ox,oy+2,oz,"divider")
 			[3,2,0]:
 				_chunk_prop_late_loads.append([Vector3(ox, oy+1, oz), "bed"])
-				_add_interest(spawn_points, Vector3(ox, oy+4, oz), 1)
 			[3,2,1]:
 				_add_to_arr(_chunk_late_loads,ox,oy+1,oz,"chest")
+			[3,2,2]:
+				_chunk_prop_late_loads.append([Vector3(ox, oy+1, oz), "mattress"])
 			[4,3,0]:
 				_chunk_prop_late_loads.append([Vector3(ox, oy+1, oz), "toilet"])
-				_add_interest(spawn_points, Vector3(ox, oy+4, oz), 1)
 			[0,4,1]:
 				_chunk_prop_late_loads.append([Vector3(ox, oy+1, oz), "pot"])
+			[1,4,4]:
+				_chunk_prop_late_loads.append([Vector3(ox, oy+1, oz), "bucket"])
 			[4,4,1]:
 				_chunk_prop_late_loads.append([Vector3(ox, oy+3, oz), "light/torch"])
 			[4,4,2]:
@@ -223,20 +225,26 @@ func _load_floor(buffer: VoxelBuffer, _origin: Vector3, ceiling_pixel: Color, x,
 		match (key):
 			[1,1,1]:
 				buffer.set_voxel(_palette["alley"].voxels[0], x, y, z, _CHANNEL)
-			[2,2,2]:
-				buffer.fill_area(_palette["wall"].voxels[0],
-					Vector3(x, y-4, z), Vector3(x + 1, y-1, z + 1), _CHANNEL)
 			[3,3,3]:
 				buffer.fill_area(_palette["wall"].voxels[0],
 					Vector3(x, y-4, z), Vector3(x + 1, y, z + 1), _CHANNEL)
+			[4,3,0]:
+				buffer.set_voxel(_palette["wall"].voxels[0], x, y, z, _CHANNEL)
+				buffer.set_voxel(_palette["mineral"].voxels[0], x, y+1, z, _CHANNEL)
+			[2,2,2]:
+				buffer.set_voxel(_palette["wall"].voxels[0], x, y-1, z, _CHANNEL)
 			[3,4,0]:
 				buffer.set_voxel(_palette["road"].voxels[0], x, y, z, _CHANNEL)
+			[3,0,4]:
+				buffer.set_voxel(_palette["special"].voxels[0], x, y, z, _CHANNEL)
 			[3,0,4]:
 				buffer.set_voxel(_palette["special"].voxels[0], x, y, z, _CHANNEL)
 			[2,1,0]:
 				buffer.set_voxel(_palette["carpet"].voxels[0], x, y, z, _CHANNEL)
 			[0,1,4]:
 				buffer.set_voxel(_palette["glass"].voxels[0], x, y, z, _CHANNEL)
+			[0,2,4]:
+				buffer.set_voxel(_palette["pole"].voxels[0], x, y, z, _CHANNEL)
 			[4,2,0]:
 				buffer.set_voxel(_palette["tiles"].voxels[0], x, y, z, _CHANNEL)
 			[4,4,4]:
@@ -247,7 +255,7 @@ func _load_floor(buffer: VoxelBuffer, _origin: Vector3, ceiling_pixel: Color, x,
 
 
 func _add_interest(arr, pos, chance=.1):
-	if G.rng.rf() < chance:
+	if G.rng.percent(chance):
 		_mutex.lock()
 		arr.append(pos)
 		_mutex.unlock()

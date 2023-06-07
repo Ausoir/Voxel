@@ -3,12 +3,25 @@ extends Node3D
 const COLORS = preload("./fg_gradient.tres")
 var _lifetime = 0
 var _target_current: float = 0
+var _unit
 @onready var _bar = $SubViewport/TextureProgressBar
 
 
 func _ready():
 	var mat = $Billboard.get_surface_override_material(0)
 	mat.albedo_texture = $SubViewport.get_texture()
+
+
+func set_unit(p):
+	_unit = p
+	position = Vector3(0, _unit.size.y, 0)
+	_unit.add_child(self)
+	_unit.health_changed.connect(on_health_change)
+	on_health_change()
+
+
+func on_health_change():
+	set_max(_unit.data.get("health", 1))
 
 
 func remove():

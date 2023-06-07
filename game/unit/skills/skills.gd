@@ -4,6 +4,7 @@ const Laser = preload("res://game/item/weapon/projectile/laser.tscn")
 const Bomb = preload("./bomb.tscn")
 var _unit
 var _param
+var _casting
 
 
 func set_unit(p):
@@ -14,16 +15,18 @@ func set_unit(p):
 
 func on_touch():
 	if !perform("earth"):
-		if !perform("bomb"):
-			if !perform("psychic"):
-				return false
+		if !perform("sleep"):
+			if !perform("bomb"):
+				if !perform("psychic"):
+					return false
 	return true
 
 func on_wait():
 	if !perform("blood"):
 		if !perform("bow"):
-			if !perform("vision"):
-				perform("nighteye")
+			perform("vision")
+			perform("nighteye")
+			perform("camoflauge")
 
 func on_hit(_dmg):
 	perform("warrior")
@@ -35,7 +38,12 @@ func on_attack(_victim):
 
 func on_ability():
 	if !perform("metal"):
-		perform("shadow")
+		if !perform("shadow"):
+			return
+
+func on_cast():
+	if _casting != null:
+		_casting.call()
 
 
 func perform(ess):
@@ -53,21 +61,30 @@ func perform(ess):
 		elif ess == "bow":
 			return craft_arrows()
 		elif !_unit.buffs.has("exhaustion"):
-			if ess == "earth":
-				return passwall()
-			elif ess == "bomb":
-				return plant_bomb()
-			elif ess == "psychic":
-				return psychic()
-			elif ess == "shadow":
-				return invisibility()
-			elif ess == "goblin":
-				return slow(3)
-			elif ess == "wind":
-				return fly()
-			elif ess == "vampire":
-				if _unit.req_mana(1):
-					return recover(1, 8)
+			match ess:
+				"earth":
+					return passwall()
+				"bomb":
+					return plant_bomb()
+				"psychic":
+					return psychic()
+				"sleep":
+					return sleep_ready()
+				"camouflage":
+					return hide()
+				"shadow":
+					return invisibility()
+				"goblin":
+					return slow(3)
+				"wind":
+					return fly()
+				"vampire":
+					if _unit.mana > 1:
+						if recover(1, 8):
+							_unit.req_mana(1)
+							_unit.emit_signal("special", "necromancy")
+							return true
+					return false
 	return false
 
 
@@ -120,6 +137,15 @@ func sublimation():
 	return false
 
 
+func hide():
+	if _unit.req_mana(1):
+		if !_unit.buffs.has("invisibility"):
+			G.sfx.play("fade", _unit.position)
+		_unit.buffs.add("invisibility", 1)
+		return true
+	return false
+
+
 func invisibility():
 	if _unit.req_mana(1):
 		if !_unit.buffs.has("invisibility"):
@@ -141,11 +167,8 @@ func psychic():
 			_unit.action.set_next("use", anim_dur)
 			_unit.action.show_progress = true
 			_unit.action.cancelable = true
-			_unit.buffs.add("exhaustion", max(1, 8 - _unit.get_prof("psych")))
 			G.sfx.play("cast_psych", _unit.position)
-			_unit.emit_signal("special", "psych")
-			if !_unit.attack.is_connected(psychic_shoot):
-				_unit.attack.connect(psychic_shoot)
+			_casting = psychic_shoot
 			return true
 	return false
 
@@ -160,8 +183,47 @@ func psychic_shoot():
 		var projectile_direction = G.rng.v3_spread(spread,spread,spread) + _unit.forward
 		rocket.set_direction(projectile_direction)
 		_unit.action.set_next("idle", .5)
-		_unit.buffs.add("clarity", G.rng.rir(0, 2))
+		_unit.buffs.add("exhaustion", max(1, 8 - _unit.get_prof("psych")))
+		_unit.emit_signal("special", "psych")
 		return true
+	return false
+
+
+func sleep_ready():
+	if _unit.mana >= 1:
+		var origin = _unit.get_center()
+		var hits = G.tool.collide_prop_by_line(origin, origin + _unit.forward * 2, 4)
+		if !hits.is_empty():
+			var _item = hits.collider.get_parent()
+			if _item.get("buffs") != null:
+				var anim_name = "shoot"
+				var animation = _unit.animator.get_animation(anim_name)
+				if animation != null:
+					var speed = 0.3
+					var anim_dur = animation.get_length() * (1 / speed)
+					_unit.animator.seek(0, true)
+					_unit.animator.play(anim_name, .1, speed)
+					_unit.action.set_next("use", anim_dur)
+					_unit.action.show_progress = true
+					_unit.action.cancelable = true
+					_unit.emit_signal("special", "psych")
+					G.sfx.play("cast_psych", _unit.position)
+					_casting = sleep_shoot
+					return true
+	return false
+
+
+func sleep_shoot():
+	if _unit.req_mana(1):
+		var origin = _unit.get_center()
+		var hits = G.tool.collide_prop_by_line(origin, origin + _unit.forward * 2, 4)
+		if !hits.is_empty():
+			var _item = hits.collider.get_parent()
+			if _item.get("buffs") != null:
+				_item.buffs.add("sleep", _unit.get_prof("psych") * 4 + 4)
+				G.stock.make_particle(origin, "dodge")
+				_unit.action.set_next("idle", .5)
+				return true
 	return false
 
 
@@ -180,8 +242,10 @@ func plant_bomb():
 
 
 func xray_vision():
-	_unit.buffs.add("vision", 0)
-	return true
+	if _unit.health >= _unit.data.health:
+		_unit.buffs.add("vision", 0)
+		return true
+	return false
 
 
 func night_vision():

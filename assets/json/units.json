@@ -8,21 +8,24 @@
 			"accessory"
 		],
 		"equipments": [
-			"leather armor",
+			"rags",
 			"lantern"
 		],
 		"items": [
-			"bow"
+			"shortsword",
+			"short bow",
+			"arrows:30"
 		],
 		"souls": [],
 		"data": {
 			"level": 1,
 			"speed": 0.5,
-			"health": 26,
+			"health": 20,
+			"mana": 1,
 			"proficiency": {
-				"dodge": 2,
-				"blade": 2,
-				"bow": 2
+				"dodge": 1,
+				"blade": 1,
+				"bow": 1
 			}
 		}
 	},
@@ -39,7 +42,7 @@
 			"lantern"
 		],
 		"items": [
-			"stick"
+			"quarterstaff"
 		],
 		"souls": [
 			"psychic essence"
@@ -48,9 +51,12 @@
 			"level": 1,
 			"speed": 0.5,
 			"health": 20,
+			"mana": 1,
 			"proficiency": {
-				"psychic": 3,
-				"necromancy": 3
+				"aura": 1,
+				"psych": 1,
+				"earth": 1,
+				"necromancy": 1
 			}
 		}
 	},
@@ -67,31 +73,29 @@
 			"lantern"
 		],
 		"items": [
-			"cleaver"
+			"spear"
 		],
 		"souls": [],
 		"data": {
 			"level": 1,
 			"speed": 0.5,
-			"health": 32,
+			"health": 30,
+			"mana": 1,
 			"proficiency": {
 				"armor": 2,
-				"dodge": 2,
 				"blade": 2,
 				"spear": 2
 			}
 		}
 	},
 	"goblin shaman": {
-		"head": "head/h_goblin",
+		"head": "head/h_goblin_shaman",
 		"body": "body/a_goblin_warrior",
-		"ai": "human",
+		"ai": "sentient",
 		"slots": [
 			"body"
 		],
-		"equipments": [
-			"goblin armor"
-		],
+		"equipments": [],
 		"items": [
 			"glaive"
 		],
@@ -103,83 +107,234 @@
 			]
 		],
 		"data": {
-			"health": 40,
+			"health": 20,
 			"speed": 0.5
 		}
 	},
 	"goblin warrior": {
 		"head": "head/h_goblin",
 		"body": "body/a_goblin_warrior",
-		"ai": "human",
+		"ai": "sentient",
 		"slots": [
 			"body"
 		],
-		"equipments": [
-			"goblin armor"
-		],
+		"equipments": [],
 		"items": [
 			"spear"
 		],
 		"souls": [],
 		"data": {
-			"health": 25,
+			"health": 15,
 			"speed": 0.5
 		}
 	},
 	"goblin ranger": {
 		"head": "head/h_goblin",
 		"body": "body/a_goblin_warrior",
-		"ai": "human",
+		"ai": "sentient",
 		"slots": [
 			"body"
 		],
-		"equipments": [
-			"goblin armor"
-		],
+		"equipments": [],
 		"items": [
 			"goblin bow"
 		],
 		"souls": [],
 		"data": {
-			"health": 20,
+			"health": 10,
 			"speed": 0.5,
 			"range": 10
 		}
 	},
-	"skeleton warrior": {
+	"skeleton": {
 		"head": "head/h_skull",
 		"body": "body/a_skeleton",
-		"ai": "human",
+		"ai": "sentient",
 		"slots": [],
 		"equipments": [],
 		"items": [
-			"eblade"
+			"stick:-1"
 		],
 		"souls": [],
 		"data": {
-			"health": 20,
-			"speed": 0.3,
-			"range": 10
+			"health": 18,
+			"speed": 0.4,
+			"defense": 2,
+			"loot": [
+				[
+					0.01,
+					"undead essence"
+				]
+			]
+		}
+	},
+	"skeletal miner": {
+		"head": "head/h_skull",
+		"body": "body/a_skeleton",
+		"ai": "sentient",
+		"slots": [],
+		"equipments": [],
+		"items": [
+			"mace"
+		],
+		"souls": [
+			"warrior essence"
+		],
+		"data": {
+			"health": 12,
+			"speed": 0.5,
+			"defense": 2,
+			"loot": [
+				[
+					0.01,
+					"undead essence"
+				],
+				[
+					0.02,
+					"earth essence"
+				]
+			]
+		}
+	},
+	"skeletal warrior": {
+		"head": "head/h_skull_warrior",
+		"body": "body/a_skeleton",
+		"ai": "sentient",
+		"slots": [],
+		"equipments": [],
+		"items": [
+			"mace"
+		],
+		"souls": [
+			"warrior essence"
+		],
+		"data": {
+			"health": 18,
+			"speed": 0.6,
+			"defense": 2,
+			"loot": [
+				[
+					0.01,
+					"undead essence"
+				],
+				[
+					0.02,
+					"warrior essence"
+				],
+				[
+					0.03,
+					"crusher essence"
+				]
+			]
+		}
+	},
+	"skeletal lord": {
+		"head": "head/h_skull_lord",
+		"body": "body/a_skeleton",
+		"ai": "sentient",
+		"slots": [],
+		"equipments": [],
+		"items": [
+			"staff of death"
+		],
+		"souls": [
+			"vampire essence"
+		],
+		"data": {
+			"health": 18,
+			"speed": 0.5,
+			"defense": 2,
+			"range": 10,
+			"loot": [
+				[
+					0.01,
+					"undead essence"
+				],
+				[
+					0.02,
+					"magical essence"
+				],
+				[
+					0.03,
+					"vampire essence"
+				]
+			]
+		}
+	},
+	"skeletal dog": {
+		"model": "unit/undeaddog",
+		"ai": "sentient",
+		"data": {
+			"speed": 0.4,
+			"delay": 2,
+			"damage": 2,
+			"health": 6,
+			"loot": [
+				[
+					0.01,
+					"undead essence"
+				]
+			]
+		}
+	},
+	"bat": {
+		"model": "unit/bat",
+		"ai": "sentient",
+		"buffs": [
+			[
+				"flight",
+				-1
+			]
+		],
+		"data": {
+			"delay": 1.5,
+			"speed": 0.6,
+			"damage": 1,
+			"health": 3,
+			"loot": [
+				[
+					0.01,
+					"wind essence"
+				]
+			]
 		}
 	},
 	"bunny": {
 		"model": "unit/bunny",
-		"ai": "beast",
+		"ai": "ally",
 		"data": {
-			"speed": 0.7,
-			"damage": 4,
+			"speed": 0.6,
+			"damage": 2,
 			"health": 5,
 			"loot": [
 				[
-					0.5,
+					0.1,
 					"scout essence"
+				]
+			]
+		}
+	},
+	"squirrel": {
+		"model": "unit/squirrel",
+		"ai": "ally",
+		"ego": [
+			"agility"
+		],
+		"data": {
+			"damage": 2,
+			"health": 12,
+			"speed": 0.5,
+			"loot": [
+				[
+					0.02,
+					"agility essence"
 				]
 			]
 		}
 	},
 	"chicken": {
 		"model": "unit/chicken",
-		"ai": "beast",
+		"ai": "sentient",
 		"data": {
 			"damage": 4,
 			"health": 8,
@@ -187,80 +342,27 @@
 			"loot": []
 		}
 	},
-	"chicken alpha": {
-		"model": "unit/chickenalpha",
-		"ai": "beast",
-		"souls": [
-			"vampire",
-			"warrior"
-		],
-		"data": {
-			"damage": 4,
-			"defense": 1,
-			"health": 50,
-			"speed": 0.4,
-			"loot": [
-				[
-					0.1,
-					"vampire essence"
-				],
-				[
-					0.1,
-					"warrior essence"
-				]
-			]
-		}
-	},
-	"duckdog": {
-		"model": "unit/duckdog",
-		"ai": "beast",
-		"data": {
-			"damage": 4,
-			"health": 12,
-			"speed": 0.8,
-			"loot": [
-				[
-					0.1,
-					"earth essence"
-				]
-			]
-		}
-	},
-	"squirrel": {
-		"model": "unit/squirrel",
-		"ai": "beast",
-		"data": {
-			"damage": 4,
-			"health": 12,
-			"speed": 0.6,
-			"loot": [
-				[
-					0.1,
-					"agility essence"
-				]
-			]
-		}
-	},
 	"rat": {
 		"model": "unit/rat",
-		"ai": "beast",
-		"souls": [
-			"shadow"
+		"ai": "sentient",
+		"ego": [
+			"camoflauge"
 		],
 		"data": {
 			"damage": 4,
 			"health": 12,
+			"speed": 0.3,
 			"loot": [
 				[
 					0.1,
-					"shadow essence"
+					"chameleon essence"
 				]
 			]
 		}
 	},
 	"robot": {
 		"model": "unit/robot",
-		"ai": "beast",
+		"ai": "sentient",
 		"souls": [],
 		"data": {
 			"damage": 4,

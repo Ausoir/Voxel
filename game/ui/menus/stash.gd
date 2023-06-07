@@ -18,7 +18,8 @@ func _ready():
 	for itemname in load_stash:
 		var new = ITEMSLOT.instantiate()
 		_stash.add_child(new)
-		new.set_item(G.stock.make_item(itemname))
+		if itemname != null:
+			new.set_item(G.stock.make_item(itemname))
 
 
 func set_unit(unit):
@@ -32,6 +33,10 @@ func set_unit(unit):
 		_inv.connect("selected", Callable(_equipbar, "update_items"))
 		_inv.connect("selected", Callable(_itembar, "update_items"))
 		_inv.connect("changed", Callable(self, "update_views"))
+
+
+func on_close():
+	queue_free()
 
 
 func update_views():

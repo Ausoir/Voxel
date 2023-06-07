@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://d2bedp1vuwbx5"]
+[gd_scene load_steps=19 format=3 uid="uid://d2bedp1vuwbx5"]
 
 [ext_resource type="Script" path="res://game/ui/interface.gd" id="1_vn1vd"]
 [ext_resource type="Script" path="res://game/ui/buffs/buff_list.gd" id="2_jtyhy"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://d16miocfurkwh" path="res://assets/ui/wait.png" id="6_8j5d1"]
 [ext_resource type="Script" path="res://game/ui/progress_bar.gd" id="7_ssijt"]
 [ext_resource type="FontVariation" uid="uid://4cs7wvho51lb" path="res://assets/font_acme.tres" id="8_ftmwv"]
+[ext_resource type="PackedScene" uid="uid://df61y5kiskymw" path="res://game/ui/inventory/inventory.tscn" id="8_hdt6c"]
 [ext_resource type="PackedScene" uid="uid://boqt44mpwm2cb" path="res://game/ui/inventory/itembar.tscn" id="9_5s8sh"]
 [ext_resource type="PackedScene" uid="uid://bd57h5due7pph" path="res://game/ui/message.tscn" id="10_dbsvl"]
 
@@ -58,6 +59,22 @@ tracks/0/keys = {
 "values": [Color(1, 0, 0, 0.705882), Color(0, 0, 0, 0)]
 }
 
+[sub_resource type="Animation" id="Animation_dp5yt"]
+resource_name = "respawn"
+length = 4.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Fade:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2.5, 4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(0, 0, 0, 0)]
+}
+
 [sub_resource type="Animation" id="2"]
 resource_name = "tint"
 length = 1.5
@@ -79,6 +96,7 @@ _data = {
 "RESET": SubResource("Animation_dml3e"),
 "fadein": SubResource("1"),
 "red": SubResource("Animation_lnpba"),
+"respawn": SubResource("Animation_dp5yt"),
 "tint": SubResource("2")
 }
 
@@ -94,7 +112,6 @@ anti_aliasing = false
 script = ExtResource("1_vn1vd")
 
 [node name="Animation" type="AnimationPlayer" parent="."]
-reset_on_save = false
 libraries = {
 "": SubResource("AnimationLibrary_row0b")
 }
@@ -153,6 +170,10 @@ script = ExtResource("7_ssijt")
 
 [node name="Menu" type="Control" parent="Center"]
 layout_mode = 2
+
+[node name="Inventory" parent="Center/Menu" instance=ExtResource("8_hdt6c")]
+visible = false
+layout_mode = 1
 
 [node name="Label" type="Label" parent="Center"]
 custom_minimum_size = Vector2(0, 64)

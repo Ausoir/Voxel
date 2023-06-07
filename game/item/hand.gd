@@ -31,6 +31,15 @@ func _interact(_user: Node3D):
 	return false
 
 
+func on_held(_user):
+	_user.attack.connect(_user.skills.on_cast)
+
+
+func on_unheld(_user):
+	if _user.attack.is_connected(_user.skills.on_cast):
+		_user.attack.disconnect(_user.skills.on_cast)
+
+
 func get_interact_object(_user: Node3D):
 	var origin = _user.get_center()
 	return G.tool.collide_prop_by_line(origin, origin + _user.forward * 2, 1)

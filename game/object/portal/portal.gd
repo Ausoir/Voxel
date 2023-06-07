@@ -1,11 +1,10 @@
-extends Node3D
+extends "res://game/object/prop.gd"
 
 @export var destination : String
 
 
 func _ready():
 	var pos = position.floor()
-	G.tool.set_voxel(pos, 4)
 	var meta = "Use Portal"
 	G.tool.get_tool().set_voxel_metadata(pos, meta)
 
@@ -14,7 +13,7 @@ func remove():
 	var pos = position.floor()
 	G.tool.set_voxel(pos, 0)
 	G.tool.get_tool().set_voxel_metadata(pos, null)
-	queue_free()
+	super()
 
 
 func on_interact(_user: Node3D):

@@ -1,0 +1,52 @@
+[gd_scene load_steps=7 format=3 uid="uid://cykouyxowu85e"]
+
+[ext_resource type="Script" path="res://game/fx/timeout.gd" id="1_qp8lr"]
+[ext_resource type="Texture2D" uid="uid://cfei41p1g0vwk" path="res://game/fx/explosion/smoke_particle.png" id="2_cspgk"]
+[ext_resource type="Texture2D" uid="uid://bm72dvaa5t3tl" path="res://game/fx/dissolve.tres" id="4_843sb"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vkgw5"]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+blend_mode = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("2_cspgk")
+texture_filter = 0
+texture_repeat = false
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_tgfbk"]
+emission_shape = 1
+emission_sphere_radius = 0.5
+direction = Vector3(0, -1, 0)
+spread = 60.0
+gravity = Vector3(0, 3, 0)
+initial_velocity_min = 1.0
+initial_velocity_max = 2.0
+angular_velocity_min = -240.0
+angular_velocity_max = 240.0
+angle_min = -720.0
+angle_max = 720.0
+scale_min = 0.2
+scale_max = 1.5
+scale_curve = ExtResource("4_843sb")
+color = Color(0.407843, 0.407843, 0.407843, 1)
+turbulence_noise_speed = Vector3(0, 0.5, 0)
+
+[sub_resource type="QuadMesh" id="7"]
+
+[node name="Explosion" type="Node3D"]
+script = ExtResource("1_qp8lr")
+_remaining_time = 1.6
+
+[node name="Particles" type="GPUParticles3D" parent="."]
+material_override = SubResource("StandardMaterial3D_vkgw5")
+lifetime = 1.5
+explosiveness = 0.8
+process_material = SubResource("ParticleProcessMaterial_tgfbk")
+draw_pass_1 = SubResource("7")

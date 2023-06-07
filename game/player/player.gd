@@ -6,6 +6,7 @@ var unit
 var noise = 0
 var _newmap_offset = 0
 var _frame = 0
+var _map_time = 0
 @onready var _viewer = $VoxelViewer
 
 
@@ -17,6 +18,7 @@ func _ready():
 
 func load_map(p):
 	if G.vars.map != p:
+		_map_time = 0
 		G.terrain.get_node("LateLoader").stop()
 		if p == "#down":
 			p = G.rng.pick(G.mapdata.down)
@@ -28,7 +30,7 @@ func load_map(p):
 		G.terrain.generator._init()
 		G.terrain.generator.post_ready()
 		G.terrain.get_node("LateLoader").start(1)
-		unit.position = Vector3(_newmap_offset + 64 + 15, 12, 15)
+		unit.position = Vector3(_newmap_offset + 32, 13, 32)
 		G.ui.clear()
 		G.ui.fade.color = Color.BLACK
 		_viewer.position = Vector3(_newmap_offset, 0, 0)
@@ -64,11 +66,12 @@ func set_unit(p):
 	unit._box_mover.set_step_climbing_enabled(false)
 	unit.death.connect(on_death)
 	unit.alert = true
+	unit.position.y = 64
 
 
 func on_death():
-	var u = G.stock.make_any_unit(Vector3(), G.vars.unit.name)
-	set_unit(u)
+	$Cam.zoom_distance(2)
+	$Timer.start(2)
 
 
 func set_noise(p):
@@ -80,4 +83,19 @@ func _process(_delta):
 	if _frame >= 0.5:
 		_frame -= 0.5
 		noise = 0
+		_map_time += .5
+
+
+func _on_timer_timeout():
+	if unit.buffs.has("track"):
+#		var u = G.stock.make_any_unit(self, unit.position, G.vars.unit.name)
+#		set_unit(u)
+		if unit.get_type() == 1:
+			unit.equipment.clear()
+		unit.revive()
+		G.ui.set_message("The chaplain revives you!")
+		load_map("camp")
+		G.ui.animation.stop()
+		G.ui.animation.seek(0, true)
+		G.ui.animation.play("respawn")
 

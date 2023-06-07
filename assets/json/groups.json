@@ -1,7 +1,7 @@
 {
 	"#shop": [
 		[
-			0.03,
+			0.02,
 			"teleport scroll:-1"
 		],
 		[
@@ -9,8 +9,12 @@
 			"healing potion:-1"
 		],
 		[
-			0.07,
+			0.08,
 			"mana potion:-1"
+		],
+		[
+			0.09,
+			"flight potion:-1"
 		],
 		[
 			0.1,
@@ -151,168 +155,80 @@
 		[
 			0.45,
 			"rifle:-1"
-		]
-	],
-	"#essence": [
-		[
-			0.03,
-			"goblin essence"
 		],
 		[
-			0.06,
-			"earth essence"
+			0.46,
+			"magical essence:-1"
 		],
 		[
-			0.09,
-			"scout essence"
-		],
-		[
-			0.12,
-			"warrior essence"
-		],
-		[
-			0.15,
-			"vampire essence"
-		],
-		[
-			0.18,
-			"psychic essence"
-		],
-		[
-			0.21,
-			"bomb essence"
-		],
-		[
-			0.24,
-			"shadow essence"
-		],
-		[
-			0.27,
-			"wind essence"
-		],
-		[
-			0.3,
-			"assassin essence"
-		],
-		[
-			0.33,
-			"berserker essence"
-		],
-		[
-			0.36,
-			"spearmaster essence"
-		],
-		[
-			0.39,
-			"blademaster essence"
-		],
-		[
-			0.42,
-			"agility essence"
-		],
-		[
-			0.45,
-			"soul of metal"
+			0.47,
+			"dwarven essence:-1"
 		],
 		[
 			0.48,
-			"soul of blood"
+			"elven essence:-1"
 		],
 		[
-			0.51,
-			"divine essence"
-		],
-		[
-			0.54,
-			"cat essence"
-		]
-	],
-	"#ego": [
-		[
-			0.05,
-			"goblin"
-		],
-		[
-			0.1,
-			"earth"
-		],
-		[
-			0.15,
-			"scout"
-		],
-		[
-			0.2,
-			"warrior"
-		],
-		[
-			0.25,
-			"vampire"
-		],
-		[
-			0.3,
-			"psychic"
-		],
-		[
-			0.35,
-			"bomb"
-		],
-		[
-			0.4,
-			"shadow"
-		],
-		[
-			0.45,
-			"wind"
+			0.49,
+			"spearmaster essence:-1"
 		],
 		[
 			0.5,
-			"dagger"
+			"blademaster essence:-1"
+		],
+		[
+			0.51,
+			"assassin essence:-1"
+		],
+		[
+			0.52,
+			"crusher essence:-1"
+		],
+		[
+			0.53,
+			"psychic essence:-1"
 		],
 		[
 			0.55,
-			"blunt"
+			"staff of sleep:-1"
+		],
+		[
+			0.56,
+			"wakizashi:-1"
+		],
+		[
+			0.57,
+			"tanto:-1"
+		],
+		[
+			0.58,
+			"trident:-1"
+		],
+		[
+			0.59,
+			"hammer:-1"
 		],
 		[
 			0.6,
-			"spear"
+			"shortsword:-1"
 		],
 		[
-			0.65,
-			"blade"
+			0.61,
+			"broadsword:-1"
 		],
 		[
-			0.7,
-			"bow"
+			0.62,
+			"longsword:-1"
 		],
 		[
-			0.75,
-			"firearm"
-		],
-		[
-			0.8,
-			"agility"
-		],
-		[
-			0.85,
-			"metal"
-		],
-		[
-			0.9,
-			"blood"
-		],
-		[
-			0.95,
-			"vision"
-		],
-		[
-			1,
-			"nighteye"
+			0.63,
+			"pickaxe:-1"
 		]
 	],
 	"#treasure": [
 		[
 			0.3,
-			"#essence"
+			"chaos essence"
 		],
 		[
 			0.8,
@@ -327,19 +243,65 @@
 			"pure gold"
 		]
 	],
-	"#shelf": [
+	"#barrel": [
 		[
-			0.1,
+			0.04,
 			"gold"
 		],
 		[
-			0.9,
-			"#shop"
+			0.05,
+			"pure gold"
+		],
+		[
+			0.07,
+			"healing potion"
+		],
+		[
+			0.08,
+			"mana potion"
+		]
+	],
+	"#shelf": [
+		[
+			0.02,
+			"teleport scroll:-1"
+		],
+		[
+			0.05,
+			"healing potion:-1"
+		],
+		[
+			0.08,
+			"mana potion:-1"
+		],
+		[
+			0.09,
+			"flight potion:-1"
+		],
+		[
+			0.1,
+			"invisibility potion:-1"
+		],
+		[
+			0.11,
+			"arrows:30"
+		],
+		[
+			0.12,
+			"bullets:30"
+		],
+		[
+			0.13,
+			"gas lantern:-1"
+		],
+		[
+			0.14,
+			"gold"
 		]
 	],
 	"#trash": [
 		[
-			0.1,
+			0.91,
 			"stick"
 		],
 		[
@@ -363,11 +325,11 @@
 	],
 	"#goblins": [
 		[
-			0.04,
+			0.03,
 			"goblin shaman"
 		],
 		[
-			0.4,
+			0.3,
 			"goblin warrior"
 		],
 		[
@@ -375,30 +337,42 @@
 			"goblin ranger"
 		]
 	],
-	"#animals": [
-		[
-			0.4,
-			"bunny"
-		],
+	"#undead": [
 		[
 			0.5,
-			"rat"
+			"skeleton"
 		],
 		[
-			0.6,
-			"duckdog"
+			0.7,
+			"skeletal warrior"
+		],
+		[
+			0.75,
+			"skeletal lord"
 		],
 		[
 			0.9,
+			"skeletal dog"
+		]
+	],
+	"#animals": [
+		[
+			0.5,
+			"bunny"
+		],
+		[
+			0.7,
 			"squirrel"
+		]
+	],
+	"#cavern": [
+		[
+			0.2,
+			"rat"
 		],
 		[
-			0.91,
-			"chicken alpha"
-		],
-		[
-			1,
-			"chicken"
+			0.9,
+			"bat"
 		]
 	]
 }

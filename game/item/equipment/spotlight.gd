@@ -18,6 +18,7 @@ func on_wear(_user):
 			var color = data.get("light color")
 			light.set_color(Color(color[0], color[1], color[2]))
 		light.position.y = _user.size.y / 2
+		light.position.z = .2
 		light.rotation.y = PI
 		light.set_name("Light")
 		_user.get_node("Model/Body").add_child(light)

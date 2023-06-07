@@ -14,4 +14,7 @@ func perceived(p):
 
 func set_strength(p):
 	_light.light_energy = p / 5
-	_light.spot_range = p
+	if _light is OmniLight3D:
+		_light.omni_range = p
+	else:
+		_light.spot_range = p

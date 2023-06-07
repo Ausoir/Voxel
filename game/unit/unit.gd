@@ -7,6 +7,7 @@ signal special
 signal weapon
 signal critical
 signal death
+signal health_changed
 
 const STEP_SOUND_HEIGHT = Vector3(0, -.1, 0)
 const COLLISION_CENTER = Vector3(0, .2, 0)
@@ -36,17 +37,18 @@ var skills = preload("./skills/skills.gd").new()
 var proficiency = preload("./skills/proficiency.gd").new()
 var overlay_mat = preload("./flash_red.tres").duplicate()
 var pilot
+var physics_process = _walk_physics_process
 var alert = false
 var health: int = 1
 var mana: int = 0
 var defense: int = 0
 var essence = []
+var last_hitter
 
 var _mesh
 @export var _mesh_path: NodePath
 @onready var body = $Body
 @onready var animator = $Animator
-@onready var _terrain = get_node("/root/Game/Terrain")
 
 
 func _ready():
@@ -62,7 +64,7 @@ func _ready():
 	_space_state = get_viewport().get_world_3d().get_direct_space_state()
 	_space_state_params = PhysicsPointQueryParameters3D.new()
 	_space_state_params.set_collision_mask(body.get_collision_mask())
-	_space_state_params.set_exclude([$Body.get_rid()])
+	_space_state_params.set_exclude([body.get_rid()])
 	attack.connect(on_attack)
 	forward = -get_transform().basis.z.normalized()
 
@@ -96,9 +98,7 @@ func take_hit(dmg):
 func show_healthbar():
 	if _healthbar == null:
 		_healthbar = HEALTHBAR.instantiate()
-		_healthbar.position = Vector3(0, size.y, 0)
-		add_child(_healthbar)
-		_healthbar.set_max(data.get("health", 1))
+		_healthbar.set_unit(self)
 	_healthbar.set_current(health)
 
 
@@ -108,12 +108,11 @@ func has_essence(p):
 
 func on_damaged(_pos: Vector3, damage: int, inflict):
 	action.set_next("hit", .3)
-	G.player.set_noise(14)
 	if alert:
 		var ess = 0
 		if has_essence("agility"):
-			ess = .15
-		if G.rng.percent(get_prof("dodge")*3 + ess):
+			ess = .2
+		if G.rng.percent(get_prof("dodge")*4 + ess):
 			G.stock.make_particle(position + Vector3(0, size.y/2, 0), "dodge")
 			G.sfx.play("dodge", position)
 			if "scout" in G.you.essence:
@@ -124,6 +123,8 @@ func on_damaged(_pos: Vector3, damage: int, inflict):
 		G.stock.make_particle(position + Vector3(0, size.y/2, 0), "demolish")
 		G.sfx.play("critical", position)
 		damage *= 2
+		buffs.add("silence", 1)
+		buffs.add("down", 1)
 	if _mesh.material_overlay == null:
 		G.stock.make_particle(position + Vector3(0, size.y/2, 0), "bleed")
 		start_flash(Color.RED)
@@ -132,6 +133,8 @@ func on_damaged(_pos: Vector3, damage: int, inflict):
 		take_hit(damage)
 		for buff in inflict:
 			buffs.add(buff[0], buff[1])
+	if !buffs.has("silence") and faction != 1:
+		G.player.set_noise(14)
 
 
 func start_flash(color):
@@ -171,84 +174,39 @@ func get_center():
 
 
 func die():
+	buffs.set_duration("flight", 0)
 	motor = Vector3()
 	pilot.set_physics_process(false)
 	$Body.collision_layer = 0
 	animator.play("die")
+	animator = G.filler_animator
 	action.force_set_next("idle", 999)
 	health = 0
 	_healthbar.set_current(0)
-	var itemname = G.stock.make_group(data.get("loot"))
+	var itemname = G.rng.get_combo(data.get("loot"))
 	if itemname != null:
 		var item = G.stock.make_item(itemname)
-		item.drop(self)
+		item.drop_at(position)
+	emit_signal("death")
+
+
+func revive():
+	pilot.set_physics_process(true)
+	$Body.collision_layer = 4
+	animator = $Animator
+	animator.play("RESET")
+	action.force_set_next("idle", 0)
+	health = 1
+	_healthbar.set_current(1)
 
 
 func remove():
-	emit_signal("death")
 	if _healthbar != null:
 		_healthbar.remove()
 	if _flash_tween != null:
 		_flash_tween.stop()
 	buffs.remove()
 	queue_free()
-
-
-func _physics_process(delta):
-	if grounded:
-		var center = position + COLLISION_CENTER
-		_space_state_params.position = center
-		var hits = _space_state.intersect_point(_space_state_params, 3)
-		for hit in hits:
-			var t = hit.collider.get_parent()
-			velocity += (position - t.position).normalized() * 4
-			t.action.set_next("idle", .5)
-			action.set_next("idle", .5)
-	elif position.y < -8:
-		if health > 0:
-			die()
-		return
-	else:
-		motor = Vector3()
-
-	if motor.length_squared() > 0:
-		_wait_time = 0
-		rotation.y = lerp_angle(rotation.y, atan2(motor.x, motor.z), .2)
-		var walk_speed = velocity.length()
-		if walk_speed > 1 and action.delay <= 0:
-			animator.play("walk", 1.0, walk_speed / 4.0)
-	elif action.action == null:
-		animator.play("RESET")
-		_wait_time += delta
-		if _wait_time > 4.0:
-			emit_signal("wait")
-
-	velocity.x += motor.x
-	velocity.z += motor.z
-
-	var motion = velocity * delta
-	var friction = .98
-
-	var prev_motion = motion
-	motion = _box_mover.get_motion(get_global_position(), motion, _aabb, _terrain)
-	if abs(motion.y) < 0.001 and prev_motion.y < -0.001:
-		friction = max(0, .92 + prev_motion.y * 5)
-		if !grounded:
-			_last_velocity_y = 0
-			G.sfx.play("land", position)
-			if G.you == self:
-				G.player.set_noise(6)
-		grounded = true
-	if abs(motion.y) > 0.001:
-		grounded = false
-		_last_velocity_y = prev_motion.y
-	if _box_mover.has_stepped_up():
-		motion = Vector3(0, min(.17, motion.y), 0)
-	global_translate(motion)
-
-	velocity.x *= friction
-	velocity.z *= friction
-	velocity.y = motion.y / delta - G.GRAVITY * delta
 
 
 func on_step():
@@ -281,7 +239,7 @@ func set_fp_visibility(p):
 func get_prof(p):
 	var val = proficiency.list.get(p)
 	if val != null:
-		return int(val)
+		return int(min(10, val))
 	return 0
 
 
@@ -298,4 +256,91 @@ func serialize():
 	r["data"] = data
 	r["buffs"] = buffs.serialize()
 	return r
+
+
+func _physics_process(delta):
+	physics_process.call(delta)
+
+
+func _walk_physics_process(delta):
+	if grounded:
+		var center = position + COLLISION_CENTER
+		_space_state_params.position = center
+		var hits = _space_state.intersect_point(_space_state_params, 3)
+		for hit in hits:
+			var t = hit.collider.get_parent()
+			velocity += (position - t.position).normalized() * 4
+			t.action.set_next("idle", .5)
+			action.set_next("idle", .5)
+	elif position.y < -8:
+		if health > 0:
+			die()
+		return
+	else:
+		motor = Vector3.ZERO
+
+	if motor.length_squared() > 0:
+		_wait_time = 0
+		rotation.y = lerp_angle(rotation.y, atan2(motor.x, motor.z), .2)
+		var walk_speed = velocity.length()
+		if walk_speed > 0.5 and action.delay <= 0:
+			animator.play("walk", 1.0, walk_speed / 4.0)
+	elif action.action == null:
+		animator.play("RESET")
+		_wait_time += delta
+		if _wait_time > 4.0:
+			emit_signal("wait")
+
+	velocity.x += motor.x
+	velocity.z += motor.z
+
+	var motion = velocity * delta
+	var friction = .98
+
+	var prev_motion = motion
+	motion = _box_mover.get_motion(get_global_position(), motion, _aabb, G.terrain)
+	if abs(motion.y) < 0.001 and prev_motion.y < -0.001:
+		friction = max(0, .92 + prev_motion.y * 5)
+		if !grounded:
+			_last_velocity_y = 0
+			G.sfx.play("land", position)
+			if G.you == self:
+				G.player.set_noise(6)
+		grounded = true
+	if abs(motion.y) > 0.001:
+		grounded = false
+		_last_velocity_y = prev_motion.y
+	if _box_mover.has_stepped_up():
+		motion = Vector3(0, min(.09, motion.y), 0)
+	global_translate(motion)
+
+	velocity.x *= friction
+	velocity.z *= friction
+	velocity.y = motion.y / delta - G.GRAVITY * delta
+
+
+func _fly_physics_process(delta):
+	grounded = true
+	if motor.length_squared() > 0:
+		_wait_time = 0
+		rotation.y = lerp_angle(rotation.y, atan2(motor.x, motor.z), .2)
+		var walk_speed = velocity.length()
+		if walk_speed > 0.5 and action.delay <= 0:
+			animator.play("fly", 1.0, walk_speed / 4.0)
+		velocity.y += forward.y * walk_speed * .02
+	elif action.action == null:
+		animator.play("RESET")
+
+	velocity.x += motor.x
+	velocity.z += motor.z
+
+	var motion = velocity * delta * 0.2
+	var friction = .99
+
+	motion = _box_mover.get_motion(get_global_position(), motion, _aabb, G.terrain)
+	global_translate(motion)
+
+	velocity.x *= friction
+	velocity.z *= friction
+	velocity.y *= friction
 

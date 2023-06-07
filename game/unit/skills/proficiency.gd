@@ -16,6 +16,7 @@ var list = {
 	"aura": 0.0,
 	"psych": 0.0,
 	"earth": 0.0,
+	"necromancy": 0.0
 }
 
 
@@ -75,10 +76,12 @@ func increase(prof, amount):
 func on_level(prof):
 	if prof == "armor":
 		_unit.data.health += 5
+	elif prof in ["psych", "earth", "aura", "staff", "necromancy"]:
+		_unit.data.mana += 1
 
 
 func on_attacked(dmg):
-	increase("armor", 0.01 * dmg)
+	increase("armor", 0.05 * dmg)
 
 
 func on_attack(_type, _victim, dmg):
@@ -90,5 +93,8 @@ func on_ambush(_victim):
 
 
 func on_essence(_ess):
-	increase(_ess, 0.04)
+	if _ess == "dodge":
+		increase(_ess, max(0.01, 0.2 / (list.dodge+0.25)))
+	else:
+		increase(_ess, 0.04)
 

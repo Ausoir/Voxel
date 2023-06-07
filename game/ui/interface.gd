@@ -64,6 +64,8 @@ func set_sidetext(txt):
 func set_description(txt, pos, right=false):
 	if txt == null:
 		desc.hide()
+		desc.size.x = 256
+		desc.size.y = 64
 	else:
 		desc.set_text(txt)
 		desc.show()
@@ -107,6 +109,7 @@ func clear():
 func _process(_delta):
 	last_touch_time += _delta
 	if showfps:
-		n_fps.set_text(str(Engine.get_frames_per_second())+' FPS')
+		var fps = Engine.get_frames_per_second()
+		n_fps.set_text(str(fps)+' FPS')
 	if on:
 		_unit.show_healthbar()

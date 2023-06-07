@@ -3,7 +3,16 @@ extends "./pilot.gd"
 
 func _ready():
 	super()
-	melee_range = get_attack_range()
+	melee_range = _unit.data.get("range")
+	if _unit.get_type() == 1:
+		if melee_range == null:
+			var aabb = _unit.held_item_model.mesh.get_aabb()
+			melee_range = -aabb.position.z * .5
+		attack_function = commence_use
+	else:
+		if melee_range == null:
+			melee_range = _unit.size.z
+		attack_function = commence_tackle
 
 
 func get_attack_range():
@@ -14,17 +23,12 @@ func get_attack_range():
 	return attack_range
 
 
-func _do_attack(_delta):
-	if _dist <= melee_range:
-		var hitvoxel = G.tool.raycast(_from, _unit.forward, _dist, 10)
-		if hitvoxel == null:
-			_unit.procedure.stop_walk()
-			_unit.procedure.use()
-		else:
-			_pathing.target = _to.floor()
-			_pathing.perform(_delta)
-	elif _dist <= APPROACH_RANGE:
-		_unit.procedure.walk_toward(_to)
-	else:
-		_pathing.target = _to.floor()
-		_pathing.perform(_delta)
+func commence_use():
+	_unit.procedure.stop_walk()
+	_unit.procedure.use()
+
+
+func commence_tackle():
+	var atkspd = _unit.data.get("delay", 1)
+	if _unit.action.set_next("delay", atkspd):
+		_unit.animator.play("tackle")
