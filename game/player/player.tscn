@@ -14,7 +14,7 @@ radius = 0.1
 height = 12.0
 radius = 14.0
 
-[node name="Player" type="Node3D"]
+[node name="Player" type="Node"]
 script = ExtResource("1_5b4wf")
 
 [node name="VoxelViewer" type="VoxelViewer" parent="."]

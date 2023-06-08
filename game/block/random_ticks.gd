@@ -20,10 +20,11 @@ var _fn_random_tick = Callable(self, "_random_tick_callback")
 func _ready():
 	_light_type = VoxelLibraryResource.get_voxel_index_from_name("square light")
 	_voxel_tool.set_channel(VoxelBuffer.CHANNEL_TYPE)
+	set_process(false)
 
 
 func _process(_delta):
-	var center = _avatar.transform.origin.floor()
+	var center = G.you.transform.origin.floor()
 	var area = AABB(center - RANGE, 2 * RANGE)
 	_voxel_tool.run_blocky_random_tick(
 		area, VOXELS_PER_FRAME, _fn_random_tick, 16)

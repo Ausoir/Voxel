@@ -10,6 +10,7 @@ var col_mask = 8
 var damage = 1
 var on_attack
 var shooter
+var noise = 3
 var inflict = []
 
 
@@ -39,6 +40,7 @@ func _physics_process(delta: float):
 	_ssparams.collision_mask = col_mask
 	var hit = _ss.intersect_ray(_ssparams)
 	if !hit.is_empty():
+		G.tool.set_sound(trans.origin, noise)
 		if hit.collider != G.terrain:
 			on_collide(hit)
 		on_effect(hit.position)

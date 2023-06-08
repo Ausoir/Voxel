@@ -23,21 +23,23 @@ func set_unit(unit):
 	update_essence()
 
 
-func clear():
+func clear(clear_eq=true, clear_ess=true):
 	for i in range(_inventory.size()):
 		if _inventory[i] != null:
 			_inventory[i].queue_free()
 			_inventory[i] = null
 	_unit.equipment.set_held_index(0)
-	var slots = equipment.keys()
-	for i in slots:
-		if equipment[i] != null:
-			apply_change(equipment[i].data, -1)
-			equipment[i] = null
-	for i in essence:
-		if i != null:
-			apply_change(i.data, -1)
-			essence.erase(i)
+	if clear_eq:
+		var slots = equipment.keys()
+		for i in slots:
+			if equipment[i] != null:
+				apply_change(equipment[i].data, -1)
+				equipment[i] = null
+	if clear_ess:
+		for i in essence:
+			if i != null:
+				apply_change(i.data, -1)
+				essence.erase(i)
 
 
 func update_essence():

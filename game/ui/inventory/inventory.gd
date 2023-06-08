@@ -16,8 +16,12 @@ func _ready():
 
 
 func on_display():
+	G.ui.message.show()
 	var desc = G.you.proficiency.get_description()
-	var txt = str("Level ",G.you.data.get("level",1),"  ",G.you.sid.capitalize(),"\n")
+	var lvls = G.you.data.get("level", 1)
+	var lvl = floor(lvls)
+	var lvl_exp = snapped(lvls, 0.01) - lvl
+	var txt = str(G.you.sid.capitalize(),"\n","Level ",lvl," [i](",lvl_exp,"%)[/i]","\n")
 	txt += str("[color=GOLD]Gold[/color]: ",G.vars.gold,"\n")
 	txt += str("[color=RED]Health[/color]: ",G.you.health,"/",G.you.data.health,"\n")
 	txt += str("[color=BLUE]Mana[/color]: ",G.you.mana,"/",G.you.data.mana,"\n")
@@ -26,8 +30,14 @@ func on_display():
 	G.ui.set_sidetext(txt + desc)
 
 
+func on_close():
+	G.ui.message.hide()
+
+
 func set_unit(unit):
 	if _unit != unit:
+		if _unit != null:
+			unset_unit(_unit)
 		_unit = unit
 		if unit.get_type() == 1:
 			_inv = unit.equipment
@@ -39,6 +49,13 @@ func set_unit(unit):
 			_inv.connect("selected", Callable(_equipbar, "update_items"))
 			_inv.connect("selected", Callable(_itembar, "update_items"))
 			_inv.connect("changed", Callable(self, "update_views"))
+
+
+func unset_unit(_p):
+	if _p.get_type() == 1:
+		_p.equipment.disconnect("selected", Callable(_equipbar, "update_items"))
+		_p.equipment.disconnect("selected", Callable(_itembar, "update_items"))
+		_p.equipment.disconnect("changed", Callable(self, "update_views"))
 
 
 func update_views():

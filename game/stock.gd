@@ -2,6 +2,7 @@ extends Node
 
 
 const Library := preload("res://game/block/voxel_library.tres")
+const Desc_JSON = preload("res://assets/json/descriptions.json")
 const Item = preload("res://game/item/item.gd")
 const Item_JSON = preload("res://assets/json/items.json")
 const Item_Bag = preload("res://assets/item/bag.obj")
@@ -15,11 +16,13 @@ const P_demolish = preload("res://game/fx/other/demolish.tscn")
 const P_bleed = preload("res://game/fx/bleed/bleed.tscn")
 const P_clarity = preload("res://game/fx/buff/clarity.tscn")
 const P_dodge = preload("res://game/fx/other/dodge.tscn")
+const P_summon = preload("res://game/fx/buff/summon.tscn")
 const Text = preload("res://game/fx/text.tscn")
 const Unit = preload("res://game/unit/unit.tscn")
 const Humanoid = preload("res://game/unit/humanoid/humanoid.tscn")
 const IBlank = preload("res://game/unit/ai/blank.gd")
 const ISentient = preload("res://game/unit/ai/sentient.gd")
+const INeutral = preload("res://game/unit/ai/neutral.gd")
 const IAlly = preload("res://game/unit/ai/ally.gd")
 var _model_cache = {}
 var _scene_cache = {}
@@ -55,6 +58,11 @@ func _get_model(modelname: String):
 		model = load(str("res://assets/", modelname, ".obj"))
 		_model_cache[modelname] = model
 	return model
+
+
+func get_desc(p: String):
+	var dict = Desc_JSON.get_data()
+	return dict.get(p)
 
 
 func load_lists():
@@ -148,7 +156,7 @@ func make_unit(pos: Vector3, itemname: String, custom_data=null):
 		for i in rawdata.get("ego", []):
 			unit.essence.append(i)
 		unit.buffs.unserialize(rawdata.get("buffs", []))
-		_attach_ai(unit, rawdata)
+		attach_ai(unit, rawdata.get("ai", ""))
 		unit.turn_random()
 		return unit
 
@@ -191,29 +199,28 @@ func make_humanoid(parent: Node, pos: Vector3, itemname: String, custom_data=nul
 		unit.proficiency.unserialize(rawdata.get("proficiency"))
 		unit.sid = itemname
 		unit.position = pos
-		_attach_ai(unit, rawdata)
+		attach_ai(unit, rawdata.get("ai", ""))
 		unit.turn_random()
 		return unit
 
 
-func _attach_ai(unit, data):
-	var ai = data.get("ai", "")
+func attach_ai(unit, ai):
+	if unit.pilot != null:
+		unit.pilot.queue_free()
 	var ai_script = ISentient
 	if ai == "blank":
 		ai_script = IBlank
+	elif ai == "neutral":
+		ai_script = INeutral
 	elif ai == "ally":
 		ai_script = IAlly
+		unit.perceived(false)
+		unit.faction = 1
+		unit.data.erase("loot")
 	var pilot := Node.new()
 	pilot.set_script(ai_script)
 	unit.pilot = pilot
 	unit.add_child(pilot)
-
-
-func remove_ai(unit):
-	unit.pilot.queue_free()
-	var pilot := Node.new()
-	pilot.set_script(IBlank)
-	unit.pilot = pilot
 
 
 func make_particle(_pos: Vector3, _particlename: String):

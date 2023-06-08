@@ -7,6 +7,7 @@ signal special
 signal weapon
 signal critical
 signal death
+signal kill
 signal health_changed
 
 const STEP_SOUND_HEIGHT = Vector3(0, -.1, 0)
@@ -75,6 +76,11 @@ func get_type():
 
 func perceived(p):
 	pilot.in_range = p
+	if faction == 2:
+		if p:
+			G.player.enemies.append(self)
+		else:
+			G.player.enemies.erase(self)
 
 
 func take_hit(dmg):
@@ -134,7 +140,7 @@ func on_damaged(_pos: Vector3, damage: int, inflict):
 		for buff in inflict:
 			buffs.add(buff[0], buff[1])
 	if !buffs.has("silence") and faction != 1:
-		G.player.set_noise(14)
+		G.tool.set_sound(position, 14)
 
 
 func start_flash(color):
@@ -173,25 +179,46 @@ func get_center():
 	return position + Vector3(0, size.y/2, 0)
 
 
+func on_kill(_victim):
+	var lvl = data.get("level", 1)
+	var tlvl = _victim.data.get("level", 1)
+	var diff = int(round(tlvl - lvl))
+	if diff < 0:
+		lvl += (1 >> -diff) * .1
+	else:
+		lvl += (1 << diff) * .1
+	data["level"] = snapped(lvl, 0.01)
+	emit_signal("kill", _victim)
+
+
 func die():
-	buffs.set_duration("flight", 0)
-	motor = Vector3()
-	pilot.set_physics_process(false)
-	$Body.collision_layer = 0
-	animator.play("die")
-	animator = G.filler_animator
-	action.force_set_next("idle", 999)
-	health = 0
-	_healthbar.set_current(0)
-	var itemname = G.rng.get_combo(data.get("loot"))
-	if itemname != null:
-		var item = G.stock.make_item(itemname)
-		item.drop_at(position)
-	emit_signal("death")
+	if animator != G.filler_animator:
+		if last_hitter != null:
+			last_hitter.on_kill(self)
+		buffs.set_duration("polymorph", 0)
+		buffs.set_duration("flight", 0)
+		motor = Vector3()
+		procedure.speedmod = 0
+		procedure.turn_speed = 0
+		pilot.set_physics_process(false)
+		$Body.collision_layer = 0
+		animator.play("die")
+		animator = G.filler_animator
+		action.force_set_next("idle", 999)
+		health = 0
+		_healthbar.set_current(0)
+		var itemname = G.rng.get_combo(data.get("loot"))
+		if itemname != null:
+			var item = G.stock.make_item(itemname)
+			item.drop_at(position)
+		emit_signal("death")
 
 
 func revive():
+	buffs.clean(true)
 	pilot.set_physics_process(true)
+	procedure.speedmod = 1
+	procedure.turn_speed = 0.2
 	$Body.collision_layer = 4
 	animator = $Animator
 	animator.play("RESET")
@@ -204,7 +231,8 @@ func remove():
 	if _healthbar != null:
 		_healthbar.remove()
 	if _flash_tween != null:
-		_flash_tween.stop()
+		_flash_tween.kill()
+	_mesh.material_overlay = null
 	buffs.remove()
 	queue_free()
 
@@ -262,6 +290,10 @@ func _physics_process(delta):
 	physics_process.call(delta)
 
 
+func _no_physics_process(_delta):
+	pass
+
+
 func _walk_physics_process(delta):
 	if grounded:
 		var center = position + COLLISION_CENTER
@@ -304,8 +336,7 @@ func _walk_physics_process(delta):
 		if !grounded:
 			_last_velocity_y = 0
 			G.sfx.play("land", position)
-			if G.you == self:
-				G.player.set_noise(6)
+			G.tool.set_sound(position, 6)
 		grounded = true
 	if abs(motion.y) > 0.001:
 		grounded = false
@@ -330,6 +361,9 @@ func _fly_physics_process(delta):
 		velocity.y += forward.y * walk_speed * .02
 	elif action.action == null:
 		animator.play("RESET")
+		_wait_time += delta
+		if _wait_time > 4.0:
+			emit_signal("wait")
 
 	velocity.x += motor.x
 	velocity.z += motor.z

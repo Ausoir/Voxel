@@ -70,7 +70,23 @@
 			"buffs": [
 				[
 					"flight",
-					5
+					12
+				]
+			]
+		}
+	},
+	"glow potion": {
+		"spritename": "item/potion_cyan",
+		"modelname": "item/potion_cyan3d-0-potion_cyan",
+		"script": "consumable/consumable",
+		"data": {
+			"desc": "Glow for a duration.",
+			"value": 10,
+			"speed": 0.8,
+			"buffs": [
+				[
+					"glow",
+					160
 				]
 			]
 		}
@@ -80,10 +96,10 @@
 		"modelname": "item/scroll3d-0-scroll",
 		"script": "consumable/teleport",
 		"data": {
-			"desc": "Teleport back to town.",
-			"value": 40,
+			"desc": "Teleport back to safety.",
+			"value": 80,
 			"speed": 0.2,
-			"to": "town"
+			"to": "camp"
 		}
 	},
 	"cave scroll": {
@@ -91,10 +107,10 @@
 		"modelname": "item/scroll3d-0-scroll",
 		"script": "consumable/teleport",
 		"data": {
-			"desc": "Teleport to the caves.",
+			"desc": "Teleport to the dungeon.",
 			"value": 40,
 			"speed": 1,
-			"to": "floor 1"
+			"to": "dungeons"
 		}
 	},
 	"gold": {
@@ -130,6 +146,7 @@
 		"data": {
 			"desc": "Use to obtain a random essence.",
 			"speed": 1,
+			"value": 800,
 			"exclude": []
 		}
 	},
@@ -404,9 +421,9 @@
 		"script": "weapon/melee",
 		"data": {
 			"type": "blunt",
-			"value": 100,
+			"value": 40,
 			"weight": 2,
-			"speed": 0.4,
+			"speed": 0.8,
 			"damage": 9,
 			"health": 0,
 			"swings": [
@@ -426,10 +443,10 @@
 		"script": "weapon/melee",
 		"data": {
 			"type": "blunt",
-			"value": 120,
+			"value": 80,
 			"weight": 2,
-			"speed": 0.5,
-			"damage": 10,
+			"speed": 0.7,
+			"damage": 11,
 			"health": 0,
 			"swings": [
 				"swing_left",
@@ -437,8 +454,8 @@
 			],
 			"inflict": [
 				[
-					"slow",
-					3
+					"daze",
+					1
 				]
 			]
 		}
@@ -449,18 +466,19 @@
 		"script": "weapon/melee",
 		"data": {
 			"type": "blunt",
-			"value": 200,
+			"value": 150,
 			"weight": 3,
-			"speed": 0.4,
-			"damage": 14,
+			"speed": 0.5,
+			"damage": 16,
 			"health": 0,
+			"mana": 0,
 			"swings": [
 				"swing_left",
 				"swing_right"
 			],
 			"inflict": [
 				[
-					"slow",
+					"daze",
 					3
 				]
 			]
@@ -505,7 +523,7 @@
 		"script": "weapon/melee",
 		"data": {
 			"type": "blade",
-			"value": 100,
+			"value": 80,
 			"weight": 2,
 			"speed": 0.8,
 			"damage": 12,
@@ -521,7 +539,7 @@
 		"script": "weapon/melee",
 		"data": {
 			"type": "blade",
-			"value": 160,
+			"value": 120,
 			"weight": 3,
 			"speed": 0.6,
 			"damage": 8,
@@ -540,10 +558,11 @@
 		"script": "weapon/melee",
 		"data": {
 			"type": "blunt",
-			"value": 40,
+			"value": 30,
 			"weight": 2,
 			"speed": 2,
 			"damage": 4,
+			"mana": 0,
 			"swings": [
 				"swing_down",
 				"swing_forward",
@@ -558,7 +577,7 @@
 		"script": "weapon/melee",
 		"data": {
 			"type": "dagger",
-			"value": 180,
+			"value": 150,
 			"weight": 1,
 			"speed": 1,
 			"damage": 10,
@@ -573,7 +592,7 @@
 		"script": "weapon/melee",
 		"data": {
 			"type": "blade",
-			"value": 160,
+			"value": 80,
 			"weight": 1,
 			"speed": 1.5,
 			"size": 0.2,
@@ -591,7 +610,7 @@
 		"script": "weapon/melee",
 		"data": {
 			"type": "blade",
-			"value": 240,
+			"value": 200,
 			"weight": 2,
 			"speed": 1.3,
 			"damage": 9,
@@ -608,7 +627,7 @@
 		"script": "weapon/melee",
 		"data": {
 			"type": "dagger",
-			"value": 240,
+			"value": 200,
 			"weight": 0,
 			"speed": 3,
 			"damage": 7,
@@ -626,7 +645,7 @@
 		"data": {
 			"desc": "Extremely light.",
 			"type": "blade",
-			"value": 300,
+			"value": 200,
 			"weight": 0,
 			"speed": 1,
 			"mana": 2,
@@ -643,7 +662,7 @@
 		"script": "weapon/melee",
 		"data": {
 			"type": "spear",
-			"value": 60,
+			"value": 50,
 			"weight": 3,
 			"damage": 6,
 			"swings": [
@@ -657,7 +676,7 @@
 		"script": "weapon/melee",
 		"data": {
 			"type": "spear",
-			"value": 160,
+			"value": 100,
 			"weight": 3,
 			"speed": 0.7,
 			"damage": 8,
@@ -678,7 +697,7 @@
 		"script": "weapon/melee",
 		"data": {
 			"type": "spear",
-			"value": 200,
+			"value": 150,
 			"weight": 4,
 			"speed": 0.6,
 			"damage": 14,
@@ -702,7 +721,7 @@
 		"script": "weapon/ranged",
 		"data": {
 			"type": "bow",
-			"value": 50,
+			"value": 30,
 			"weight": 2,
 			"speed": 0.3,
 			"spread": 0.15,
@@ -717,7 +736,7 @@
 		"data": {
 			"type": "bow",
 			"desc": "This bow is ideal for ambush.",
-			"value": 100,
+			"value": 50,
 			"weight": 0,
 			"speed": 0.3,
 			"spread": 0.1,
@@ -731,7 +750,7 @@
 		"script": "weapon/ranged",
 		"data": {
 			"type": "bow",
-			"value": 200,
+			"value": 120,
 			"weight": 2,
 			"speed": 0.2,
 			"spread": 0.1,
@@ -749,7 +768,7 @@
 			"weight": 1,
 			"speed": 0.65,
 			"spread": 0.2,
-			"damage": 10,
+			"damage": 9,
 			"noise": 10
 		}
 	},
@@ -799,7 +818,7 @@
 		"data": {
 			"type": "bow",
 			"desc": "Highly accurate with devastating damage.",
-			"value": 250,
+			"value": 220,
 			"weight": 2,
 			"speed": 0.2,
 			"spread": 0.05,
@@ -812,9 +831,9 @@
 		"modelname": "weapon/staff3d",
 		"script": "weapon/ranged",
 		"data": {
-			"type": "staff",
+			"type": "evocation",
 			"desc": "Shoot a deadly energy bolt to decimate enemies in an area.",
-			"value": 200,
+			"value": 140,
 			"weight": 2,
 			"speed": 0.2,
 			"spread": 0.1,
@@ -830,7 +849,7 @@
 		"modelname": "weapon/staff3d",
 		"script": "weapon/ranged",
 		"data": {
-			"type": "staff",
+			"type": "evocation",
 			"desc": "Shoot a deadly energy bolt to decimate enemies in an area.",
 			"value": 300,
 			"weight": 2,
@@ -848,9 +867,9 @@
 		"modelname": "weapon/staff3d",
 		"script": "weapon/ranged",
 		"data": {
-			"type": "staff",
+			"type": "evocation",
 			"desc": "Knock out enemies in an area.",
-			"value": 200,
+			"value": 140,
 			"weight": 2,
 			"speed": 0.1,
 			"spread": 0.2,
@@ -878,7 +897,7 @@
 		"data": {
 			"type": "firearm",
 			"desc": "Very inaccurate.",
-			"value": 100,
+			"value": 80,
 			"weight": 1,
 			"speed": 1.5,
 			"spread": 0.2,
@@ -892,7 +911,7 @@
 		"script": "weapon/ranged",
 		"data": {
 			"type": "firearm",
-			"value": 300,
+			"value": 240,
 			"weight": 3,
 			"speed": 0.1,
 			"spread": 0.05,
@@ -907,7 +926,7 @@
 		"data": {
 			"type": "blade",
 			"desc": "This is a great sword.",
-			"value": 300,
+			"value": 220,
 			"speed": 0.6,
 			"weight": 4,
 			"damage": 15,
@@ -980,12 +999,23 @@
 			"speed": 0.1
 		}
 	},
+	"healing essence": {
+		"spritename": "item/essence",
+		"modelname": "item/essence3d",
+		"part": "essence",
+		"data": {
+			"desc": "When at less than half health, cast to heal self. Otherwise, heal the unit you are touching.",
+			"essence": "healing",
+			"value": 300,
+			"health": -5
+		}
+	},
 	"warrior essence": {
 		"spritename": "item/essence",
 		"modelname": "item/essence3d",
 		"part": "essence",
 		"data": {
-			"desc": "Recover some health after taking hit.",
+			"desc": "When at less than half health, recover some health after taking hit.",
 			"essence": "warrior",
 			"value": 300
 		}
@@ -1101,6 +1131,26 @@
 			"value": 300
 		}
 	},
+	"quicksilver essence": {
+		"spritename": "item/essence",
+		"modelname": "item/essence3d",
+		"part": "essence",
+		"data": {
+			"desc": "Learn to transform. Each character has a unique form.",
+			"essence": "polymorph",
+			"value": 300
+		}
+	},
+	"soul essence": {
+		"spritename": "item/essence",
+		"modelname": "item/essence3d",
+		"part": "essence",
+		"data": {
+			"desc": "Whenever you kill an enemy, spend mana to raise it as undead.",
+			"essence": "summon",
+			"value": 300
+		}
+	},
 	"berserker essence": {
 		"spritename": "item/essence",
 		"modelname": "item/essence3d",
@@ -1117,7 +1167,7 @@
 		"modelname": "item/essence3d",
 		"part": "essence",
 		"data": {
-			"desc": "Daggers apply silence to victims. Ambush with daggers deal up to +40 damage.",
+			"desc": "Move faster while swinging daggers.",
 			"req": [
 				"dagger",
 				5
@@ -1203,10 +1253,10 @@
 		"data": {
 			"desc": "Shoot twice with staves.",
 			"req": [
-				"staff",
+				"evocation",
 				6
 			],
-			"essence": "staff",
+			"essence": "evocation",
 			"value": 300
 		}
 	},

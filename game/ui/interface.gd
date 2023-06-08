@@ -6,13 +6,14 @@ var last_touch_time = 0
 var screen_size
 var on = false
 var showfps = true
+var mouse_pos = Vector2.ZERO
 var _unit
 @onready var menu_button = $MenuButton
 @onready var n_fps = $FPS
 @onready var menu_container = $Center/Menu
 @onready var label = $Center/Label
 @onready var desc = $Description
-@onready var msg = $Message
+@onready var message = $Message
 @onready var sidetext = $Sidetext
 @onready var fade = $Fade
 @onready var animation = $Animation
@@ -23,17 +24,33 @@ func _ready():
 	on_resize()
 
 
+func _input(event):
+	if event is InputEventMouseMotion:
+		mouse_pos = event.position
+
+
 func set_unit(unit):
 	_unit = unit
 	$Center/Progress.set_unit(unit)
 	$BuffList.set_unit(unit)
 	if unit.get_type() == 1:
+		$HotBar/ItemBar.show()
 		$HotBar/ItemBar.set_unit(unit)
 		unit.equipment.connect("selected", Callable($HotBar/ItemBar, "update_items"))
 		unit.equipment.connect("changed", Callable($HotBar/ItemBar, "update_views"))
 	else:
 		$HotBar/ItemBar.hide()
 	unit.attacked.connect(on_hit)
+
+
+func unset_unit(unit):
+	$BuffList.unset_unit(unit)
+	if unit.get_type() == 1:
+		$HotBar/ItemBar.show()
+		$HotBar/ItemBar.set_unit(unit)
+		unit.equipment.selected.disconnect(Callable($HotBar/ItemBar, "update_items"))
+		unit.equipment.changed.disconnect(Callable($HotBar/ItemBar, "update_views"))
+	unit.attacked.disconnect(on_hit)
 
 
 func on_hit(_dmg):
@@ -50,11 +67,11 @@ func set_label(txt):
 		label.set_text(txt)
 
 
-func set_message(txt):
+func msg(txt):
 	if txt == null:
-		msg.display("")
+		message.add("")
 	else:
-		msg.display(str(txt))
+		message.add(txt)
 
 
 func set_sidetext(txt):

@@ -1,0 +1,40 @@
+[gd_scene load_steps=7 format=3 uid="uid://ic1rd2kpkmps"]
+
+[ext_resource type="Script" path="res://game/fx/timeout.gd" id="1_3kdwo"]
+[ext_resource type="Texture2D" uid="uid://bvsnwrbsad76s" path="res://assets/texture/rune.png" id="2_0swx3"]
+[ext_resource type="Texture2D" uid="uid://dsf3nsrt72ehb" path="res://game/fx/bleed/ease_in_out_expo.tres" id="3_5sdrs"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tj3du"]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+blend_mode = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("2_0swx3")
+texture_filter = 0
+texture_repeat = false
+billboard_keep_scale = true
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_xt33k"]
+particle_flag_rotate_y = true
+gravity = Vector3(0, 0, 0)
+angular_velocity_min = -720.0
+angular_velocity_max = 720.0
+scale_curve = ExtResource("3_5sdrs")
+hue_variation_min = -1.0
+hue_variation_max = 1.0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_iok41"]
+
+[node name="Explosion" type="Node3D"]
+script = ExtResource("1_3kdwo")
+_remaining_time = 2.0
+
+[node name="Particles" type="GPUParticles3D" parent="."]
+material_override = SubResource("StandardMaterial3D_tj3du")
+emitting = false
+amount = 5
+one_shot = true
+process_material = SubResource("ParticleProcessMaterial_xt33k")
+draw_pass_1 = SubResource("PlaneMesh_iok41")

@@ -22,12 +22,18 @@ static func get_buff(name):
 		r = Poison
 	elif name == "track":
 		r = Track
+	elif name == "glow":
+		r = Glow
 	elif name == "nighteye":
 		r = Nighteye
 	elif name == "vision":
 		r = Vision
 	elif name == "flight":
 		r = Flight
+	elif name == "morph":
+		r = Morph
+	elif name == "polymorph":
+		r = Polymorph
 	else:
 		r = Buff
 	return r
@@ -55,6 +61,10 @@ class Buff:
 
 
 	static func req_met(_p):
+		return true
+
+
+	func pre_save():
 		return true
 
 
@@ -143,12 +153,16 @@ class Invisibility extends Buff:
 	var interrupted = false
 	func on_start():
 		_unit.weapon.connect(on_interrupt)
+		_unit.special.connect(on_special)
 		_unit.hide()
 	func on_end():
 		_unit.show()
 	func get_description():
 		return super() + "Become invisible."
-	func on_interrupt(_type, _victim):
+	func on_interrupt(_type, _victim, _dmg):
+		duration = 0
+		interrupted = true
+	func on_special(_type):
 		duration = 0
 		interrupted = true
 	func on_stack(new_dur):
@@ -158,9 +172,10 @@ class Invisibility extends Buff:
 
 class Vision extends Buff:
 	var mat = preload("res://game/environment/xray.tres")
-	func on_start():
+	func on_turn():
 		if _unit == G.you:
 			G.terrain.set_material_override(mat)
+		return super()
 	func on_end():
 		if _unit == G.you:
 			G.terrain.set_material_override(null)
@@ -168,12 +183,28 @@ class Vision extends Buff:
 		return super() + "Gain vision through walls. Vision distance scales with Psych."
 
 
-class Nighteye extends Buff:
+class Glow extends Buff:
 	func on_start():
+		var light = OmniLight3D.new()
+		light.omni_range = 12
+		light.set_name("Light")
+		light.position.y = _unit.size.y / 2
+		_unit.add_child(light)
+	func on_end():
+		var light = _unit.get_node("Light")
+		light.queue_free()
+		_unit.remove_child(light)
+	func get_description():
+		return super() + "Gain vision through the darkness."
+
+
+class Nighteye extends Buff:
+	func on_turn():
 		if _unit == G.you:
 			G.env.environment.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
 			G.env.environment.ambient_light_color = Color.GREEN
 			G.env.environment.ambient_light_energy = 4.0
+		return super()
 	func on_end():
 		if _unit == G.you:
 			G.env.environment.ambient_light_source = Environment.AMBIENT_SOURCE_DISABLED
@@ -218,6 +249,67 @@ class Flight extends Buff:
 		_unit.physics_process = _unit._walk_physics_process
 	func get_description():
 		return super() + "Fly."
+
+
+class Morph extends Buff:
+	const FORMS = ["bunny", "squirrel", "bat", "rat"]
+	var orig
+	var orig_physics
+	var new
+	func pre_save():
+		return false
+	func get_form():
+		var form
+		if _unit == G.you:
+			var form_id = G.vars.seed % FORMS.size()
+			form = FORMS[form_id]
+		else:
+			form = G.rng.pick(FORMS)
+		return form
+	func on_start():
+		orig = _unit
+		orig_physics = orig.physics_process
+		orig.physics_process = orig._no_physics_process
+		orig.hide()
+		var form = get_form()
+		new = G.stock.make_any_unit(G.stock, _unit.position, form)
+		if _unit == G.you:
+			G.player.set_unit(new)
+			var morph = new.buffs.add("polymorph", duration)
+			morph.orig = orig
+			morph.orig_physics = orig_physics
+		new.health = orig.health
+		new.essence.append("polymorph")
+		new.position = _unit.position
+		orig.position.y -= 300
+		duration = 0
+	func get_description():
+		return super() + "Transform."
+
+
+class Polymorph extends Buff:
+	var orig
+	var orig_physics
+	func pre_save():
+		return false
+	func on_end():
+		if orig != null:
+			_unit.buffs._states.erase(name)
+			_unit.buffs.clean(true)
+			orig.physics_process = orig_physics
+			orig.show()
+			var new = _unit
+			if _unit == G.you:
+				G.player.set_unit(orig)
+			orig.health = new.health
+			orig.position = new.position
+			new.animator.set_speed_scale(100)
+			new.hide()
+			new.die()
+		elif _unit == G.you:
+			G.ui.msg("It seems you are stuck in this form forever...")
+	func get_description():
+		return super() + "Currently transformed."
 
 
 class Track extends Buff:

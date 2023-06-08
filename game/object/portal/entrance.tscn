@@ -1,10 +1,17 @@
-[gd_scene load_steps=7 format=3 uid="uid://dm2jmanphvui"]
+[gd_scene load_steps=9 format=3 uid="uid://dm2jmanphvui"]
 
 [ext_resource type="Script" path="res://game/object/portal/portal.gd" id="1_v1b8h"]
+[ext_resource type="Texture2D" uid="uid://dsf3nsrt72ehb" path="res://game/fx/bleed/ease_in_out_expo.tres" id="3_ry334"]
 [ext_resource type="Texture2D" uid="uid://dixe5c3qe1e8j" path="res://assets/texture/radial.png" id="3_uek3c"]
 [ext_resource type="AudioStream" uid="uid://bi5pv2uu2mvyf" path="res://assets/sfx/bgm_portal.wav" id="3_ux3xy"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_x6g5y"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_b8n8q"]
+gravity = Vector3(0, 0, 0)
+scale_curve = ExtResource("3_ry334")
+hue_variation_min = -1.0
+hue_variation_max = 1.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_k1vt8"]
 blend_mode = 1
@@ -12,11 +19,8 @@ shading_mode = 0
 vertex_color_use_as_albedo = true
 albedo_color = Color(1, 0, 1, 1)
 albedo_texture = ExtResource("3_uek3c")
-billboard_mode = 3
+billboard_mode = 2
 billboard_keep_scale = true
-particles_anim_h_frames = 1
-particles_anim_v_frames = 1
-particles_anim_loop = false
 
 [sub_resource type="QuadMesh" id="QuadMesh_8exlk"]
 material = SubResource("StandardMaterial3D_k1vt8")
@@ -32,10 +36,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
 [node name="Shape" type="CollisionShape3D" parent="Body"]
 shape = SubResource("SphereShape3D_x6g5y")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Body"]
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
-mesh = SubResource("QuadMesh_8exlk")
-skeleton = NodePath("")
+[node name="GPUParticles3D" type="GPUParticles3D" parent="Body"]
+amount = 2
+process_material = SubResource("ParticleProcessMaterial_b8n8q")
+draw_pass_1 = SubResource("QuadMesh_8exlk")
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("3_ux3xy")

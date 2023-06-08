@@ -61,4 +61,4 @@ func on_activate(_pos: Vector3, _user: Node3D):
 		door.position.x += 1
 	door.get_node("Animator").play("open2")
 	G.sfx.play("door_open", door.position)
-	G.player.set_noise(3)
+	G.tool.set_sound(door.position, 3)

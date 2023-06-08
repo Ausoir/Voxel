@@ -75,11 +75,11 @@ func get_description():
 	var r = str("[i]", data.get("desc", ""), "[/i]")
 	if "weight" in data:
 		r += str("\nWeight: ", data.weight)
-	if "health" in data:
+	if data.get("health", 0) != 0:
 		r += str("\nProvides Health: ", data.health)
-	if "mana" in data:
+	if data.get("mana", 0) != 0:
 		r += str("\nProvides Mana: ", data.mana)
-	if "defense" in data:
+	if data.get("defense", 0) != 0:
 		r += str("\nProvides Defense: ", data.defense)
 	if "speed" in data:
 		r += str("\nSpeed: ", data.speed)
@@ -128,7 +128,7 @@ func on_held_tick(_user: Node3D):
 
 func imbue(sd):
 	seed(sd)
-	var candids = ["weight+", "weight-", "size", "essence"]
+	var candids = ["weight+", "weight-", "size+", "size-"]
 	if "speed" in data:
 		candids.append("speed")
 	if "damage" in data:
@@ -161,6 +161,8 @@ func imbue(sd):
 		imbue_option(candids.pop_front(), randi_range(1, 2))
 		if rnd < .15:
 			rank += 1
+			candids.append("essence")
+			candids.shuffle()
 			imbue_option(candids.pop_front(), randi_range(1, 5))
 			if rnd < .02:
 				rank += 1
@@ -176,16 +178,15 @@ func imbue_option(opt, lvl):
 			data["essence"] = ess
 			data.value += 100
 			_options.append(str("[color=ORANGE]Ego: ", ess.capitalize(), "[/color]"))
-		"size":
+		"size+":
+			data["size"] = .5 + lvl*.1
+			data.value = int(data.value * (1 + lvl*.1))
+			_attach_option_description("Increased size", lvl)
+		"size-":
 			rank -= 1
-			if rank == 1:
-				data["size"] = .4
-				data.value = int(data.value * .8)
-				_options.append("Reduced size")
-			else:
-				data["size"] = .4 + lvl*.1
-				data.value = int(data.value * (1 + (lvl-2)*.1))
-				_attach_option_description("Increased size", lvl)
+			data["size"] = max(.1, .5 - lvl*.05)
+			data.value = int(data.value * (1 - lvl*.05))
+			_attach_option_description("Reduced size", lvl)
 		"weight+":
 			rank -= 2
 			data["weight"] = data.get("weight", 1) + lvl
@@ -209,6 +210,7 @@ func imbue_option(opt, lvl):
 			_attach_option_description("Increased speed", lvl)
 		"spread":
 			data.spread = data.spread / (1 + lvl*.5)
+			data.spread = snapped(data.spread, 0.01)
 			data.value = int(data.value * (1 + lvl*.2))
 			_attach_option_description("Increased accuracy", lvl)
 		"health":

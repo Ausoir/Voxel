@@ -5,15 +5,19 @@
 			"teleport scroll:-1"
 		],
 		[
-			0.05,
+			0.03,
 			"healing potion:-1"
 		],
 		[
-			0.08,
+			0.04,
 			"mana potion:-1"
 		],
 		[
-			0.09,
+			0.06,
+			"glow potion:-1"
+		],
+		[
+			0.08,
 			"flight potion:-1"
 		],
 		[
@@ -223,23 +227,183 @@
 		[
 			0.63,
 			"pickaxe:-1"
-		]
-	],
-	"#treasure": [
-		[
-			0.3,
-			"chaos essence"
 		],
 		[
-			0.8,
+			0.65,
+			"chaos essence:-1"
+		]
+	],
+	"#treasure1": [
+		[
+			0.03,
+			"goblin essence"
+		],
+		[
+			0.06,
+			"earth essence"
+		],
+		[
+			0.09,
+			"scout essence"
+		],
+		[
+			0.12,
+			"healing essence"
+		],
+		[
+			0.15,
+			"warrior essence"
+		],
+		[
+			0.18,
+			"mule essence"
+		],
+		[
+			0.21,
+			"sleep essence"
+		],
+		[
+			0.24,
+			"wind essence"
+		],
+		[
+			0.27,
+			"agility essence"
+		],
+		[
+			0.3,
+			"chameleon essence"
+		],
+		[
+			0.35,
 			"#shop"
 		],
 		[
-			0.9,
+			0.5,
+			"gold"
+		]
+	],
+	"#treasure2": [
+		[
+			0.03,
+			"health essence"
+		],
+		[
+			0.06,
+			"mana essence"
+		],
+		[
+			0.09,
+			"undead essence"
+		],
+		[
+			0.12,
+			"psychic essence"
+		],
+		[
+			0.15,
+			"vampire essence"
+		],
+		[
+			0.18,
+			"mule essence"
+		],
+		[
+			0.21,
+			"psychic essence"
+		],
+		[
+			0.24,
+			"sleep essence"
+		],
+		[
+			0.27,
+			"wind essence"
+		],
+		[
+			0.3,
+			"cat essence"
+		],
+		[
+			0.33,
+			"shadow essence"
+		],
+		[
+			0.36,
+			"quicksilver essence"
+		],
+		[
+			0.4,
+			"#shop"
+		],
+		[
+			0.5,
 			"gold"
 		],
 		[
-			1,
+			0.55,
+			"pure gold"
+		]
+	],
+	"#treasure3": [
+		[
+			0.03,
+			"health essence"
+		],
+		[
+			0.06,
+			"mana essence"
+		],
+		[
+			0.09,
+			"berserker essence"
+		],
+		[
+			0.12,
+			"assassin essence"
+		],
+		[
+			0.15,
+			"crusher essence"
+		],
+		[
+			0.18,
+			"spearmaster essence"
+		],
+		[
+			0.21,
+			"blademaster essence"
+		],
+		[
+			0.24,
+			"elven essence"
+		],
+		[
+			0.27,
+			"dwarven essence"
+		],
+		[
+			0.3,
+			"magical essence"
+		],
+		[
+			0.33,
+			"soul of blood"
+		],
+		[
+			0.36,
+			"soul of metal"
+		],
+		[
+			0.5,
+			"#shop"
+		],
+		[
+			0.6,
+			"gold"
+		],
+		[
+			0.7,
 			"pure gold"
 		]
 	],
@@ -247,10 +411,6 @@
 		[
 			0.04,
 			"gold"
-		],
-		[
-			0.05,
-			"pure gold"
 		],
 		[
 			0.07,

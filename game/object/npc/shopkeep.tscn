@@ -9,7 +9,7 @@
 [sub_resource type="BoxShape3D" id="BoxShape3D_kunlo"]
 size = Vector3(0.8, 1.2, 0.5)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gr05s"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jbasw"]
 transparency = 2
 alpha_scissor_threshold = 0.5
 alpha_antialiasing_mode = 0
@@ -28,10 +28,10 @@ shape = SubResource("BoxShape3D_kunlo")
 
 [node name="Body" type="Node3D" parent="Collision"]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Collision/Body"]
+[node name="Chair" type="MeshInstance3D" parent="Collision/Body"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, -0.5)
+material_override = SubResource("StandardMaterial3D_jbasw")
 mesh = ExtResource("2_iiylv")
-surface_material_override/0 = SubResource("StandardMaterial3D_gr05s")
 
 [node name="Mesh" type="MeshInstance3D" parent="Collision/Body"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)

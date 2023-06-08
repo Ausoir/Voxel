@@ -10,7 +10,7 @@ var list = {
 	"bow": 0.0,
 	"firearm": 0.0,
 	"ambush": 0.0,
-	"staff": 0.0,
+	"evocation": 0.0,
 	"armor": 0.0,
 	"dodge": 0.0,
 	"aura": 0.0,
@@ -47,7 +47,8 @@ func get_description():
 		var val = list[i]
 		var level = floor(val)
 		var percent = val - level
-		r += str("[color=#691]", i.to_upper(), "[/color] :  ", level, " [b](", percent," %)[/b]", "\n")
+		r += str("[color=#691][url=",i,"]", i.to_upper(), "[/url][/color] :  ",
+				level, " [i](", percent," %)[/i]", "\n")
 	return r
 
 
@@ -56,7 +57,8 @@ func check_req(prof, amount):
 	if property != null:
 		if property >= amount:
 			return true
-	G.ui.set_message(str("[", prof.capitalize(), "] skill not high enough! Requires ", amount, "."))
+	if _unit == G.you:
+		G.ui.msg(str("[", prof.capitalize(), "] skill not high enough! Requires ", amount, "."))
 	return false
 
 
@@ -68,16 +70,24 @@ func increase(prof, amount):
 		var current_lvl = floor(property)
 		if current_lvl != past_lvl:
 			on_level(prof)
-			var msg = str("[",prof.capitalize(),"] skill now level ",current_lvl,"!")
-			G.ui.set_message(msg)
+			if _unit == G.you:
+				var msg = str("[",prof.capitalize(),"] skill now level ",current_lvl,"!")
+				G.ui.msg(msg)
 		list[prof] = property
 
 
 func on_level(prof):
 	if prof == "armor":
 		_unit.data.health += 5
-	elif prof in ["psych", "earth", "aura", "staff", "necromancy"]:
+	elif prof in ["psych", "earth", "aura", "evocation", "necromancy"]:
 		_unit.data.mana += 1
+
+
+func floor_all():
+	for i in list.keys():
+		var val = list[i]
+		var level = floor(val)
+		list[i] = level
 
 
 func on_attacked(dmg):
@@ -89,7 +99,7 @@ func on_attack(_type, _victim, dmg):
 
 
 func on_ambush(_victim):
-	increase("ambush", 0.1)
+	increase("ambush", 0.25)
 
 
 func on_essence(_ess):

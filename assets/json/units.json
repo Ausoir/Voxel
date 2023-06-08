@@ -2,7 +2,7 @@
 	"rogue": {
 		"head": "head/head3",
 		"body": "body/a_underwear",
-		"ai": "ally",
+		"ai": "neutral",
 		"slots": [
 			"body",
 			"accessory"
@@ -32,7 +32,7 @@
 	"scholar": {
 		"head": "head/head4",
 		"body": "body/a_underwear",
-		"ai": "ally",
+		"ai": "neutral",
 		"slots": [
 			"body",
 			"accessory"
@@ -63,7 +63,7 @@
 	"warrior": {
 		"head": "head/head5",
 		"body": "body/a_underwear",
-		"ai": "ally",
+		"ai": "neutral",
 		"slots": [
 			"body",
 			"accessory"
@@ -107,6 +107,7 @@
 			]
 		],
 		"data": {
+			"level": 5,
 			"health": 20,
 			"speed": 0.5
 		}
@@ -124,6 +125,7 @@
 		],
 		"souls": [],
 		"data": {
+			"level": 3,
 			"health": 15,
 			"speed": 0.5
 		}
@@ -137,10 +139,12 @@
 		],
 		"equipments": [],
 		"items": [
-			"goblin bow"
+			"goblin bow",
+			"arrows:32"
 		],
 		"souls": [],
 		"data": {
+			"level": 4,
 			"health": 10,
 			"speed": 0.5,
 			"range": 10
@@ -157,6 +161,7 @@
 		],
 		"souls": [],
 		"data": {
+			"level": 2,
 			"health": 18,
 			"speed": 0.4,
 			"defense": 2,
@@ -175,12 +180,13 @@
 		"slots": [],
 		"equipments": [],
 		"items": [
-			"mace"
+			"pickaxe"
 		],
 		"souls": [
 			"warrior essence"
 		],
 		"data": {
+			"level": 2,
 			"health": 12,
 			"speed": 0.5,
 			"defense": 2,
@@ -192,6 +198,37 @@
 				[
 					0.02,
 					"earth essence"
+				]
+			]
+		}
+	},
+	"skeletal ranger": {
+		"head": "head/h_skull",
+		"body": "body/a_skeleton",
+		"ai": "sentient",
+		"slots": [],
+		"equipments": [],
+		"items": [
+			"survival bow",
+			"arrows:30"
+		],
+		"souls": [
+			"warrior essence"
+		],
+		"data": {
+			"level": 2,
+			"health": 12,
+			"speed": 0.5,
+			"defense": 2,
+			"range": 10,
+			"loot": [
+				[
+					0.01,
+					"undead essence"
+				],
+				[
+					0.02,
+					"elven essence"
 				]
 			]
 		}
@@ -209,6 +246,7 @@
 			"warrior essence"
 		],
 		"data": {
+			"level": 3,
 			"health": 18,
 			"speed": 0.6,
 			"defense": 2,
@@ -240,8 +278,11 @@
 		"souls": [
 			"vampire essence"
 		],
+		"mana": 12,
 		"data": {
+			"level": 5,
 			"health": 18,
+			"mana": 12,
 			"speed": 0.5,
 			"defense": 2,
 			"range": 10,
@@ -265,6 +306,7 @@
 		"model": "unit/undeaddog",
 		"ai": "sentient",
 		"data": {
+			"level": 2,
 			"speed": 0.4,
 			"delay": 2,
 			"damage": 2,
@@ -287,8 +329,9 @@
 			]
 		],
 		"data": {
+			"level": 1,
 			"delay": 1.5,
-			"speed": 0.6,
+			"speed": 0.5,
 			"damage": 1,
 			"health": 3,
 			"loot": [
@@ -301,9 +344,10 @@
 	},
 	"bunny": {
 		"model": "unit/bunny",
-		"ai": "ally",
+		"ai": "neutral",
 		"data": {
-			"speed": 0.6,
+			"level": 0,
+			"speed": 0.7,
 			"damage": 2,
 			"health": 5,
 			"loot": [
@@ -316,14 +360,18 @@
 	},
 	"squirrel": {
 		"model": "unit/squirrel",
-		"ai": "ally",
+		"ai": "neutral",
 		"ego": [
 			"agility"
 		],
 		"data": {
+			"level": 0,
 			"damage": 2,
 			"health": 12,
 			"speed": 0.5,
+			"proficiency": {
+				"dodge": 5
+			},
 			"loot": [
 				[
 					0.02,
@@ -332,23 +380,20 @@
 			]
 		}
 	},
-	"chicken": {
-		"model": "unit/chicken",
-		"ai": "sentient",
-		"data": {
-			"damage": 4,
-			"health": 8,
-			"speed": 0.4,
-			"loot": []
-		}
-	},
 	"rat": {
 		"model": "unit/rat",
 		"ai": "sentient",
 		"ego": [
 			"camoflauge"
 		],
+		"buffs": [
+			[
+				"nighteye",
+				-1
+			]
+		],
 		"data": {
+			"level": 1,
 			"damage": 4,
 			"health": 12,
 			"speed": 0.3,
@@ -365,6 +410,7 @@
 		"ai": "sentient",
 		"souls": [],
 		"data": {
+			"level": 3,
 			"damage": 4,
 			"defense": 5,
 			"health": 40,

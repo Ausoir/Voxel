@@ -36,8 +36,6 @@ particles_anim_loop = false
 [sub_resource type="QuadMesh" id="QuadMesh_3q3mp"]
 material = SubResource("StandardMaterial3D_dypeg")
 
-[sub_resource type="QuadMesh" id="QuadMesh_tcyex"]
-
 [sub_resource type="Shader" id="Shader_lbe5x"]
 code = "shader_type spatial;
 render_mode unshaded;
@@ -88,6 +86,9 @@ shader_parameter/timescale = 1.0
 shader_parameter/fire_aperture = 0.247
 shader_parameter/noisemap = SubResource("NoiseTexture2D_yfg2s")
 
+[sub_resource type="QuadMesh" id="QuadMesh_tcyex"]
+material = SubResource("ShaderMaterial_x7hat")
+
 [node name="light" type="Node3D"]
 script = ExtResource("1_8xtuj")
 
@@ -121,4 +122,3 @@ transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.2
 cast_shadow = 0
 mesh = SubResource("QuadMesh_tcyex")
 skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("ShaderMaterial_x7hat")

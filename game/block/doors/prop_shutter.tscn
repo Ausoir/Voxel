@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://c5ycc4lfk2y3e"]
+[gd_scene load_steps=9 format=3 uid="uid://c5ycc4lfk2y3e"]
 
 [ext_resource type="Script" path="res://game/block/doors/prop_shutter.gd" id="1_hu8uw"]
 [ext_resource type="ArrayMesh" uid="uid://5xmindpboht3" path="res://assets/blocks/sideslab_ns.obj" id="2_hq7b8"]
@@ -48,11 +48,6 @@ albedo_texture = ExtResource("3_onpbv")
 texture_filter = 0
 texture_repeat = false
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dooxw"]
-albedo_texture = ExtResource("3_onpbv")
-texture_filter = 0
-texture_repeat = false
-
 [node name="Door" type="Node3D"]
 script = ExtResource("1_hu8uw")
 
@@ -70,14 +65,14 @@ shape = SubResource("BoxShape3D_42y7s")
 
 [node name="Body" type="MeshInstance3D" parent="Collision"]
 transform = Transform3D(0.995, 0, 0, 0, 1, 0, 0, 0, 0.995, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_s2n4e")
 mesh = ExtResource("2_hq7b8")
 skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_s2n4e")
 
 [node name="Body2" type="MeshInstance3D" parent="Collision"]
 transform = Transform3D(0.995, 0, 0, 0, 0.99, 0, 0, 0, 0.995, 0, 1, 0)
+material_override = SubResource("StandardMaterial3D_s2n4e")
 mesh = ExtResource("2_hq7b8")
 skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_dooxw")
 
 [connection signal="animation_finished" from="Animator" to="." method="_on_animator_animation_finished"]

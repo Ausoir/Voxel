@@ -15,7 +15,7 @@
 				"@"
 			],
 			"chair": [
-				40,
+				20,
 				"#village"
 			],
 			"soil": [
@@ -24,7 +24,7 @@
 			]
 		},
 		"down": [
-			"floor 1"
+			"dungeons"
 		],
 		"item": null,
 		"treasure": null,
@@ -52,10 +52,10 @@
 			"324": "npc/transporter"
 		}
 	},
-	"floor 1": {
+	"dungeons": {
 		"env": "cave",
 		"down": [
-			"floor 2"
+			"goblin caves"
 		],
 		"spawns": {
 			"stonework": [
@@ -63,19 +63,19 @@
 				"@"
 			],
 			"mattress": [
-				80,
+				0.6,
 				"skeletal miner"
 			],
 			"bed": [
-				80,
+				0.7,
 				"#undead"
 			],
 			"brick": [
-				2,
+				1,
 				"portal/entrance"
 			],
 			"chair": [
-				2,
+				1,
 				"portal/exit"
 			],
 			"stone": [
@@ -83,16 +83,16 @@
 				"#cavern"
 			],
 			"wood": [
-				20,
+				12,
 				"skeletal dog"
 			],
 			"table": [
-				4,
+				1,
 				"chest"
 			]
 		},
 		"item": "#shelf",
-		"treasure": "#treasure",
+		"treasure": "#treasure1",
 		"trash": "#trash",
 		"variants": [
 			"dungeon/jail",
@@ -104,13 +104,13 @@
 		],
 		"palette": {
 			"road": "stonework",
-			"alley": "stone",
+			"alley": "brick",
 			"tiles": "wood",
 			"wall": "stone",
 			"wall2": "pole"
 		}
 	},
-	"floor 2": {
+	"goblin caves": {
 		"env": "cave",
 		"spawns": {
 			"bed": [
@@ -118,27 +118,31 @@
 				"@"
 			],
 			"mattress": [
-				20,
+				0.43,
 				"#goblins"
 			],
 			"campfire": [
-				4,
+				0.9,
 				"#goblins"
 			],
 			"chair": [
-				50,
+				20,
 				"#goblins"
 			],
 			"brick": [
-				2,
+				1,
 				"portal/entrance"
 			],
+			"table": [
+				1,
+				"portal/exit"
+			],
 			"stone": [
-				33,
+				40,
 				"#cavern"
 			],
 			"wood": [
-				33,
+				1,
 				"chest"
 			]
 		},
@@ -146,7 +150,7 @@
 			"floor 3"
 		],
 		"item": "#trash",
-		"treasure": "#shelf",
+		"treasure": "#treasure2",
 		"trash": "#barrel",
 		"variants": [
 			"cave/cave1",
@@ -168,10 +172,10 @@
 			"glass": "pole"
 		}
 	},
-	"floor 3": {
+	"abandoned academy": {
 		"env": "cave",
 		"down": [
-			"floor 3"
+			"abandoned academy"
 		],
 		"spawns": {
 			"bed": [
@@ -187,28 +191,32 @@
 				"#goblins"
 			],
 			"chair": [
-				50,
+				0.45,
 				"#undead"
 			],
-			"wood": [
-				33,
+			"counter": [
+				2,
 				"chest"
 			],
 			"carpet": [
-				2,
+				1,
 				"portal/entrance"
 			],
 			"table": [
-				2,
+				1,
 				"portal/exit"
 			],
 			"brick": [
-				33,
+				30,
 				"#cavern"
+			],
+			"labtiles": [
+				30,
+				"#animals"
 			]
 		},
 		"item": "#shelf",
-		"treasure": "#treasure",
+		"treasure": "#treasure3",
 		"trash": "#trash",
 		"variants": [
 			"fortress/cafe",

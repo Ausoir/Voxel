@@ -40,11 +40,11 @@ func on_press(item):
 	if G.vars.gold >= value:
 		if !G.you.equipment.pickup(item):
 			item.drop(G.you)
-		G.ui.set_message(str("You buy <", item.get_display_name(), ">!"))
+		G.ui.msg(str("You buy <", item.get_display_name().capitalize(), ">!"))
 		G.sfx.play("buy", G.you.position)
 		G.vars.gold -= value
 	else:
-		G.ui.set_message(str("Insufficient gold..."))
+		G.ui.msg(str("Insufficient gold..."))
 	G.ui.clear()
 
 

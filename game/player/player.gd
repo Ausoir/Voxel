@@ -5,8 +5,8 @@ const MAP_INCREMENT = 256
 var unit
 var noise = 0
 var _newmap_offset = 0
-var _frame = 0
 var _map_time = 0
+var enemies = []
 @onready var _viewer = $VoxelViewer
 
 
@@ -19,6 +19,7 @@ func _ready():
 func load_map(p):
 	if G.vars.map != p:
 		_map_time = 0
+		G.ui.msg(str("Now entering: [b][color=TEAL][url=",p,"]The ", p.capitalize(), "[/url][/color][/b]"))
 		G.terrain.get_node("LateLoader").stop()
 		if p == "#down":
 			p = G.rng.pick(G.mapdata.down)
@@ -39,7 +40,7 @@ func load_map(p):
 
 func set_unit(p):
 	G.you = p
-	G.stock.remove_ai(p)
+	G.stock.attach_ai(p, "blank")
 	var addon
 	if unit != null:
 		addon = unit.get_node("Addon")
@@ -48,7 +49,9 @@ func set_unit(p):
 				unit.get_parent().remove_child(unit)
 			G.stock.add_child(unit)
 		unit.remove_child(addon)
+		unit.death.disconnect(on_death)
 		p.position = unit.position + Vector3()
+		$Interface.unset_unit(unit)
 	else:
 		addon = get_node("Addon")
 		remove_child(addon)
@@ -56,7 +59,6 @@ func set_unit(p):
 	unit.set_name("Unit")
 	unit.faction = 1
 	unit.add_child(addon)
-	unit.body.set_collision_mask_value(6, false)
 	unit.take_hit(0)
 	$Cam.set_unit(unit)
 	$Control.set_unit(unit)
@@ -74,28 +76,21 @@ func on_death():
 	$Timer.start(2)
 
 
-func set_noise(p):
-	noise = max(noise, p)
-
-
-func _process(_delta):
-	_frame += _delta
-	if _frame >= 0.5:
-		_frame -= 0.5
-		noise = 0
-		_map_time += .5
-
-
 func _on_timer_timeout():
 	if unit.buffs.has("track"):
-#		var u = G.stock.make_any_unit(self, unit.position, G.vars.unit.name)
-#		set_unit(u)
 		if unit.get_type() == 1:
-			unit.equipment.clear()
-		unit.revive()
-		G.ui.set_message("The chaplain revives you!")
+			unit.equipment.clear(true, false)
+		unit.proficiency.floor_all()
+		unit.data["level"] = floor(unit.data.get("level", 1))
+		G.ui.msg("The chaplain revives you!")
 		load_map("camp")
-		G.ui.animation.stop()
-		G.ui.animation.seek(0, true)
-		G.ui.animation.play("respawn")
+		unit.revive()
+	else:
+		G.ui.msg("You have died...")
+		load_map("camp")
+		var new = G.stock.make_any_unit(G.stock, unit.position, G.vars.unit.name)
+		set_unit(new)
+	G.ui.animation.stop()
+	G.ui.animation.seek(0, true)
+	G.ui.animation.play("respawn")
 

@@ -4,7 +4,7 @@ signal changed
 signal updated
 
 var _unit
-var states = {}
+var _states = {}
 
 
 func set_unit(phost):
@@ -13,8 +13,8 @@ func set_unit(phost):
 
 func serialize():
 	var r = []
-	for i in states.keys():
-		var state = states[i]
+	for i in _states.keys():
+		var state = _states[i]
 		r.append([state.name, state.duration])
 	return r
 
@@ -25,10 +25,11 @@ func unserialize(p):
 
 
 func add(buffname, duration):
+	var r
 	duration = int(duration)
-	var empty = states.is_empty()
-	if buffname in states:
-		states[buffname].on_stack(duration)
+	var empty = _states.is_empty()
+	if buffname in _states:
+		_states[buffname].on_stack(duration)
 	else:
 		var buff_class = Buff.get_buff(buffname)
 		if buff_class.req_met(_unit):
@@ -36,47 +37,59 @@ func add(buffname, duration):
 			buff.name = buffname
 			var path = str("ui/st_", buffname.replace(" ", "_"))
 			buff.sprite = G.stock.get_image(path)
-			states[buffname] = buff
+			_states[buffname] = buff
 			buff.on_start()
-	if empty and !states.is_empty():
+			r = buff
+	if empty and !_states.is_empty():
 		G.turn.add(on_turn)
 	emit_signal("changed")
+	return r
 
 
 func has(p):
-	return p in states
+	return p in _states
 
 
 func set_duration(p, dur):
-	var state = states.get(p)
+	var state = _states.get(p)
 	if state != null:
 		state.duration = dur
 
 
 func on_turn():
 	var dirty = false
-	var keys = states.keys()
+	var keys = _states.keys()
 	for i in keys:
-		var state = states[i]
+		var state = _states[i]
 		if !state.on_turn():
-			states.erase(i)
+			_states.erase(i)
 			dirty = true
 	if dirty:
 		emit_signal("changed")
 	else:
 		emit_signal("updated")
-	return !states.is_empty()
+	return !_states.is_empty()
 
 
 func clean(all=false):
-	var keys = states.keys()
+	var keys = _states.keys()
 	for i in keys:
-		var state = states[i]
+		var state = _states[i]
 		if all or state.duration != -1:
 			state.duration = 0
 			if !state.on_turn():
-				states.erase(i)
+				_states.erase(i)
 	emit_signal("changed")
+
+
+func pre_save():
+	var keys = _states.keys()
+	for i in keys:
+		var state = _states[i]
+		if !state.pre_save():
+			state.duration = 0
+			if !state.on_turn():
+				_states.erase(i)
 
 
 func remove():

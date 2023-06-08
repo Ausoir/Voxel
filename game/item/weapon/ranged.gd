@@ -16,7 +16,7 @@ func use(_user: Node3D):
 		_user.procedure.speedmod = 0
 		if weapon_type == "firearm" and _user.has_essence("firearm"):
 			_user.procedure.speedmod = .8
-		elif weapon_type == "staff" and _user.has_essence("staff"):
+		elif weapon_type == "evocation" and _user.has_essence("evocation"):
 			anim_name = "shoot2"
 			animation = _user.animator.get_animation(anim_name)
 			_times = 2
@@ -36,7 +36,7 @@ func on_held(_user):
 		_projectile = Bullet
 	elif proj == "bow":
 		_projectile = Arrow
-	elif proj == "staff":
+	elif proj == "evocation":
 		_projectile = Laser
 
 
@@ -49,7 +49,7 @@ func on_shoot(_user: Node3D):
 	var held_item = _user.held_item_model
 	var toward = -held_item.get_global_transform().basis.z
 	var item_length = -held_item.mesh.get_aabb().position.z
-	var hitvoxel = G.tool.raycast(from, toward, item_length, 8)
+	var hitvoxel = G.tool.raycast(from, toward, item_length, 4)
 	if hitvoxel == null:
 		var weapon_type = data.get("type", "bow")
 		var inflict = data.get("inflict", [])
@@ -58,16 +58,15 @@ func on_shoot(_user: Node3D):
 		var spread = data.get("spread", 0)
 		var rocket = _projectile.instantiate()
 		if _user == G.you:
-			G.player.set_noise(data.get("noise", 4))
-			if weapon_type == "staff":
+			if weapon_type == "evocation":
 				if !_user.req_mana(data.get("manause", 1)):
-					G.ui.set_message("Out of mana!")
+					G.ui.msg("Out of mana!")
 					return
 				rocket.radius = data.get("radius", 2)
 			else:
 				var ammo = _user.equipment.find_item_by_data("ammo", weapon_type)
 				if ammo == null or !ammo.spend(_user):
-					G.ui.set_message("Out of ammunition!")
+					G.ui.msg("Out of ammunition!")
 					return
 				if "power" in ammo.data:
 					proj_speed = ammo.data.power
@@ -77,6 +76,8 @@ func on_shoot(_user: Node3D):
 					spread = max(0, spread + ammo.data.spread)
 				inflict = inflict.duplicate() + ammo.data.get("inflict", [])
 		var damage_roll = G.rng.damage_roll(damage, _user.get_prof(weapon_type))
+		rocket.noise = data.get("noise", 4)
+		G.tool.set_sound(_user.position, rocket.noise / 2)
 		rocket.damage = damage_roll
 		rocket.inflict = inflict
 		rocket.position = held_item.global_position + toward * item_length

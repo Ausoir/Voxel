@@ -33,9 +33,7 @@
         ],
         "items":
         [
-            "spear",
-            "short bow",
-            "arrows:30",
+            "quarterstaff",
             "cave scroll",
         ],
         "name": "scholar",
@@ -46,6 +44,7 @@
         ],
         "souls":
         [
+            "soul essence"
         ]
     }
 }

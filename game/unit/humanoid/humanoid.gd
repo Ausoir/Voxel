@@ -54,7 +54,7 @@ func get_item_position():
 
 
 func _on_held_select():
-	var item = equipment.get_item_by_index(equipment.get_held_index())
+	var item = equipment.get_held_item()
 	if item != _previous_held:
 		if _previous_held != null:
 			_previous_held.on_unheld(self)

@@ -6,7 +6,7 @@ func use_callback(_user: Node3D):
 	while ess == null or ess in data.exclude:
 		ess = G.rng.pick(G.stock.essence_list)
 	G.sfx.play("craft", G.you.position)
-	G.ui.set_message(str("Obtained <", ess.capitalize(), ">!"))
+	G.ui.msg(str("Obtained <", ess.capitalize(), ">!"))
 	var item = G.stock.make_item(ess)
 	if !G.you.equipment.pickup(item):
 		item.drop(G.you)

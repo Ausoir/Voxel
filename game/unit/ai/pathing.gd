@@ -1,6 +1,3 @@
-extends Node
-
-
 class pathnode:
 	var col = 4
 	var parent
@@ -14,11 +11,11 @@ class pathnode:
 		pos = pnode
 
 	func set_h(destination):
-#		var dx = abs(pos.x - destination.x)
-#		var dy = abs(pos.y - destination.y) * 4
-#		var dz = abs(pos.z - destination.z)
-#		h = dx + dy + dz
-		h = pos.distance_to(destination)
+		var dx = abs(pos.x - destination.x)
+		var dy = abs(pos.y - destination.y) * 4
+		var dz = abs(pos.z - destination.z)
+		h = dx + dy + dz
+#		h = pos.distance_to(destination)
 
 	func get_routes():
 		var r = []
@@ -69,8 +66,8 @@ class pathnode:
 
 var _unit
 var target
-var _chase = 12
-var _iterations = 7
+var _chase = 9
+var _iterations = 6
 var _timeout = 0
 var _max_timeout = 1
 var open = null
@@ -124,17 +121,17 @@ func perform(_delta):
 	if !result.is_empty():
 #		debug_trace()
 		var next = result[0] + G.V2_HALF
+		_unit.procedure.walk_toward(next)
 		if _unit.position.distance_squared_to(next) <= .1:
+			_timeout = 0
 			result.pop_front()
-		else: 
-			_unit.procedure.walk_toward(next)
+		else:
 			_timeout += _delta
 			if _timeout >= _max_timeout:
 				next_reset = 0
 				result = []
 				_timeout = 0
 	else:
-		_unit.procedure.stop_walk()
 		on_turn()
 
 

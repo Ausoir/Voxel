@@ -34,19 +34,19 @@ func on_interact(_user: Node3D):
 func on_activate(_user: Node3D):
 	G.sfx.play("door_open", position)
 	G.ui.display(_menu)
-	G.ui.set_message('Priest: "Come to me for a blessing, or perish forever!"')
+	G.ui.msg('Priest: "Come to me for a blessing, or perish forever!"')
 
 
 func on_press(idx):
 	if idx == 0 and _require(15):
 		G.you.buffs.add("track", -1)
-		G.ui.set_message('Priest: "You will now be brought back alive when taken to critical health."')
+		G.ui.msg('Priest: "You will now be brought back alive when taken to critical health."')
 	elif idx == 1 and _require(5):
 		G.you.health = G.you.data.health
-		G.ui.set_message('Priest: "You have been mended."')
+		G.ui.msg('Priest: "You have been mended."')
 	elif idx == 2 and _require(10):
 		G.you.buffs.clean()
-		G.ui.set_message('Priest: "You ill no more."')
+		G.ui.msg('Priest: "You ill no more."')
 	G.ui.clear()
 
 
@@ -54,7 +54,7 @@ func _require(p):
 	if G.vars.gold >= p:
 		G.vars.gold -= p
 		return true
-	G.ui.set_message('Priest: "Bring more gold."')
+	G.ui.msg('Priest: "Bring more gold."')
 	return false
 
 

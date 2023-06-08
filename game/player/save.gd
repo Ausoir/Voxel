@@ -35,6 +35,7 @@ func save_player_data():
 	G.vars["health"] = G.you.health
 	G.vars["mana"] = G.you.mana
 	var r = G.vars.duplicate()
+	G.you.buffs.pre_save()
 	var unit_data = G.you.serialize()
 	r["unit"] = unit_data
 	save(PATH, r)

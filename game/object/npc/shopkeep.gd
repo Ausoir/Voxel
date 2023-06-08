@@ -28,4 +28,4 @@ func on_interact(_user: Node3D):
 func on_activate(_user: Node3D):
 	G.sfx.play("door_open", position)
 	G.ui.display(_menu)
-	G.ui.set_message('Shopkeep: "Come check out my random assortment of items straight from the dumpster!"')
+	G.ui.msg('Shopkeep: "Come check out my random assortment of items straight from the dumpster!"')

@@ -32,6 +32,9 @@ func use(_user: Node3D):
 		elif weapon_type == "spear":
 			if _user.has_essence("spear"):
 				_user.procedure.speedmod = .8
+		elif weapon_type == "dagger":
+			if _user.has_essence("dagger"):
+				_user.procedure.speedmod = 1.2
 		if _user.has_essence("berserk"):
 			speed += 0.25
 		var anim_dur = animation.get_length() * (1 / speed)
@@ -56,24 +59,22 @@ func on_held_tick(_user: Node3D):
 				var prop = G.tool.collide_prop_by_line(from, to, 4)
 				if !prop.is_empty():
 					var unit = prop.collider.get_parent()
-					if unit.get("faction") != null and unit.faction != _user.faction:
+					if unit.get("faction") != _user.faction:
 						if !(unit in already_hit):
 							already_hit.append(unit)
 							var damage = data.get("damage", 1)
 							var inflict = data.get("inflict", [])
 							var weapon_type = data.get("type", "blunt")
 							if _user.has_essence(weapon_type):
-								if weapon_type == "dagger":
-									inflict = inflict.duplicate() + ["silence", 1]
-									if !unit.alert:
-										damage += 20
-								elif weapon_type == "blunt":
+								if weapon_type == "blunt":
 									if !_user.buffs.has("exhaustion"):
 										inflict = inflict.duplicate() + ["sleep", 1]
 										_user.buffs.add("exhaustion", max(1, 10 - _user.get_prof("blunt")))
 										G.sfx.play("critical", _user.position)
 							if !unit.alert:
-								damage += _user.get_prof("ambush") * 4
+								if weapon_type == "dagger":
+									damage += _user.get_prof("dagger") * 2
+								damage += _user.get_prof("ambush")
 								_user.emit_signal("critical", unit)
 							var damage_roll = G.rng.damage_roll(damage, _user.get_prof(weapon_type))
 							unit.last_hitter = _user
@@ -96,4 +97,4 @@ func _deflect(_user: Node3D, _at: Vector3):
 	_user.animator.play("RESET")
 	_user.equipment.swinging = false
 	G.sfx.play("hit_glance", _user.position)
-	G.player.set_noise(8)
+	G.tool.set_sound(_at, 7)

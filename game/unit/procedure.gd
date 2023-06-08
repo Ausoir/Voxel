@@ -56,6 +56,12 @@ func walk_toward(to):
 	_unit.motor = _unit.motor.normalized() * max(0, speed) * speedmod
 
 
+func walk_dir(x, z):
+	_unit.motor.x = x
+	_unit.motor.z = z
+	_unit.motor = _unit.motor.normalized() * max(0, speed) * speedmod
+
+
 func stop_walk():
 	_unit.motor = Vector3()
 
@@ -64,7 +70,6 @@ func use():
 	face_front()
 	if _unit.action.delay <= 0:
 		if !_unit.buffs.has("daze"):
-			_unit.buffs.set_duration("invisibility", 0)
 			speedmod = 0.5
 			if _unit.get_type() == 1:
 				var inv_item = _unit.equipment.get_held_item()
@@ -74,16 +79,17 @@ func use():
 					hand.use(_unit)
 			else:
 				if !hand.use(_unit):
-					_unit.animator.play("tackle")
+					if _unit.action.set_next("delay", 1):
+						_unit.animator.play("tackle")
 
 
 func use2():
 	face_front()
 	if !_unit.buffs.has("silence"):
-		_unit.buffs.set_duration("invisibility", 0)
 		speedmod = 0.5
 		if _unit.get_type() == 1:
 			var inv_item = _unit.equipment.get_held_item()
 			if inv_item != null and inv_item.use2(_unit):
 				return
-		_unit.skills.on_ability()
+		_unit.action.set_next("ability", .3, _unit.skills.on_ability)
+		_unit.action.show_progress = true

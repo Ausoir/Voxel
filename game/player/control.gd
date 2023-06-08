@@ -30,7 +30,6 @@ var _menu_inventory = MENU_INVENTORY.instantiate()
 func set_unit(p):
 	_unit = p
 	_unit.camera = _camera
-	_unit.action.bind("jump", _unit.procedure.jump_ready)
 
 
 func _physics_process(_delta):
@@ -61,9 +60,9 @@ func _physics_process(_delta):
 					has_moved = false
 			if has_moved:
 				if _unit.procedure.speedmod == 1:
-					G.player.set_noise(3)
+					G.tool.set_sound(_unit.position, 2)
 				if _unit.procedure.speed < 0:
-					G.ui.set_message("Too heavy!")
+					G.ui.msg("Too heavy!")
 			else:
 				_unit.motor = Vector3()
 				_unit.procedure.face_front()
@@ -76,6 +75,7 @@ func _physics_process(_delta):
 				if _unit.action.delay <= 0:
 					if _unit.grounded or !_unit.skills.perform("wind"):
 						_unit.action.set_next("jump", 999)
+						_unit.procedure.jump_ready()
 						_unit.action.cancelable = true
 						_unit.procedure.speedmod = 0.5
 			elif Input.is_action_just_released("jump"):
@@ -119,10 +119,14 @@ func _unhandled_input(event):
 			_interface.display(_menu_inventory)
 			_unit.action.set_next("wield", 0.1)
 		elif Input.is_action_just_pressed("debug"):
-			if _unit.physics_process == _unit._walk_physics_process:
-				_unit.physics_process = _unit._fly_physics_process
+			if _unit.buffs.has("flight"):
+				_unit.buffs.set_duration("flight", 0)
+				_unit.buffs.set_duration("glow", 0)
 			else:
-				_unit.physics_process = _unit._walk_physics_process
+				_unit.buffs.add("flight", -1)
+				_unit.buffs.add("glow", -1)
+			_unit.mana += 1
+			_unit.die()
 		elif event.pressed:
 			if _hotbar_keys.has(event.keycode):
 				var v = _hotbar_keys[event.keycode]

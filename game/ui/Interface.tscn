@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://d2bedp1vuwbx5"]
+[gd_scene load_steps=22 format=3 uid="uid://d2bedp1vuwbx5"]
 
 [ext_resource type="Script" path="res://game/ui/interface.gd" id="1_vn1vd"]
 [ext_resource type="Script" path="res://game/ui/buffs/buff_list.gd" id="2_jtyhy"]
@@ -100,6 +100,20 @@ _data = {
 "tint": SubResource("2")
 }
 
+[sub_resource type="Gradient" id="Gradient_1w7ed"]
+colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 0.313726)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_qi5t7"]
+gradient = SubResource("Gradient_1w7ed")
+fill_to = Vector2(0, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ethmg"]
+content_margin_left = 14.0
+content_margin_top = 6.0
+content_margin_right = 14.0
+content_margin_bottom = 6.0
+texture = SubResource("GradientTexture2D_qi5t7")
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g2udl"]
 content_margin_left = 6.0
 content_margin_top = 6.0
@@ -197,6 +211,35 @@ mouse_filter = 2
 [node name="ItemBar" parent="HotBar" instance=ExtResource("9_5s8sh")]
 layout_mode = 2
 
+[node name="Sidetext" parent="." instance=ExtResource("10_dbsvl")]
+clip_contents = false
+custom_minimum_size = Vector2(360, 96)
+anchors_preset = -1
+anchor_left = 0.1
+anchor_top = 0.5
+anchor_right = 0.1
+anchor_bottom = 0.5
+offset_left = 0.0
+offset_top = -48.0
+offset_right = 240.0
+offset_bottom = 48.0
+grow_horizontal = 1
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_font_sizes/normal_font_size = 28
+text = ""
+fit_content = true
+scroll_active = false
+show_time = 999999
+
+[node name="Message" parent="." instance=ExtResource("10_dbsvl")]
+custom_minimum_size = Vector2(952, 128)
+offset_top = -128.0
+theme_override_styles/normal = SubResource("StyleBoxTexture_ethmg")
+text = ""
+scroll_following = true
+
 [node name="Description" type="RichTextLabel" parent="."]
 visible = false
 anchors_preset = 8
@@ -216,27 +259,3 @@ theme_override_font_sizes/italics_font_size = 16
 theme_override_styles/normal = SubResource("StyleBoxFlat_g2udl")
 bbcode_enabled = true
 fit_content = true
-
-[node name="Message" parent="." instance=ExtResource("10_dbsvl")]
-
-[node name="Sidetext" parent="." instance=ExtResource("10_dbsvl")]
-clip_contents = false
-custom_minimum_size = Vector2(280, 96)
-anchors_preset = -1
-anchor_left = 0.1
-anchor_top = 0.5
-anchor_right = 0.1
-anchor_bottom = 0.5
-offset_left = 0.0
-offset_top = -48.0
-offset_right = 240.0
-offset_bottom = 48.0
-grow_horizontal = 1
-grow_vertical = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_font_sizes/normal_font_size = 28
-text = ""
-fit_content = true
-scroll_active = false
-show_time = 999999

@@ -11,6 +11,7 @@ func set_unit(p):
 	_unit = p
 	_unit.attacked.connect(on_hit)
 	_unit.wait.connect(on_wait)
+	_unit.kill.connect(on_kill)
 
 
 func on_touch():
@@ -38,8 +39,15 @@ func on_attack(_victim):
 
 func on_ability():
 	if !perform("metal"):
-		if !perform("shadow"):
-			return
+		if !perform("heal"):
+			if !perform("shadow"):
+				if !perform("polymorph"):
+					return
+
+func on_kill(_victim):
+	_param = _victim
+	if !perform("summon"):
+		return
 
 func on_cast():
 	if _casting != null:
@@ -49,7 +57,10 @@ func on_cast():
 func perform(ess):
 	if _unit.has_essence(ess):
 		if ess == "warrior":
-			return recover(3, 30)
+			if _unit.health < _unit.data.health / 2:
+				recover(3, 20)
+				return true
+			return false
 		elif ess == "metal":
 			return metal()
 		elif ess == "blood":
@@ -66,6 +77,12 @@ func perform(ess):
 					return passwall()
 				"bomb":
 					return plant_bomb()
+				"heal":
+					if _unit.health < _unit.data.health / 2:
+						recover(_unit.get_prof("aura") + 3, 20)
+						return true
+					else:
+						return heal_ready()
 				"psychic":
 					return psychic()
 				"sleep":
@@ -78,6 +95,10 @@ func perform(ess):
 					return slow(3)
 				"wind":
 					return fly()
+				"polymorph":
+					return polymorph()
+				"summon":
+					return summon()
 				"vampire":
 					if _unit.mana > 1:
 						if recover(1, 8):
@@ -104,6 +125,29 @@ func slow(p):
 	_param.buffs.add("slow", p)
 	G.sfx.play("buff_slow", _unit.position)
 	return true
+
+
+func summon():
+	if _unit.req_mana(1):
+		var creature = G.rng.pick(["skeletal warrior", "skeletal ranger"])
+		if _unit.get_prof("necromancy") < 3:
+			_unit.buffs.add("exhaustion", 2)
+		var at = _param.position
+		G.stock.make_particle(at, "summon")
+		var new = G.stock.make_any_unit(G.stock, at, creature)
+		G.stock.attach_ai(new, "ally")
+		return true
+	return false
+
+
+func polymorph():
+	if _unit.buffs.has("polymorph"):
+		_unit.buffs.set_duration("polymorph", 0)
+	else:
+		G.sfx.play("cast_water", _unit.position)
+		_unit.buffs.add("morph", -1)
+		return true
+	return false
 
 
 func recover(regen, cd):
@@ -138,20 +182,17 @@ func sublimation():
 
 
 func hide():
-	if _unit.req_mana(1):
-		if !_unit.buffs.has("invisibility"):
-			G.sfx.play("fade", _unit.position)
-		_unit.buffs.add("invisibility", 1)
-		return true
-	return false
+	if !_unit.buffs.has("invisibility"):
+		G.sfx.play("fade", _unit.position)
+	_unit.buffs.add("invisibility", 1)
 
 
 func invisibility():
 	if _unit.req_mana(1):
 		if !_unit.buffs.has("invisibility"):
 			G.sfx.play("fade", _unit.position)
-			_unit.buffs.add("invisibility", 3+_unit.get_prof("aura"))
 			_unit.emit_signal("special", "aura")
+			_unit.buffs.add("invisibility", 2+_unit.get_prof("aura"))
 			return true
 	return false
 
@@ -206,7 +247,6 @@ func sleep_ready():
 					_unit.action.set_next("use", anim_dur)
 					_unit.action.show_progress = true
 					_unit.action.cancelable = true
-					_unit.emit_signal("special", "psych")
 					G.sfx.play("cast_psych", _unit.position)
 					_casting = sleep_shoot
 					return true
@@ -214,14 +254,54 @@ func sleep_ready():
 
 
 func sleep_shoot():
-	if _unit.req_mana(1):
+	var origin = _unit.get_center()
+	var hits = G.tool.collide_prop_by_line(origin, origin + _unit.forward * 2, 4)
+	if !hits.is_empty():
+		var _item = hits.collider.get_parent()
+		if _item.get("buffs") != null:
+			if _unit.req_mana(1):
+				_item.buffs.add("sleep", _unit.get_prof("psych") * 4 + 4)
+				G.stock.make_particle(origin, "dodge")
+				_unit.emit_signal("special", "psych")
+				_unit.action.set_next("idle", .5)
+				return true
+	return false
+
+
+func heal_ready():
+	if _unit.mana >= 1:
 		var origin = _unit.get_center()
 		var hits = G.tool.collide_prop_by_line(origin, origin + _unit.forward * 2, 4)
 		if !hits.is_empty():
 			var _item = hits.collider.get_parent()
 			if _item.get("buffs") != null:
-				_item.buffs.add("sleep", _unit.get_prof("psych") * 4 + 4)
-				G.stock.make_particle(origin, "dodge")
+				var anim_name = "shoot"
+				var animation = _unit.animator.get_animation(anim_name)
+				if animation != null:
+					var speed = 0.3
+					var anim_dur = animation.get_length() * (1 / speed)
+					_unit.animator.seek(0, true)
+					_unit.animator.play(anim_name, .1, speed)
+					_unit.action.set_next("use", anim_dur)
+					_unit.action.show_progress = true
+					_unit.action.cancelable = true
+					G.sfx.play("cast_psych", _unit.position)
+					_casting = heal_shoot
+					return true
+	return false
+
+
+func heal_shoot():
+	var origin = _unit.get_center()
+	var hits = G.tool.collide_prop_by_line(origin, origin + _unit.forward * 2, 4)
+	if !hits.is_empty():
+		var _item = hits.collider.get_parent()
+		if _item.get("buffs") != null:
+			if _unit.req_mana(1):
+				_unit.emit_signal("special", "aura")
+				_item.buffs.add("regeneration", 3+_unit.get_prof("aura"))
+				_item.buffs.add("regeneration cooldown", 20)
+				G.stock.make_particle(origin, "heal")
 				_unit.action.set_next("idle", .5)
 				return true
 	return false
@@ -269,7 +349,7 @@ func passwall():
 	if _unit == G.you:
 		var cardinal = G.tool.cardinalize(_unit.forward)
 		var dest = _unit.position.floor() + G.V2_HALF + cardinal * 2
-		if G.tool.get_voxel(dest) == 0 and G.tool.get_voxel(dest + Vector3.UP) == 0 and G.tool.get_voxel(dest + Vector3.DOWN) != 0:
+		if G.tool.get_voxel(dest) == 0 and G.tool.get_voxel(dest + Vector3.UP) == 0:
 			_unit.emit_signal("special", "earth")
 			dest += cardinal * .5
 			_unit.action.set_next("passwall", 3, G.you.camera.set_override.bind(null))

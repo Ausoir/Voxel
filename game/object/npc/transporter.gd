@@ -31,7 +31,7 @@ func on_interact(_user: Node3D):
 func on_activate(_user: Node3D):
 	G.sfx.play("door_open", position)
 	G.ui.display(_menu)
-	G.ui.set_message('Guildsman: "Where do you want to go?"')
+	G.ui.msg('Guildsman: "Where do you want to go?"')
 
 
 func on_press(to):

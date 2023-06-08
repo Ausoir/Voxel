@@ -29,7 +29,7 @@ func on_activate(_user: Node3D):
 	_menu.load_stash = G.vars.stash
 	_menu.on_set = on_set
 	G.ui.display(_menu)
-	G.ui.set_message('Storage Keeper: "I keep your items safe, until you die!"')
+	G.ui.msg('Storage Keeper: "I keep your items safe, until you die!"')
 
 
 func on_set(idx, itemname):

@@ -114,6 +114,21 @@ func block_spawn(pos, to):
 					set_voxel(at, 4)
 
 
+func set_sound(pos, radius):
+	_tool.set_channel(VoxelBuffer.CHANNEL_DATA6)
+	var vrad = Vector3(radius, radius, radius)
+	_tool.value = G.sec
+	_tool.do_box(pos - vrad, pos + vrad)
+	_tool.set_channel(_CHANNEL_TYPE)
+
+
+func get_sound(pos):
+	_tool.set_channel(VoxelBuffer.CHANNEL_DATA6)
+	var r = _tool.get_voxel(pos)
+	_tool.set_channel(_CHANNEL_TYPE)
+	return r == G.sec
+
+
 func set_voxel(pos, voxel_id):
 	_tool.value = voxel_id
 	_tool.do_point(pos)

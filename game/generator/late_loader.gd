@@ -19,7 +19,7 @@ func stop():
 
 func _on_timeout():
 	_player_spawned = false
-	_timeout = 100
+	_timeout = 200
 	_bounds = G.terrain.generator.get_bounds()
 	_spawns = {}
 	var _prop_spawns = {}
@@ -44,11 +44,17 @@ func _on_timeout():
 			G.stock.make_object(pos + G.V2_HALF, objectname)
 			if objectname in _prop_spawns:
 				var prop_spawn = _prop_spawns[objectname]
-				make_placeable(pos, prop_spawn[1])
-				if prop_spawn[0] > 1:
-					prop_spawn[0] -= 1
-				else:
-					_prop_spawns.erase(objectname)
+				var spawn_params = prop_spawn[0]
+				if spawn_params > 0:
+					if spawn_params < 1:
+						if G.rng.percent(spawn_params):
+							make_placeable(pos, prop_spawn[1])
+					else:
+						make_placeable(pos, prop_spawn[1])
+						if spawn_params > 1:
+							prop_spawn[0] -= 1
+						else:
+							_prop_spawns.erase(objectname)
 	load_blocks.clear()
 	load_props.clear()
 	G.ui.fadein()
