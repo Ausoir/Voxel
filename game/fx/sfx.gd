@@ -76,8 +76,14 @@ func on_sfx_finished(p):
 	open.append(p)
 
 
-func play_bgm(p, seek=0):
-	var bgm = get("BGM_"+p.replace(" ", "_"))
-	if bgm != null:
-		$Bgm.stream = bgm
-		$Bgm.play(seek)
+func play_bgm(p, seek=0, override=false):
+	if override or !$Bgm.is_playing():
+		var bgm = get("BGM_"+p.replace(" ", "_"))
+		if bgm != null:
+			$Bgm.stream = bgm
+			$Bgm.play(seek)
+
+
+func fade_bgm():
+	if $Bgm.is_playing():
+		$AnimationPlayer.play("fade")

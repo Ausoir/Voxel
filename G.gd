@@ -69,10 +69,11 @@ func set_map(p):
 		print("Map ", p, " not found!")
 		set_map("camp")
 	else:
-		if env != null and env.get_parent() == self:
-			remove_child(env)
+		var parent = get_tree().get_root().get_node("Game")
+		if env != null and env.get_parent() == parent:
+			parent.remove_child.call_deferred(env)
 		env = _envs[mapdata.get("env", "outside")]
-		add_child(env)
+		parent.add_child.call_deferred(env)
 
 
 func run_script(p, params):

@@ -90,8 +90,10 @@ func perform(ess, fn=null):
 					return plant_bomb()
 				"heal":
 					if _unit.health < _unit.data.health / 2:
-						recover(_unit.get_prof("aura") + 3, 20)
-						return true
+						if _unit.req_mana(1):
+							recover(_unit.get_prof("aura") + 3, 20)
+							return true
+						return false
 					else:
 						return heal_ready()
 				"psychic":
@@ -174,16 +176,12 @@ func summon():
 	var ally = data.get("summon")
 	var summonname = data.get("summonid")
 	if summonname != null and (ally == null or ally.health <= 0):
-		var forward = Vector3(_unit.forward.x, 0, _unit.forward.z)
-		var hits = G.tool.collide_prop_by_line(_unit.position, _unit.position + forward, 4)
-		if hits.is_empty():
-			G.sfx.play("summon", _unit.position)
-			var at = _unit.position + forward
-			G.stock.make_particle(at, "summon")
-			var new = G.stock.make_any_unit(G.stock, at, summonname)
-			G.stock.attach_ai(new, "ally")
-			data["summon"] = new
-			return true
+		G.sfx.play("summon", _unit.position)
+		G.stock.make_particle(_unit.position, "summon")
+		var new = G.stock.make_any_unit(G.stock, _unit.position, summonname)
+		G.stock.attach_ai(new, "ally")
+		data["summon"] = new
+		return true
 	return false
 
 
@@ -263,14 +261,14 @@ func psychic():
 
 func psychic_shoot():
 	var rocket = Laser.instantiate()
-	rocket.damage = 3 + _unit.get_prof("psych")
+	rocket.damage = 4 + _unit.get_prof("psych")
 	rocket.position = _unit.get_center()
 	G.stock.add_child(rocket)
 	var spread = 0.6 / (2 + _unit.get_prof("psych"))
 	var projectile_direction = G.rng.v3_spread(spread,spread,spread) + _unit.forward
 	rocket.set_direction(projectile_direction)
 	_unit.action.set_next("idle", .5)
-	_unit.buffs.add("exhaustion", max(1, 12 - _unit.get_prof("psych")))
+	_unit.buffs.add("exhaustion", max(1, 18 - _unit.get_prof("psych")))
 	_unit.emit_signal("special", "psych")
 	return true
 

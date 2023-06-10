@@ -315,11 +315,19 @@
 			"chameleon essence"
 		],
 		[
-			0.35,
+			0.33,
+			"silence essence"
+		],
+		[
+			0.36,
+			"mule essence"
+		],
+		[
+			0.45,
 			"#shop"
 		],
 		[
-			0.5,
+			0.7,
 			"gold"
 		]
 	],
@@ -346,7 +354,7 @@
 		],
 		[
 			0.18,
-			"mule essence"
+			"divine essence"
 		],
 		[
 			0.21,
@@ -373,15 +381,23 @@
 			"quicksilver essence"
 		],
 		[
-			0.4,
+			0.39,
+			"soul essence"
+		],
+		[
+			0.42,
+			"trainer essence"
+		],
+		[
+			0.6,
 			"#shop"
 		],
 		[
-			0.5,
+			0.8,
 			"gold"
 		],
 		[
-			0.55,
+			0.85,
 			"pure gold"
 		]
 	],
@@ -435,15 +451,19 @@
 			"soul of metal"
 		],
 		[
-			0.5,
+			0.4,
+			"chaos essence"
+		],
+		[
+			0.72,
 			"#shop"
 		],
 		[
-			0.6,
+			0.77,
 			"gold"
 		],
 		[
-			0.7,
+			0.85,
 			"pure gold"
 		]
 	],
@@ -583,11 +603,11 @@
 	],
 	"#cavern": [
 		[
-			0.2,
+			0.25,
 			"rat"
 		],
 		[
-			0.9,
+			0.8,
 			"bat"
 		]
 	]

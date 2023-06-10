@@ -18,8 +18,6 @@ func load_player_data():
 		G.vars.merge(data)
 		G.set_map(G.vars.map)
 	var u = G.stock.make_any_unit(G.player, Vector3(), G.vars.name, G.vars.unit)
-	u.health = G.vars.get("health", u.health)
-	u.mana = G.vars.get("mana", u.mana)
 	return u
 
 
@@ -31,6 +29,10 @@ func save_player_data():
 	var unit_data = G.you.serialize()
 	r["unit"] = unit_data
 	save(PLAYER_PATH, r)
+
+
+func clear_player_data():
+	save(PLAYER_PATH, {})
 
 
 func load_settings():

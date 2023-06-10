@@ -190,35 +190,41 @@ func on_kill(_victim):
 	var tlvl = _victim.data.get("level", 1)
 	var diff = int(round(tlvl - lvl))
 	if diff < 0:
-		lvl += (1 >> -diff) * .1
+		lvl += (1 >> -diff) * .5
 	else:
-		lvl += (1 << diff) * .1
+		lvl += (1 << diff) * .5
 	data["level"] = snapped(lvl, 0.01)
 	if floor(data.level) != floor(lvl):
-		G.stock.make_particle(position, "level")
-		G.sfx.play("dodge", position)
+		on_level()
 	emit_signal("kill", _victim)
+
+
+func on_level():
+	G.stock.make_particle(position, "level")
+	G.sfx.play("dodge", position)
 
 
 func die():
 	if animator != G.filler_animator:
-		if last_hitter != null:
-			last_hitter.on_kill(self)
-		motor = Vector3()
-		procedure.speedmod = 0
-		procedure.turn_speed = 0
-		pilot.set_physics_process(false)
-		$Body.collision_layer = 1
-		animator.play("die")
-		animator = G.filler_animator
-		action.force_set_next("idle", 999)
-		health = 0
-		show_healthbar()
-		var itemname = G.rng.get_combo(data.get("loot"))
-		if itemname != null:
-			var item = G.stock.make_item(itemname)
-			item.drop_at(position)
-		emit_signal("death")
+		if !buffs.has("polymorph"):
+			if last_hitter != null:
+				last_hitter.on_kill(self)
+			procedure.speedmod = 0
+			procedure.turn_speed = 0
+			pilot.set_physics_process(false)
+			$Body.collision_layer = 1
+			animator.play("die")
+			animator = G.filler_animator
+			action.force_set_next("idle", 999)
+			health = 0
+			show_healthbar()
+			var itemname = G.rng.get_combo(data.get("loot"))
+			if itemname != null:
+				var item = G.stock.make_item(itemname)
+				item.drop_at(position)
+			emit_signal("death")
+		else:
+			health = 1
 		buffs.clean(true)
 
 
@@ -226,7 +232,7 @@ func revive():
 	buffs.clean(true)
 	pilot.set_physics_process(true)
 	procedure.speedmod = 1
-	procedure.turn_speed = 0.2
+	procedure.turn_speed = 0.1
 	$Body.collision_layer = 4
 	animator = $Animator
 	animator.play("RESET")
@@ -255,14 +261,16 @@ func on_step():
 
 func on_attack():
 	var damage = data.get("damage", 1)
+	var damage_roll = G.rng.damage_roll(damage, get_prof("unarmed"))
 	var inflict = data.get("inflict", [])
-	_space_state_params.position = position + forward * size.z
+	var front = procedure.get_toward_plane()
+	_space_state_params.position = position + front + COLLISION_CENTER * size.z
 	var hits = _space_state.intersect_point(_space_state_params, 1)
 	for hit in hits:
 		var t = hit.collider.get_parent()
 		t.last_hitter = self
-		t.on_damaged(position, damage, inflict)
-		emit_signal("weapon", "unarmed", t, damage)
+		t.on_damaged(position, damage_roll, inflict)
+		emit_signal("weapon", "unarmed", t, damage_roll)
 		G.sfx.play("hit_flesh", position)
 
 
@@ -346,7 +354,8 @@ func _walk_physics_process(delta):
 		if !grounded:
 			_last_velocity_y = 0
 			G.sfx.play("land", position)
-			G.tool.set_sound(position, 6)
+			if !has_essence("silence"):
+				G.tool.set_sound(position, 6)
 		grounded = true
 	if abs(motion.y) > 0.001:
 		grounded = false

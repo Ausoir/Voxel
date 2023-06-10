@@ -46,8 +46,7 @@ func get_description():
 	for i in list.keys():
 		var val = list[i]
 		var level = floor(val)
-		var percent = val - level
-		percent = "%.2f" % percent
+		var percent = int((val - level) * 100)
 		r += str("[color=#691][url=",i,"]", i.to_upper(), "[/url][/color] :  ",
 				level, " [i](", percent," %)[/i]", "\n")
 	return r

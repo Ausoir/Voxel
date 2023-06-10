@@ -5,7 +5,6 @@ const ICON_SETTINGS = preload("res://assets/ui/icon_settings.png")
 var last_touch_time = 0
 var screen_size
 var on = false
-var showfps = true
 var mouse_pos = Vector2.ZERO
 var _unit
 @onready var menu_button = $MenuButton
@@ -125,8 +124,16 @@ func clear():
 
 func _process(_delta):
 	last_touch_time += _delta
-	if showfps:
-		var fps = Engine.get_frames_per_second()
-		n_fps.set_text(str(fps)+' FPS')
+	var fps = Engine.get_frames_per_second()
+	n_fps.set_text(str(fps)+' FPS')
 	if on:
 		_unit.show_healthbar()
+
+
+func on_setting_change(setting):
+	if setting == "fps":
+		if G.settings.fps:
+			n_fps.show()
+		else:
+			n_fps.hide()
+

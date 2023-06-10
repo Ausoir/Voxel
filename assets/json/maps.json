@@ -33,15 +33,13 @@
 				]
 			]
 		},
-		"down": [
-			"dungeons"
-		],
+		"down": "fields",
 		"item": null,
 		"treasure": null,
 		"trash": "#trash",
 		"variants": [
 			"camp/town",
-			"camp/blank",
+			"camp/tutorial",
 			"camp/blank",
 			"camp/tower"
 		],
@@ -58,30 +56,35 @@
 			"024": "npc/shopkeep",
 			"124": "npc/stashkeep",
 			"224": "npc/healer",
-			"324": "npc/transporter"
+			"324": "npc/transporter",
+			"424": "portal/entrance"
 		}
 	},
 	"fields": {
 		"env": "outside",
-		"down": [
-			"dungeons"
-		],
+		"down": "camp",
 		"spawns": {
 			"_stonework": [
-				1,
-				"@"
+				[
+					1,
+					"@"
+				],
+				[
+					1,
+					"portal/exit"
+				]
 			],
 			"_stone": [
-				30,
-				"rat"
-			],
-			"_brick": [
-				3,
-				"portal/exit"
+				[
+					20,
+					"rat"
+				]
 			],
 			"_wood": [
-				4,
-				"skeleton"
+				[
+					4,
+					"skeleton"
+				]
 			]
 		},
 		"item": "#shelf",
@@ -109,9 +112,7 @@
 	},
 	"dungeons": {
 		"env": "cave",
-		"down": [
-			"goblin caves"
-		],
+		"down": "goblin caves",
 		"spawns": {
 			"^stonework": [
 				[
@@ -135,7 +136,7 @@
 			],
 			"_mattress": [
 				[
-					0.5,
+					0.35,
 					"skeletal miner"
 				]
 			],
@@ -167,13 +168,13 @@
 					"chest"
 				],
 				[
-					30,
+					18,
 					"#cavern"
 				]
 			],
 			"_wood": [
 				[
-					10,
+					9,
 					"skeletal dog"
 				],
 				[
@@ -209,6 +210,7 @@
 	},
 	"goblin caves": {
 		"env": "cave",
+		"down": "abandoned academy",
 		"spawns": {
 			"_bed": [
 				[
@@ -234,6 +236,12 @@
 					"#goblins"
 				]
 			],
+			"_campfire": [
+				[
+					0.9,
+					"#goblins"
+				]
+			],
 			"^chair": [
 				[
 					14,
@@ -242,7 +250,7 @@
 			],
 			"_chair": [
 				[
-					8,
+					12,
 					"#goblins"
 				]
 			],
@@ -266,13 +274,13 @@
 			],
 			"_stone": [
 				[
-					10,
+					15,
 					"#cavern"
 				]
 			],
 			"^stone": [
 				[
-					30,
+					20,
 					"#cavern"
 				]
 			],
@@ -283,9 +291,6 @@
 				]
 			]
 		},
-		"down": [
-			"floor 3"
-		],
 		"item": "#trash",
 		"treasure": "#treasure2",
 		"trash": "#barrel",
@@ -311,9 +316,7 @@
 	},
 	"abandoned academy": {
 		"env": "cave",
-		"down": [
-			"abandoned academy"
-		],
+		"down": "camp",
 		"spawns": {
 			"^bed": [
 				[

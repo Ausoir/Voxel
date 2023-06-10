@@ -3,7 +3,7 @@
 [ext_resource type="ArrayMesh" uid="uid://bqrp1fkhcxccj" path="res://assets/objects/o_campfire.obj" id="1_kehth"]
 [ext_resource type="Script" path="res://game/object/prop.gd" id="1_xpst3"]
 [ext_resource type="Texture2D" uid="uid://dmdcwxiwd6pl1" path="res://assets/texture/fire.png" id="2_262ug"]
-[ext_resource type="AudioStream" uid="uid://7clc661a5glk" path="res://assets/sfx/bgm_fireplace.wav" id="4_ydfjg"]
+[ext_resource type="AudioStream" uid="uid://cunwbrcbv756y" path="res://assets/sfx/bgm_fireplace.wav" id="4_ydfjg"]
 [ext_resource type="PackedScene" uid="uid://c5rbw73sc508y" path="res://game/fx/audio.tscn" id="5_micpw"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_5dahq"]

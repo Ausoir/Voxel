@@ -280,7 +280,10 @@ class Morph extends Buff:
 			var morph = new.buffs.add("polymorph", duration)
 			morph.orig = orig
 			morph.orig_physics = orig_physics
-		new.health = orig.health
+		new.proficiency.list.unarmed = _unit.proficiency.list.unarmed
+		var percentage = orig.health / orig.data.health
+		new.health = int(max(1, new.data.health * percentage))
+		new.data.erase("loot")
 		new.essence.append("polymorph")
 		new.position = _unit.position
 		orig.position.y -= 300
@@ -303,7 +306,9 @@ class Polymorph extends Buff:
 			var new = _unit
 			if _unit == G.you:
 				G.player.set_unit(orig)
-			orig.health = new.health
+			orig.proficiency.list.unarmed = new.proficiency.list.unarmed
+			var percentage = new.health / new.data.health
+			orig.health = int(max(1, orig.data.health * percentage))
 			orig.position = new.position
 			new.animator.set_speed_scale(100)
 			new.hide()

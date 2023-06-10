@@ -20,6 +20,11 @@ func get_type():
 	return 1
 
 
+func on_level():
+	super()
+	equipment.set_unit(self)
+
+
 func set_material(p):
 	_mesh.material_overlay = p
 	$Model/Body/Head.material_overlay = p

@@ -9,4 +9,6 @@ func set_text(txt):
 
 func _on_button_pressed():
 	G.ui.clear()
-	callback.call()
+	if callback != null:
+		callback.call()
+		callback = null

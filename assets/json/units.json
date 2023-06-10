@@ -201,8 +201,7 @@
 			"health": 20,
 			"mana": 1,
 			"proficiency": {
-				"unarmed": 2,
-				"dodge": 1,
+				"unarmed": 3,
 				"spear": 1
 			}
 		}
@@ -538,12 +537,21 @@
 				-1
 			]
 		],
+		"ego": [
+			"vampire"
+		],
 		"data": {
 			"level": 1,
 			"delay": 1.5,
 			"speed": 0.5,
 			"damage": 1,
 			"health": 3,
+			"inflict": [
+				[
+					"silence",
+					5
+				]
+			],
 			"loot": [
 				[
 					0.01,
@@ -580,7 +588,7 @@
 			"health": 12,
 			"speed": 0.5,
 			"proficiency": {
-				"dodge": 5
+				"dodge": 4
 			},
 			"loot": [
 				[
@@ -610,7 +618,7 @@
 			"loot": [
 				[
 					0.1,
-					"chameleon essence"
+					"silence essence"
 				]
 			]
 		}

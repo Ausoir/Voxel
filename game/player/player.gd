@@ -18,8 +18,8 @@ func _ready():
 
 func load_map(p):
 	if G.vars.map != p:
+		G.sfx.fade_bgm(p)
 		G.set_map(p)
-		G.sfx.play_bgm(p)
 		_map_time = 0
 		G.ui.msg(str("Now entering: [b][color=TEAL][url=",p,"]The ", p.capitalize(), "[/url][/color][/b]"))
 		G.terrain.get_node("LateLoader").stop()
@@ -38,7 +38,7 @@ func load_map(p):
 		G.turn.add(unit.buffs.on_turn)
 		if p == "camp":
 			G.vars.day += 1
-			G.files.save_data()
+			G.files.save_player_data()
 
 
 func set_unit(p):
@@ -75,6 +75,7 @@ func set_unit(p):
 
 
 func on_death():
+	G.sfx.fade_bgm()
 	$Cam.zoom_distance(2)
 	$Timer.start(2)
 
@@ -92,7 +93,9 @@ func _on_timer_timeout():
 		G.ui.msg("The chaplain revives you!")
 		load_map("camp")
 		unit.revive()
+		G.files.save_player_data()
 	else:
+		G.files.clear_player_data()
 		G.clear()
 		var root = get_tree().get_root()
 		root.remove_child(root.get_node("Game"))

@@ -23,8 +23,7 @@ func rir(p1, p2):
 
 
 func damage_roll(dmg, prof):
-	var min_dmg = min(prof, dmg)
-	return rir(min_dmg, dmg)
+	return rir(prof, dmg)
 
 
 func percent(p):

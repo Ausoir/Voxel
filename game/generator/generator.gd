@@ -128,19 +128,19 @@ func _load_wall(buffer: VoxelBuffer, origin: Vector3, wall_image, x, y, z):
 				buffer.set_voxel(2, x, y+3, z, _CHANNEL)
 			[0,0,0]:
 				buffer.fill_area(_palette["wall"].voxels[0],
-					Vector3(x, y, z), Vector3(x + 1, y+5, z + 1), _CHANNEL)
+					Vector3(x, y+1, z), Vector3(x + 1, y+5, z + 1), _CHANNEL)
 			[1,1,1]:
 				buffer.fill_area(_palette["wall"].voxels[0],
-					Vector3(x, y, z), Vector3(x + 1, y+4, z + 1), _CHANNEL)
+					Vector3(x, y+1, z), Vector3(x + 1, y+4, z + 1), _CHANNEL)
 			[2,2,2]:
 				buffer.fill_area(_palette["wall"].voxels[0],
-					Vector3(x, y, z), Vector3(x + 1, y+3, z + 1), _CHANNEL)
+					Vector3(x, y+1, z), Vector3(x + 1, y+3, z + 1), _CHANNEL)
 			[3,3,3]:
 				buffer.fill_area(_palette["wall"].voxels[0],
-					Vector3(x, y, z), Vector3(x + 1, y+2, z + 1), _CHANNEL)
+					Vector3(x, y+1, z), Vector3(x + 1, y+2, z + 1), _CHANNEL)
 			[3,4,4]:
 				buffer.fill_area(_palette["wall2"].voxels[0],
-					Vector3(x, y, z), Vector3(x + 1, y+5, z + 1), _CHANNEL)
+					Vector3(x, y+1, z), Vector3(x + 1, y+5, z + 1), _CHANNEL)
 			[2,1,0]:
 				_add_to_arr(_chunk_late_loads,ox,oy+1,oz,"table")
 				_add_interest(item_points, Vector3(ox, oy+2, oz), .1)

@@ -87,7 +87,7 @@ func _process(_delta):
 	else:
 		for _i in range(40):
 			var x = G.rng.rir(_bounds[0], _bounds[2])
-			var y = G.rng.rir(4, 13)
+			var y = G.rng.rir(5, 12)
 			var z = G.rng.rir(_bounds[1], _bounds[3])
 			var pos = Vector3(x, y, z)
 			var voxel = G.tool.get_voxel(pos)

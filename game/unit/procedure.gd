@@ -50,6 +50,10 @@ func walk(motor_forward, motor_side):
 	_unit.motor = _unit.motor.normalized() * max(0, speed) * speedmod
 
 
+func get_toward_plane():
+	return G.HORIZONTAL_PLANE.project(_unit.forward)
+
+
 func walk_toward(to):
 	_unit.motor.x = to.x - _unit.position.x
 	_unit.motor.z = to.z - _unit.position.z
@@ -70,7 +74,7 @@ func use():
 	face_front()
 	if _unit.action.delay <= 0:
 		if !_unit.buffs.has("daze"):
-			speedmod = 0.5
+			speedmod = 0.3
 			if _unit.get_type() == 1:
 				var inv_item = _unit.equipment.get_held_item()
 				if inv_item != null:
@@ -78,14 +82,14 @@ func use():
 				else:
 					hand.use(_unit)
 			else:
-				if _unit.action.set_next("delay", 1):
+				if _unit.action.set_next("delay", 1.5):
 					_unit.animator.play("tackle")
 
 
 func use2():
 	face_front()
-	if !_unit.buffs.has("silence"):
-		speedmod = 0.5
+	if !_unit.buffs.has("silence") or _unit.has_essence("silence"):
+		speedmod = 0.3
 		if _unit.get_type() == 1:
 			var inv_item = _unit.equipment.get_held_item()
 			if inv_item != null and inv_item.use2(_unit):

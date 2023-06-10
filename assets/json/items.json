@@ -256,7 +256,7 @@
 			"value": 25,
 			"weight": 1,
 			"defense": 0,
-			"space": 3,
+			"space": 2,
 			"mana": 1
 		}
 	},
@@ -270,8 +270,8 @@
 			"value": 80,
 			"weight": 1,
 			"defense": 0,
-			"space": 3,
-			"mana": 10
+			"space": 2,
+			"mana": 3
 		}
 	},
 	"golden robe": {
@@ -285,7 +285,7 @@
 			"weight": 1,
 			"defense": 0,
 			"space": 5,
-			"mana": 15
+			"mana": 5
 		}
 	},
 	"red robe": {
@@ -1226,7 +1226,7 @@
 		"part": "essence",
 		"data": {
 			"desc": "When at less than half health, cast to heal self. Otherwise, heal the unit you are touching.",
-			"essence": "healing",
+			"essence": "heal",
 			"value": 300,
 			"health": -5
 		}
@@ -1349,6 +1349,16 @@
 		"data": {
 			"desc": "Double jump to fly toward the direction you are facing.",
 			"essence": "wind",
+			"value": 300
+		}
+	},
+	"silence essence": {
+		"spritename": "item/essence",
+		"modelname": "item/essence3d",
+		"part": "essence",
+		"data": {
+			"desc": "Move and land silently. Ignore the effects of silence.",
+			"essence": "silence",
 			"value": 300
 		}
 	},
