@@ -12,12 +12,14 @@ var enemies = []
 
 func _ready():
 	G.player = self
-	var u = $Save.load_data()
+	var u = G.files.load_player_data()
 	set_unit(u)
 
 
 func load_map(p):
 	if G.vars.map != p:
+		G.set_map(p)
+		G.sfx.play_bgm(p)
 		_map_time = 0
 		G.ui.msg(str("Now entering: [b][color=TEAL][url=",p,"]The ", p.capitalize(), "[/url][/color][/b]"))
 		G.terrain.get_node("LateLoader").stop()
@@ -25,10 +27,8 @@ func load_map(p):
 			p = G.rng.pick(G.mapdata.down)
 		G.stock.clean()
 		G.turn.clear()
-		G.set_map(p)
 		_newmap_offset += MAP_INCREMENT
 		G.terrain.generator.offset = Vector3i(_newmap_offset, 0, 0)
-		G.terrain.generator._init()
 		G.terrain.generator.post_ready()
 		G.terrain.get_node("LateLoader").start(1)
 		unit.position = Vector3(_newmap_offset + 32, 13, 32)
@@ -36,6 +36,9 @@ func load_map(p):
 		G.ui.fade.color = Color.BLACK
 		_viewer.position = Vector3(_newmap_offset, 0, 0)
 		G.turn.add(unit.buffs.on_turn)
+		if p == "camp":
+			G.vars.day += 1
+			G.files.save_data()
 
 
 func set_unit(p):
@@ -77,6 +80,10 @@ func on_death():
 
 
 func _on_timer_timeout():
+	G.ui.animation.stop()
+	G.ui.animation.seek(0, true)
+	G.ui.animation.play("respawn")
+	G.ui.on = true
 	if unit.buffs.has("track"):
 		if unit.get_type() == 1:
 			unit.equipment.clear(true, false)
@@ -86,11 +93,11 @@ func _on_timer_timeout():
 		load_map("camp")
 		unit.revive()
 	else:
-		G.ui.msg("You have died...")
-		load_map("camp")
-		var new = G.stock.make_any_unit(G.stock, unit.position, G.vars.unit.name)
-		set_unit(new)
-	G.ui.animation.stop()
-	G.ui.animation.seek(0, true)
-	G.ui.animation.play("respawn")
+		G.clear()
+		var root = get_tree().get_root()
+		root.remove_child(root.get_node("Game"))
+		var next_level_resource = load("res://game/start.tscn")
+		var next_level = next_level_resource.instantiate()
+		root.add_child(next_level)
+		queue_free()
 

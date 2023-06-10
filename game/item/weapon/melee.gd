@@ -14,6 +14,7 @@ func use(_user: Node3D):
 			if next_anim > data.swings.size() - 1:
 				next_anim = 0
 			anim_name = data.swings[next_anim]
+		_user.procedure.speedmod = 0.5
 	else:
 		speed += 1
 		_user.procedure.speedmod = 0
@@ -51,7 +52,7 @@ func on_held_tick(_user: Node3D):
 		var toward = -_user.held_item_model.get_global_transform().basis.z
 		var aabb = _user.held_item_model.mesh.get_aabb()
 		var attack_range = -aabb.position.z
-		var attack_range_scaled = attack_range * _user.held_item_model.scale.z #Item scale 50%
+		var attack_range_scaled = attack_range * _user.held_item_model.scale.z
 		if _user.equipment.swinging > 1:
 			var hitvoxel = G.tool.raycast(from, toward, attack_range_scaled, 8)
 			if hitvoxel == null:
@@ -72,15 +73,15 @@ func on_held_tick(_user: Node3D):
 										_user.buffs.add("exhaustion", max(1, 10 - _user.get_prof("blunt")))
 										G.sfx.play("critical", _user.position)
 							if !unit.alert:
+								damage += data.get("backstab", 2)
 								if weapon_type == "dagger":
-									damage += _user.get_prof("dagger") * 2
-								damage += _user.get_prof("ambush")
+									damage += _user.get_prof("dagger") * 3
 								_user.emit_signal("critical", unit)
 							var damage_roll = G.rng.damage_roll(damage, _user.get_prof(weapon_type))
 							unit.last_hitter = _user
 							unit.on_damaged(_user.position, damage_roll, inflict)
 							G.sfx.play("hit_flesh", _user.position)
-							_user.emit_signal("weapon", weapon_type, unit, damage)
+							_user.emit_signal("weapon", weapon_type, unit, damage_roll)
 					else:
 						return _deflect(_user, to)
 			else:

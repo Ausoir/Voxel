@@ -2,9 +2,7 @@ extends Node
 
 const Blocks = preload("res://game/block/blocks.gd")
 const MENU_INVENTORY = preload("res://game/ui/inventory/inventory.tscn")
-const MENU_SETTINGS = preload("res://game/ui/settings.tscn")
-
-const COLLISION_LAYER_AVATAR = 2
+const MENU_SETTINGS = preload("res://game/ui/settings/settings.tscn")
 
 const _hotbar_keys = {
 	KEY_1: 0,
@@ -25,6 +23,10 @@ const _hotbar_keys = {
 var _unit
 var _menu_settings = MENU_SETTINGS.instantiate()
 var _menu_inventory = MENU_INVENTORY.instantiate()
+
+
+func _ready():
+	_menu_settings.close.connect(G.ui.clear)
 
 
 func set_unit(p):
@@ -126,7 +128,6 @@ func _unhandled_input(event):
 				_unit.buffs.add("flight", -1)
 				_unit.buffs.add("glow", -1)
 			_unit.mana += 1
-			_unit.die()
 		elif event.pressed:
 			if _hotbar_keys.has(event.keycode):
 				var v = _hotbar_keys[event.keycode]

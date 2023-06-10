@@ -4,7 +4,16 @@
 [ext_resource type="Texture2D" uid="uid://bvsnwrbsad76s" path="res://assets/texture/rune.png" id="2_0swx3"]
 [ext_resource type="Texture2D" uid="uid://dsf3nsrt72ehb" path="res://game/fx/bleed/ease_in_out_expo.tres" id="3_5sdrs"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tj3du"]
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_xt33k"]
+particle_flag_rotate_y = true
+gravity = Vector3(0, 0, 0)
+angular_velocity_min = -720.0
+angular_velocity_max = 720.0
+scale_curve = ExtResource("3_5sdrs")
+hue_variation_min = -1.0
+hue_variation_max = 1.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hykr8"]
 transparency = 2
 alpha_scissor_threshold = 0.5
 alpha_antialiasing_mode = 0
@@ -16,23 +25,15 @@ texture_filter = 0
 texture_repeat = false
 billboard_keep_scale = true
 
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_xt33k"]
-particle_flag_rotate_y = true
-gravity = Vector3(0, 0, 0)
-angular_velocity_min = -720.0
-angular_velocity_max = 720.0
-scale_curve = ExtResource("3_5sdrs")
-hue_variation_min = -1.0
-hue_variation_max = 1.0
-
 [sub_resource type="PlaneMesh" id="PlaneMesh_iok41"]
+material = SubResource("StandardMaterial3D_hykr8")
 
 [node name="Explosion" type="Node3D"]
 script = ExtResource("1_3kdwo")
 _remaining_time = 2.0
 
 [node name="Particles" type="GPUParticles3D" parent="."]
-material_override = SubResource("StandardMaterial3D_tj3du")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, 0)
 emitting = false
 amount = 5
 one_shot = true

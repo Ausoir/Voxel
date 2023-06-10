@@ -2,9 +2,12 @@ extends Node
 
 const Laser = preload("res://game/item/weapon/projectile/laser.tscn")
 const Bomb = preload("./bomb.tscn")
+const Summons = ["bunny", "squirrel", "bat", "rat"]
+const RaiseDeads = ["skeletal warrior", "skeletal ranger"]
 var _unit
 var _param
 var _casting
+var data = {}
 
 
 func set_unit(p):
@@ -15,19 +18,21 @@ func set_unit(p):
 
 
 func on_touch():
-	if !perform("earth"):
-		if !perform("sleep"):
-			if !perform("bomb"):
-				if !perform("psychic"):
-					return false
+	if !perform("summon", "capture"):
+		if !perform("earth"):
+			if !perform("sleep"):
+				if !perform("bomb"):
+					if !perform("psychic"):
+						return false
 	return true
 
 func on_wait():
 	if !perform("blood"):
 		if !perform("bow"):
-			perform("vision")
-			perform("nighteye")
-			perform("camoflauge")
+			if !perform("summon"):
+				perform("vision")
+				perform("nighteye")
+				perform("camouflage")
 
 func on_hit(_dmg):
 	perform("warrior")
@@ -46,7 +51,7 @@ func on_ability():
 
 func on_kill(_victim):
 	_param = _victim
-	if !perform("summon"):
+	if !perform("raise"):
 		return
 
 func on_cast():
@@ -54,25 +59,31 @@ func on_cast():
 		_casting.call()
 
 
-func perform(ess):
+func perform(ess, fn=null):
 	if _unit.has_essence(ess):
-		if ess == "warrior":
+		if fn == null:
+			fn = ess
+		if fn == "warrior":
 			if _unit.health < _unit.data.health / 2:
 				recover(3, 20)
 				return true
 			return false
-		elif ess == "metal":
+		elif fn == "metal":
 			return metal()
-		elif ess == "blood":
+		elif fn == "blood":
 			return sublimation()
-		elif ess == "vision":
+		elif fn == "vision":
 			return xray_vision()
-		elif ess == "nighteye":
+		elif fn == "nighteye":
 			return night_vision()
-		elif ess == "bow":
+		elif fn == "capture":
+			capture()
+		elif fn == "summon":
+			summon()
+		elif fn == "bow":
 			return craft_arrows()
 		elif !_unit.buffs.has("exhaustion"):
-			match ess:
+			match fn:
 				"earth":
 					return passwall()
 				"bomb":
@@ -97,8 +108,8 @@ func perform(ess):
 					return fly()
 				"polymorph":
 					return polymorph()
-				"summon":
-					return summon()
+				"raise":
+					return raise()
 				"vampire":
 					if _unit.mana > 1:
 						if recover(1, 8):
@@ -127,9 +138,10 @@ func slow(p):
 	return true
 
 
-func summon():
+func raise():
 	if _unit.req_mana(1):
-		var creature = G.rng.pick(["skeletal warrior", "skeletal ranger"])
+		G.sfx.play("summon", _unit.position)
+		var creature = G.rng.pick(RaiseDeads)
 		if _unit.get_prof("necromancy") < 3:
 			_unit.buffs.add("exhaustion", 2)
 		var at = _param.position
@@ -137,6 +149,41 @@ func summon():
 		var new = G.stock.make_any_unit(G.stock, at, creature)
 		G.stock.attach_ai(new, "ally")
 		return true
+	return false
+
+
+func capture():
+	var origin = _unit.get_center()
+	var hits = G.tool.collide_prop_by_shape(origin + _unit.forward*1.5, 3, 1)
+	if !hits.is_empty():
+		for hit in hits:
+			var _item = hit.collider.get_parent()
+			if _item.get("buffs") != null and _item.health == 0:
+				if _unit.req_mana(1):
+					data["summonid"] = _item.sid
+					_item.remove()
+					G.stock.make_particle(_item.position, "level")
+					G.sfx.play("summon", _item.position + Vector3(0, .1, 0))
+					_unit.emit_signal("special", "psych")
+					_unit.action.set_next("idle", .5)
+					return true
+	return false
+
+
+func summon():
+	var ally = data.get("summon")
+	var summonname = data.get("summonid")
+	if summonname != null and (ally == null or ally.health <= 0):
+		var forward = Vector3(_unit.forward.x, 0, _unit.forward.z)
+		var hits = G.tool.collide_prop_by_line(_unit.position, _unit.position + forward, 4)
+		if hits.is_empty():
+			G.sfx.play("summon", _unit.position)
+			var at = _unit.position + forward
+			G.stock.make_particle(at, "summon")
+			var new = G.stock.make_any_unit(G.stock, at, summonname)
+			G.stock.attach_ai(new, "ally")
+			data["summon"] = new
+			return true
 	return false
 
 
@@ -215,19 +262,17 @@ func psychic():
 
 
 func psychic_shoot():
-	if _unit.req_mana(1):
-		var rocket = Laser.instantiate()
-		rocket.damage = 5 + _unit.get_prof("psych")
-		rocket.position = _unit.get_center()
-		G.stock.add_child(rocket)
-		var spread = .15
-		var projectile_direction = G.rng.v3_spread(spread,spread,spread) + _unit.forward
-		rocket.set_direction(projectile_direction)
-		_unit.action.set_next("idle", .5)
-		_unit.buffs.add("exhaustion", max(1, 8 - _unit.get_prof("psych")))
-		_unit.emit_signal("special", "psych")
-		return true
-	return false
+	var rocket = Laser.instantiate()
+	rocket.damage = 3 + _unit.get_prof("psych")
+	rocket.position = _unit.get_center()
+	G.stock.add_child(rocket)
+	var spread = 0.6 / (2 + _unit.get_prof("psych"))
+	var projectile_direction = G.rng.v3_spread(spread,spread,spread) + _unit.forward
+	rocket.set_direction(projectile_direction)
+	_unit.action.set_next("idle", .5)
+	_unit.buffs.add("exhaustion", max(1, 12 - _unit.get_prof("psych")))
+	_unit.emit_signal("special", "psych")
+	return true
 
 
 func sleep_ready():

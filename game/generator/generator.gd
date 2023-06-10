@@ -7,6 +7,7 @@ const SIDE = 1
 const MIDDLE = 2
 const IMAGE_DIR = "res://assets/maps/"
 const Y_COORD = 0
+const BLANK = preload("res://assets/maps/blank.png")
 
 var offset = Vector3i()
 var _mutex = Mutex.new()
@@ -21,10 +22,13 @@ var _pois
 var item_points
 
 
-func _init():
+func post_ready():
+	_palette = G.blocks.to_dict().duplicate()
+	for i in G.mapdata.palette.keys():
+		var v = G.mapdata.palette[i]
+		_palette[i] = G.blocks.get_block_by_name(v)
+
 	item_points = []
-	if !G.post_ready.is_connected(post_ready):
-		G.post_ready.connect(post_ready)
 	var imgs = G.mapdata.variants.duplicate()
 	_pois = {}
 	for x in range(0, 100, 16):
@@ -33,7 +37,12 @@ func _init():
 	for i in _pois_rotations.keys():
 		var image_path = G.rng.pick_and_pop(imgs)
 		for _story in range(5):
-			var image = load(str(IMAGE_DIR, image_path, " (", _story+1, ").png")).get_image()
+			var path = str(IMAGE_DIR, image_path, " (", _story+1, ").png")
+			var image
+			if ResourceLoader.exists(path):
+				image = load(path).get_image()
+			else:
+				image = BLANK.get_image()
 			var rotation = G.rng.pick(_pois_rotations[i])
 			if rotation == 1:
 				image.rotate_90(CLOCKWISE)
@@ -50,13 +59,6 @@ func _init():
 			_pois[i + Vector3i(32, 0, 16)].append(_crop(image, 2, 1))
 			_pois[i + Vector3i(16, 0, 32)].append(_crop(image, 1, 2))
 			_pois[i + Vector3i(32, 0, 32)].append(_crop(image, 2, 2))
-
-
-func post_ready():
-	_palette = G.blocks.to_dict().duplicate()
-	for i in G.mapdata.palette.keys():
-		var v = G.mapdata.palette[i]
-		_palette[i] = G.blocks.get_block_by_name(v)
 
 
 func get_bounds():
@@ -237,8 +239,6 @@ func _load_floor(buffer: VoxelBuffer, _origin: Vector3, ceiling_pixel: Color, x,
 				buffer.set_voxel(_palette["road"].voxels[0], x, y, z, _CHANNEL)
 			[3,0,4]:
 				buffer.set_voxel(_palette["special"].voxels[0], x, y, z, _CHANNEL)
-			[3,0,4]:
-				buffer.set_voxel(_palette["special"].voxels[0], x, y, z, _CHANNEL)
 			[2,1,0]:
 				buffer.set_voxel(_palette["carpet"].voxels[0], x, y, z, _CHANNEL)
 			[0,1,4]:
@@ -249,6 +249,9 @@ func _load_floor(buffer: VoxelBuffer, _origin: Vector3, ceiling_pixel: Color, x,
 				buffer.set_voxel(_palette["tiles"].voxels[0], x, y, z, _CHANNEL)
 			[4,4,4]:
 				buffer.set_voxel(_palette["wall"].voxels[0], x, y, z, _CHANNEL)
+			[4,0,0]:
+				buffer.fill_area(_palette["wall"].voxels[0],
+					Vector3(x, y, z), Vector3(x + 1, y + 128, z + 1), _CHANNEL)
 			[0,0,0]:
 				buffer.set_voxel(_palette["wall"].voxels[0], x, y, z, _CHANNEL)
 	return [_chunk_late_loads, _chunk_prop_late_loads]

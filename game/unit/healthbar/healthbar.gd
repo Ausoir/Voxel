@@ -8,7 +8,7 @@ var _unit
 
 
 func _ready():
-	var mat = $Billboard.get_surface_override_material(0)
+	var mat = $Billboard.get_material_override()
 	mat.albedo_texture = $SubViewport.get_texture()
 
 
@@ -25,7 +25,7 @@ func on_health_change():
 
 
 func remove():
-	$Billboard.set_surface_override_material(0, null)
+	$Billboard.set_material_override(null)
 
 
 func set_max(p: int):

@@ -2,25 +2,35 @@
 	"camp": {
 		"env": "outside",
 		"spawns": {
-			"table": [
-				1,
-				"@"
+			"_toilet": [
+				[
+					1,
+					"@"
+				]
 			],
-			"toilet": [
-				1,
-				"@"
+			"^bed": [
+				[
+					1,
+					"@"
+				]
 			],
-			"bed": [
-				1,
-				"@"
+			"_chair": [
+				[
+					16,
+					"#village"
+				]
 			],
-			"chair": [
-				20,
-				"#village"
+			"^chair": [
+				[
+					4,
+					"#village"
+				]
 			],
-			"soil": [
-				8,
-				"#animals"
+			"_soil": [
+				[
+					8,
+					"#animals"
+				]
 			]
 		},
 		"down": [
@@ -42,8 +52,7 @@
 			"wall": "brick",
 			"wall2": "stone",
 			"special": "labtiles",
-			"carpet": "carpet",
-			"glass": "glass"
+			"carpet": "carpet"
 		},
 		"override": {
 			"024": "npc/shopkeep",
@@ -52,43 +61,131 @@
 			"324": "npc/transporter"
 		}
 	},
+	"fields": {
+		"env": "outside",
+		"down": [
+			"dungeons"
+		],
+		"spawns": {
+			"_stonework": [
+				1,
+				"@"
+			],
+			"_stone": [
+				30,
+				"rat"
+			],
+			"_brick": [
+				3,
+				"portal/exit"
+			],
+			"_wood": [
+				4,
+				"skeleton"
+			]
+		},
+		"item": "#shelf",
+		"treasure": null,
+		"trash": "#trash",
+		"variants": [
+			"field/cabin",
+			"field/field",
+			"field/field",
+			"field/open",
+			"field/open",
+			"field/open",
+			"field/fill",
+			"field/fill",
+			"field/fill"
+		],
+		"palette": {
+			"road": "stone",
+			"alley": "stonework",
+			"tiles": "wood",
+			"special": "brick",
+			"wall": "soil",
+			"wall2": "stone"
+		}
+	},
 	"dungeons": {
 		"env": "cave",
 		"down": [
 			"goblin caves"
 		],
 		"spawns": {
-			"stonework": [
-				1,
-				"@"
+			"^stonework": [
+				[
+					1,
+					"@"
+				],
+				[
+					1,
+					"portal/exit"
+				]
 			],
-			"mattress": [
-				0.6,
-				"skeletal miner"
+			"^wood": [
+				[
+					5,
+					"skeletal dog"
+				],
+				[
+					5,
+					"#cavern"
+				]
 			],
-			"bed": [
-				0.7,
-				"#undead"
+			"_mattress": [
+				[
+					0.5,
+					"skeletal miner"
+				]
 			],
-			"brick": [
-				1,
-				"portal/entrance"
+			"_bed": [
+				[
+					0.3,
+					"#undead"
+				]
 			],
-			"chair": [
-				1,
-				"portal/exit"
+			"_brick": [
+				[
+					1,
+					"skeletal lord"
+				],
+				[
+					3,
+					"skeletal ranger"
+				]
 			],
-			"stone": [
-				30,
-				"#cavern"
+			"_chair": [
+				[
+					0.25,
+					"skeleton"
+				]
 			],
-			"wood": [
-				12,
-				"skeletal dog"
+			"_stone": [
+				[
+					1,
+					"chest"
+				],
+				[
+					30,
+					"#cavern"
+				]
 			],
-			"table": [
-				1,
-				"chest"
+			"_wood": [
+				[
+					10,
+					"skeletal dog"
+				],
+				[
+					1,
+					"portal/entrance"
+				]
+			],
+			"_table": [
+				[
+					1,
+					"chest"
+				]
 			]
 		},
 		"item": "#shelf",
@@ -113,37 +210,77 @@
 	"goblin caves": {
 		"env": "cave",
 		"spawns": {
-			"bed": [
-				1,
-				"@"
+			"_bed": [
+				[
+					1,
+					"@"
+				]
 			],
-			"mattress": [
-				0.43,
-				"#goblins"
+			"_mattress": [
+				[
+					0.4,
+					"#goblins"
+				]
 			],
-			"campfire": [
-				0.9,
-				"#goblins"
+			"^mattress": [
+				[
+					0.6,
+					"#goblins"
+				]
 			],
-			"chair": [
-				20,
-				"#goblins"
+			"^campfire": [
+				[
+					0.9,
+					"#goblins"
+				]
 			],
-			"brick": [
-				1,
-				"portal/entrance"
+			"^chair": [
+				[
+					14,
+					"#goblins"
+				]
 			],
-			"table": [
-				1,
-				"portal/exit"
+			"_chair": [
+				[
+					8,
+					"#goblins"
+				]
 			],
-			"stone": [
-				40,
-				"#cavern"
+			"_brick": [
+				[
+					1,
+					"portal/entrance"
+				]
 			],
-			"wood": [
-				1,
-				"chest"
+			"^brick": [
+				[
+					1,
+					"portal/exit"
+				]
+			],
+			"^table": [
+				[
+					1,
+					"chest"
+				]
+			],
+			"_stone": [
+				[
+					10,
+					"#cavern"
+				]
+			],
+			"^stone": [
+				[
+					30,
+					"#cavern"
+				]
+			],
+			"^wood": [
+				[
+					1,
+					"chest"
+				]
 			]
 		},
 		"down": [
@@ -178,41 +315,83 @@
 			"abandoned academy"
 		],
 		"spawns": {
-			"bed": [
-				1,
-				"@"
+			"^bed": [
+				[
+					1,
+					"@"
+				]
 			],
-			"mattress": [
-				20,
-				"#goblins"
+			"_mattress": [
+				[
+					20,
+					"#goblins"
+				]
 			],
-			"campfire": [
-				4,
-				"#goblins"
+			"_chair": [
+				[
+					0.45,
+					"#undead"
+				]
 			],
-			"chair": [
-				0.45,
-				"#undead"
+			"^chair": [
+				[
+					0.3,
+					"#goblins"
+				]
 			],
-			"counter": [
-				2,
-				"chest"
+			"^counter": [
+				[
+					1,
+					"chest"
+				]
 			],
-			"carpet": [
-				1,
-				"portal/entrance"
+			"_counter": [
+				[
+					1,
+					"chest"
+				]
 			],
-			"table": [
-				1,
-				"portal/exit"
+			"^carpet": [
+				[
+					1,
+					"portal/exit"
+				]
 			],
-			"brick": [
-				30,
-				"#cavern"
+			"_carpet": [
+				[
+					1,
+					"portal/exit"
+				]
 			],
-			"labtiles": [
-				30,
-				"#animals"
+			"_table": [
+				[
+					1,
+					"portal/exit"
+				]
+			],
+			"^brick": [
+				[
+					14,
+					"#cavern"
+				]
+			],
+			"_brick": [
+				[
+					14,
+					"#cavern"
+				]
+			],
+			"^labtiles": [
+				[
+					10,
+					"#animals"
+				]
+			],
+			"_labtiles": [
+				[
+					10,
+					"#animals"
+				]
 			]
 		},
 		"item": "#shelf",

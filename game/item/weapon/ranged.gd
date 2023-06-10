@@ -78,6 +78,7 @@ func on_shoot(_user: Node3D):
 		var damage_roll = G.rng.damage_roll(damage, _user.get_prof(weapon_type))
 		rocket.noise = data.get("noise", 4)
 		G.tool.set_sound(_user.position, rocket.noise / 2)
+		rocket.backstab = data.get("backstab", 2)
 		rocket.damage = damage_roll
 		rocket.inflict = inflict
 		rocket.position = held_item.global_position + toward * item_length

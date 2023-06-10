@@ -4,11 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://crqgf57cm27kh" path="res://assets/texture/healthbar_bg.png" id="2_ytq7j"]
 [ext_resource type="Texture2D" uid="uid://b0iooaa8dnsnd" path="res://assets/texture/healthbar_fg.png" id="3_vh8q1"]
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_flkrt"]
-size = Vector2(1.2, 0.2)
-orientation = 2
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m0d6d"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dtjv1"]
 resource_local_to_scene = true
 shading_mode = 0
 texture_filter = 0
@@ -17,6 +13,10 @@ billboard_mode = 2
 distance_fade_mode = 1
 distance_fade_min_distance = 16.0
 distance_fade_max_distance = 4.0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_flkrt"]
+size = Vector2(1.2, 0.2)
+orientation = 2
 
 [node name="Site" type="Node3D"]
 script = ExtResource("1_nbyug")
@@ -39,5 +39,5 @@ tint_progress = Color(0, 1, 0, 1)
 
 [node name="Billboard" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+material_override = SubResource("StandardMaterial3D_dtjv1")
 mesh = SubResource("PlaneMesh_flkrt")
-surface_material_override/0 = SubResource("StandardMaterial3D_m0d6d")

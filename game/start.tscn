@@ -1,0 +1,265 @@
+[gd_scene load_steps=14 format=3 uid="uid://dlm6l3e6lagsi"]
+
+[ext_resource type="Script" path="res://game/start.gd" id="1_20i76"]
+[ext_resource type="Texture2D" uid="uid://ceor35ltdhtp0" path="res://assets/texture/brick.png" id="1_fmg06"]
+[ext_resource type="PackedScene" uid="uid://cicop0s2xq1s5" path="res://game/object/light/campfire.tscn" id="2_r46a7"]
+[ext_resource type="PackedScene" uid="uid://d0tgv7vwpva48" path="res://game/unit/humanoid/humanoid.tscn" id="3_dvomx"]
+[ext_resource type="FontVariation" uid="uid://4cs7wvho51lb" path="res://assets/font_acme.tres" id="5_j2n40"]
+[ext_resource type="PackedScene" uid="uid://cdi0cidlokj0" path="res://game/ui/settings/settings.tscn" id="6_ot8yc"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mgxau"]
+albedo_texture = ExtResource("1_fmg06")
+uv1_scale = Vector3(16, 8, 16)
+texture_filter = 0
+
+[sub_resource type="BoxMesh" id="BoxMesh_3ny26"]
+flip_faces = true
+size = Vector3(8, 4, 8)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_6t1ht"]
+size = Vector3(1, 2, 1)
+
+[sub_resource type="Animation" id="Animation_63mfc"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Canvas/ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Camera3D:rotation:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(3.14159, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="Animation" id="Animation_1r056"]
+resource_name = "fade"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Canvas/ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.5),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"on_start"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_m3k17"]
+resource_name = "turn"
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Camera3D:rotation:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(3.14159, -0.25, 0, 0.9, 0.0401392, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_3jid5"]
+_data = {
+"RESET": SubResource("Animation_63mfc"),
+"fade": SubResource("Animation_1r056"),
+"turn": SubResource("Animation_m3k17")
+}
+
+[node name="start" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_20i76")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+material_override = SubResource("StandardMaterial3D_mgxau")
+mesh = SubResource("BoxMesh_3ny26")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-1, -6.56153e-07, 2.4488e-06, 0, 0.965926, 0.258819, -2.53518e-06, 0.258819, -0.965926, 0, 2, 2)
+current = true
+
+[node name="Pot" parent="." instance=ExtResource("2_r46a7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.89518)
+script = null
+
+[node name="Peasant" parent="." instance=ExtResource("3_dvomx")]
+transform = Transform3D(-0.125022, 0, 0.992154, 0, 1, 0, -0.992154, 0, -0.125022, 3.90268, 1.19209e-06, -0.578559)
+script = null
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Peasant"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Peasant/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("BoxShape3D_6t1ht")
+
+[node name="Warrior" parent="." instance=ExtResource("3_dvomx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3)
+script = null
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Warrior"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Warrior/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("BoxShape3D_6t1ht")
+
+[node name="Scholar" parent="." instance=ExtResource("3_dvomx")]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -1, 0, -3)
+script = null
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Scholar"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Scholar/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("BoxShape3D_6t1ht")
+
+[node name="Rogue" parent="." instance=ExtResource("3_dvomx")]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -3.47479, 0, -3.49548)
+script = null
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Rogue"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Rogue/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("BoxShape3D_6t1ht")
+
+[node name="Hunter" parent="." instance=ExtResource("3_dvomx")]
+transform = Transform3D(1, 0, 2.08616e-07, 0, 1, 0, -2.08616e-07, 0, 1, 3.53857, 2.38419e-07, -2.12197)
+script = null
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Hunter"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hunter/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("BoxShape3D_6t1ht")
+
+[node name="Barbarian" parent="." instance=ExtResource("3_dvomx")]
+transform = Transform3D(1, 0, 2.08616e-07, 0, 1, 0, -2.08616e-07, 0, 1, -2.24324, -2.38419e-07, -3.23503)
+script = null
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Barbarian"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Barbarian/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("BoxShape3D_6t1ht")
+
+[node name="Druid" parent="." instance=ExtResource("3_dvomx")]
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 3.00373, 0, -2.9119)
+script = null
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Druid"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Druid/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("BoxShape3D_6t1ht")
+
+[node name="Necromancer" parent="." instance=ExtResource("3_dvomx")]
+transform = Transform3D(0.992472, -0.122058, -0.01011, 0.122476, 0.989084, 0.0819258, 1.13695e-09, -0.0825473, 0.996587, 2.32605, 2.38419e-07, -3.69008)
+script = null
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Necromancer"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Necromancer/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("BoxShape3D_6t1ht")
+
+[node name="Healer" parent="." instance=ExtResource("3_dvomx")]
+transform = Transform3D(0.5, 0, -0.866025, 0, 1, 0, 0.866025, 0, 0.5, 1.30885, 0, -3)
+script = null
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Healer"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Healer/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("BoxShape3D_6t1ht")
+
+[node name="Trainer" parent="." instance=ExtResource("3_dvomx")]
+transform = Transform3D(0.102944, -0.0955678, 0.990085, 0.00988336, 0.995423, 0.0950553, -0.994638, 0, 0.103417, -3.76608, -2.38419e-07, -2.18733)
+script = null
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Trainer"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Trainer/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("BoxShape3D_6t1ht")
+
+[node name="SpotLight3D" type="SpotLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 12, 3.9046, -3.30171)
+light_energy = 50.0
+spot_range = 6.0
+spot_angle = 15.0
+
+[node name="Canvas" type="CanvasLayer" parent="."]
+
+[node name="Text" type="RichTextLabel" parent="Canvas"]
+custom_minimum_size = Vector2(0, 160)
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -23.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/line_separation = 8
+theme_override_fonts/normal_font = ExtResource("5_j2n40")
+theme_override_font_sizes/normal_font_size = 30
+theme_override_font_sizes/bold_font_size = 48
+theme_override_font_sizes/italics_font_size = 24
+bbcode_enabled = true
+text = "[center][color=BROWN][i]Press any key to Start[/i][/color][/center]"
+fit_content = true
+
+[node name="ColorRect" type="ColorRect" parent="Canvas"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="Canvas"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Settings" parent="Canvas/CenterContainer" instance=ExtResource("6_ot8yc")]
+visible = false
+layout_mode = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_3jid5")
+}

@@ -11,7 +11,8 @@ func _ready():
 		var item = G.stock.make_item(itemname)
 		inventory.append(item)
 	G.rng.set_seed(G.vars.seed + 123456)
-	for _i in range(5, 32):
+	var max_items = G.rng.rir(8, 32)
+	for _i in range(5, max_items):
 		var itemname = G.stock.make_group("#shop")
 		if itemname != null:
 			var item = G.stock.make_item(itemname)

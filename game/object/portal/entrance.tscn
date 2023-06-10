@@ -24,7 +24,7 @@ billboard_keep_scale = true
 
 [sub_resource type="QuadMesh" id="QuadMesh_8exlk"]
 material = SubResource("StandardMaterial3D_k1vt8")
-size = Vector2(0.5, 1)
+size = Vector2(1, 2)
 
 [node name="Entrance" type="Node3D"]
 script = ExtResource("1_v1b8h")

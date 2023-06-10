@@ -37,6 +37,15 @@ func set_unit(unit):
 
 func on_close():
 	queue_free()
+	for container in [_equipbar, _itembar]:
+		for slot in container.get_children():
+			slot.pressed.disconnect(_on_slot_pressed)
+			slot.mouse_entered.disconnect(_on_hover)
+			slot.mouse_exited.disconnect(_on_unhover)
+	for slot in _stash.get_children():
+		slot.pressed.disconnect(_on_stash_pressed)
+		slot.mouse_entered.disconnect(_on_hover)
+		slot.mouse_exited.disconnect(_on_unhover)
 
 
 func update_views():

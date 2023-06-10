@@ -20,7 +20,7 @@ func on_display():
 	var desc = G.you.proficiency.get_description()
 	var lvls = G.you.data.get("level", 1)
 	var lvl = floor(lvls)
-	var lvl_exp = snapped(lvls, 0.01) - lvl
+	var lvl_exp = "%.2f" % (lvls - lvl)
 	var txt = str(G.you.sid.capitalize(),"\n","Level ",lvl," [i](",lvl_exp,"%)[/i]","\n")
 	txt += str("[color=GOLD]Gold[/color]: ",G.vars.gold,"\n")
 	txt += str("[color=RED]Health[/color]: ",G.you.health,"/",G.you.data.health,"\n")

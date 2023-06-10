@@ -99,7 +99,6 @@ func set_held_index(i):
 
 
 func set_item_by_index(i, item):
-	G.sfx.play("wear", _unit.position)
 	var eq_size = equipment.size()
 	if i < eq_size:
 		var key = equipment.keys()[i]
@@ -164,9 +163,12 @@ func increment_held_index(i):
 
 
 func _adjust_held_index():
-	G.sfx.play("equip_cloth", _unit.position)
 	var eq_size = equipment.size()
 	_held_index = clamp(_held_index, eq_size, eq_size + _inventory.size() - 1)
+	var held = get_held_item()
+	if held != null:
+		var sfx = held.data.get("sfx_hold", "wear")
+		G.sfx.play(sfx, _unit.position)
 
 
 func absorb(ess):
@@ -196,7 +198,7 @@ func apply_change(data, mult=1, skip=false):
 	_unit.data.health += data.get("health", 0) * mult
 	_unit.data.mana += data.get("mana", 0) * mult
 	_unit.defense += data.get("defense", 0) * mult
-	_unit.procedure.speed -= data.get("weight", 0)*.1 * mult
+	_unit.procedure.speed -= data.get("weight", 0)*.05 * mult
 
 
 func pickup(item):
@@ -214,6 +216,7 @@ func wear(item):
 			if equipment[item.part] == null:
 				var reqs = item.data.get("req")
 				if _unit != G.you or reqs == null or G.player.proficiency.check_req(reqs[0], reqs[1]):
+					G.sfx.play("equip_cloth", _unit.position)
 					equipment[item.part] = item
 					item.on_wear(_unit)
 					apply_change(item.data)

@@ -1,34 +1,26 @@
 extends Node
 
-const PATH = "user://save/player.json"
-const TEMPLATE_PATH = "res://save/template.json"
-const PROP_PATH = "user://save/props.json"
+const PLAYER_PATH = "user://save/player.json"
+const TEMPLATE_PLAYER_PATH = "res://save/template.json"
+const SETTINGS_PATH = "user://save/settings.json"
 var data
 
 
-func load_data():
-	return load_player_data()
-
-
 func load_player_data():
-	data = get_json_from_dir(PATH)
+	data = get_json_from_dir(PLAYER_PATH)
 	if data == null:
-		data = get_json_from_dir(TEMPLATE_PATH)
+		data = get_json_from_dir(TEMPLATE_PLAYER_PATH)
 	if data != null:
 		if data.seed == -1:
 			data.seed = Time.get_unix_time_from_system()
 		data.seed = int(data.seed)
 		G.rng.set_seed(data.seed)
-		G.vars = data
-		G.set_map("camp")
-	var u = G.stock.make_any_unit(G.player, Vector3(), G.vars.unit.name, G.vars.unit)
+		G.vars.merge(data)
+		G.set_map(G.vars.map)
+	var u = G.stock.make_any_unit(G.player, Vector3(), G.vars.name, G.vars.unit)
 	u.health = G.vars.get("health", u.health)
 	u.mana = G.vars.get("mana", u.mana)
 	return u
-
-
-func save_data():
-	save_player_data()
 
 
 func save_player_data():
@@ -38,16 +30,17 @@ func save_player_data():
 	G.you.buffs.pre_save()
 	var unit_data = G.you.serialize()
 	r["unit"] = unit_data
-	save(PATH, r)
+	save(PLAYER_PATH, r)
 
 
-func _save_prop_data(): #unused
-	var r = []
-	for i in G.stock.get_children():
-		if i.get("sid") != null:
-			var prop_data = i.serialize()
-			r.append(prop_data)
-	save(PROP_PATH, r)
+func load_settings():
+	var settings = get_json_from_dir(SETTINGS_PATH)
+	if settings != null:
+		G.settings = settings
+
+
+func save_settings():
+	save(SETTINGS_PATH, G.settings)
 
 
 func save(dir, contents):

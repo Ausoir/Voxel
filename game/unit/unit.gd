@@ -68,6 +68,13 @@ func _ready():
 	_space_state_params.set_exclude([body.get_rid()])
 	attack.connect(on_attack)
 	forward = -get_transform().basis.z.normalized()
+	var interact = data.get("interact")
+	if interact != null:
+		body.set_collision_layer_value(1, true)
+
+
+func on_interact(_user: Node3D):
+	G.run_script(data.get("interact"), null)
 
 
 func get_type():
@@ -117,8 +124,8 @@ func on_damaged(_pos: Vector3, damage: int, inflict):
 	if alert:
 		var ess = 0
 		if has_essence("agility"):
-			ess = .2
-		if G.rng.percent(get_prof("dodge")*4 + ess):
+			ess = .25
+		if G.rng.percent(get_prof("dodge")*.04 + ess):
 			G.stock.make_particle(position + Vector3(0, size.y/2, 0), "dodge")
 			G.sfx.play("dodge", position)
 			if "scout" in G.you.essence:
@@ -128,7 +135,6 @@ func on_damaged(_pos: Vector3, damage: int, inflict):
 	else:
 		G.stock.make_particle(position + Vector3(0, size.y/2, 0), "demolish")
 		G.sfx.play("critical", position)
-		damage *= 2
 		buffs.add("silence", 1)
 		buffs.add("down", 1)
 	if _mesh.material_overlay == null:
@@ -188,6 +194,9 @@ func on_kill(_victim):
 	else:
 		lvl += (1 << diff) * .1
 	data["level"] = snapped(lvl, 0.01)
+	if floor(data.level) != floor(lvl):
+		G.stock.make_particle(position, "level")
+		G.sfx.play("dodge", position)
 	emit_signal("kill", _victim)
 
 
@@ -195,23 +204,22 @@ func die():
 	if animator != G.filler_animator:
 		if last_hitter != null:
 			last_hitter.on_kill(self)
-		buffs.set_duration("polymorph", 0)
-		buffs.set_duration("flight", 0)
 		motor = Vector3()
 		procedure.speedmod = 0
 		procedure.turn_speed = 0
 		pilot.set_physics_process(false)
-		$Body.collision_layer = 0
+		$Body.collision_layer = 1
 		animator.play("die")
 		animator = G.filler_animator
 		action.force_set_next("idle", 999)
 		health = 0
-		_healthbar.set_current(0)
+		show_healthbar()
 		var itemname = G.rng.get_combo(data.get("loot"))
 		if itemname != null:
 			var item = G.stock.make_item(itemname)
 			item.drop_at(position)
 		emit_signal("death")
+		buffs.clean(true)
 
 
 func revive():
@@ -252,6 +260,7 @@ func on_attack():
 	var hits = _space_state.intersect_point(_space_state_params, 1)
 	for hit in hits:
 		var t = hit.collider.get_parent()
+		t.last_hitter = self
 		t.on_damaged(position, damage, inflict)
 		emit_signal("weapon", "unarmed", t, damage)
 		G.sfx.play("hit_flesh", position)
@@ -316,11 +325,12 @@ func _walk_physics_process(delta):
 		rotation.y = lerp_angle(rotation.y, atan2(motor.x, motor.z), .2)
 		var walk_speed = velocity.length()
 		if walk_speed > 0.5 and action.delay <= 0:
-			animator.play("walk", 1.0, walk_speed / 4.0)
+			animator.play("walk", 0.3, walk_speed / 4.0)
 	elif action.action == null:
 		animator.play("RESET")
 		_wait_time += delta
 		if _wait_time > 4.0:
+			_wait_time = 0
 			emit_signal("wait")
 
 	velocity.x += motor.x

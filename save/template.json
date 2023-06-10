@@ -1,8 +1,9 @@
 {
-    "gold": 240,
+    "day": 1,
+    "gold": 50,
     "health": 20,
-    "mana": 3,
-    "map": "town",
+    "mana": 1,
+    "map": "dungeons",
     "seed": -1,
     "stash":
     [
@@ -11,40 +12,6 @@
         null,
         null
     ],
-    "unit":
-    {
-        "buffs":
-        [
-            ["track", -1]
-        ],
-        "data":
-        {
-            "health": 20,
-            "level": 1,
-            "mana": 3,
-            "proficiency":
-            {
-            }
-        },
-        "equipments":
-        [
-            "leather armor",
-            "lantern"
-        ],
-        "items":
-        [
-            "quarterstaff",
-            "cave scroll",
-        ],
-        "name": "scholar",
-        "slots":
-        [
-            "body",
-            "accessory"
-        ],
-        "souls":
-        [
-            "soul essence"
-        ]
-    }
+    "name": "peasant",
+    "unit": null
 }

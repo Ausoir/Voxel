@@ -24,11 +24,11 @@ func _on_timeout():
 	_spawns = {}
 	var _prop_spawns = {}
 	for key in G.mapdata.spawns.keys():
-		var block = G.blocks.get_block_by_name(key)
+		var block = G.blocks.get_block_by_name(key.substr(1))
 		if block != null:
-			_spawns[block.voxels[0]] = G.mapdata.spawns[key]
+			_spawns[str(key[0], block.voxels[0])] = G.mapdata.spawns[key].duplicate(true)
 		else:
-			_prop_spawns[key] = G.mapdata.spawns[key]
+			_prop_spawns[key] = G.mapdata.spawns[key].duplicate(true)
 			print("Block not found: ", key)
 	for key in load_blocks.keys():
 		var chunk = load_blocks[key]
@@ -42,19 +42,34 @@ func _on_timeout():
 			var pos = next[0]
 			var objectname = next[1]
 			G.stock.make_object(pos + G.V2_HALF, objectname)
-			if objectname in _prop_spawns:
-				var prop_spawn = _prop_spawns[objectname]
-				var spawn_params = prop_spawn[0]
-				if spawn_params > 0:
-					if spawn_params < 1:
-						if G.rng.percent(spawn_params):
-							make_placeable(pos, prop_spawn[1])
+			var spawn_key
+			if pos.y >= 10:
+				spawn_key = "^" + objectname
+			else:
+				spawn_key = "_" + objectname
+			if spawn_key in _prop_spawns:
+				var above = Vector3(pos.x, pos.y+1, pos.z)
+				if G.tool.get_voxel(above) < 4:
+					var prop_spawn_list = _prop_spawns[spawn_key]
+					for i in range(prop_spawn_list.size()-1,-1,-1):
+						var prop_spawn = prop_spawn_list[i]
+						var spawn_params = prop_spawn[0]
+						if spawn_params > 0:
+							if spawn_params < 1:
+								if G.rng.percent(spawn_params):
+									make_placeable(pos, prop_spawn[1])
+									break
+							else:
+								make_placeable(pos, prop_spawn[1])
+								if spawn_params > 1:
+									prop_spawn[0] -= 1
+								else:
+									prop_spawn_list.pop_at(i)
+								break
+					if prop_spawn_list.is_empty():
+						_prop_spawns.erase(spawn_key)
 					else:
-						make_placeable(pos, prop_spawn[1])
-						if spawn_params > 1:
-							prop_spawn[0] -= 1
-						else:
-							_prop_spawns.erase(objectname)
+						_prop_spawns[spawn_key] = prop_spawn_list
 	load_blocks.clear()
 	load_props.clear()
 	G.ui.fadein()
@@ -76,16 +91,33 @@ func _process(_delta):
 			var z = G.rng.rir(_bounds[1], _bounds[3])
 			var pos = Vector3(x, y, z)
 			var voxel = G.tool.get_voxel(pos)
-			if voxel in _spawns.keys():
+			var spawn_key
+			if y >= 10:
+				spawn_key = str("^", voxel)
+			else:
+				spawn_key = str("_", voxel)
+			if spawn_key in _spawns.keys():
 				var above = Vector3(x, y+1, z)
 				if G.tool.get_voxel(above) < 4:
-					var spawn_data = _spawns[voxel]
-					make_placeable(above, spawn_data[1])
-					if spawn_data[0] > 1:
-						spawn_data[0] -= 1
+					var spawn_data_list = _spawns[spawn_key]
+					for i in range(spawn_data_list.size()-1,-1,-1):
+						var spawn_data = spawn_data_list[i]
+						if spawn_data[0] > 0:
+							if spawn_data[0] < 1:
+								if G.rng.percent(spawn_data[0]):
+									make_placeable(above, spawn_data[1])
+									break
+							else:
+								make_placeable(above, spawn_data[1])
+								if spawn_data[0] > 1:
+									_spawns[spawn_key][i][0] = spawn_data[0] - 1
+								else:
+									spawn_data_list.pop_at(i)
+								break
+					if spawn_data_list.is_empty():
+						_spawns.erase(spawn_key)
 					else:
-						_spawns.erase(voxel)
-						return
+						_spawns[spawn_key] = spawn_data_list
 		_timeout -= 1
 		if _timeout <= 0:
 			print("LATE LOADER TIMEOUT", _spawns)
@@ -105,10 +137,14 @@ func make_placeable(pos, itemname):
 		move_player(pos)
 	else:
 		var center = pos + G.V2_HALF
-		if G.stock.make_any(center, itemname) == null and itemname[0] != "#":
-			var block = G.blocks.get_block_by_name(itemname)
-			if block != null:
-				G.tool.set_block(pos, block.id, null)
-			else:
-				G.stock.make_object(center, itemname)
+		var unit = G.stock.make_any(center, itemname)
+		if unit == null:
+			if itemname[0] != "#":
+				var block = G.blocks.get_block_by_name(itemname)
+				if block != null:
+					G.tool.set_block(pos, block.id, null)
+				else:
+					G.stock.make_object(center, itemname)
+		else:
+			G.tool.set_voxel(center, 4)
 

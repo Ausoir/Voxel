@@ -1,9 +1,10 @@
-[gd_scene load_steps=14 format=3 uid="uid://cicop0s2xq1s5"]
+[gd_scene load_steps=15 format=3 uid="uid://cicop0s2xq1s5"]
 
 [ext_resource type="ArrayMesh" uid="uid://bqrp1fkhcxccj" path="res://assets/objects/o_campfire.obj" id="1_kehth"]
 [ext_resource type="Script" path="res://game/object/prop.gd" id="1_xpst3"]
 [ext_resource type="Texture2D" uid="uid://dmdcwxiwd6pl1" path="res://assets/texture/fire.png" id="2_262ug"]
 [ext_resource type="AudioStream" uid="uid://7clc661a5glk" path="res://assets/sfx/bgm_fireplace.wav" id="4_ydfjg"]
+[ext_resource type="PackedScene" uid="uid://c5rbw73sc508y" path="res://game/fx/audio.tscn" id="5_micpw"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_5dahq"]
 size = Vector3(0.5, 0.4, 0.6)
@@ -121,8 +122,7 @@ cast_shadow = 0
 mesh = SubResource("QuadMesh_7ls2b")
 skeleton = NodePath("../..")
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+[node name="audio" parent="." instance=ExtResource("5_micpw")]
 stream = ExtResource("4_ydfjg")
-autoplay = true
-max_distance = 20.0
-doppler_tracking = 1
+volume_db = -12.0
+max_distance = 10.0

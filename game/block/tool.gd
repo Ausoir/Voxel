@@ -6,6 +6,10 @@ const _CHANNEL_TYPE = VoxelBuffer.CHANNEL_TYPE
 @onready var _blocks = get_node("../Blocks")
 
 
+func _ready():
+	_tool.mode = VoxelTool.MODE_SET
+
+
 func get_block(pos: Vector3):
 	var hit_raw_id = _tool.get_voxel(pos)
 	return _blocks.get_block_by_voxel(hit_raw_id)
@@ -190,7 +194,6 @@ func collide_prop_by_line(pos: Vector3, to: Vector3, col: int = 12):
 
 func draw_line_3d(a: Vector3, b: Vector3, color: Color):
 	var g = ImmediateMesh.new()
-#	g.material_override = 
 	g.begin(Mesh.PRIMITIVE_LINES)
 	g.set_color(color)
 	g.add_vertex(a)

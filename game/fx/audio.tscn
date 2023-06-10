@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://c5rbw73sc508y"]
+
+[ext_resource type="Script" path="res://game/fx/audio.gd" id="1_dqy2s"]
+
+[node name="audio" type="AudioStreamPlayer3D"]
+autoplay = true
+max_distance = 16.0
+script = ExtResource("1_dqy2s")

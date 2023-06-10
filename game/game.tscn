@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://jw87ksrcnjjc"]
+[gd_scene load_steps=11 format=3 uid="uid://jw87ksrcnjjc"]
 
 [ext_resource type="Script" path="res://game/stock.gd" id="4_vprdk"]
 [ext_resource type="Script" path="res://game/game.gd" id="5"]
@@ -6,7 +6,6 @@
 [ext_resource type="VoxelBlockyLibrary" uid="uid://chr1cj53hbsgq" path="res://game/block/voxel_library.tres" id="6_jl7ow"]
 [ext_resource type="VoxelGeneratorScript" uid="uid://hx6kqpmjm6h8" path="res://game/generator/world_generator.tres" id="6_ll1tk"]
 [ext_resource type="Script" path="res://game/generator/late_loader.gd" id="7_0y0mg"]
-[ext_resource type="PackedScene" uid="uid://bxutp772rv1hr" path="res://game/fx/Sfx.tscn" id="11_fpy06"]
 [ext_resource type="Script" path="res://game/block/blocks.gd" id="12"]
 [ext_resource type="Script" path="res://game/block/tool.gd" id="12_td8s1"]
 [ext_resource type="Script" path="res://game/turn.gd" id="13_b3j7b"]
@@ -25,8 +24,6 @@ script = ExtResource("12_td8s1")
 
 [node name="Stock" type="Node" parent="."]
 script = ExtResource("4_vprdk")
-
-[node name="Sfx" parent="." instance=ExtResource("11_fpy06")]
 
 [node name="Terrain" type="VoxelTerrain" parent="."]
 generator = ExtResource("6_ll1tk")

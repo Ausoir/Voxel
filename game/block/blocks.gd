@@ -79,13 +79,14 @@ func _create_block(blockname: String, params: Dictionary):
 	block.id = len(_blocks)
 	
 	var r
+	var voxel_ids = []
 	for i in len(params.voxels):
 		var vname = params.voxels[i]
 		var id = Library.get_voxel_index_from_name(vname)
 		if id == -1:
 			push_error("Could not find voxel named {0}".format([vname]))
 		assert(id != -1)
-		params.voxels[i] = id
+		voxel_ids.append(id)
 		var rm = RawMapping.new()
 		rm.block_id = block.id
 		rm.variant_index = i
@@ -100,7 +101,7 @@ func _create_block(blockname: String, params: Dictionary):
 	block.tickable = params.get("tickable", false)
 	block.tags = params.get("tags", [])
 	block.data = params.get("data", {})
-	block.voxels = params.voxels
+	block.voxels = voxel_ids
 
 	_blocks.append(block)
 	add_child(block)

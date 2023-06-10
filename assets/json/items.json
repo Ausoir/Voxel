@@ -110,7 +110,7 @@
 			"desc": "Teleport to the dungeon.",
 			"value": 40,
 			"speed": 1,
-			"to": "dungeons"
+			"to": "fields"
 		}
 	},
 	"gold": {
@@ -246,18 +246,74 @@
 			"mana": 0
 		}
 	},
-	"robe": {
-		"spritename": "body/a_robe_sprite",
+	"white robe": {
+		"spritename": "body/a_white_robe_sprite",
 		"modelname": "item/bag_cloth",
-		"model2name": "body/a_robe",
+		"model2name": "body/a_white_robe",
 		"script": "equipment/armor",
 		"part": "body",
 		"data": {
 			"value": 25,
 			"weight": 1,
 			"defense": 0,
-			"space": 4,
-			"mana": 2
+			"space": 3,
+			"mana": 1
+		}
+	},
+	"green robe": {
+		"spritename": "body/a_green_robe_sprite",
+		"modelname": "item/bag_cloth",
+		"model2name": "body/a_green_robe",
+		"script": "equipment/armor",
+		"part": "body",
+		"data": {
+			"value": 80,
+			"weight": 1,
+			"defense": 0,
+			"space": 3,
+			"mana": 10
+		}
+	},
+	"golden robe": {
+		"spritename": "body/a_golden_robe_sprite",
+		"modelname": "item/bag_cloth",
+		"model2name": "body/a_golden_robe",
+		"script": "equipment/armor",
+		"part": "body",
+		"data": {
+			"value": 250,
+			"weight": 1,
+			"defense": 0,
+			"space": 5,
+			"mana": 15
+		}
+	},
+	"red robe": {
+		"spritename": "body/a_red_robe_sprite",
+		"modelname": "item/bag_cloth",
+		"model2name": "body/a_red_robe",
+		"script": "equipment/armor",
+		"part": "body",
+		"data": {
+			"value": 350,
+			"weight": 1,
+			"defense": 0,
+			"space": 3,
+			"health": 20,
+			"mana": 0
+		}
+	},
+	"black robe": {
+		"spritename": "body/a_black_robe_sprite",
+		"modelname": "item/bag_cloth",
+		"model2name": "body/a_black_robe",
+		"script": "equipment/armor",
+		"part": "body",
+		"data": {
+			"value": 350,
+			"weight": 0,
+			"defense": 0,
+			"space": 2
 		}
 	},
 	"suit": {
@@ -267,12 +323,40 @@
 		"script": "equipment/armor",
 		"part": "body",
 		"data": {
-			"value": 150,
+			"value": 120,
 			"weight": 1,
 			"defense": 0,
-			"space": 4,
-			"mana": 7,
-			"health": 20
+			"space": 3,
+			"mana": 0,
+			"health": 5
+		}
+	},
+	"silk suit": {
+		"spritename": "body/a_silk_sprite",
+		"modelname": "item/bag_cloth",
+		"model2name": "body/a_silk",
+		"script": "equipment/armor",
+		"part": "body",
+		"data": {
+			"desc": "Simply luxurious.",
+			"value": 500,
+			"weight": 0,
+			"space": 3,
+			"mana": 0,
+			"health": 0
+		}
+	},
+	"hunting outfit": {
+		"spritename": "body/a_hunter_outfit_sprite",
+		"modelname": "item/bag_cloth",
+		"model2name": "body/a_hunter_outfit",
+		"script": "equipment/armor",
+		"part": "body",
+		"data": {
+			"value": 60,
+			"weight": 1,
+			"space": 2,
+			"defense": 0
 		}
 	},
 	"leather armor": {
@@ -282,10 +366,37 @@
 		"script": "equipment/armor",
 		"part": "body",
 		"data": {
-			"value": 80,
+			"value": 90,
 			"weight": 1,
-			"space": 3,
+			"space": 2,
 			"defense": 1
+		}
+	},
+	"hide armor": {
+		"spritename": "body/a_hide_sprite",
+		"modelname": "item/bag_cloth",
+		"model2name": "body/a_hide",
+		"script": "equipment/armor",
+		"part": "body",
+		"data": {
+			"value": 130,
+			"weight": 2,
+			"space": 2,
+			"defense": 1,
+			"health": 10
+		}
+	},
+	"hard leather armor": {
+		"spritename": "body/a_hard_leather_sprite",
+		"modelname": "item/bag_cloth",
+		"model2name": "body/a_hard_leather",
+		"script": "equipment/armor",
+		"part": "body",
+		"data": {
+			"value": 200,
+			"weight": 1,
+			"space": 2,
+			"defense": 2
 		}
 	},
 	"nomad armor": {
@@ -295,11 +406,11 @@
 		"script": "equipment/armor",
 		"part": "body",
 		"data": {
-			"value": 250,
+			"value": 400,
 			"weight": 1,
 			"space": 4,
 			"defense": 1,
-			"health": 20
+			"health": 10
 		}
 	},
 	"chainmail": {
@@ -311,7 +422,7 @@
 		"data": {
 			"value": 150,
 			"weight": 1,
-			"space": 2,
+			"space": 1,
 			"defense": 2
 		}
 	},
@@ -322,8 +433,8 @@
 		"script": "equipment/armor",
 		"part": "body",
 		"data": {
-			"value": 320,
-			"weight": 2,
+			"value": 400,
+			"weight": 3,
 			"space": 1,
 			"defense": 4,
 			"health": 20
@@ -409,6 +520,7 @@
 			"weight": 0,
 			"speed": 2,
 			"damage": 2,
+			"sfx_hold": "unsheathe_wood",
 			"swings": [
 				"swing_right",
 				"swing_left"
@@ -422,18 +534,31 @@
 		"data": {
 			"type": "blunt",
 			"value": 40,
-			"weight": 2,
-			"speed": 0.8,
-			"damage": 9,
+			"weight": 3,
+			"speed": 1,
+			"damage": 8,
 			"health": 0,
+			"sfx_hold": "unsheathe_wood",
 			"swings": [
 				"swing_down"
-			],
-			"inflict": [
-				[
-					"slow",
-					3
-				]
+			]
+		}
+	},
+	"axe": {
+		"spritename": "weapon/axe",
+		"modelname": "weapon/axe3d-0-axe",
+		"script": "weapon/melee",
+		"data": {
+			"type": "blunt",
+			"value": 70,
+			"weight": 2,
+			"speed": 0.7,
+			"damage": 12,
+			"health": 0,
+			"sfx_hold": "unsheathe_wood",
+			"swings": [
+				"swing_down",
+				"swing_left"
 			]
 		}
 	},
@@ -443,12 +568,14 @@
 		"script": "weapon/melee",
 		"data": {
 			"type": "blunt",
-			"value": 80,
+			"value": 100,
 			"weight": 2,
 			"speed": 0.7,
 			"damage": 11,
 			"health": 0,
+			"sfx_hold": "unsheathe_wood",
 			"swings": [
+				"swing_down",
 				"swing_left",
 				"swing_right"
 			],
@@ -466,12 +593,13 @@
 		"script": "weapon/melee",
 		"data": {
 			"type": "blunt",
-			"value": 150,
+			"value": 100,
 			"weight": 3,
-			"speed": 0.5,
-			"damage": 16,
+			"speed": 0.7,
+			"damage": 9,
 			"health": 0,
 			"mana": 0,
+			"sfx_hold": "unsheathe_wood",
 			"swings": [
 				"swing_left",
 				"swing_right"
@@ -479,7 +607,33 @@
 			"inflict": [
 				[
 					"daze",
-					3
+					1
+				]
+			]
+		}
+	},
+	"morning star": {
+		"spritename": "weapon/morningstar",
+		"modelname": "weapon/morningstar3d",
+		"script": "weapon/melee",
+		"data": {
+			"type": "blunt",
+			"value": 150,
+			"weight": 3,
+			"speed": 0.6,
+			"damage": 16,
+			"health": 0,
+			"mana": 0,
+			"sfx_hold": "unsheathe_wood",
+			"swings": [
+				"swing_down",
+				"swing_left",
+				"swing_right"
+			],
+			"inflict": [
+				[
+					"daze",
+					2
 				]
 			]
 		}
@@ -492,11 +646,37 @@
 			"type": "dagger",
 			"value": 40,
 			"weight": 1,
-			"speed": 3,
-			"damage": 3,
+			"speed": 1,
+			"damage": 4,
+			"backstab": 3,
+			"sfx_hold": "unsheathe_blade",
 			"swings": [
 				"swing_forward",
 				"swing_right"
+			]
+		}
+	},
+	"dagger": {
+		"spritename": "weapon/dagger",
+		"modelname": "weapon/dagger3d-0-dagger",
+		"script": "weapon/melee",
+		"data": {
+			"desc": "Applies silence for 1 second.",
+			"type": "dagger",
+			"value": 50,
+			"weight": 1,
+			"speed": 1.5,
+			"damage": 3,
+			"backstab": 6,
+			"sfx_hold": "unsheathe_blade",
+			"swings": [
+				"swing_forward"
+			],
+			"inflict": [
+				[
+					"silence",
+					1
+				]
 			]
 		}
 	},
@@ -510,6 +690,8 @@
 			"weight": 1,
 			"speed": 1,
 			"damage": 6,
+			"backstab": 4,
+			"sfx_hold": "unsheathe_blade",
 			"swings": [
 				"swing_forward",
 				"swing_left",
@@ -526,7 +708,8 @@
 			"value": 80,
 			"weight": 2,
 			"speed": 0.8,
-			"damage": 12,
+			"damage": 9,
+			"sfx_hold": "unsheathe_blade",
 			"swings": [
 				"swing_left",
 				"swing_right"
@@ -544,6 +727,7 @@
 			"speed": 0.6,
 			"damage": 8,
 			"defense": 1,
+			"sfx_hold": "unsheathe_blade",
 			"swings": [
 				"swing_left",
 				"swing_right",
@@ -563,6 +747,7 @@
 			"speed": 2,
 			"damage": 4,
 			"mana": 0,
+			"sfx_hold": "unsheathe_wood",
 			"swings": [
 				"swing_down",
 				"swing_forward",
@@ -576,13 +761,22 @@
 		"modelname": "weapon/tanto3d",
 		"script": "weapon/melee",
 		"data": {
+			"desc": "Applies silence for 3 seconds.",
 			"type": "dagger",
 			"value": 150,
 			"weight": 1,
 			"speed": 1,
 			"damage": 10,
+			"backstab": 6,
+			"sfx_hold": "unsheathe_blade",
 			"swings": [
 				"swing_forward"
+			],
+			"inflict": [
+				[
+					"silence",
+					3
+				]
 			]
 		}
 	},
@@ -597,6 +791,8 @@
 			"speed": 1.5,
 			"size": 0.2,
 			"damage": 7,
+			"backstab": 6,
+			"sfx_hold": "unsheathe_blade",
 			"swings": [
 				"swing_forward",
 				"swing_left",
@@ -614,6 +810,7 @@
 			"weight": 2,
 			"speed": 1.3,
 			"damage": 9,
+			"sfx_hold": "unsheathe_blade",
 			"swings": [
 				"swing_down",
 				"swing_right",
@@ -626,12 +823,15 @@
 		"modelname": "weapon/eblade3d-0-eblade",
 		"script": "weapon/melee",
 		"data": {
+			"desc": "A brutally sharp dagger.",
 			"type": "dagger",
-			"value": 200,
+			"value": 250,
 			"weight": 0,
 			"speed": 3,
-			"damage": 7,
+			"damage": 9,
 			"mana": 0,
+			"backstab": 4,
+			"sfx_hold": "unsheathe_blade",
 			"swings": [
 				"swing_forward",
 				"swing_right"
@@ -650,6 +850,7 @@
 			"speed": 1,
 			"mana": 2,
 			"damage": 6,
+			"sfx_hold": "unsheathe_blade",
 			"swings": [
 				"swing_forward",
 				"swing_down"
@@ -665,6 +866,8 @@
 			"value": 50,
 			"weight": 3,
 			"damage": 6,
+			"backstab": 6,
+			"sfx_hold": "unsheathe_wood",
 			"swings": [
 				"swing_forward"
 			]
@@ -680,6 +883,8 @@
 			"weight": 3,
 			"speed": 0.7,
 			"damage": 8,
+			"backstab": 6,
+			"sfx_hold": "unsheathe_wood",
 			"swings": [
 				"swing_forward"
 			],
@@ -701,6 +906,7 @@
 			"weight": 4,
 			"speed": 0.6,
 			"damage": 14,
+			"sfx_hold": "unsheathe_blade",
 			"swings": [
 				"swing_forward",
 				"swing_left",
@@ -726,6 +932,7 @@
 			"speed": 0.3,
 			"spread": 0.15,
 			"damage": 9,
+			"sfx_hold": "unsheathe_wood",
 			"noise": 8
 		}
 	},
@@ -741,6 +948,8 @@
 			"speed": 0.3,
 			"spread": 0.1,
 			"damage": 6,
+			"backstab": 8,
+			"sfx_hold": "unsheathe_wood",
 			"noise": 2
 		}
 	},
@@ -755,6 +964,8 @@
 			"speed": 0.2,
 			"spread": 0.1,
 			"damage": 11,
+			"backstab": 6,
+			"sfx_hold": "unsheathe_wood",
 			"noise": 5
 		}
 	},
@@ -769,6 +980,7 @@
 			"speed": 0.65,
 			"spread": 0.2,
 			"damage": 9,
+			"sfx_hold": "unsheathe_wood",
 			"noise": 10
 		}
 	},
@@ -785,6 +997,7 @@
 			"spread": 0.2,
 			"noise": 8,
 			"damage": 4,
+			"sfx_hold": "unsheathe_wood",
 			"inflict": [
 				[
 					"slow",
@@ -808,6 +1021,7 @@
 			"speed": 0.15,
 			"spread": 0.1,
 			"damage": 15,
+			"sfx_hold": "unsheathe_wood",
 			"noise": 12
 		}
 	},
@@ -823,6 +1037,8 @@
 			"speed": 0.2,
 			"spread": 0.05,
 			"damage": 12,
+			"backstab": 6,
+			"sfx_hold": "unsheathe_wood",
 			"noise": 8
 		}
 	},
@@ -841,7 +1057,8 @@
 			"noise": 30,
 			"manause": 1,
 			"radius": 2,
-			"power": 4
+			"power": 4,
+			"sfx_hold": "unsheathe_wood"
 		}
 	},
 	"staff of death": {
@@ -859,7 +1076,8 @@
 			"noise": 16,
 			"manause": 2,
 			"radius": 3,
-			"power": 5
+			"power": 5,
+			"sfx_hold": "unsheathe_wood"
 		}
 	},
 	"staff of sleep": {
@@ -878,6 +1096,7 @@
 			"manause": 2,
 			"radius": 3,
 			"power": 3,
+			"sfx_hold": "unsheathe_wood",
 			"inflict": [
 				[
 					"slow",
@@ -916,7 +1135,8 @@
 			"speed": 0.1,
 			"spread": 0.05,
 			"damage": 13,
-			"noise": 16
+			"noise": 16,
+			"sfx_hold": "buy"
 		}
 	},
 	"greatsword": {
@@ -930,6 +1150,7 @@
 			"speed": 0.6,
 			"weight": 4,
 			"damage": 15,
+			"sfx_hold": "unsheathe_blade",
 			"swings": [
 				"swing_left",
 				"swing_right",
@@ -1036,7 +1257,7 @@
 		"modelname": "item/essence3d",
 		"part": "essence",
 		"data": {
-			"desc": "With bare hands, shoot a wave of psychic blast forward.",
+			"desc": "With bare hands, shoot a wave of psychic blast forward. Higher psychic levels result in higher accuracy and damage.",
 			"essence": "psychic",
 			"value": 300
 		}
@@ -1097,7 +1318,7 @@
 		"part": "essence",
 		"data": {
 			"desc": "Stand still to turn invisible.",
-			"essence": "camoflauge",
+			"essence": "camouflage",
 			"value": 300
 		}
 	},
@@ -1147,6 +1368,16 @@
 		"part": "essence",
 		"data": {
 			"desc": "Whenever you kill an enemy, spend mana to raise it as undead.",
+			"essence": "raise",
+			"value": 300
+		}
+	},
+	"trainer essence": {
+		"spritename": "item/essence",
+		"modelname": "item/essence3d",
+		"part": "essence",
+		"data": {
+			"desc": "Touch a corpse to absorb it. Right click to revive and summon the creature.",
 			"essence": "summon",
 			"value": 300
 		}
@@ -1265,7 +1496,7 @@
 		"modelname": "item/essence3d",
 		"part": "essence",
 		"data": {
-			"desc": "Gain 15% chance to dodge attacks.",
+			"desc": "Gain 25% chance to dodge attacks.",
 			"essence": "agility",
 			"value": 300
 		}

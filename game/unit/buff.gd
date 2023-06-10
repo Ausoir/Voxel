@@ -4,6 +4,8 @@ static func get_buff(name):
 		r = Slow
 	elif name == "sleep":
 		r = Sleep
+	elif name == "down":
+		r = Down
 	elif name == "regeneration":
 		r = Regeneration
 	elif name == "clarity":

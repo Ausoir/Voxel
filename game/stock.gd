@@ -2,7 +2,7 @@ extends Node
 
 
 const Library := preload("res://game/block/voxel_library.tres")
-const Desc_JSON = preload("res://assets/json/descriptions.json")
+const Desc_JSON = preload("res://assets/json/dialog.json")
 const Item = preload("res://game/item/item.gd")
 const Item_JSON = preload("res://assets/json/items.json")
 const Item_Bag = preload("res://assets/item/bag.obj")
@@ -17,6 +17,7 @@ const P_bleed = preload("res://game/fx/bleed/bleed.tscn")
 const P_clarity = preload("res://game/fx/buff/clarity.tscn")
 const P_dodge = preload("res://game/fx/other/dodge.tscn")
 const P_summon = preload("res://game/fx/buff/summon.tscn")
+const P_level = preload("res://game/fx/buff/level.tscn")
 const Text = preload("res://game/fx/text.tscn")
 const Unit = preload("res://game/unit/unit.tscn")
 const Humanoid = preload("res://game/unit/humanoid/humanoid.tscn")

@@ -1,11 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://dtgiqn6kp51k0"]
+[gd_scene load_steps=8 format=3 uid="uid://dtgiqn6kp51k0"]
 
 [ext_resource type="Script" path="res://game/player/player.gd" id="1_5b4wf"]
 [ext_resource type="Script" path="res://game/player/camera.gd" id="2_fxmqn"]
 [ext_resource type="Script" path="res://game/player/control.gd" id="3_8bf3x"]
 [ext_resource type="PackedScene" uid="uid://d2bedp1vuwbx5" path="res://game/ui/interface.tscn" id="4_ep3pi"]
 [ext_resource type="Script" path="res://game/player/perception.gd" id="5_ixl5i"]
-[ext_resource type="Script" path="res://game/player/save.gd" id="6_o67dg"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_brrdt"]
 radius = 0.1
@@ -55,9 +54,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
 shape = SubResource("CylinderShape3D_oe41g")
 
 [node name="Interface" parent="." instance=ExtResource("4_ep3pi")]
-
-[node name="Save" type="Node" parent="."]
-script = ExtResource("6_o67dg")
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true

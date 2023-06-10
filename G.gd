@@ -1,7 +1,5 @@
 extends Node
 
-signal post_ready
-
 const COLLISION_DESCRIPTION = ["interact", "sight", "unit", "projectile"]
 const CARDINALS = [Vector3(1, 0, 0), Vector3(0, 0, -1), Vector3(-1, 0, 0), Vector3(0, 0, 1)]
 const GRAVITY = 14.0
@@ -15,33 +13,52 @@ var _envs = {
 	"cave": preload("res://game/environment/env_cave.tscn").instantiate(),
 }
 
+var _frame = 0
+var _custom_script = preload("res://game/script.gd").new()
+var files = preload("res://game/player/save.gd").new()
 var rng = preload("res://game/rng.gd").new()
+var sfx = preload("res://game/fx/Sfx.tscn").instantiate()
 var player
 var you
-var noisemap
-var vars
+var vars = {}
+var settings = {}
 var mapdata = Map_JSON.get_data().get("camp")
 var env
 var filler_animator = AnimationPlayer.new()
-var _frame = 0
 var sec = 0
 var sec_frame = false
-@onready var terrain = get_node("/root/Game/Terrain")
-@onready var late_loader = get_node("/root/Game/Terrain/LateLoader")
-@onready var tool = get_node("/root/Game/Tool")
-@onready var stock = get_node("/root/Game/Stock")
-@onready var blocks = get_node("/root/Game/Blocks")
-@onready var ui = get_node("/root/Game/Player/Interface")
-@onready var save = get_node("/root/Game/Player/Save")
-@onready var turn = get_node("/root/Game/Turn")
-@onready var sfx = get_node("/root/Game/Sfx")
+var terrain
+var late_loader
+var tool
+var stock
+var blocks
+var ui
+var turn
 
 
 func _ready():
-	emit_signal("post_ready")
-	var noise = FastNoiseLite.new()
-	noise.seed = rng.rf()
-	noisemap = noise.get_image(128, 128)
+	add_child(sfx)
+	files.load_settings()
+
+
+func clear():
+	terrain.queue_free()
+	late_loader.queue_free()
+	tool.queue_free()
+	stock.queue_free()
+	blocks.queue_free()
+	ui.queue_free()
+	turn.queue_free()
+
+
+func manual_ready(root):
+	terrain = root.get_node("Terrain")
+	late_loader = root.get_node("Terrain/LateLoader")
+	tool = root.get_node("Tool")
+	stock = root.get_node("Stock")
+	blocks = root.get_node("Blocks")
+	ui = root.get_node("Player/Interface")
+	turn = root.get_node("Turn")
 
 
 func set_map(p):
@@ -52,17 +69,19 @@ func set_map(p):
 		print("Map ", p, " not found!")
 		set_map("camp")
 	else:
-		var game = get_node("/root/Game")
-		if env != null:
-			game.remove_child(env)
+		if env != null and env.get_parent() == self:
+			remove_child(env)
 		env = _envs[mapdata.get("env", "outside")]
-		game.add_child.call_deferred(env)
+		add_child(env)
 
 
-func get_biome(_pos: Vector3):
-	var x = int(_pos.x) % 128
-	var z = int(_pos.z) % 128
-	return G.noisemap.get_pixel(x, z).r
+func run_script(p, params):
+	if p != null:
+		var fn = Callable(_custom_script, p)
+		if fn.is_valid():
+			fn.call(params)
+		else:
+			print("Invalid custom script ", p)
 
 
 func _process(delta):

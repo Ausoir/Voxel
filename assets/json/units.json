@@ -1,5 +1,155 @@
 {
+	"peasant": {
+		"head": "head/head1",
+		"body": "body/a_underwear",
+		"ai": "neutral",
+		"slots": [
+			"body",
+			"accessory"
+		],
+		"equipments": [
+			"rags",
+			"lantern"
+		],
+		"items": [
+			"pickaxe"
+		],
+		"souls": [],
+		"data": {
+			"interact": "tip",
+			"level": 1,
+			"speed": 0.5,
+			"health": 20,
+			"mana": 1,
+			"proficiency": {
+
+			}
+		}
+	},
+	"warrior": {
+		"head": "head/head2",
+		"body": "body/a_underwear",
+		"ai": "neutral",
+		"slots": [
+			"body",
+			"accessory"
+		],
+		"equipments": [
+			"chainmail",
+			"lantern"
+		],
+		"items": [
+			"broadsword"
+		],
+		"souls": [],
+		"data": {
+			"interact": "tip",
+			"level": 1,
+			"speed": 0.5,
+			"health": 30,
+			"mana": 1,
+			"proficiency": {
+				"armor": 2,
+				"dodge": 1,
+				"blade": 1
+			}
+		}
+	},
+	"scholar": {
+		"head": "head/head3",
+		"body": "body/a_underwear",
+		"ai": "neutral",
+		"slots": [
+			"body",
+			"accessory"
+		],
+		"equipments": [
+			"green robe",
+			"lantern"
+		],
+		"items": [
+			"stick"
+		],
+		"souls": [
+			"psychic essence"
+		],
+		"data": {
+			"interact": "tip",
+			"level": 1,
+			"speed": 0.5,
+			"health": 20,
+			"mana": 5,
+			"proficiency": {
+				"evocation": 1,
+				"aura": 1,
+				"psych": 1,
+				"earth": 1
+			}
+		}
+	},
 	"rogue": {
+		"head": "head/head4",
+		"body": "body/a_underwear",
+		"ai": "neutral",
+		"slots": [
+			"body",
+			"accessory"
+		],
+		"equipments": [
+			"rags",
+			"lantern"
+		],
+		"items": [
+			"dagger"
+		],
+		"souls": [
+			"shadow essence"
+		],
+		"data": {
+			"interact": "tip",
+			"level": 1,
+			"speed": 0.5,
+			"health": 20,
+			"mana": 1,
+			"proficiency": {
+				"dodge": 1,
+				"blade": 1,
+				"ambush": 2
+			}
+		}
+	},
+	"hunter": {
+		"head": "head/head4",
+		"body": "body/a_underwear",
+		"ai": "neutral",
+		"slots": [
+			"body",
+			"accessory"
+		],
+		"equipments": [
+			"hunting outfit",
+			"lantern"
+		],
+		"items": [
+			"shortsword",
+			"short bow",
+			"arrows:30"
+		],
+		"souls": [],
+		"data": {
+			"interact": "tip",
+			"level": 1,
+			"speed": 0.5,
+			"health": 20,
+			"mana": 1,
+			"proficiency": {
+				"dodge": 1,
+				"bow": 2,
+				"ambush": 1
+			}
+		}
+	},
+	"barbarian": {
 		"head": "head/head3",
 		"body": "body/a_underwear",
 		"ai": "neutral",
@@ -12,55 +162,21 @@
 			"lantern"
 		],
 		"items": [
-			"shortsword",
-			"short bow",
-			"arrows:30"
+			"axe"
 		],
 		"souls": [],
 		"data": {
+			"interact": "tip",
 			"level": 1,
 			"speed": 0.5,
-			"health": 20,
+			"health": 40,
 			"mana": 1,
 			"proficiency": {
-				"dodge": 1,
-				"blade": 1,
-				"bow": 1
+				"armor": 4
 			}
 		}
 	},
-	"scholar": {
-		"head": "head/head4",
-		"body": "body/a_underwear",
-		"ai": "neutral",
-		"slots": [
-			"body",
-			"accessory"
-		],
-		"equipments": [
-			"robe",
-			"lantern"
-		],
-		"items": [
-			"quarterstaff"
-		],
-		"souls": [
-			"psychic essence"
-		],
-		"data": {
-			"level": 1,
-			"speed": 0.5,
-			"health": 20,
-			"mana": 1,
-			"proficiency": {
-				"aura": 1,
-				"psych": 1,
-				"earth": 1,
-				"necromancy": 1
-			}
-		}
-	},
-	"warrior": {
+	"druid": {
 		"head": "head/head5",
 		"body": "body/a_underwear",
 		"ai": "neutral",
@@ -69,22 +185,116 @@
 			"accessory"
 		],
 		"equipments": [
-			"chainmail",
+			"green robe",
 			"lantern"
 		],
 		"items": [
 			"spear"
 		],
-		"souls": [],
+		"souls": [
+			"quicksilver essence"
+		],
 		"data": {
+			"interact": "tip",
+			"level": 1,
+			"speed": 0.5,
+			"health": 20,
+			"mana": 1,
+			"proficiency": {
+				"unarmed": 2,
+				"dodge": 1,
+				"spear": 1
+			}
+		}
+	},
+	"necromancer": {
+		"head": "head/head6",
+		"body": "body/a_underwear",
+		"ai": "neutral",
+		"slots": [
+			"body",
+			"accessory"
+		],
+		"equipments": [
+			"rags",
+			"lantern"
+		],
+		"items": [
+			"cleaver"
+		],
+		"souls": [
+			"soul essence"
+		],
+		"data": {
+			"interact": "tip",
+			"level": 1,
+			"speed": 0.5,
+			"health": 20,
+			"mana": 3,
+			"proficiency": {
+				"dodge": 1,
+				"dagger": 1,
+				"necromancy": 2
+			}
+		}
+	},
+	"healer": {
+		"head": "head/head7",
+		"body": "body/a_underwear",
+		"ai": "neutral",
+		"slots": [
+			"body",
+			"accessory"
+		],
+		"equipments": [
+			"white robe",
+			"lantern"
+		],
+		"items": [
+			"mace"
+		],
+		"souls": [
+			"healing essence"
+		],
+		"data": {
+			"interact": "tip",
 			"level": 1,
 			"speed": 0.5,
 			"health": 30,
-			"mana": 1,
+			"mana": 2,
 			"proficiency": {
 				"armor": 2,
-				"blade": 2,
-				"spear": 2
+				"aura": 1,
+				"blunt": 1
+			}
+		}
+	},
+	"trainer": {
+		"head": "head/h_cap",
+		"body": "body/a_underwear",
+		"ai": "neutral",
+		"slots": [
+			"body",
+			"accessory"
+		],
+		"equipments": [
+			"hunter outfit",
+			"lantern"
+		],
+		"items": [
+			"quarterstaff"
+		],
+		"souls": [
+			"trainer essence"
+		],
+		"data": {
+			"interact": "tip",
+			"level": 1,
+			"speed": 0.5,
+			"health": 20,
+			"mana": 1,
+			"proficiency": {
+				"blunt": 3
 			}
 		}
 	},
@@ -240,7 +450,7 @@
 		"slots": [],
 		"equipments": [],
 		"items": [
-			"mace"
+			"morning star"
 		],
 		"souls": [
 			"warrior essence"

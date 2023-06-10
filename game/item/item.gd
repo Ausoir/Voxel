@@ -85,6 +85,8 @@ func get_description():
 		r += str("\nSpeed: ", data.speed)
 	if "damage" in data:
 		r += str("\nDamage: ", data.damage)
+	if "backstab" in data:
+		r += str("\nBackstab Damage: ", data.backstab)
 	if "spread" in data:
 		r += str("\nSpread: ", data.spread)
 	if "manause" in data:
@@ -134,6 +136,8 @@ func imbue(sd):
 	if "damage" in data:
 		candids.append("damage")
 		candids.append("damage*")
+	if "backstab" in data:
+		candids.append("backstab")
 	if "spread" in data:
 		candids.append("spread")
 	if "health" in data:
@@ -148,6 +152,9 @@ func imbue(sd):
 		candids.append("power")
 	if "noise" in data:
 		candids.append("noise")
+	if "space" in data:
+		candids.append("space-")
+		candids.append("space+")
 	if "radius" in data:
 		candids.append("radius")
 	if "light" in data:
@@ -196,6 +203,17 @@ func imbue_option(opt, lvl):
 			data["weight"] = data.get("weight", 1) - lvl
 			data.value = int(data.value * (1 + lvl*.2))
 			_attach_option_description("Decreased weight", lvl)
+		"space-":
+			rank -= 2
+			lvl = int(lvl/5)
+			data["space"] = data.get("space", 0) - lvl
+			data.value = int(data.value * (1 - lvl*.1))
+			_attach_option_description("Less pockets", lvl)
+		"space+":
+			lvl = int(lvl/5)
+			data["space"] = data.get("space", 0) + lvl
+			data.value = int(data.value * (1 + lvl*.3))
+			_attach_option_description("More pockets", lvl)
 		"damage":
 			data.damage += lvl
 			data.value += lvl * 30
@@ -204,6 +222,10 @@ func imbue_option(opt, lvl):
 			data.damage += int(data.damage * lvl*.2)
 			data.value += lvl * 30
 			_attach_option_description("Increased damage", lvl)
+		"backstab":
+			data.backstab += lvl * 2
+			data.value += lvl * 15
+			_attach_option_description("Enhanced Backstab", lvl)
 		"speed":
 			data.speed += lvl * .1
 			data.value = int(data.value * (1 + lvl*.2))

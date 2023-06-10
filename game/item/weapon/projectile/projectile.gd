@@ -7,6 +7,7 @@ var _ss
 var _ssparams
 var motion
 var col_mask = 8
+var backstab = 2
 var damage = 1
 var on_attack
 var shooter
@@ -41,8 +42,7 @@ func _physics_process(delta: float):
 	var hit = _ss.intersect_ray(_ssparams)
 	if !hit.is_empty():
 		G.tool.set_sound(trans.origin, noise)
-		if hit.collider != G.terrain:
-			on_collide(hit)
+		on_collide(hit)
 		on_effect(hit.position)
 		queue_free()
 	else:
@@ -52,10 +52,13 @@ func _physics_process(delta: float):
 
 func on_collide(hit):
 	var unit = hit.collider.get_parent()
-	unit.last_hitter = shooter
-	unit.on_damaged(position, damage, inflict)
-	if on_attack != null:
-		on_attack.call(unit)
+	if unit.get("buffs") != null:
+		if !unit.alert:
+			damage += backstab
+		unit.last_hitter = shooter
+		unit.on_damaged(position, damage, inflict)
+		if on_attack != null:
+			on_attack.call(unit)
 
 
 func on_effect(_pos):

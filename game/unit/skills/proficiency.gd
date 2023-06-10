@@ -47,6 +47,7 @@ func get_description():
 		var val = list[i]
 		var level = floor(val)
 		var percent = val - level
+		percent = "%.2f" % percent
 		r += str("[color=#691][url=",i,"]", i.to_upper(), "[/url][/color] :  ",
 				level, " [i](", percent," %)[/i]", "\n")
 	return r
@@ -95,11 +96,11 @@ func on_attacked(dmg):
 
 
 func on_attack(_type, _victim, dmg):
-	increase(_type, 0.01 * dmg)
+	increase(_type, 0.005 * dmg)
 
 
 func on_ambush(_victim):
-	increase("ambush", 0.25)
+	increase("ambush", 0.2)
 
 
 func on_essence(_ess):

@@ -43,7 +43,7 @@ func _physics_process(_delta):
 			if !_target.visible:
 				if priority < 5:
 					deaggro()
-			elif priority > 2 and _frame >= 0.5 and perceive():
+			elif priority > 2 and hear() or (_frame >= 0.5 and perceive()):
 				aggro()
 		elif priority < 5:
 			deaggro()
@@ -95,13 +95,15 @@ func aggro():
 
 
 func perceive():
-	if G.tool.get_sound(_unit.position + G.V_HALF):
-		return true
 	var dir_to = _unit.transform.basis.z.normalized()
 	var angle = dir_to.dot(_unit.forward)
 	if angle > .2 + _unit.get_prof("ambush")*.05:
 		var prop = G.tool.raycast(_from, _unit.forward, _dist, 2)
 		return prop == null
+
+
+func hear():
+	return G.tool.get_sound(_unit.position)
 
 
 func on_attacked(_dmg):

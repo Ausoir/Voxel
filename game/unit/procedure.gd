@@ -3,7 +3,7 @@ extends Node
 const Hand = preload("res://game/item/hand.gd")
 
 var speed := 0.5
-var turn_speed := 0.2
+var turn_speed := 0.1
 var speedmod := 1.0
 var hand
 var _unit
@@ -16,7 +16,7 @@ func set_unit(unit):
 
 func face_front():
 	var face_dir = atan2(_unit.forward.x, _unit.forward.z)
-	_unit.rotation.y = lerp_angle(_unit.rotation.y, face_dir, turn_speed)
+	_unit.rotation.y = lerp_angle(_unit.rotation.y, face_dir, turn_speed * speedmod)
 
 
 func pickup(item):
@@ -78,9 +78,8 @@ func use():
 				else:
 					hand.use(_unit)
 			else:
-				if !hand.use(_unit):
-					if _unit.action.set_next("delay", 1):
-						_unit.animator.play("tackle")
+				if _unit.action.set_next("delay", 1):
+					_unit.animator.play("tackle")
 
 
 func use2():
