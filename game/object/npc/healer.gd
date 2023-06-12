@@ -12,7 +12,7 @@ func _ready():
 	G.tool.set_voxel(pos, 3)
 	_menu = MULTISELECT.instantiate()
 	var idx := 0
-	for i in ["Receive <Guardian Angel> $15", "Receive <Heal> $5", "Receive <Cure All> $10"]:
+	for i in ["Receive <Guardian Angel> $25", "Receive <Heal> $10", "Receive <Cure All> $20"]:
 		var button = _menu.add_button(i, on_press.bind(idx))
 		button.connect("mouse_entered", Callable(self, "on_hover").bind(idx, button))
 		button.connect("mouse_exited", Callable(self, "on_unhover"))
@@ -38,13 +38,13 @@ func on_activate(_user: Node3D):
 
 
 func on_press(idx):
-	if idx == 0 and _require(15):
+	if idx == 0 and _require(25):
 		G.you.buffs.add("track", -1)
-		G.ui.msg('Priest: "You will now be brought back alive when taken to critical health."')
-	elif idx == 1 and _require(5):
+		G.ui.msg('Priest: "You will now be brought back alive when knocked unconscious."')
+	elif idx == 1 and _require(10):
 		G.you.health = G.you.data.health
 		G.ui.msg('Priest: "You have been mended."')
-	elif idx == 2 and _require(10):
+	elif idx == 2 and _require(20):
 		G.you.buffs.clean()
 		G.ui.msg('Priest: "You ill no more."')
 	G.ui.clear()

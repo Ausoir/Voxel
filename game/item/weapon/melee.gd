@@ -60,7 +60,8 @@ func on_held_tick(_user: Node3D):
 				var prop = G.tool.collide_prop_by_line(from, to, 4)
 				if !prop.is_empty():
 					var unit = prop.collider.get_parent()
-					if unit.get("faction") != _user.faction:
+					var faction = unit.get("faction")
+					if faction != null and faction != _user.faction:
 						if !(unit in already_hit):
 							already_hit.append(unit)
 							var damage = data.get("damage", 1)
@@ -73,7 +74,7 @@ func on_held_tick(_user: Node3D):
 										_user.buffs.add("exhaustion", max(1, 10 - _user.get_prof("blunt")))
 										G.sfx.play("critical", _user.position)
 							if !unit.alert:
-								damage += data.get("backstab", 2)
+								damage += data.get("backstab", 0) + 3
 								if weapon_type == "dagger":
 									damage += _user.get_prof("dagger") * 3
 								_user.emit_signal("critical", unit)

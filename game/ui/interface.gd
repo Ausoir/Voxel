@@ -12,7 +12,7 @@ var _unit
 @onready var menu_container = $Center/Menu
 @onready var label = $Center/Label
 @onready var desc = $Description
-@onready var message = $Message
+@onready var message = $Chat/Message
 @onready var sidetext = $Sidetext
 @onready var fade = $Fade
 @onready var animation = $Animation
@@ -136,4 +136,22 @@ func on_setting_change(setting):
 			n_fps.show()
 		else:
 			n_fps.hide()
+
+
+func chat():
+	if !$Chat/TextEdit.visible:
+		on = true
+		message.show()
+		$Chat/TextEdit.clear()
+		$Chat/TextEdit.show()
+		$Chat/TextEdit.grab_focus()
+		message.can_hide = false
+	else:
+		var txt = $Chat/TextEdit.text
+		txt = txt.substr(0, txt.length() - 1)
+		msg("Player: " + txt)
+		on = false
+		$Chat/TextEdit.hide()
+		message.can_hide = true
+		G.run_cmd(txt)
 

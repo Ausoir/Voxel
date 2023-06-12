@@ -8,6 +8,7 @@ func set_unit(p):
 	_buffs = p.buffs
 	_buffs.connect("changed", reload_views)
 	_buffs.connect("updated", update_cooldowns)
+	reload_views()
 
 
 func unset_unit(_unit):

@@ -1,9 +1,24 @@
 [gd_scene load_steps=14 format=3 uid="uid://vixoefaaxj8f"]
 
 [ext_resource type="Script" path="res://game/block/doors/prop_door.gd" id="1_5qy6j"]
-[ext_resource type="ArrayMesh" uid="uid://5xmindpboht3" path="res://assets/blocks/sideslab_ns.obj" id="1_u5f4w"]
 [ext_resource type="Texture2D" uid="uid://cjixikwj37edg" path="res://assets/texture/doorbottom.png" id="2_luify"]
+[ext_resource type="ArrayMesh" uid="uid://0h8p56h5cmc5" path="res://assets/blocks/slab_ns.obj" id="3_s4egk"]
 [ext_resource type="Texture2D" uid="uid://ctov3wqnwqwoo" path="res://assets/texture/doortop.png" id="4_v4r5f"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_42y7s"]
+size = Vector3(1, 2, 0.2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_skckg"]
+albedo_texture = ExtResource("2_luify")
+metallic_specular = 0.0
+texture_filter = 0
+texture_repeat = false
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bsij4"]
+albedo_texture = ExtResource("4_v4r5f")
+metallic_specular = 0.0
+texture_filter = 0
+texture_repeat = false
 
 [sub_resource type="Animation" id="Animation_rc0cq"]
 length = 0.001
@@ -111,28 +126,8 @@ _data = {
 "open2": SubResource("Animation_jw0m2")
 }
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_42y7s"]
-size = Vector3(1, 2, 0.2)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_skckg"]
-albedo_texture = ExtResource("2_luify")
-metallic_specular = 0.0
-texture_filter = 0
-texture_repeat = false
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bsij4"]
-albedo_texture = ExtResource("4_v4r5f")
-metallic_specular = 0.0
-texture_filter = 0
-texture_repeat = false
-
 [node name="Door" type="Node3D"]
 script = ExtResource("1_5qy6j")
-
-[node name="Animator" type="AnimationPlayer" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_lt6xh")
-}
 
 [node name="Collision" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
@@ -144,13 +139,18 @@ shape = SubResource("BoxShape3D_42y7s")
 [node name="Body" type="MeshInstance3D" parent="Collision"]
 transform = Transform3D(0.995, 0, 0, 0, 1, 0, 0, 0, 0.995, 0, 0, -0.5)
 material_override = SubResource("StandardMaterial3D_skckg")
-mesh = ExtResource("1_u5f4w")
+mesh = ExtResource("3_s4egk")
 skeleton = NodePath("../..")
 
 [node name="Body2" type="MeshInstance3D" parent="Collision"]
 transform = Transform3D(0.995, 0, 0, 0, 0.99, 0, 0, 0, 0.995, 0, 1, -0.5)
 material_override = SubResource("StandardMaterial3D_bsij4")
-mesh = ExtResource("1_u5f4w")
+mesh = ExtResource("3_s4egk")
 skeleton = NodePath("../..")
+
+[node name="Animator" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_lt6xh")
+}
 
 [connection signal="animation_finished" from="Animator" to="." method="_on_animator_animation_finished"]

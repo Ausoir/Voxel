@@ -3,7 +3,6 @@ extends "res://game/object/prop.gd"
 var _activated = true
 var voxel_ids
 var voxel_pos
-var callback = Callable(self, "on_activate")
 
 
 func _ready():
@@ -11,7 +10,7 @@ func _ready():
 
 
 func on_interact(_user: Node3D):
-	_user.action.set_next("use", 1, callback.bind(_user))
+	_user.action.set_next("use", 1, on_activate.bind(_user))
 	_user.action.show_progress = true
 	_user.action.cancelable = true
 	_user.action.turnable = false

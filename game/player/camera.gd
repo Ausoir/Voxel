@@ -1,11 +1,12 @@
 extends Node3D
 
 @export var sensitivity = 0.4
-@export var min_angle = -90
-@export var max_angle = 90
+@export var min_angle = -1.57
+@export var max_angle = 1.57
 @export var capture_mouse = true
 @export var distance = 0.0
 
+var _sensitivity_rad = 0
 var _unit
 var _yaw = 0
 var _pitch = 0
@@ -20,6 +21,7 @@ func _ready():
 	if capture_mouse:
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 #	_box_mover.set_collision_mask(_camera.get_collision_mask())
+	_sensitivity_rad = deg_to_rad(sensitivity)
 
 
 func set_override(p):
@@ -45,8 +47,8 @@ func _physics_process(_delta):
 
 
 func update_rotations(motion):
-	_yaw -= motion.x * sensitivity
-	_pitch += motion.y * sensitivity
+	_yaw -= motion.x * _sensitivity_rad
+	_pitch += motion.y * _sensitivity_rad
 	
 	var e = 0.001
 	if _pitch > max_angle-e:
@@ -54,8 +56,8 @@ func update_rotations(motion):
 	elif _pitch < min_angle+e:
 		_pitch = min_angle+e
 	
-	set_rotation(Vector3(0, deg_to_rad(_yaw), 0))
-	rotate(get_transform().basis.x.normalized(), -deg_to_rad(_pitch))
+	set_rotation(Vector3(0, _yaw, 0))
+	rotate(get_transform().basis.x.normalized(), -_pitch)
 	_springarm = -_unit.forward * distance
 
 

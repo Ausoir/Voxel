@@ -10,6 +10,7 @@ var _unit
 func _ready():
 	var mat = $Billboard.get_material_override()
 	mat.albedo_texture = $SubViewport.get_texture()
+	$SubViewport.set_update_mode(SubViewport.UPDATE_WHEN_PARENT_VISIBLE)
 
 
 func set_unit(p):

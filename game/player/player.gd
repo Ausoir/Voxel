@@ -18,7 +18,7 @@ func _ready():
 
 func load_map(p):
 	if G.vars.map != p:
-		G.sfx.fade_bgm(p)
+		G.sfx.fade_bgm()
 		G.set_map(p)
 		_map_time = 0
 		G.ui.msg(str("Now entering: [b][color=TEAL][url=",p,"]The ", p.capitalize(), "[/url][/color][/b]"))
@@ -38,7 +38,7 @@ func load_map(p):
 		G.turn.add(unit.buffs.on_turn)
 		if p == "camp":
 			G.vars.day += 1
-			G.files.save_player_data()
+			G.you.buffs.add("hunger", -1)
 
 
 func set_unit(p):
@@ -78,6 +78,8 @@ func on_death():
 	G.sfx.fade_bgm()
 	$Cam.zoom_distance(2)
 	$Timer.start(2)
+	if !unit.buffs.has("track"):
+		G.files.clear_player_data()
 
 
 func _on_timer_timeout():
@@ -95,7 +97,6 @@ func _on_timer_timeout():
 		unit.revive()
 		G.files.save_player_data()
 	else:
-		G.files.clear_player_data()
 		G.clear()
 		var root = get_tree().get_root()
 		root.remove_child(root.get_node("Game"))

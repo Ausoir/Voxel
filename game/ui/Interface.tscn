@@ -159,6 +159,7 @@ action_mode = 0
 texture_normal = ExtResource("3_a7sxg")
 
 [node name="FPS" type="Label" parent="."]
+visible = false
 
 [node name="Center" type="CenterContainer" parent="."]
 anchors_preset = 15
@@ -228,12 +229,31 @@ fit_content = true
 scroll_active = false
 show_time = 999999
 
-[node name="Message" parent="." instance=ExtResource("10_dbsvl")]
+[node name="Chat" type="VBoxContainer" parent="."]
 custom_minimum_size = Vector2(952, 128)
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -476.0
 offset_top = -128.0
+offset_right = 476.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Message" parent="Chat" instance=ExtResource("10_dbsvl")]
+custom_minimum_size = Vector2(952, 128)
+layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxTexture_ethmg")
 text = ""
 scroll_following = true
+
+[node name="TextEdit" type="TextEdit" parent="Chat"]
+visible = false
+custom_minimum_size = Vector2(952, 42)
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
 
 [node name="Description" type="RichTextLabel" parent="."]
 visible = false

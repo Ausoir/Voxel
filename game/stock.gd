@@ -18,6 +18,7 @@ const P_clarity = preload("res://game/fx/buff/clarity.tscn")
 const P_dodge = preload("res://game/fx/other/dodge.tscn")
 const P_summon = preload("res://game/fx/buff/summon.tscn")
 const P_level = preload("res://game/fx/buff/level.tscn")
+const P_spend = preload("res://game/fx/buff/spend.tscn")
 const Text = preload("res://game/fx/text.tscn")
 const Unit = preload("res://game/unit/unit.tscn")
 const Humanoid = preload("res://game/unit/humanoid/humanoid.tscn")
@@ -156,7 +157,7 @@ func make_unit(pos: Vector3, itemname: String, custom_data=null):
 			unit.procedure.speed = unit.data.speed
 		for i in rawdata.get("ego", []):
 			unit.essence.append(i)
-		unit.buffs.unserialize(rawdata.get("buffs", []))
+		unit.buffs.unserialize(unit.data.get("buffs", []))
 		attach_ai(unit, rawdata.get("ai", ""))
 		unit.turn_random()
 		return unit
@@ -196,8 +197,8 @@ func make_humanoid(parent: Node, pos: Vector3, itemname: String, custom_data=nul
 		for i in rawdata.souls:
 			unit.equipment.absorb(make_item(i))
 		unit.equipment.set_held_index(0)
-		unit.buffs.unserialize(rawdata.get("buffs", []))
-		unit.proficiency.unserialize(rawdata.get("proficiency"))
+		unit.buffs.unserialize(unit.data.get("buffs", []))
+		unit.proficiency.unserialize(unit.data.get("proficiency"))
 		unit.sid = itemname
 		unit.position = pos
 		attach_ai(unit, rawdata.get("ai", ""))

@@ -15,9 +15,11 @@ var _envs = {
 
 var _frame = 0
 var _custom_script = preload("res://game/script.gd").new()
+var _commands = preload("res://game/commands.gd").new()
 var files = preload("res://game/player/save.gd").new()
 var rng = preload("res://game/rng.gd").new()
 var sfx = preload("res://game/fx/Sfx.tscn").instantiate()
+var player_name = "Player"
 var player
 var you
 var vars = {}
@@ -25,7 +27,7 @@ var settings = {}
 var mapdata = Map_JSON.get_data().get("camp")
 var env
 var filler_animator = AnimationPlayer.new()
-var sec = 0
+var sec: int = 0
 var sec_frame = false
 var terrain
 var late_loader
@@ -69,11 +71,16 @@ func set_map(p):
 		print("Map ", p, " not found!")
 		set_map("camp")
 	else:
-		var parent = get_tree().get_root().get_node("Game")
-		if env != null and env.get_parent() == parent:
-			parent.remove_child.call_deferred(env)
+		var oldenv = env
 		env = _envs[mapdata.get("env", "outside")]
-		parent.add_child.call_deferred(env)
+		add_env.call_deferred(oldenv, env)
+
+
+func add_env(oldenv, newenv):
+	var parent = get_tree().get_root().get_node("Game")
+	if oldenv != null:
+		oldenv.get_parent().remove_child(oldenv)
+	parent.add_child(newenv)
 
 
 func run_script(p, params):
@@ -83,6 +90,11 @@ func run_script(p, params):
 			fn.call(params)
 		else:
 			print("Invalid custom script ", p)
+
+
+func run_cmd(p):
+	if p != null:
+		_commands.run(p)
 
 
 func _process(delta):

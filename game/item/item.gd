@@ -197,7 +197,7 @@ func imbue_option(opt, lvl):
 		"weight+":
 			rank -= 2
 			data["weight"] = data.get("weight", 1) + lvl
-			data.value = int(data.value * (1 - lvl*.1))
+			data.value = int(data.value * (1 - lvl*.15))
 			_attach_option_description("Increased weight", lvl)
 		"weight-":
 			data["weight"] = data.get("weight", 1) - lvl
@@ -205,12 +205,12 @@ func imbue_option(opt, lvl):
 			_attach_option_description("Decreased weight", lvl)
 		"space-":
 			rank -= 2
-			lvl = int(lvl/5)
+			lvl = int(lvl/5) + 1
 			data["space"] = data.get("space", 0) - lvl
 			data.value = int(data.value * (1 - lvl*.1))
 			_attach_option_description("Less pockets", lvl)
 		"space+":
-			lvl = int(lvl/5)
+			lvl = int(lvl/5) + 1
 			data["space"] = data.get("space", 0) + lvl
 			data.value = int(data.value * (1 + lvl*.3))
 			_attach_option_description("More pockets", lvl)
@@ -244,7 +244,8 @@ func imbue_option(opt, lvl):
 			data.value = int(data.value * (1 + lvl*.1))
 			_attach_option_description("Increased mana", lvl)
 		"defense":
-			data.defense += int(lvl / 2)
+			lvl = int(lvl/2) + 1
+			data.defense += lvl
 			data.value = int(data.value * (1 + lvl*.25))
 			_attach_option_description("Increased defense", lvl)
 		"manause":

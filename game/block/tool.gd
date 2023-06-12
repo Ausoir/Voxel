@@ -130,7 +130,7 @@ func get_sound(pos):
 	_tool.set_channel(VoxelBuffer.CHANNEL_DATA6)
 	var r = _tool.get_voxel(pos)
 	_tool.set_channel(_CHANNEL_TYPE)
-	return r == G.sec
+	return r == G.sec % 256
 
 
 func set_voxel(pos, voxel_id):

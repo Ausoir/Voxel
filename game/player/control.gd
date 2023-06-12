@@ -62,7 +62,7 @@ func _physics_process(_delta):
 					has_moved = false
 			if has_moved:
 				if _unit.procedure.speedmod == 1:
-					if !_unit.has_essence("silence"):
+					if _unit.grounded and !_unit.has_essence("silence"):
 						G.tool.set_sound(_unit.position, 2)
 				if _unit.procedure.speed < 0:
 					G.ui.msg("Too heavy!")
@@ -91,6 +91,14 @@ func _physics_process(_delta):
 				_unit.procedure.speedmod = 1
 			else:
 				_unit.procedure.speedmod = 1
+			var rotx: float = _unit.model.rotation.x
+			rotx = lerp(rotx, 0.0, .1)
+			_unit.get_node("Model").rotation.x = rotx
+		elif _unit.action.action == "use":
+			var rotx: float = _unit.model.rotation.x
+			var pitch: float = min(_camera._pitch, 0)
+			rotx = lerp(rotx, pitch, .1)
+			_unit.get_node("Model").rotation.x = rotx
 	_unit.action.on_process(_delta)
 
 
@@ -125,15 +133,8 @@ func _unhandled_input(event):
 		elif Input.is_action_just_pressed("ui_inventory"):
 			_interface.display(_menu_inventory)
 			_unit.action.set_next("wield", 0.1)
-		elif Input.is_action_just_pressed("debug"):
-			if _unit.buffs.has("flight"):
-				_unit.buffs.set_duration("flight", 0)
-				_unit.buffs.set_duration("glow", 0)
-			else:
-				_unit.buffs.add("flight", -1)
-				_unit.buffs.add("glow", -1)
-			_unit.health += 1
-			_unit.mana += 1
+		elif Input.is_action_just_released("chat"):
+			G.ui.chat()
 		elif event.pressed:
 			if _hotbar_keys.has(event.keycode):
 				if _unit.get_type() == 1:

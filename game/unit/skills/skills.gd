@@ -78,8 +78,6 @@ func perform(ess, fn=null):
 			return night_vision()
 		elif fn == "capture":
 			capture()
-		elif fn == "summon":
-			summon()
 		elif fn == "bow":
 			return craft_arrows()
 		elif !_unit.buffs.has("exhaustion"):
@@ -102,6 +100,8 @@ func perform(ess, fn=null):
 					return sleep_ready()
 				"camouflage":
 					return hide()
+				"summon":
+					return summon()
 				"shadow":
 					return invisibility()
 				"goblin":
@@ -160,7 +160,7 @@ func capture():
 	if !hits.is_empty():
 		for hit in hits:
 			var _item = hit.collider.get_parent()
-			if _item.get("buffs") != null and _item.health == 0:
+			if _item.get("buffs") != null and _item.health <= 0:
 				if _unit.req_mana(1):
 					data["summonid"] = _item.sid
 					_item.remove()
@@ -188,10 +188,14 @@ func summon():
 func polymorph():
 	if _unit.buffs.has("polymorph"):
 		_unit.buffs.set_duration("polymorph", 0)
-	else:
+	elif _unit.health > 1:
+		if _unit == G.you:
+			G.player.get_node("Cam").zoom_distance(2)
 		G.sfx.play("cast_water", _unit.position)
 		_unit.buffs.add("morph", -1)
 		return true
+	elif _unit == G.you:
+		G.ui.msg("Health too low...")
 	return false
 
 
@@ -267,6 +271,7 @@ func psychic_shoot():
 	var spread = 0.6 / (2 + _unit.get_prof("psych"))
 	var projectile_direction = G.rng.v3_spread(spread,spread,spread) + _unit.forward
 	rocket.set_direction(projectile_direction)
+	rocket.shooter = _unit
 	_unit.action.set_next("idle", .5)
 	_unit.buffs.add("exhaustion", max(1, 18 - _unit.get_prof("psych")))
 	_unit.emit_signal("special", "psych")

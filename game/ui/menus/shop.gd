@@ -1,7 +1,7 @@
 extends "res://game/ui/menus/base.gd"
 
 const ITEMSLOT = preload("res://game/ui/inventory/item_slot.tscn")
-const PRIORITY = ["healing potion", "mana potion", "arrows:24", "bullets:32", "teleport scroll"]
+const PRIORITY = ["healing potion", "mana potion", "arrows:24", "bullets:32", "meat"]
 
 
 func _ready():
@@ -10,7 +10,7 @@ func _ready():
 		var itemname = PRIORITY[i]
 		var item = G.stock.make_item(itemname)
 		inventory.append(item)
-	G.rng.set_seed(G.vars.seed + 123456)
+	G.rng.set_seed(G.vars.seed * G.vars.day + 123456)
 	var max_items = G.rng.rir(8, 32)
 	for _i in range(5, max_items):
 		var itemname = G.stock.make_group("#shop")

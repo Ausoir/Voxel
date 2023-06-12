@@ -110,6 +110,104 @@
 			"wall2": "stone"
 		}
 	},
+	"halls": {
+		"env": "cave",
+		"down": "dungeons",
+		"spawns": {
+			"^stonework": [
+				[
+					3,
+					"#cavern"
+				],
+				[
+					1,
+					"portal/exit"
+				]
+			],
+			"^wood": [
+				[
+					3,
+					"rogue peasant"
+				],
+				[
+					1,
+					"rat"
+				]
+			],
+			"_mattress": [
+				[
+					1,
+					"skeletal miner"
+				]
+			],
+			"_bed": [
+				[
+					0.35,
+					"skeleton"
+				]
+			],
+			"_chair": [
+				[
+					0.8,
+					"skeletal ranger"
+				]
+			],
+			"_stone": [
+				[
+					1,
+					"@"
+				],
+				[
+					10,
+					"slime"
+				],
+				[
+					5,
+					"rogue peasant"
+				]
+			],
+			"_wood": [
+				[
+					3,
+					"rat"
+				],
+				[
+					1,
+					"#shelf"
+				],
+				[
+					1,
+					"portal/entrance"
+				]
+			],
+			"_table": [
+				[
+					1,
+					"chest"
+				]
+			]
+		},
+		"item": "#shelf",
+		"treasure": "#treasure1",
+		"trash": "#trash",
+		"variants": [
+			"halls/hall1",
+			"halls/hall2",
+			"halls/hall3",
+			"halls/hall4",
+			"halls/hall1",
+			"halls/hall2",
+			"halls/hall3",
+			"halls/hall4"
+		],
+		"palette": {
+			"road": "stonework",
+			"alley": "brick",
+			"tiles": "wood",
+			"wall": "stone",
+			"wall2": "pole"
+		}
+	},
 	"dungeons": {
 		"env": "cave",
 		"down": "goblin caves",
@@ -126,7 +224,7 @@
 			],
 			"^wood": [
 				[
-					5,
+					4,
 					"skeletal dog"
 				],
 				[
@@ -142,7 +240,7 @@
 			],
 			"_bed": [
 				[
-					0.3,
+					0.35,
 					"#undead"
 				]
 			],
@@ -154,6 +252,10 @@
 				[
 					3,
 					"skeletal ranger"
+				],
+				[
+					1,
+					"chest"
 				]
 			],
 			"_chair": [
@@ -164,12 +266,18 @@
 			],
 			"_stone": [
 				[
-					1,
-					"chest"
+					16,
+					"#cavern"
 				],
 				[
-					18,
-					"#cavern"
+					1,
+					"#shelf"
+				]
+			],
+			"^stone": [
+				[
+					3,
+					"bat"
 				]
 			],
 			"_wood": [
@@ -186,6 +294,26 @@
 				[
 					1,
 					"chest"
+				],
+				[
+					2,
+					"#shelf"
+				]
+			],
+			"_carpet": [
+				[
+					1,
+					"chest"
+				],
+				[
+					1,
+					"#shelf"
+				]
+			],
+			"_stonework": [
+				[
+					1,
+					"skeletal dog"
 				]
 			]
 		},
@@ -230,18 +358,6 @@
 					"#goblins"
 				]
 			],
-			"^campfire": [
-				[
-					0.9,
-					"#goblins"
-				]
-			],
-			"_campfire": [
-				[
-					0.9,
-					"#goblins"
-				]
-			],
 			"^chair": [
 				[
 					14,
@@ -274,7 +390,11 @@
 			],
 			"_stone": [
 				[
-					15,
+					10,
+					"slime"
+				],
+				[
+					5,
 					"#cavern"
 				]
 			],
@@ -324,22 +444,16 @@
 					"@"
 				]
 			],
-			"_mattress": [
+			"_wood": [
 				[
-					20,
-					"#goblins"
+					35,
+					"#bandits"
 				]
 			],
-			"_chair": [
+			"^wood": [
 				[
-					0.45,
-					"#undead"
-				]
-			],
-			"^chair": [
-				[
-					0.3,
-					"#goblins"
+					35,
+					"#bandits"
 				]
 			],
 			"^counter": [
@@ -374,13 +488,13 @@
 			],
 			"^brick": [
 				[
-					14,
+					24,
 					"#cavern"
 				]
 			],
 			"_brick": [
 				[
-					14,
+					24,
 					"#cavern"
 				]
 			],

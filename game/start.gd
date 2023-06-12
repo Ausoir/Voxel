@@ -28,21 +28,37 @@ var a_axe = preload("res://assets/weapon/axe3d-0-axe.obj")
 var a_mace = preload("res://assets/weapon/mace3d.obj")
 var _character_screen = false
 var _on = false
-var _chosen_class = "peasant"
+var _chosen_class
 
 func _ready():
-	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-	_set_up_character($Peasant, head2, a_rags, null)
-	_set_up_character($Warrior, head1, a_plate, a_sword)
-	_set_up_character($Scholar, head2, a_yrobe, a_staff)
-	_set_up_character($Rogue, head3, a_leather, a_dagger)
-	_set_up_character($Hunter, head4, a_hunter, a_bow)
-	_set_up_character($Barbarian, head3, a_hide, a_axe)
-	_set_up_character($Druid, head5, a_grobe)
-	_set_up_character($Necromancer, head6, a_suit)
-	_set_up_character($Healer, head7, a_robe, a_mace)
-	_set_up_character($Trainer, hcap, a_hide, null)
-	$Canvas/CenterContainer/Settings.close.connect(on_ui_close)
+	Steam.steamInit()
+	var isRunning = Steam.isSteamRunning()
+
+	if (!isRunning):
+		print("Steam is not running.")
+#		get_tree().quit()
+#		return
+	else:
+		print("Steam is running.")
+		var id = Steam.getSteamID()
+		G.player_name = str(Steam.getFriendPersonaName(id))
+		print("Your steam name: " + G.player_name)
+
+	if G.files.get_json_from_dir(G.files.PLAYER_PATH) != null:
+		on_start.call_deferred()
+	else:
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+		_set_up_character($Peasant, head2, a_rags, null)
+		_set_up_character($Warrior, head1, a_plate, a_sword)
+		_set_up_character($Scholar, head2, a_yrobe, a_staff)
+		_set_up_character($Rogue, head3, a_leather, a_dagger)
+		_set_up_character($Hunter, head4, a_hunter, a_bow)
+		_set_up_character($Barbarian, head3, a_hide, a_axe)
+		_set_up_character($Druid, head5, a_grobe)
+		_set_up_character($Necromancer, head6, a_suit)
+		_set_up_character($Healer, head7, a_robe, a_mace)
+		_set_up_character($Trainer, hcap, a_hide, null)
+		$Canvas/CenterContainer/Settings.close.connect(on_ui_close)
 
 
 func _set_up_character(node, head, armor, item=null):
@@ -86,7 +102,8 @@ func on_start():
 	var next_level_resource = load("res://game/game.tscn")
 	var next_level = next_level_resource.instantiate()
 	G.manual_ready(next_level)
-	G.vars["name"] = _chosen_class
+	if _chosen_class != null:
+		G.vars["name"] = _chosen_class
 	root.add_child(next_level)
 
 

@@ -16,6 +16,10 @@ func on_close():
 	_on_unview_controls_pressed()
 
 
+func _on_return_pressed():
+	emit_signal("close")
+
+
 func _on_fps_toggled(button_pressed):
 	G.settings.fps = $Panel/VBox/FPS.button_pressed
 	emit_signal("changed", "fps")
@@ -62,8 +66,18 @@ func _on_unview_controls_pressed():
 
 
 func _on_exit_pressed():
+	if !("map" in G.vars) or G.vars.map == "camp":
+		get_tree().quit()
+	else:
+		$Panel/QuitText.show()
+		$Panel/VBox.hide()
+
+
+func _on_unview_warning_pressed():
+	$Panel/QuitText.hide()
+	$Panel/VBox.show()
+
+
+func _on_exit_anyways():
 	get_tree().quit()
 
-
-func _on_return_pressed():
-	emit_signal("close")

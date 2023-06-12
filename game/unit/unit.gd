@@ -50,6 +50,7 @@ var _mesh
 @export var _mesh_path: NodePath
 @onready var body = $Body
 @onready var animator = $Animator
+@onready var model = $Model
 
 
 func _ready():
@@ -190,16 +191,23 @@ func on_kill(_victim):
 	var tlvl = _victim.data.get("level", 1)
 	var diff = int(round(tlvl - lvl))
 	if diff < 0:
-		lvl += (1 >> -diff) * .5
+		earn_exp((1 >> -diff) * .2)
 	else:
-		lvl += (1 << diff) * .5
-	data["level"] = snapped(lvl, 0.01)
-	if floor(data.level) != floor(lvl):
-		on_level()
+		earn_exp((1 << diff) * .2)
 	emit_signal("kill", _victim)
 
 
+func earn_exp(experience):
+	var old_lvl = data["level"]
+	var new_lvl = old_lvl + experience
+	data["level"] = snapped(new_lvl, 0.01)
+	if floor(data.level) != floor(old_lvl):
+		on_level()
+
+
 func on_level():
+	if G.you == self:
+		G.ui.msg("Level Up!")
 	G.stock.make_particle(position, "level")
 	G.sfx.play("dodge", position)
 
@@ -264,7 +272,7 @@ func on_attack():
 	var damage_roll = G.rng.damage_roll(damage, get_prof("unarmed"))
 	var inflict = data.get("inflict", [])
 	var front = procedure.get_toward_plane()
-	_space_state_params.position = position + front + COLLISION_CENTER * size.z
+	_space_state_params.position = position + front + COLLISION_CENTER * (size.z + .2)
 	var hits = _space_state.intersect_point(_space_state_params, 1)
 	for hit in hits:
 		var t = hit.collider.get_parent()
@@ -291,6 +299,9 @@ func get_prof(p):
 func req_mana(p):
 	if mana >= p:
 		mana -= p
+		if p > 0 and mana == 0:
+			G.stock.make_particle(position, "spend")
+			G.sfx.play("mana_spend", position)
 		return true
 	return false
 
@@ -298,8 +309,8 @@ func req_mana(p):
 func serialize():
 	var r = super()
 	data["proficiency"] = proficiency.serialize()
+	data["buffs"] = buffs.serialize()
 	r["data"] = data
-	r["buffs"] = buffs.serialize()
 	return r
 
 

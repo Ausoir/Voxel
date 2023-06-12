@@ -2,7 +2,7 @@
 	"#shop": [
 		[
 			0.02,
-			"teleport scroll:-1"
+			"meat:-1"
 		],
 		[
 			0.03,
@@ -21,8 +21,12 @@
 			"flight potion:-1"
 		],
 		[
-			0.1,
+			0.09,
 			"invisibility potion:-1"
+		],
+		[
+			0.1,
+			"teleport scroll:-1"
 		],
 		[
 			0.11,
@@ -515,7 +519,7 @@
 			"gas lantern:-1"
 		],
 		[
-			0.14,
+			0.2,
 			"gold"
 		]
 	],
@@ -563,6 +567,28 @@
 			"healer"
 		]
 	],
+	"#bandits": [
+		[
+			0.3,
+			"rogue warrior"
+		],
+		[
+			0.4,
+			"rogue rogue"
+		],
+		[
+			0.6,
+			"rogue scholar"
+		],
+		[
+			0.8,
+			"rogue hunter"
+		],
+		[
+			0.9,
+			"rogue necromancer"
+		]
+	],
 	"#goblins": [
 		[
 			0.03,
@@ -603,11 +629,15 @@
 	],
 	"#cavern": [
 		[
-			0.25,
+			0.3,
 			"rat"
 		],
 		[
-			0.8,
+			0.5,
+			"slime"
+		],
+		[
+			0.9,
 			"bat"
 		]
 	]

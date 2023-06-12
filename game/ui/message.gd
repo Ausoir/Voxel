@@ -2,6 +2,7 @@ extends RichTextLabel
 
 @export var show_time = 3
 var _lifetime = 0
+var can_hide = true
 var logs = []
 
 
@@ -27,7 +28,7 @@ func display(txt):
 
 func _process(delta):
 	_lifetime -= delta
-	if _lifetime <= 0:
+	if _lifetime <= 0 and can_hide:
 		logs.append("\n")
 		hide()
 		set_process(false)

@@ -22,7 +22,8 @@ func get_type():
 
 func on_level():
 	super()
-	equipment.set_unit(self)
+	equipment.max_essence_size = data.get("level", 1)
+	equipment.update_essence()
 
 
 func set_material(p):
@@ -52,6 +53,8 @@ func _physics_process(_delta):
 	super(_delta)
 	if _weapon_callback != null:
 		_weapon_callback.call(self)
+	if action.delay == 0:
+		model.rotation = model.rotation.lerp(Vector3.ZERO, .1)
 
 
 func get_item_position():

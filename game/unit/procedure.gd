@@ -16,7 +16,7 @@ func set_unit(unit):
 
 func face_front():
 	var face_dir = atan2(_unit.forward.x, _unit.forward.z)
-	_unit.rotation.y = lerp_angle(_unit.rotation.y, face_dir, turn_speed * speedmod)
+	_unit.rotation.y = lerp_angle(_unit.rotation.y, face_dir, turn_speed)
 
 
 func pickup(item):
@@ -94,5 +94,5 @@ func use2():
 			var inv_item = _unit.equipment.get_held_item()
 			if inv_item != null and inv_item.use2(_unit):
 				return
-		_unit.action.set_next("ability", .3, _unit.skills.on_ability)
+		_unit.action.set_next("ability", .5, _unit.skills.on_ability)
 		_unit.action.show_progress = true

@@ -6,8 +6,8 @@ const INTERFACE = preload("res://game/ui/menus/stash.tscn")
 func on_place(_pos: Vector3):
 	G.tool.get_tool().set_voxel_metadata(_pos, "Open Chest")
 	G.tool.set_channel(VoxelBuffer.CHANNEL_DATA5)
-	var v = int(G.vars.seed + _pos.x + _pos.z + _pos.y)
-	G.tool.set_voxel(_pos, v % 8)
+	var v = int(G.vars.seed * G.vars.day + _pos.x + _pos.z + _pos.y)
+	G.tool.set_voxel(_pos, v % 16)
 	G.tool.set_channel(VoxelBuffer.CHANNEL_TYPE)
 
 

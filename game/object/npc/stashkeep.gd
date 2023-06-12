@@ -2,14 +2,12 @@ extends "res://game/object/prop.gd"
 
 const INTERFACE = preload("res://game/ui/menus/stash.tscn")
 var callback = Callable(self, "on_activate")
-var _menu
 
 
 func _ready():
 	sid = "game/blocks/npc/shop"
 	var pos = position.floor()
 	G.tool.set_voxel(pos, 3)
-	_menu = INTERFACE.instantiate()
 
 
 func remove():
@@ -25,6 +23,7 @@ func on_interact(_user: Node3D):
 
 
 func on_activate(_user: Node3D):
+	var _menu = INTERFACE.instantiate()
 	G.sfx.play("door_open", position)
 	_menu.load_stash = G.vars.stash
 	_menu.on_set = on_set

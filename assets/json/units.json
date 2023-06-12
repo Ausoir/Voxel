@@ -35,7 +35,7 @@
 			"accessory"
 		],
 		"equipments": [
-			"chainmail",
+			"leather armor",
 			"lantern"
 		],
 		"items": [
@@ -297,68 +297,6 @@
 			}
 		}
 	},
-	"goblin shaman": {
-		"head": "head/h_goblin_shaman",
-		"body": "body/a_goblin_warrior",
-		"ai": "sentient",
-		"slots": [
-			"body"
-		],
-		"equipments": [],
-		"items": [
-			"glaive"
-		],
-		"souls": [],
-		"buffs": [
-			[
-				"regeneration",
-				-1
-			]
-		],
-		"data": {
-			"level": 5,
-			"health": 20,
-			"speed": 0.5
-		}
-	},
-	"goblin warrior": {
-		"head": "head/h_goblin",
-		"body": "body/a_goblin_warrior",
-		"ai": "sentient",
-		"slots": [
-			"body"
-		],
-		"equipments": [],
-		"items": [
-			"spear"
-		],
-		"souls": [],
-		"data": {
-			"level": 3,
-			"health": 15,
-			"speed": 0.5
-		}
-	},
-	"goblin ranger": {
-		"head": "head/h_goblin",
-		"body": "body/a_goblin_warrior",
-		"ai": "sentient",
-		"slots": [
-			"body"
-		],
-		"equipments": [],
-		"items": [
-			"goblin bow",
-			"arrows:32"
-		],
-		"souls": [],
-		"data": {
-			"level": 4,
-			"health": 10,
-			"speed": 0.5,
-			"range": 10
-		}
-	},
 	"skeleton": {
 		"head": "head/h_skull",
 		"body": "body/a_skeleton",
@@ -378,6 +316,10 @@
 				[
 					0.01,
 					"undead essence"
+				],
+				[
+					0.02,
+					"gold"
 				]
 			]
 		}
@@ -507,8 +449,259 @@
 				[
 					0.03,
 					"vampire essence"
+				],
+				[
+					0.04,
+					"pure gold"
 				]
 			]
+		}
+	},
+	"rogue peasant": {
+		"head": "head/head1",
+		"body": "body/a_underwear",
+		"ai": "sentient",
+		"slots": [
+			"body",
+			"accessory"
+		],
+		"equipments": [
+			"rags",
+			"lantern"
+		],
+		"items": [
+			"stick"
+		],
+		"souls": [],
+		"data": {
+			"level": 1,
+			"speed": 0.3,
+			"health": 12,
+			"proficiency": {
+				"blunt": 1
+			},
+			"loot": [
+				[
+					0.15,
+					"gold"
+				]
+			]
+		}
+	},
+	"rogue warrior": {
+		"head": "head/head2",
+		"body": "body/a_underwear",
+		"ai": "sentient",
+		"slots": [
+			"body",
+			"accessory"
+		],
+		"equipments": [
+			"chainmail",
+			"lantern"
+		],
+		"items": [
+			"longsword"
+		],
+		"souls": [],
+		"data": {
+			"level": 6,
+			"speed": 0.5,
+			"health": 45,
+			"mana": 1,
+			"proficiency": {
+				"armor": 5,
+				"dodge": 1,
+				"blade": 3
+			}
+		}
+	},
+	"rogue rogue": {
+		"head": "head/head4",
+		"body": "body/a_underwear",
+		"ai": "sentient",
+		"slots": [
+			"body",
+			"accessory"
+		],
+		"equipments": [
+			"nomad armor",
+			"lantern"
+		],
+		"items": [
+			"dagger"
+		],
+		"souls": [
+			"shadow essence"
+		],
+		"data": {
+			"level": 5,
+			"speed": 0.5,
+			"health": 20,
+			"mana": 1,
+			"buffs": [
+				[
+					"invisibility",
+					-1
+				]
+			],
+			"proficiency": {
+				"dodge": 1,
+				"blade": 2,
+				"ambush": 5
+			}
+		}
+	},
+	"rogue hunter": {
+		"head": "head/head4",
+		"body": "body/a_underwear",
+		"ai": "sentient",
+		"slots": [
+			"body",
+			"accessory"
+		],
+		"equipments": [
+			"hunting outfit",
+			"lantern"
+		],
+		"items": [
+			"crossbow",
+			"arrows:30"
+		],
+		"souls": [],
+		"data": {
+			"level": 4,
+			"speed": 0.5,
+			"health": 20,
+			"proficiency": {
+				"dodge": 1,
+				"bow": 4,
+				"ambush": 1
+			}
+		}
+	},
+	"rogue scholar": {
+		"head": "head/head3",
+		"body": "body/a_underwear",
+		"ai": "sentient",
+		"slots": [
+			"body",
+			"accessory"
+		],
+		"equipments": [
+			"golden robe",
+			"lantern"
+		],
+		"items": [
+			"staff of magic"
+		],
+		"souls": [
+			"psychic essence"
+		],
+		"data": {
+			"level": 4,
+			"speed": 0.5,
+			"health": 20,
+			"mana": 5,
+			"proficiency": {
+				"evocation": 3,
+				"aura": 1,
+				"psych": 1,
+				"earth": 1
+			}
+		}
+	},
+	"rogue necromancer": {
+		"head": "head/head6",
+		"body": "body/a_underwear",
+		"ai": "sentient",
+		"slots": [
+			"body",
+			"accessory"
+		],
+		"equipments": [
+			"silk suit",
+			"lantern"
+		],
+		"items": [
+			"gasblade"
+		],
+		"souls": [
+			"soul essence"
+		],
+		"data": {
+			"level": 6,
+			"speed": 0.5,
+			"health": 20,
+			"mana": 7,
+			"proficiency": {
+				"dodge": 1,
+				"dagger": 1,
+				"blade": 2,
+				"necromancy": 5
+			}
+		}
+	},
+	"goblin shaman": {
+		"head": "head/h_goblin_shaman",
+		"body": "body/a_goblin_warrior",
+		"ai": "sentient",
+		"slots": [
+			"body"
+		],
+		"equipments": [],
+		"items": [
+			"glaive"
+		],
+		"souls": [],
+		"data": {
+			"level": 5,
+			"health": 20,
+			"speed": 0.5,
+			"buffs": [
+				[
+					"regeneration",
+					-1
+				]
+			]
+		}
+	},
+	"goblin warrior": {
+		"head": "head/h_goblin",
+		"body": "body/a_goblin_warrior",
+		"ai": "sentient",
+		"slots": [
+			"body"
+		],
+		"equipments": [],
+		"items": [
+			"spear"
+		],
+		"souls": [],
+		"data": {
+			"level": 3,
+			"health": 15,
+			"speed": 0.5
+		}
+	},
+	"goblin ranger": {
+		"head": "head/h_goblin",
+		"body": "body/a_goblin_warrior",
+		"ai": "sentient",
+		"slots": [
+			"body"
+		],
+		"equipments": [],
+		"items": [
+			"goblin bow",
+			"arrows:32"
+		],
+		"souls": [],
+		"data": {
+			"level": 4,
+			"health": 10,
+			"speed": 0.5,
+			"range": 10
 		}
 	},
 	"skeletal dog": {
@@ -517,8 +710,8 @@
 		"data": {
 			"level": 2,
 			"speed": 0.4,
-			"delay": 2,
-			"damage": 2,
+			"delay": 1,
+			"damage": 4,
 			"health": 6,
 			"loot": [
 				[
@@ -528,28 +721,50 @@
 			]
 		}
 	},
+	"slime": {
+		"model": "unit/slime",
+		"ai": "neutral",
+		"data": {
+			"level": 1,
+			"speed": 0.2,
+			"damage": 2,
+			"delay": 0.5,
+			"health": 6,
+			"buffs": [
+				[
+					"regeneration",
+					-1
+				]
+			],
+			"loot": [
+				[
+					0.1,
+					"healing essence"
+				]
+			]
+		}
+	},
 	"bat": {
 		"model": "unit/bat",
 		"ai": "sentient",
-		"buffs": [
-			[
-				"flight",
-				-1
-			]
-		],
 		"ego": [
 			"vampire"
 		],
 		"data": {
 			"level": 1,
-			"delay": 1.5,
 			"speed": 0.5,
-			"damage": 1,
+			"damage": 3,
 			"health": 3,
 			"inflict": [
 				[
 					"silence",
 					5
+				]
+			],
+			"buffs": [
+				[
+					"flight",
+					-1
 				]
 			],
 			"loot": [
@@ -564,10 +779,11 @@
 		"model": "unit/bunny",
 		"ai": "neutral",
 		"data": {
-			"level": 0,
-			"speed": 0.7,
-			"damage": 2,
-			"health": 5,
+			"level": 1,
+			"speed": 0.65,
+			"delay": 2,
+			"damage": 3,
+			"health": 8,
 			"loot": [
 				[
 					0.1,
@@ -583,8 +799,9 @@
 			"agility"
 		],
 		"data": {
-			"level": 0,
-			"damage": 2,
+			"level": 1,
+			"damage": 3,
+			"delay": 2.5,
 			"health": 12,
 			"speed": 0.5,
 			"proficiency": {
@@ -604,21 +821,26 @@
 		"ego": [
 			"camoflauge"
 		],
-		"buffs": [
-			[
-				"nighteye",
-				-1
-			]
-		],
 		"data": {
-			"level": 1,
+			"level": 2,
 			"damage": 4,
+			"delay": 1.5,
 			"health": 12,
 			"speed": 0.3,
+			"buffs": [
+				[
+					"nighteye",
+					-1
+				]
+			],
 			"loot": [
 				[
 					0.1,
 					"silence essence"
+				],
+				[
+					0.15,
+					"meat"
 				]
 			]
 		}

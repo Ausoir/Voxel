@@ -142,6 +142,41 @@ offset_bottom = 339.0
 size_flags_vertical = 8
 text = "Return"
 
+[node name="QuitText" type="RichTextLabel" parent="Panel"]
+visible = false
+custom_minimum_size = Vector2(300, 300)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 10.0
+offset_right = -20.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+bbcode_enabled = true
+text = "Are you sure?
+Exiting game outside the camp will count as death. If not under the guardian angel buff, you will lose everything."
+
+[node name="ViewControls" type="Button" parent="Panel/QuitText"]
+custom_minimum_size = Vector2(300, 24)
+layout_mode = 0
+offset_top = 300.0
+offset_right = 300.0
+offset_bottom = 339.0
+size_flags_vertical = 8
+text = "Return"
+
+[node name="ViewControls2" type="Button" parent="Panel/QuitText"]
+custom_minimum_size = Vector2(300, 24)
+layout_mode = 0
+offset_top = 350.0
+offset_right = 300.0
+offset_bottom = 389.0
+size_flags_vertical = 8
+text = "Exit"
+
 [connection signal="toggled" from="Panel/VBox/Fullscreen" to="." method="_on_fullscreen_toggled"]
 [connection signal="toggled" from="Panel/VBox/FPS" to="." method="_on_fps_toggled"]
 [connection signal="drag_ended" from="Panel/VBox/MusicSlider" to="." method="_on_music_changed"]
@@ -151,3 +186,5 @@ text = "Return"
 [connection signal="pressed" from="Panel/VBox/ViewControls" to="." method="_on_controls_pressed"]
 [connection signal="pressed" from="Panel/VBox/Exit" to="." method="_on_exit_pressed"]
 [connection signal="pressed" from="Panel/ControlsText/ViewControls" to="." method="_on_unview_controls_pressed"]
+[connection signal="pressed" from="Panel/QuitText/ViewControls" to="." method="_on_unview_warning_pressed"]
+[connection signal="pressed" from="Panel/QuitText/ViewControls2" to="." method="_on_exit_anyways"]

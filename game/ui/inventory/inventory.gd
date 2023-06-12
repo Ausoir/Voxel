@@ -17,6 +17,7 @@ func _ready():
 
 func on_display():
 	G.ui.message.show()
+	G.ui.message.can_hide = false
 	var desc = G.you.proficiency.get_description()
 	var lvls = G.you.data.get("level", 1)
 	var lvl = floor(lvls)
@@ -31,6 +32,7 @@ func on_display():
 
 
 func on_close():
+	G.ui.message.can_hide = true
 	G.ui.message.hide()
 
 

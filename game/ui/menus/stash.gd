@@ -36,7 +36,6 @@ func set_unit(unit):
 
 
 func on_close():
-	queue_free()
 	for container in [_equipbar, _itembar]:
 		for slot in container.get_children():
 			slot.pressed.disconnect(_on_slot_pressed)
@@ -46,6 +45,7 @@ func on_close():
 		slot.pressed.disconnect(_on_stash_pressed)
 		slot.mouse_entered.disconnect(_on_hover)
 		slot.mouse_exited.disconnect(_on_unhover)
+	queue_free()
 
 
 func update_views():
@@ -54,15 +54,15 @@ func update_views():
 	var slot_idx := 0
 	for container in [_equipbar, _itembar]:
 		for slot in container.get_children():
-			slot.connect("pressed", Callable(self, "_on_slot_pressed").bind(slot_idx))
-			slot.connect("mouse_entered", Callable(self, "_on_hover").bind(slot))
-			slot.connect("mouse_exited", Callable(self, "_on_unhover"))
+			slot.pressed.connect(_on_slot_pressed.bind(slot_idx))
+			slot.mouse_entered.connect(_on_hover.bind(slot))
+			slot.mouse_exited.connect(_on_unhover)
 			slot_idx += 1
 	slot_idx = 0
 	for slot in _stash.get_children():
-		slot.connect("pressed", Callable(self, "_on_stash_pressed").bind(slot, slot_idx))
-		slot.connect("mouse_entered", Callable(self, "_on_hover").bind(slot))
-		slot.connect("mouse_exited", Callable(self, "_on_unhover"))
+		slot.pressed.connect(_on_stash_pressed.bind(slot, slot_idx))
+		slot.mouse_entered.connect(_on_hover.bind(slot))
+		slot.mouse_exited.connect(_on_unhover)
 		slot_idx += 1
 
 

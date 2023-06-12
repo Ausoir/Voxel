@@ -1,9 +1,9 @@
 {
     "day": 1,
     "gold": 50,
-    "health": 20,
-    "mana": 1,
-    "map": "fields",
+    "health": 1000,
+    "mana": 1000,
+    "map": "halls",
     "seed": -1,
     "stash":
     [

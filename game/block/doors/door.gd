@@ -1,6 +1,6 @@
 extends "../block.gd"
 
-const Door = preload("./prop_door.tscn")
+const Door = preload("res://game/block/doors/prop_door.tscn")
 var callback = Callable(self, "on_activate")
 var door
 

@@ -61,7 +61,7 @@ func _physics_process(_delta):
 			if _wander_target != null:
 				if G.rng.percent(.1):
 					_wander_target = null
-	if _timeout > 32:
+	if _timeout > 64:
 		_timeout = 0
 		deaggro()
 	_unit.action.on_process(_delta)
@@ -80,6 +80,8 @@ func _update_target_params():
 
 
 func deaggro():
+	if priority == 1 and _idle_task == null:
+		_idle_task = _wander
 	_unit.alert = false
 	_unit.procedure.stop_walk()
 	priority = 5
@@ -141,10 +143,10 @@ func _chase(_delta):
 	if _way_clear != null:
 		_pathing.target = _to.floor()
 		_pathing.perform(_delta)
-	elif _dist <= melee_range:
-		attack_function.call()
 	elif _dist <= APPROACH_RANGE:
 		_unit.procedure.walk_toward(_to)
+		if _dist <= melee_range + _target.size.z/2:
+			attack_function.call()
 	else:
 		_pathing.target = _to.floor()
 		_pathing.perform(_delta)

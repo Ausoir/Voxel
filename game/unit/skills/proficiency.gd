@@ -95,7 +95,7 @@ func on_attacked(dmg):
 
 
 func on_attack(_type, _victim, dmg):
-	increase(_type, 0.005 * dmg)
+	increase(_type, 0.007 * dmg)
 
 
 func on_ambush(_victim):

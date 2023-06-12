@@ -18,10 +18,13 @@ func load_player_data():
 		G.vars.merge(data)
 		G.set_map(G.vars.map)
 	var u = G.stock.make_any_unit(G.player, Vector3(), G.vars.name, G.vars.unit)
+	u.health = min(G.vars.health, u.data.health)
+	u.mana = min(G.vars.mana, u.data.mana)
 	return u
 
 
 func save_player_data():
+	G.vars["name"] = G.you.sid
 	G.vars["health"] = G.you.health
 	G.vars["mana"] = G.you.mana
 	var r = G.vars.duplicate()
@@ -32,7 +35,12 @@ func save_player_data():
 
 
 func clear_player_data():
-	save(PLAYER_PATH, {})
+	if FileAccess.file_exists(PLAYER_PATH):
+		var file = FileAccess.open(PLAYER_PATH, FileAccess.WRITE)
+		file.store_string("")
+		file.close()
+	else:
+		push_error("Could not open file [" +PLAYER_PATH+ "] for saving.")
 
 
 func load_settings():

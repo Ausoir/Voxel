@@ -16,6 +16,8 @@ static func get_buff(name):
 		r = Stoneskin
 	elif name == "corrosion":
 		r = Corrosion
+	elif name == "snare":
+		r = Snare
 	elif name == "daze":
 		r = Daze
 	elif name == "silence":
@@ -36,6 +38,10 @@ static func get_buff(name):
 		r = Morph
 	elif name == "polymorph":
 		r = Polymorph
+	elif name == "hunger":
+		r = Hunger
+	elif name == "full":
+		r = Full
 	else:
 		r = Buff
 	return r
@@ -91,6 +97,15 @@ class Slow extends Buff:
 		return super() + "Movement speed slowed by 2."
 
 
+class Snare extends Buff:
+	func on_start():
+		_unit.procedure.speed -= 9
+	func on_end():
+		_unit.procedure.speed += 9
+	func get_description():
+		return super() + "Unable to move."
+
+
 class Sleep extends Buff:
 	func on_start():
 		_unit.alert = false
@@ -144,11 +159,11 @@ class Clarity extends Buff:
 		G.stock.make_particle(_unit.get_head(), "clarity")
 	func on_turn():
 		var max_hp = _unit.data.get("mana", 1)
-		var inc = max(1, int(max_hp * 0.08))
+		var inc = max(1, int(max_hp * 0.1))
 		_unit.mana = min(_unit.mana + inc, max_hp)
 		return super()
 	func get_description():
-		return super() + "Regenerate 8% mana per second."
+		return super() + "Regenerate 10% mana per second."
 
 
 class Invisibility extends Buff:
@@ -280,12 +295,16 @@ class Morph extends Buff:
 			var morph = new.buffs.add("polymorph", duration)
 			morph.orig = orig
 			morph.orig_physics = orig_physics
+		new.data.level = _unit.data.level
 		new.proficiency.list.unarmed = _unit.proficiency.list.unarmed
 		var percentage = orig.health / orig.data.health
 		new.health = int(max(1, new.data.health * percentage))
 		new.data.erase("loot")
 		new.essence.append("polymorph")
 		new.position = _unit.position
+		new.action.set_next("idle", 1)
+		new.action.show_progress = true
+		new.procedure.speedmod = 0
 		orig.position.y -= 300
 		duration = 0
 	func get_description():
@@ -306,11 +325,15 @@ class Polymorph extends Buff:
 			var new = _unit
 			if _unit == G.you:
 				G.player.set_unit(orig)
+			orig.data.level = new.data.level
 			orig.proficiency.list.unarmed = new.proficiency.list.unarmed
 			var percentage = new.health / new.data.health
 			orig.health = int(max(1, orig.data.health * percentage))
 			orig.position = new.position
-			new.animator.set_speed_scale(100)
+			orig.action.set_next("idle", 1)
+			orig.action.show_progress = true
+			orig.procedure.speedmod = 0
+			new.position.y -= 300
 			new.hide()
 			new.die()
 		elif _unit == G.you:
@@ -322,4 +345,25 @@ class Polymorph extends Buff:
 class Track extends Buff:
 	func get_description():
 		return super() + "Teleport to safety when near death."
+
+
+class Hunger extends Buff:
+	func on_start():
+		if _unit.buffs.has("full"):
+			duration = 0
+			_unit.buffs.set_duration("full", 0)
+		_unit.procedure.speed -= .1
+	func on_end():
+		_unit.procedure.speed += .1
+	func get_description():
+		return super() + "Need to eat... -1 move speed."
+
+
+class Full extends Buff:
+	func on_start():
+		if _unit.buffs.has("hunger"):
+			duration = 0
+			_unit.buffs.set_duration("hunger", 0)
+	func get_description():
+		return super() + "Don't worry about food for a while."
 

@@ -52,7 +52,7 @@ func on_tick():
 	var taker = takers[turn_idx]
 	for i in range(taker.size()-1, -1, -1):
 		var turnee = taker[i]
-		if !turnee.call():
+		if !turnee.is_valid() or !turnee.call():
 			taker.remove_at(i)
 	turn_idx = _increment_index(turn_idx)
 

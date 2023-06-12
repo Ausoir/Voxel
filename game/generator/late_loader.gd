@@ -57,10 +57,10 @@ func _on_timeout():
 						if spawn_params > 0:
 							if spawn_params < 1:
 								if G.rng.percent(spawn_params):
-									make_placeable(pos, prop_spawn[1])
+									make_placeable(above, prop_spawn[1])
 									break
 							else:
-								make_placeable(pos, prop_spawn[1])
+								make_placeable(above, prop_spawn[1])
 								if spawn_params > 1:
 									prop_spawn[0] -= 1
 								else:
