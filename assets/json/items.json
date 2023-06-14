@@ -10,7 +10,7 @@
 			"buffs": [
 				[
 					"full",
-					1
+					-1
 				]
 			]
 		}
@@ -107,26 +107,62 @@
 			]
 		}
 	},
+	"venom vial": {
+		"spritename": "item/potion_cyan",
+		"modelname": "item/potion_cyan3d-0-potion_cyan",
+		"script": "consumable/consumable",
+		"data": {
+			"desc": "For 21 seconds, your attacks apply deadly poison.",
+			"value": 50,
+			"speed": 0.4,
+			"buffs": [
+				[
+					"venomous",
+					21
+				]
+			]
+		}
+	},
 	"teleport scroll": {
 		"spritename": "item/scroll",
 		"modelname": "item/scroll3d-0-scroll",
-		"script": "consumable/teleport",
+		"script": "consumable/skill",
 		"data": {
 			"desc": "Teleport back to safety.",
 			"value": 80,
 			"speed": 0.2,
+			"skill": "teleport",
 			"to": "camp"
 		}
 	},
-	"cave scroll": {
+	"summon scroll": {
 		"spritename": "item/scroll",
 		"modelname": "item/scroll3d-0-scroll",
-		"script": "consumable/teleport",
+		"script": "consumable/skill",
 		"data": {
-			"desc": "Teleport to the dungeon.",
-			"value": 40,
-			"speed": 1,
-			"to": "fields"
+			"desc": "Summon skeletons to fight for you.",
+			"value": 150,
+			"speed": 0.5,
+			"skill": "summon",
+			"summon": [
+				"skeletal warrior",
+				"skeletal miner",
+				"skeletal ranger",
+				"skeletal lord",
+				"skeletal dog"
+			],
+			"times": 3
+		}
+	},
+	"amnesia scroll": {
+		"spritename": "item/scroll",
+		"modelname": "item/scroll3d-0-scroll",
+		"script": "consumable/skill",
+		"data": {
+			"desc": "Discard the oldest known essence.",
+			"value": 100,
+			"speed": 0.5,
+			"skill": "amnesia"
 		}
 	},
 	"gold": {
@@ -534,7 +570,7 @@
 		"data": {
 			"type": "blunt",
 			"weight": 0,
-			"speed": 2,
+			"speed": 1.5,
 			"damage": 2,
 			"sfx_hold": "unsheathe_wood",
 			"swings": [
@@ -683,7 +719,7 @@
 			"weight": 1,
 			"speed": 1.5,
 			"damage": 4,
-			"backstab": 6,
+			"backstab": 7,
 			"sfx_hold": "unsheathe_blade",
 			"swings": [
 				"swing_forward"
@@ -706,7 +742,7 @@
 			"weight": 1,
 			"speed": 1,
 			"damage": 6,
-			"backstab": 4,
+			"backstab": 3,
 			"sfx_hold": "unsheathe_blade",
 			"swings": [
 				"swing_forward",
@@ -783,7 +819,7 @@
 			"weight": 1,
 			"speed": 1,
 			"damage": 10,
-			"backstab": 6,
+			"backstab": 7,
 			"sfx_hold": "unsheathe_blade",
 			"swings": [
 				"swing_forward"
@@ -822,7 +858,7 @@
 		"script": "weapon/melee",
 		"data": {
 			"type": "blade",
-			"value": 200,
+			"value": 120,
 			"weight": 2,
 			"speed": 1.3,
 			"damage": 9,
@@ -841,7 +877,7 @@
 		"data": {
 			"desc": "A brutally sharp ethereal dagger.",
 			"type": "dagger",
-			"value": 250,
+			"value": 200,
 			"weight": 0,
 			"speed": 3,
 			"damage": 9,
@@ -867,7 +903,7 @@
 		"data": {
 			"desc": "Extremely light.",
 			"type": "blade",
-			"value": 200,
+			"value": 180,
 			"weight": 0,
 			"speed": 1,
 			"mana": 2,
@@ -888,7 +924,7 @@
 			"value": 50,
 			"weight": 3,
 			"damage": 6,
-			"backstab": 6,
+			"backstab": 3,
 			"sfx_hold": "unsheathe_wood",
 			"swings": [
 				"swing_forward"
@@ -924,7 +960,7 @@
 		"script": "weapon/melee",
 		"data": {
 			"type": "spear",
-			"value": 150,
+			"value": 130,
 			"weight": 4,
 			"speed": 0.6,
 			"damage": 14,
@@ -952,7 +988,7 @@
 			"value": 30,
 			"weight": 2,
 			"speed": 0.3,
-			"spread": 0.15,
+			"spread": 0.1,
 			"damage": 9,
 			"sfx_hold": "unsheathe_wood",
 			"noise": 8
@@ -968,7 +1004,7 @@
 			"value": 50,
 			"weight": 0,
 			"speed": 0.3,
-			"spread": 0.1,
+			"spread": 0.07,
 			"damage": 6,
 			"backstab": 8,
 			"sfx_hold": "unsheathe_wood",
@@ -1000,7 +1036,7 @@
 			"value": 120,
 			"weight": 1,
 			"speed": 0.65,
-			"spread": 0.2,
+			"spread": 0.15,
 			"damage": 9,
 			"sfx_hold": "unsheathe_wood",
 			"noise": 10
@@ -1109,7 +1145,7 @@
 		"data": {
 			"type": "evocation",
 			"desc": "Knock out enemies in an area.",
-			"value": 140,
+			"value": 100,
 			"weight": 2,
 			"speed": 0.1,
 			"spread": 0.2,
@@ -1168,7 +1204,7 @@
 		"data": {
 			"type": "blade",
 			"desc": "This is a great sword.",
-			"value": 220,
+			"value": 200,
 			"speed": 0.6,
 			"weight": 4,
 			"damage": 15,
@@ -1215,8 +1251,18 @@
 		"modelname": "item/essence3d",
 		"part": "essence",
 		"data": {
-			"desc": "Your attacks apply poison that slows the victim.",
+			"desc": "Your attacks apply +2 poison and slow the victim.",
 			"essence": "goblin",
+			"value": 300
+		}
+	},
+	"venom essence": {
+		"spritename": "item/essence",
+		"modelname": "item/essence3d",
+		"part": "essence",
+		"data": {
+			"desc": "Your attacks apply +7 poison. Lasts 7 seconds.",
+			"essence": "venom",
 			"value": 300
 		}
 	},
@@ -1236,7 +1282,7 @@
 		"modelname": "item/essence3d",
 		"part": "essence",
 		"data": {
-			"desc": "Visualize damage done when units are damaged. Increase move speed by 1.",
+			"desc": "Increase move speed by 1. Visualize damage.",
 			"essence": "scout",
 			"value": 300,
 			"speed": 0.1
@@ -1268,10 +1314,14 @@
 		"modelname": "item/essence3d",
 		"part": "essence",
 		"data": {
-			"desc": "Recover some health after dealing damage. Requires 2 essence slots.",
+			"desc": "Recover some health after dealing damage at cost of mana. Takes 2 slots.",
 			"essence": "vampire",
 			"value": 300,
-			"soul": -1
+			"soul": -1,
+			"req": [
+				"necromancy",
+				3
+			]
 		}
 	},
 	"psychic essence": {
@@ -1319,9 +1369,10 @@
 		"modelname": "item/essence3d",
 		"part": "essence",
 		"data": {
-			"desc": "Create a bomb.",
+			"desc": "Touch a surface to create a bomb that explodes in 3 seconds. Takes 2 slots.",
 			"essence": "bomb",
-			"value": 300
+			"value": 300,
+			"soul": -1
 		}
 	},
 	"shadow essence": {
@@ -1329,7 +1380,7 @@
 		"modelname": "item/essence3d",
 		"part": "essence",
 		"data": {
-			"desc": "Turn invisible.",
+			"desc": "Cast to turn invisible.",
 			"essence": "shadow",
 			"value": 300
 		}
@@ -1341,27 +1392,11 @@
 		"data": {
 			"desc": "Stand still to turn invisible.",
 			"essence": "camouflage",
-			"value": 300
-		}
-	},
-	"soul of metal": {
-		"spritename": "item/essence",
-		"modelname": "item/essence3d",
-		"part": "essence",
-		"data": {
-			"desc": "Turn weapons into mana. More damage gives chance for more mana.",
-			"essence": "metal",
-			"value": 300
-		}
-	},
-	"soul of blood": {
-		"spritename": "item/essence",
-		"modelname": "item/essence3d",
-		"part": "essence",
-		"data": {
-			"desc": "When out of mana, standing still will convert health into mana. Efficiency scales with necromancy.",
-			"essence": "blood",
-			"value": 300
+			"value": 300,
+			"req": [
+				"aura",
+				3
+			]
 		}
 	},
 	"wind essence": {
@@ -1433,7 +1468,7 @@
 			"desc": "Move faster while swinging daggers.",
 			"req": [
 				"dagger",
-				5
+				3
 			],
 			"essence": "dagger",
 			"value": 300
@@ -1447,7 +1482,7 @@
 			"desc": "Knock out enemies with blunt weapons.",
 			"req": [
 				"blunt",
-				5
+				3
 			],
 			"essence": "blunt",
 			"value": 300
@@ -1461,7 +1496,7 @@
 			"desc": "Strafe when attacking with spears.",
 			"req": [
 				"spear",
-				5
+				3
 			],
 			"essence": "spear",
 			"value": 300
@@ -1475,7 +1510,7 @@
 			"desc": "Gain 20% attack speed and faint attacks with bladed weapons.",
 			"req": [
 				"blade",
-				5
+				3
 			],
 			"essence": "blade",
 			"value": 300
@@ -1489,7 +1524,7 @@
 			"desc": "When out of arrows, stand still to craft some.",
 			"req": [
 				"bow",
-				5
+				3
 			],
 			"essence": "bow",
 			"value": 300
@@ -1503,7 +1538,7 @@
 			"desc": "Gain ability to run and gun.",
 			"req": [
 				"firearm",
-				5
+				3
 			],
 			"essence": "firearm",
 			"value": 300
@@ -1517,7 +1552,7 @@
 			"desc": "Shoot twice with staves.",
 			"req": [
 				"evocation",
-				6
+				3
 			],
 			"essence": "evocation",
 			"value": 300
@@ -1548,7 +1583,7 @@
 		"modelname": "item/essence3d",
 		"part": "essence",
 		"data": {
-			"space": 2,
+			"space": 3,
 			"value": 300
 		}
 	},
@@ -1557,7 +1592,6 @@
 		"modelname": "item/essence3d",
 		"part": "essence",
 		"data": {
-			"space": 2,
 			"health": 20,
 			"value": 300
 		}
@@ -1570,6 +1604,87 @@
 			"space": 2,
 			"mana": 10,
 			"value": 300
+		}
+	},
+	"ascetic essence": {
+		"spritename": "item/essence",
+		"modelname": "item/essence3d",
+		"part": "essence",
+		"data": {
+			"desc": "You eat less.",
+			"essence": "ascetic",
+			"value": 300
+		}
+	},
+	"lethality essence": {
+		"spritename": "item/essence",
+		"modelname": "item/essence3d",
+		"part": "essence",
+		"data": {
+			"desc": "You gain +9 damage on the next hit after a kill.",
+			"essence": "lethality",
+			"value": 300,
+			"req": [
+				"ambush",
+				3
+			]
+		}
+	},
+	"harvest essence": {
+		"spritename": "item/essence",
+		"modelname": "item/essence3d",
+		"part": "essence",
+		"data": {
+			"desc": "Heal after each kill. Takes 2 slots.",
+			"essence": "harvest",
+			"value": 300,
+			"soul": -1,
+			"req": [
+				"necromancy",
+				1
+			]
+		}
+	},
+	"soul of metal": {
+		"spritename": "item/essence",
+		"modelname": "item/essence3d",
+		"part": "essence",
+		"data": {
+			"desc": "Cast to turn a weapon on ground into mana. Stronger weapons give more mana.",
+			"essence": "metal",
+			"value": 300,
+			"req": [
+				"earth",
+				3
+			]
+		}
+	},
+	"soul of blood": {
+		"spritename": "item/essence",
+		"modelname": "item/essence3d",
+		"part": "essence",
+		"data": {
+			"desc": "When out of mana, standing still will convert health into mana. Efficiency scales with necromancy.",
+			"essence": "blood",
+			"value": 300,
+			"req": [
+				"necromancy",
+				2
+			]
+		}
+	},
+	"soul of panic": {
+		"spritename": "item/essence",
+		"modelname": "item/essence3d",
+		"part": "essence",
+		"data": {
+			"desc": "When out of mana, turn ambush damage into mana.",
+			"essence": "panic",
+			"value": 300,
+			"req": [
+				"ambush",
+				4
+			]
 		}
 	}
 }

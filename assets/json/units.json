@@ -46,10 +46,10 @@
 			"interact": "tip",
 			"level": 1,
 			"speed": 0.5,
-			"health": 30,
+			"health": 25,
 			"mana": 1,
 			"proficiency": {
-				"armor": 2,
+				"armor": 1,
 				"dodge": 1,
 				"blade": 1
 			}
@@ -68,7 +68,7 @@
 			"lantern"
 		],
 		"items": [
-			"stick"
+			"quarterstaff"
 		],
 		"souls": [
 			"psychic essence"
@@ -78,9 +78,8 @@
 			"level": 1,
 			"speed": 0.5,
 			"health": 20,
-			"mana": 5,
+			"mana": 4,
 			"proficiency": {
-				"evocation": 1,
 				"aura": 1,
 				"psych": 1,
 				"earth": 1
@@ -114,7 +113,7 @@
 			"proficiency": {
 				"dodge": 1,
 				"blade": 1,
-				"ambush": 2
+				"ambush": 1
 			}
 		}
 	},
@@ -144,7 +143,7 @@
 			"mana": 1,
 			"proficiency": {
 				"dodge": 1,
-				"bow": 2,
+				"bow": 1,
 				"ambush": 1
 			}
 		}
@@ -169,10 +168,10 @@
 			"interact": "tip",
 			"level": 1,
 			"speed": 0.5,
-			"health": 40,
+			"health": 35,
 			"mana": 1,
 			"proficiency": {
-				"armor": 4
+				"armor": 3
 			}
 		}
 	},
@@ -189,7 +188,7 @@
 			"lantern"
 		],
 		"items": [
-			"spear"
+			"stick"
 		],
 		"souls": [
 			"quicksilver essence"
@@ -198,11 +197,11 @@
 			"interact": "tip",
 			"level": 1,
 			"speed": 0.5,
-			"health": 20,
+			"health": 25,
 			"mana": 1,
 			"proficiency": {
-				"unarmed": 3,
-				"spear": 1
+				"unarmed": 2,
+				"armor": 1
 			}
 		}
 	},
@@ -229,11 +228,11 @@
 			"level": 1,
 			"speed": 0.5,
 			"health": 20,
-			"mana": 3,
+			"mana": 2,
 			"proficiency": {
 				"dodge": 1,
 				"dagger": 1,
-				"necromancy": 2
+				"necromancy": 1
 			}
 		}
 	},
@@ -259,10 +258,10 @@
 			"interact": "tip",
 			"level": 1,
 			"speed": 0.5,
-			"health": 30,
+			"health": 25,
 			"mana": 2,
 			"proficiency": {
-				"armor": 2,
+				"armor": 1,
 				"aura": 1,
 				"blunt": 1
 			}
@@ -277,11 +276,11 @@
 			"accessory"
 		],
 		"equipments": [
-			"hunter outfit",
+			"hunting outfit",
 			"lantern"
 		],
 		"items": [
-			"quarterstaff"
+			"stick"
 		],
 		"souls": [
 			"trainer essence"
@@ -293,7 +292,8 @@
 			"health": 20,
 			"mana": 1,
 			"proficiency": {
-				"blunt": 3
+				"blunt": 1,
+				"dodge": 1
 			}
 		}
 	},
@@ -501,7 +501,7 @@
 			"lantern"
 		],
 		"items": [
-			"longsword"
+			"spear"
 		],
 		"souls": [],
 		"data": {
@@ -573,6 +573,7 @@
 			"level": 4,
 			"speed": 0.5,
 			"health": 20,
+			"range": 10,
 			"proficiency": {
 				"dodge": 1,
 				"bow": 4,
@@ -603,6 +604,7 @@
 			"speed": 0.5,
 			"health": 20,
 			"mana": 5,
+			"range": 10,
 			"proficiency": {
 				"evocation": 3,
 				"aura": 1,
@@ -642,6 +644,80 @@
 			}
 		}
 	},
+	"assassin": {
+		"head": "head/head4",
+		"body": "body/a_underwear",
+		"ai": "sentient",
+		"slots": [
+			"body",
+			"accessory"
+		],
+		"equipments": [
+			"black robe",
+			"gas lantern"
+		],
+		"items": [
+			"tanto"
+		],
+		"souls": [
+			"shadow essence",
+			"chameleon essence"
+		],
+		"data": {
+			"level": 9,
+			"speed": 0.5,
+			"health": 20,
+			"mana": 1,
+			"buffs": [
+				[
+					"invisibility",
+					-1
+				],
+				[
+					"lethality",
+					-1
+				]
+			],
+			"proficiency": {
+				"dodge": 4,
+				"blade": 3,
+				"ambush": 5
+			}
+		}
+	},
+	"highwayman": {
+		"head": "head/head4",
+		"body": "body/a_underwear",
+		"ai": "sentient",
+		"slots": [
+			"body",
+			"accessory"
+		],
+		"equipments": [
+			"hard leather armor",
+			"gas lantern"
+		],
+		"items": [
+			"longbow",
+			"sleep arrows:30"
+		],
+		"souls": [
+			"scout essence",
+			"soul essence",
+			"goblin essence"
+		],
+		"data": {
+			"level": 7,
+			"speed": 0.6,
+			"health": 20,
+			"range": 10,
+			"proficiency": {
+				"dodge": 1,
+				"bow": 7,
+				"ambush": 1
+			}
+		}
+	},
 	"goblin shaman": {
 		"head": "head/h_goblin_shaman",
 		"body": "body/a_goblin_warrior",
@@ -663,6 +739,12 @@
 					"regeneration",
 					-1
 				]
+			],
+			"loot": [
+				[
+					0.02,
+					"glaive"
+				]
 			]
 		}
 	},
@@ -681,7 +763,13 @@
 		"data": {
 			"level": 3,
 			"health": 15,
-			"speed": 0.5
+			"speed": 0.5,
+			"loot": [
+				[
+					0.02,
+					"spear"
+				]
+			]
 		}
 	},
 	"goblin ranger": {
@@ -701,7 +789,17 @@
 			"level": 4,
 			"health": 10,
 			"speed": 0.5,
-			"range": 10
+			"range": 10,
+			"loot": [
+				[
+					0.01,
+					"venom essence"
+				],
+				[
+					0.1,
+					"goblin bow"
+				]
+			]
 		}
 	},
 	"skeletal dog": {
@@ -729,7 +827,14 @@
 			"speed": 0.2,
 			"damage": 2,
 			"delay": 0.5,
+			"defense": 5,
 			"health": 6,
+			"inflict": [
+				[
+					"corrosion",
+					7
+				]
+			],
 			"buffs": [
 				[
 					"regeneration",
@@ -740,6 +845,18 @@
 				[
 					0.1,
 					"healing essence"
+				],
+				[
+					0.12,
+					"healing potion"
+				],
+				[
+					0.13,
+					"glow potion"
+				],
+				[
+					0.14,
+					"venom vial"
 				]
 			]
 		}
@@ -752,7 +869,7 @@
 		],
 		"data": {
 			"level": 1,
-			"speed": 0.5,
+			"speed": 0.6,
 			"damage": 3,
 			"health": 3,
 			"inflict": [
@@ -781,7 +898,7 @@
 		"data": {
 			"level": 1,
 			"speed": 0.65,
-			"delay": 2,
+			"delay": 1.5,
 			"damage": 3,
 			"health": 8,
 			"loot": [
@@ -801,7 +918,7 @@
 		"data": {
 			"level": 1,
 			"damage": 3,
-			"delay": 2.5,
+			"delay": 1,
 			"health": 12,
 			"speed": 0.5,
 			"proficiency": {
@@ -818,14 +935,11 @@
 	"rat": {
 		"model": "unit/rat",
 		"ai": "sentient",
-		"ego": [
-			"camoflauge"
-		],
 		"data": {
 			"level": 2,
 			"damage": 4,
 			"delay": 1.5,
-			"health": 12,
+			"health": 9,
 			"speed": 0.3,
 			"buffs": [
 				[
@@ -845,20 +959,126 @@
 			]
 		}
 	},
+	"mimic": {
+		"model": "unit/mimic",
+		"ai": "sentient",
+		"data": {
+			"level": 3,
+			"speed": 0.4,
+			"delay": 1,
+			"damage": 6,
+			"defense": 1,
+			"health": 9,
+			"loot": [
+				[
+					0.2,
+					"#shop"
+				],
+				[
+					0.3,
+					"#treasure1"
+				],
+				[
+					0.6,
+					"gold"
+				]
+			]
+		}
+	},
+	"green rat": {
+		"model": "unit/rat_green",
+		"ai": "sentient",
+		"ego": [
+			"camoflauge"
+		],
+		"data": {
+			"level": 4,
+			"damage": 4,
+			"delay": 1,
+			"health": 15,
+			"speed": 0.4,
+			"buffs": [
+				[
+					"nighteye",
+					-1
+				]
+			],
+			"inflict": [
+				[
+					"poison",
+					5
+				]
+			],
+			"loot": [
+				[
+					0.02,
+					"green robe"
+				],
+				[
+					0.12,
+					"poisoned arrows:5"
+				],
+				[
+					0.15,
+					"gold"
+				]
+			]
+		}
+	},
 	"robot": {
 		"model": "unit/robot",
 		"ai": "sentient",
 		"souls": [],
 		"data": {
 			"level": 3,
-			"damage": 4,
-			"defense": 5,
-			"health": 40,
+			"damage": 7,
+			"defense": 4,
+			"health": 35,
 			"speed": 0.2,
 			"loot": [
 				[
-					0.1,
-					"potion"
+					0.15,
+					"gold"
+				]
+			]
+		}
+	},
+	"boss1": {
+		"model": "unit/boss1",
+		"ai": "sentient",
+		"souls": [],
+		"data": {
+			"level": 7,
+			"damage": 3,
+			"health": 50,
+			"speed": 0.5,
+			"range": 12,
+			"attack": "shoot",
+			"projectile": "laser",
+			"buffs": [
+				[
+					"flight",
+					-1
+				]
+			],
+			"inflict": [
+				[
+					"corrosion",
+					2
+				],
+				[
+					"glow",
+					2
+				]
+			],
+			"loot": [
+				[
+					0.5,
+					"pure gold"
+				],
+				[
+					1,
+					"#shop"
 				]
 			]
 		}

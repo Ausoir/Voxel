@@ -12,7 +12,8 @@ var bodymesh
 func _ready():
 	super()
 	equipment.set_unit(self)
-	equipment.connect("selected", Callable(self, "_on_held_select"))
+	equipment.selected.connect(_on_held_select)
+	equipment.changed.connect(_on_held_select)
 	attack.disconnect(on_attack)
 
 
@@ -53,7 +54,7 @@ func _physics_process(_delta):
 	super(_delta)
 	if _weapon_callback != null:
 		_weapon_callback.call(self)
-	if action.delay == 0:
+	if action.delay <= 0:
 		model.rotation = model.rotation.lerp(Vector3.ZERO, .1)
 
 

@@ -19,10 +19,6 @@ func face_front():
 	_unit.rotation.y = lerp_angle(_unit.rotation.y, face_dir, turn_speed)
 
 
-func pickup(item):
-	_unit.equipment.set_item_by_index(_unit.equipment.get_held_index(), item)
-
-
 func jump_ready():
 	_unit.animator.play("jump_ready")
 
@@ -83,7 +79,8 @@ func use():
 					hand.use(_unit)
 			else:
 				if _unit.action.set_next("delay", 1.5):
-					_unit.animator.play("tackle")
+					_unit.animator.stop()
+					_unit.animator.play(_unit.data.get("attack", "tackle"))
 
 
 func use2():

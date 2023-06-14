@@ -10,6 +10,7 @@ func _ready():
 	_tool.mode = VoxelTool.MODE_SET
 
 
+
 func get_block(pos: Vector3):
 	var hit_raw_id = _tool.get_voxel(pos)
 	return _blocks.get_block_by_voxel(hit_raw_id)
@@ -100,24 +101,6 @@ func block_box(pos, to, block_id, hollow=false):
 				set_block(Vector3i(tx, pos.y, tz), block_id, Vector3i.UP)
 
 
-func block_spawn(pos, to):
-	var dx = abs(pos.x - to.x)
-	var dy = abs(pos.y - to.y)
-	var dz = abs(pos.z - to.z)
-	for x in range(dx+1):
-		for y in range(dy+1):
-			for z in range(dz+1):
-				var mx = min(pos.x, to.x)
-				var my = min(pos.y, to.y)
-				var mz = min(pos.z, to.z)
-				var tx = mx + x
-				var ty = my + y
-				var tz = mz + z
-				var at = Vector3i(tx, ty, tz)
-				if _tool.get_voxel(at) < 2:
-					set_voxel(at, 4)
-
-
 func set_sound(pos, radius):
 	_tool.set_channel(VoxelBuffer.CHANNEL_DATA6)
 	var vrad = Vector3(radius, radius, radius)
@@ -170,13 +153,13 @@ func get_tool():
 	return _tool
 
 
-func collide_prop_by_shape(pos: Vector3, size: int, col: int = 12):
+func collide_prop_by_shape(pos: Vector3, radius: int, col: int = 12):
 	var space_state = get_viewport().get_world_3d().get_direct_space_state()
 	var params = PhysicsShapeQueryParameters3D.new()
 	params.collision_mask = col
-	params.transform = Transform3D(Basis(), pos + Vector3(size, size, size) * .5)
-	var shape = BoxShape3D.new()
-	shape.size = Vector3(size, size, size)
+	params.transform.origin = pos
+	var shape = SphereShape3D.new()
+	shape.set_radius(radius)
 	params.set_collide_with_areas(true)
 	params.set_shape(shape)
 	return space_state.intersect_shape(params)

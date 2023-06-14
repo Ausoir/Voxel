@@ -50,6 +50,13 @@ func has(p):
 	return p in _states
 
 
+func get_duration(p):
+	var state = _states.get(p)
+	if state != null:
+		return state.duration
+	return -2
+
+
 func set_duration(p, dur):
 	var state = _states.get(p)
 	if state != null:
@@ -60,10 +67,11 @@ func on_turn():
 	var dirty = false
 	var keys = _states.keys()
 	for i in keys:
-		var state = _states[i]
-		if !state.on_turn():
-			_states.erase(i)
-			dirty = true
+		var state = _states.get(i)
+		if state != null: #index changed by a buff.on_turn during loop
+			if !state.on_turn():
+				_states.erase(i)
+				dirty = true
 	if dirty:
 		emit_signal("changed")
 	else:

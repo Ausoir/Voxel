@@ -11,6 +11,7 @@ const Map_JSON = preload("res://assets/json/maps.json")
 var _envs = {
 	"outside": preload("res://game/environment/env_outside.tscn").instantiate(),
 	"cave": preload("res://game/environment/env_cave.tscn").instantiate(),
+	"arcane": preload("res://game/environment/env_arcane.tscn").instantiate(),
 }
 
 var _frame = 0
@@ -44,6 +45,7 @@ func _ready():
 
 
 func clear():
+	vars = {}
 	terrain.queue_free()
 	late_loader.queue_free()
 	tool.queue_free()
@@ -105,3 +107,11 @@ func _process(delta):
 		sec_frame = true
 	else:
 		sec_frame = false
+
+
+func quit():
+	print("close")
+	if mapdata.get("safe", false):
+		files.save_player_data()
+	get_tree().quit()
+

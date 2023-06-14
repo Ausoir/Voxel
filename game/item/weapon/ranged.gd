@@ -1,8 +1,5 @@
 extends "../item.gd"
 
-const Bullet = preload("./projectile/bullet.tscn")
-const Laser = preload("./projectile/laser.tscn")
-const Arrow = preload("./projectile/arrow.tscn")
 var _projectile
 var _times = 1
 
@@ -31,13 +28,13 @@ func use(_user: Node3D):
 
 func on_held(_user):
 	_user.attack.connect(on_shoot.bind(_user))
-	var proj = data.get("type", "bow")
-	if proj == "firearm":
-		_projectile = Bullet
-	elif proj == "bow":
-		_projectile = Arrow
-	elif proj == "evocation":
-		_projectile = Laser
+	var weapon = data.get("type", "bow")
+	if weapon == "bow":
+		_projectile = G.stock.Projectiles.arrow
+	elif weapon == "evocation":
+		_projectile = G.stock.Projectiles.laser
+	elif weapon == "firearm":
+		_projectile = G.stock.Projectiles.bullet
 
 
 func on_unheld(_user):
@@ -52,7 +49,7 @@ func on_shoot(_user: Node3D):
 	var hitvoxel = G.tool.raycast(from, toward, item_length, 4)
 	if hitvoxel == null:
 		var weapon_type = data.get("type", "bow")
-		var inflict = data.get("inflict", [])
+		var inflict = data.get("inflict", []) + _user.data.get("inflict", [])
 		var proj_speed = data.get("power", 15)
 		var damage = data.get("damage", 1)
 		var spread = data.get("spread", 0)
@@ -74,7 +71,7 @@ func on_shoot(_user: Node3D):
 					damage += ammo.data.damage
 				if "spread" in ammo.data:
 					spread = max(0, spread + ammo.data.spread)
-				inflict = inflict.duplicate() + ammo.data.get("inflict", [])
+				inflict = inflict + ammo.data.get("inflict", [])
 		var damage_roll = G.rng.damage_roll(damage, _user.get_prof(weapon_type))
 		rocket.noise = data.get("noise", 4)
 		G.tool.set_sound(_user.position, rocket.noise / 2)
@@ -87,7 +84,7 @@ func on_shoot(_user: Node3D):
 		var projectile_direction = G.rng.v3_spread(spread,spread,spread) + _user.forward
 		rocket.speed = proj_speed
 		rocket.set_direction(projectile_direction)
-		rocket.on_attack = on_attack.bind(_user)
+		rocket.on_attack = on_attack
 		
 		_times -= 1
 		if _times == 0:
@@ -95,6 +92,6 @@ func on_shoot(_user: Node3D):
 			_user.action.set_next("idle", delay)
 
 
-func on_attack(_victim, _user):
+func on_attack(_victim, _user, damage):
 	var weapon_type = data.get("type", "bow")
-	_user.emit_signal("weapon", weapon_type, _victim, data.get("damage", 1))
+	_user.emit_signal("weapon", weapon_type, _victim, damage)

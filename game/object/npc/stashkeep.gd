@@ -24,7 +24,6 @@ func on_interact(_user: Node3D):
 
 func on_activate(_user: Node3D):
 	var _menu = INTERFACE.instantiate()
-	G.sfx.play("door_open", position)
 	_menu.load_stash = G.vars.stash
 	_menu.on_set = on_set
 	G.ui.display(_menu)

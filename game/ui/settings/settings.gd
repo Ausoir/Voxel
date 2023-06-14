@@ -67,7 +67,7 @@ func _on_unview_controls_pressed():
 
 func _on_exit_pressed():
 	if !("map" in G.vars) or G.vars.map == "camp":
-		get_tree().quit()
+		G.quit()
 	else:
 		$Panel/QuitText.show()
 		$Panel/VBox.hide()
@@ -79,5 +79,5 @@ func _on_unview_warning_pressed():
 
 
 func _on_exit_anyways():
-	get_tree().quit()
+	G.quit()
 

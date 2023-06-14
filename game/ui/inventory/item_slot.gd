@@ -2,7 +2,6 @@ extends Control
 
 signal pressed
 
-@onready var _selection = $Selection
 var item
 
 
@@ -15,14 +14,14 @@ func _gui_input(event):
 func _notification(what: int):
 	match what:
 		NOTIFICATION_MOUSE_ENTER:
-			_selection.visible = true
+			get_node("Selection").visible = true
 		
 		NOTIFICATION_MOUSE_EXIT:
-			_selection.visible = false
+			get_node("Selection").visible = false
 
 		NOTIFICATION_VISIBILITY_CHANGED:
 			if not is_visible_in_tree():
-				_selection.visible = false
+				get_node("Selection").visible = false
 
 
 func set_background(bg):
@@ -31,9 +30,9 @@ func set_background(bg):
 
 func set_selected(select):
 	if select:
-		_selection.show()
+		get_node("Selection").show()
 	else:
-		_selection.hide()
+		get_node("Selection").hide()
 
 
 func set_item(p, fallback=null):

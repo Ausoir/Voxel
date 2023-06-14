@@ -96,7 +96,7 @@ func _physics_process(_delta):
 			_unit.get_node("Model").rotation.x = rotx
 		elif _unit.action.action == "use":
 			var rotx: float = _unit.model.rotation.x
-			var pitch: float = min(_camera._pitch, 0)
+			var pitch: float = min(_camera._pitch - .3, 0.5)
 			rotx = lerp(rotx, pitch, .1)
 			_unit.get_node("Model").rotation.x = rotx
 	_unit.action.on_process(_delta)
@@ -129,10 +129,14 @@ func _unhandled_input(event):
 			_interface.display(_menu_settings)
 			if !_menu_settings.changed.is_connected(_interface.on_setting_change):
 				_menu_settings.changed.connect(_interface.on_setting_change)
-			_unit.action.set_next("wield", 0.1)
 		elif Input.is_action_just_pressed("ui_inventory"):
 			_interface.display(_menu_inventory)
 			_unit.action.set_next("wield", 0.1)
+		elif Input.is_action_just_pressed("ui_help"):
+			_interface.display(_menu_settings)
+			if !_menu_settings.changed.is_connected(_interface.on_setting_change):
+				_menu_settings.changed.connect(_interface.on_setting_change)
+			_menu_settings._on_controls_pressed()
 		elif Input.is_action_just_released("chat"):
 			G.ui.chat()
 		elif event.pressed:

@@ -53,12 +53,13 @@ func _physics_process(delta: float):
 func on_collide(hit):
 	var unit = hit.collider.get_parent()
 	if unit.get("buffs") != null:
+		damage += shooter.data.get("damage", 0)
 		if !unit.alert:
 			damage += backstab
 		unit.last_hitter = shooter
 		unit.on_damaged(position, damage, inflict)
 		if on_attack != null:
-			on_attack.call(unit)
+			on_attack.call(unit, shooter, damage)
 
 
 func on_effect(_pos):

@@ -9,7 +9,7 @@ var essence = []
 var _inventory = []
 var max_essence_size := 1
 var max_inventory_size := 2
-var _held_index = -1
+var _held_index = 0
 var swinging: int = 0
 
 
@@ -49,9 +49,7 @@ func update_essence():
 
 func update_inventory():
 	_inventory.resize(max_inventory_size)
-	var min_index = equipment.size()
-	var max_index = min_index + max_inventory_size
-	_held_index = clamp(_held_index, min_index, max_index)
+	_held_index = min(_held_index, max_inventory_size-1)
 	emit_signal("changed")
 
 
@@ -93,9 +91,13 @@ func get_held_index():
 
 
 func set_held_index(i):
-	_held_index = i + equipment.size()
+	_held_index = i
 	_adjust_held_index()
 	emit_signal("selected")
+
+
+func set_inventory_item(i, item):
+	set_item_by_index(i + equipment.size(), item)
 
 
 func set_item_by_index(i, item):
@@ -132,7 +134,7 @@ func get_index_type(i):
 
 
 func get_held_item():
-	return get_item_by_index(_held_index)
+	return _inventory[_held_index]
 
 
 func get_item_by_index(i):
@@ -163,8 +165,7 @@ func increment_held_index(i):
 
 
 func _adjust_held_index():
-	var eq_size = equipment.size()
-	_held_index = clamp(_held_index, eq_size, eq_size + _inventory.size() - 1)
+	_held_index = clamp(_held_index, 0, _inventory.size() - 1)
 	var held = get_held_item()
 	if held != null:
 		var sfx = held.data.get("sfx_hold", "wear")

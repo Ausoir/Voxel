@@ -116,6 +116,7 @@ func clear():
 	sidetext.hide()
 	fade.color = Color.TRANSPARENT
 	$HotBar.show()
+	$HotBar/ItemBar.update_items()
 	$Center/Crosshair.show()
 	for i in menu_container.get_children():
 		i.on_close()

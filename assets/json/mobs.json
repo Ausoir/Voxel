@@ -1,0 +1,40 @@
+{
+	"marauders": {
+		"behavior": "search",
+		"team": {
+			"rogue warrior": [
+				1,
+				1
+			],
+			"rogue rogue": [
+				0,
+				1
+			],
+			"rogue hunter": [
+				0,
+				1
+			],
+			"rogue necromancer": [
+				0,
+				1
+			],
+			"rogue scholar": [
+				0,
+				1
+			]
+		}
+	},
+	"bandits": {
+		"behavior": "idle",
+		"team": {
+			"highwayman": [
+				1,
+				2
+			],
+			"assassin": [
+				0,
+				1
+			]
+		}
+	}
+}

@@ -65,20 +65,21 @@ func on_held_tick(_user: Node3D):
 						if !(unit in already_hit):
 							already_hit.append(unit)
 							var damage = data.get("damage", 1)
-							var inflict = data.get("inflict", [])
+							var inflict = data.get("inflict", []) + _user.data.get("inflict", [])
 							var weapon_type = data.get("type", "blunt")
-							if _user.has_essence(weapon_type):
-								if weapon_type == "blunt":
+							if weapon_type == "blunt":
+								if _user.has_essence("blunt"):
 									if !_user.buffs.has("exhaustion"):
-										inflict = inflict.duplicate() + ["sleep", 1]
+										inflict = inflict + [["sleep", 1]]
 										_user.buffs.add("exhaustion", max(1, 10 - _user.get_prof("blunt")))
 										G.sfx.play("critical", _user.position)
-							if !unit.alert:
-								damage += data.get("backstab", 0) + 3
-								if weapon_type == "dagger":
-									damage += _user.get_prof("dagger") * 3
-								_user.emit_signal("critical", unit)
 							var damage_roll = G.rng.damage_roll(damage, _user.get_prof(weapon_type))
+							if !unit.alert:
+								damage_roll += data.get("backstab", 0) + 3
+								if weapon_type == "dagger":
+									damage_roll += _user.get_prof("dagger") * 3
+								_user.emit_signal("critical", unit)
+							damage_roll += _user.data.get("damage", 0)
 							unit.last_hitter = _user
 							unit.on_damaged(_user.position, damage_roll, inflict)
 							G.sfx.play("hit_flesh", _user.position)

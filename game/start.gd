@@ -104,6 +104,7 @@ func on_start():
 	G.manual_ready(next_level)
 	if _chosen_class != null:
 		G.vars["name"] = _chosen_class
+		G.ui.msg.call_deferred("Press F1 for controls.")
 	root.add_child(next_level)
 
 

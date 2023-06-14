@@ -34,6 +34,10 @@ static func get_buff(name):
 		r = Vision
 	elif name == "flight":
 		r = Flight
+	elif name == "lethality":
+		r = Lethality
+	elif name == "venomous":
+		r = Venomous
 	elif name == "morph":
 		r = Morph
 	elif name == "polymorph":
@@ -113,6 +117,8 @@ class Sleep extends Buff:
 			_unit.animator.play("down")
 			_unit.action.force_set_next("sleep", 9999)
 			_unit.procedure.speedmod = 0
+		if _unit == G.you:
+			G.you.camera.zoom_distance(2)
 	func on_end():
 		_unit.alert = true
 		if _unit.health > 0:
@@ -128,6 +134,8 @@ class Down extends Buff:
 			_unit.animator.play("down")
 			_unit.action.force_set_next("sleep", 9999)
 			_unit.procedure.speedmod = 0
+		if _unit == G.you:
+			G.you.camera.zoom_distance(2)
 	func on_end():
 		if _unit.health > 0:
 			_unit.action.delay = 0
@@ -139,8 +147,9 @@ class Down extends Buff:
 class Regeneration extends Buff:
 	func on_turn():
 		var max_hp = _unit.data.get("health", 1)
+		if _unit.health < max_hp:
+			_unit.show_healthbar()
 		_unit.health = min(_unit.health + 1, max_hp)
-		_unit.show_healthbar()
 		return super()
 	func get_description():
 		return super() + "Regenerate 1 health per second."
@@ -148,10 +157,11 @@ class Regeneration extends Buff:
 
 class Poison extends Buff:
 	func on_turn():
-		_unit.take_hit(1)
+		var dmg = max(1, _unit.data.health * .08)
+		_unit.take_hit(dmg)
 		return super()
 	func get_description():
-		return super() + "Lose 1 health per second."
+		return super() + "Lose 8% health per second."
 
 
 class Clarity extends Buff:
@@ -179,7 +189,7 @@ class Invisibility extends Buff:
 	func on_interrupt(_type, _victim, _dmg):
 		duration = 0
 		interrupted = true
-	func on_special(_type):
+	func on_special(_type, _rate, _max=1):
 		duration = 0
 		interrupted = true
 	func on_stack(new_dur):
@@ -247,6 +257,26 @@ class Corrosion extends Buff:
 		return super() + "Increase all damage taken by 3."
 
 
+class Lethality extends Buff:
+	func on_start():
+		_unit.data["damage"] = _unit.data.get("damage", 0) + 9
+	func on_end():
+		_unit.data.damage -= 9
+	func get_description():
+		return super() + "Next attack deals +9 damage."
+
+
+class Venomous extends Buff:
+	func on_start():
+		_unit.data["inflict"] = _unit.data.get("inflict", []) + [["poison", 7]]
+	func on_end():
+		for i in _unit.data.inflict:
+			if i[0] == "poison" and i[1] == 7:
+				_unit.data.inflict.erase(i)
+	func get_description():
+		return super() + "Next attack inflicts 7s poison."
+
+
 class Daze extends Buff:
 	func get_description():
 		return super() + "Disables interation for the duration."
@@ -276,12 +306,13 @@ class Morph extends Buff:
 	func pre_save():
 		return false
 	func get_form():
-		var form
-		if _unit == G.you:
-			var form_id = G.vars.seed % FORMS.size()
-			form = FORMS[form_id]
-		else:
-			form = G.rng.pick(FORMS)
+		var form = _unit.get("shape")
+		if form == null:
+			if _unit == G.you:
+				var form_id = G.vars.seed % FORMS.size()
+				form = FORMS[form_id]
+			else:
+				form = G.rng.pick(FORMS)
 		return form
 	func on_start():
 		orig = _unit
@@ -292,11 +323,14 @@ class Morph extends Buff:
 		new = G.stock.make_any_unit(G.stock, _unit.position, form)
 		if _unit == G.you:
 			G.player.set_unit(new)
-			var morph = new.buffs.add("polymorph", duration)
-			morph.orig = orig
-			morph.orig_physics = orig_physics
+		var morph = new.buffs.add("polymorph", duration)
+		morph.orig = orig
+		morph.orig_physics = orig_physics
 		new.data.level = _unit.data.level
-		new.proficiency.list.unarmed = _unit.proficiency.list.unarmed
+		for prof in new.proficiency.list.keys():
+			var val = _unit.proficiency.list[prof]
+			new.proficiency.increase(prof, val)
+		morph.start_prof = new.proficiency.list.duplicate()
 		var percentage = orig.health / orig.data.health
 		new.health = int(max(1, new.data.health * percentage))
 		new.data.erase("loot")
@@ -314,6 +348,7 @@ class Morph extends Buff:
 class Polymorph extends Buff:
 	var orig
 	var orig_physics
+	var start_prof
 	func pre_save():
 		return false
 	func on_end():
@@ -326,13 +361,16 @@ class Polymorph extends Buff:
 			if _unit == G.you:
 				G.player.set_unit(orig)
 			orig.data.level = new.data.level
-			orig.proficiency.list.unarmed = new.proficiency.list.unarmed
+			for prof in new.proficiency.list.keys():
+				var val = new.proficiency.list[prof] - start_prof[prof]
+				orig.proficiency.increase(prof, val)
 			var percentage = new.health / new.data.health
 			orig.health = int(max(1, orig.data.health * percentage))
 			orig.position = new.position
 			orig.action.set_next("idle", 1)
 			orig.action.show_progress = true
 			orig.procedure.speedmod = 0
+			orig.show_healthbar()
 			new.position.y -= 300
 			new.hide()
 			new.die()
@@ -362,7 +400,8 @@ class Hunger extends Buff:
 class Full extends Buff:
 	func on_start():
 		if _unit.buffs.has("hunger"):
-			duration = 0
+			if !_unit.has_essence("ascetic"):
+				duration = 0
 			_unit.buffs.set_duration("hunger", 0)
 	func get_description():
 		return super() + "Don't worry about food for a while."

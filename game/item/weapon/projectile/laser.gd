@@ -17,7 +17,7 @@ func on_effect(_pos):
 		var unit = hit.get_parent()
 		unit.on_damaged(position, damage, inflict)
 		if on_attack != null:
-			on_attack.call(unit)
+			on_attack.call(unit, shooter, damage)
 
 
 func _on_area_3d_body_entered(body):

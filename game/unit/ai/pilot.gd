@@ -25,7 +25,7 @@ func _ready():
 	_unit.camera = _unit
 	_unit.attacked.connect(on_attacked)
 	_pathing.set_unit(_unit)
-	if G.rng.percent(0.15):
+	if G.rng.percent(0.1):
 		_idle_task = _wander
 
 
@@ -51,9 +51,7 @@ func _physics_process(_delta):
 		_frame -= 0.5
 		if priority == 1:
 			_way_clear = G.tool.raycast(_from, _unit.forward, _dist, 4)
-			if !in_range:
-				_timeout += 2
-			elif _way_clear != null:
+			if !in_range or _way_clear != null:
 				_timeout += 1
 			else:
 				_timeout = 0
@@ -61,7 +59,7 @@ func _physics_process(_delta):
 			if _wander_target != null:
 				if G.rng.percent(.1):
 					_wander_target = null
-	if _timeout > 64:
+	if _timeout > 32:
 		_timeout = 0
 		deaggro()
 	_unit.action.on_process(_delta)
@@ -73,10 +71,10 @@ func set_default_target():
 
 
 func _update_target_params():
-	_from = _unit.get_head()
-	_to = _target.get_head()
+	_from = _unit.position + _unit.COLLISION_CENTER
+	_to = _target.position + _unit.COLLISION_CENTER
 	_unit.forward = _from.direction_to(_to)
-	_dist = _from.distance_to(_to)
+	_dist = _from.distance_to(_to) - _target.size.z/2
 
 
 func deaggro():
@@ -137,16 +135,37 @@ func _wander(_delta):
 						_unit.procedure.walk_dir(dir.x, dir.z)
 
 
+func _search(_delta):
+	if _wander_target == null:
+		_wander_target = G.rng.rir(0, 3)
+	else:
+		var center = _unit.get_center()
+		var dir = G.CARDINALS[_wander_target]
+		var clear = G.tool.raycast(center, dir, 1, 4)
+		if clear == null:
+			var clear2 = G.tool.raycast(center + dir, Vector3.DOWN, 2, 4)
+			if clear2 != null:
+				_unit.procedure.walk_dir(dir.x, dir.z)
+		else:
+			var clear2 = G.tool.raycast(center, Vector3.UP, 1, 4)
+			if clear2 == null:
+				var clear3 = G.tool.raycast(center + Vector3.UP, dir, 1, 4)
+				if clear3 == null:
+					_unit.procedure.walk_dir(dir.x, dir.z)
+		if _unit.motor == Vector3.ZERO:
+			_wander_target = null
+
+
 func _chase(_delta):
 	if _unit.action.action == null and _unit.action.can_set():
 		_unit.procedure.speedmod = 1
 	if _way_clear != null:
-		_pathing.target = _to.floor()
+		_pathing.set_target(_to)
 		_pathing.perform(_delta)
 	elif _dist <= APPROACH_RANGE:
 		_unit.procedure.walk_toward(_to)
-		if _dist <= melee_range + _target.size.z/2:
+		if _dist <= melee_range:
 			attack_function.call()
 	else:
-		_pathing.target = _to.floor()
+		_pathing.set_target(_to)
 		_pathing.perform(_delta)

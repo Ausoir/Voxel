@@ -32,7 +32,6 @@ func on_interact(_user: Node3D):
 
 
 func on_activate(_user: Node3D):
-	G.sfx.play("door_open", position)
 	G.ui.display(_menu)
 	G.ui.msg('Priest: "Come to me for a blessing, or perish forever!"')
 

@@ -1,8 +1,16 @@
-[gd_scene load_steps=2 format=3 uid="uid://cwn7tb4n1php4"]
+[gd_scene load_steps=3 format=3 uid="uid://cwn7tb4n1php4"]
 
+[ext_resource type="Script" path="res://game/unit/skills/bomb.gd" id="1_vosq2"]
 [ext_resource type="ArrayMesh" uid="uid://orubern31au" path="res://assets/objects/o_barrel.obj" id="1_xyfq3"]
 
 [node name="bomb" type="Node3D"]
+script = ExtResource("1_vosq2")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = ExtResource("1_xyfq3")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 3.0
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

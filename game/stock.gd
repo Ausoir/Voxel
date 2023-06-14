@@ -8,6 +8,7 @@ const Item_JSON = preload("res://assets/json/items.json")
 const Item_Bag = preload("res://assets/item/bag.obj")
 const Unit_JSON = preload("res://assets/json/units.json")
 const Group_JSON = preload("res://assets/json/groups.json")
+const Mob_JSON = preload("res://assets/json/mobs.json")
 const Debris = preload("res://game/fx/debris.tscn")
 const P_marker = preload("res://game/fx/other/marker.tscn")
 const P_explosion = preload("res://game/fx/explosion/explosion.tscn")
@@ -19,6 +20,7 @@ const P_dodge = preload("res://game/fx/other/dodge.tscn")
 const P_summon = preload("res://game/fx/buff/summon.tscn")
 const P_level = preload("res://game/fx/buff/level.tscn")
 const P_spend = preload("res://game/fx/buff/spend.tscn")
+const P_heal = preload("res://game/fx/buff/heal.tscn")
 const Text = preload("res://game/fx/text.tscn")
 const Unit = preload("res://game/unit/unit.tscn")
 const Humanoid = preload("res://game/unit/humanoid/humanoid.tscn")
@@ -26,6 +28,11 @@ const IBlank = preload("res://game/unit/ai/blank.gd")
 const ISentient = preload("res://game/unit/ai/sentient.gd")
 const INeutral = preload("res://game/unit/ai/neutral.gd")
 const IAlly = preload("res://game/unit/ai/ally.gd")
+const Projectiles = {
+	"bullet": preload("res://game/item/weapon/projectile/bullet.tscn"),
+	"laser": preload("res://game/item/weapon/projectile/laser.tscn"),
+	"arrow": preload("res://game/item/weapon/projectile/arrow.tscn")
+}
 var _model_cache = {}
 var _scene_cache = {}
 var _image_cache = {}
@@ -129,6 +136,39 @@ func make_any_unit(parent: Node, pos: Vector3, itemname: String, custom=null):
 	if r == null:
 		r = make_unit(pos, itemname, custom)
 	return r
+
+
+func make_mob(pos: Vector3, itemname: String):
+	var dict = Mob_JSON.get_data()
+	var data = dict.get(itemname)
+	if data != null:
+		var r = []
+		var closed = [pos]
+		var current = pos
+		var prev_unit
+		var team = data.team
+		var behavior = data.behavior
+		for key in team.keys():
+			var number_range = team[key]
+			var number = G.rng.rir(number_range[0], number_range[1])
+			for i in range(number):
+				var unit = make_any_unit(self, current, key)
+				r.append(unit)
+				if prev_unit != null:
+					if unit.pilot.get_script() == ISentient:
+						unit.pilot.set_follow(prev_unit)
+				elif behavior == "wander":
+					unit.pilot._idle_task = unit.pilot._wander
+				elif behavior == "search":
+					unit.pilot._idle_task = unit.pilot._search
+				prev_unit = unit
+				for dir in G.CARDINALS:
+					var new_pos = pos + dir
+					if !(new_pos in closed) and G.tool.get_voxel(new_pos) < 4:
+						current = new_pos
+						closed.append(current)
+						break
+		return r
 
 
 func make_unit(pos: Vector3, itemname: String, custom_data=null):
@@ -277,5 +317,9 @@ func make_any(_pos, itemname):
 		if itemname[0] == "#":
 			return make_any(_pos, make_group(itemname))
 		else:
-			return make_any_unit(self, _pos, itemname)
+			var mob = make_mob(_pos, itemname)
+			if mob == null:
+				return make_any_unit(self, _pos, itemname)
+			else:
+				return mob
 

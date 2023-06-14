@@ -15,16 +15,16 @@ spread = 80.0
 gravity = Vector3(0, 2, 0)
 initial_velocity_min = 0.2
 initial_velocity_max = 1.0
+angle_min = -720.0
+angle_max = 720.0
 scale_min = 0.1
-scale_max = 2.0
+scale_max = 1.7
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dypeg"]
-transparency = 2
-alpha_scissor_threshold = 0.5
-alpha_antialiasing_mode = 0
 blend_mode = 1
 shading_mode = 0
-albedo_color = Color(0.368627, 0.368627, 0.368627, 1)
+specular_mode = 2
+albedo_color = Color(0.305882, 0.305882, 0.305882, 1)
 albedo_texture = ExtResource("3_0x1vn")
 texture_filter = 0
 billboard_mode = 3

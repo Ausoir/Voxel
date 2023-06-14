@@ -23,8 +23,6 @@ func load_map(p):
 		_map_time = 0
 		G.ui.msg(str("Now entering: [b][color=TEAL][url=",p,"]The ", p.capitalize(), "[/url][/color][/b]"))
 		G.terrain.get_node("LateLoader").stop()
-		if p == "#down":
-			p = G.rng.pick(G.mapdata.down)
 		G.stock.clean()
 		G.turn.clear()
 		_newmap_offset += MAP_INCREMENT
@@ -36,9 +34,11 @@ func load_map(p):
 		G.ui.fade.color = Color.BLACK
 		_viewer.position = Vector3(_newmap_offset, 0, 0)
 		G.turn.add(unit.buffs.on_turn)
-		if p == "camp":
+		if G.mapdata.get("safe", false):
 			G.vars.day += 1
 			G.you.buffs.add("hunger", -1)
+			G.you.mana = G.you.data.mana
+			G.files.save_player_data()
 
 
 func set_unit(p):
@@ -62,7 +62,7 @@ func set_unit(p):
 	unit.set_name("Unit")
 	unit.faction = 1
 	unit.add_child(addon)
-	unit.take_hit(0)
+	unit.show_healthbar()
 	$Cam.set_unit(unit)
 	$Control.set_unit(unit)
 	$Interface.set_unit(unit)

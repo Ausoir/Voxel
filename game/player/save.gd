@@ -1,8 +1,8 @@
 extends Node
 
-const PLAYER_PATH = "user://save/player.json"
+const PLAYER_PATH = "user://player.json"
 const TEMPLATE_PLAYER_PATH = "res://save/template.json"
-const SETTINGS_PATH = "user://save/settings.json"
+const SETTINGS_PATH = "user://settings.json"
 var data
 
 
@@ -54,14 +54,11 @@ func save_settings():
 
 
 func save(dir, contents):
-	if FileAccess.file_exists(dir):
-		var file = FileAccess.open(dir, FileAccess.WRITE)
-		var json = JSON.new()
-		var json_string = json.stringify(contents)
-		file.store_string(json_string)
-		file.close()
-	else:
-		push_error("Could not open file [" +dir+ "] for saving.")
+	var file = FileAccess.open(dir, FileAccess.WRITE)
+	var json = JSON.new()
+	var json_string = json.stringify(contents)
+	file.store_string(json_string)
+	file.close()
 
 
 func get_json_from_dir(dir):

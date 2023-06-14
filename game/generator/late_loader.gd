@@ -7,6 +7,7 @@ var _bounds
 var _spawns
 var _timeout = 0
 var _player_spawned = false
+var _spawn_units = []
 
 
 func _ready():
@@ -126,10 +127,16 @@ func _process(_delta):
 
 func move_player(pos):
 	if !_player_spawned:
-		G.you.position = pos + G.V2_HALF
-		var from = pos - Vector3(8, 4, 8)
-		G.tool.block_spawn(from, from + Vector3(16, 8, 16))
+		var player_pos = pos + G.V2_HALF
+		G.you.position = player_pos
 		_player_spawned = true
+		for unit in _spawn_units:
+			if is_instance_valid(unit):
+				var dx = abs(unit.position.x - player_pos.x)
+				var dy = abs(unit.position.y - player_pos.y)
+				var dz = abs(unit.position.z - player_pos.z)
+				if dx < 7 and dz < 7 and dy < 4:
+					unit.remove()
 
 
 func make_placeable(pos, itemname):
@@ -145,6 +152,11 @@ func make_placeable(pos, itemname):
 					G.tool.set_block(pos, block.id, null)
 				else:
 					G.stock.make_object(center, itemname)
+		elif unit is Array:
+			_spawn_units += unit
+			for i in unit:
+				G.tool.set_voxel(i.position, 4)
 		else:
+			_spawn_units.append(unit)
 			G.tool.set_voxel(center, 4)
 

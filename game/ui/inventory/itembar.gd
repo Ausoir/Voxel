@@ -2,7 +2,6 @@ extends HBoxContainer
 
 const ITEMSLOT = preload("res://game/ui/inventory/item_slot.tscn")
 
-var show_selection = true
 var _inventory
 
 
@@ -19,16 +18,14 @@ func update_views():
 		var new = ITEMSLOT.instantiate()
 		add_child(new)
 		new.set_item(_inventory.get_item_by_index(i + _inventory.equipment.size()))
-		if show_selection:
-			new.set_selected(i + _inventory.equipment.size() == _inventory.get_held_index())
+		new.set_selected(i == _inventory.get_held_index())
 
 
 func update_items():
 	for i in range(_inventory.max_inventory_size):
 		var child = get_child(i)
 		child.set_item(_inventory.get_item_by_index(i + _inventory.equipment.size()))
-		if show_selection:
-			child.set_selected(i + _inventory.equipment.size() == _inventory.get_held_index())
+		child.set_selected(i == _inventory.get_held_index())
 
 
 func get_selected_item():

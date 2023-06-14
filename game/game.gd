@@ -8,9 +8,6 @@ func _ready():
 func _notification(what: int):
 	match what:
 		NOTIFICATION_WM_CLOSE_REQUEST:
-			if G.vars.map == "camp":
-				G.files.save_player_data()
-			print("close")
+			G.quit()
 		NOTIFICATION_WM_SIZE_CHANGED:
 			G.ui.on_resize()
-

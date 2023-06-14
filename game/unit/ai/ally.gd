@@ -3,7 +3,7 @@ extends "./sentient.gd"
 
 func _ready():
 	super()
-	_idle_task = _follow
+	set_follow(G.you)
 
 
 func set_default_target():
@@ -21,23 +21,6 @@ func set_default_target():
 					closest = enemy
 					closest_dist = dist
 		_target = closest
-
-
-func _follow(_delta):
-	if _unit.action.action == null and _unit.action.can_set():
-		_unit.procedure.speedmod = 1
-		_target = G.you
-		_update_target_params()
-		if _dist <= 3:
-			_unit.procedure.stop_walk()
-		elif _dist <= APPROACH_RANGE:
-			_unit.procedure.walk_toward(_to)
-		else:
-			_pathing.target = _to.floor()
-			_pathing.perform(_delta)
-		_target = null
-	else:
-		_unit.procedure.stop_walk()
 
 
 func perceive():

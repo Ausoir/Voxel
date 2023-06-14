@@ -9,7 +9,9 @@ func remove():
 
 
 func on_interact(_user: Node3D):
-	_user.procedure.pickup(base)
+	_user.equipment.set_inventory_item(_user.equipment.get_held_index(), base)
+	_user.action.set_next("idle", 0.5)
+	_user.action.show_progress = true
 	remove()
 
 

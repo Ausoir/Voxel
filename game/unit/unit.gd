@@ -68,6 +68,7 @@ func _ready():
 	_space_state_params.set_collision_mask(body.get_collision_mask())
 	_space_state_params.set_exclude([body.get_rid()])
 	attack.connect(on_attack)
+	weapon.connect(on_weapon)
 	forward = -get_transform().basis.z.normalized()
 	var interact = data.get("interact")
 	if interact != null:
@@ -98,10 +99,10 @@ func take_hit(dmg):
 		buffs.set_duration("invisibility", 0)
 		buffs.set_duration("regeneration", 0)
 		buffs.set_duration("sleep", 0)
+		health -= dmg
+		show_healthbar()
 	if dmg != 0 and "scout" in G.you.essence:
 		G.stock.make_text(self, Vector3(0, size.y + 0.1, 0), dmg)
-	health -= dmg
-	show_healthbar()
 	if health <= 0:
 		die()
 	else:
@@ -131,9 +132,12 @@ func on_damaged(_pos: Vector3, damage: int, inflict):
 			G.sfx.play("dodge", position)
 			if "scout" in G.you.essence:
 				G.stock.make_text(self, Vector3(0, size.y + 0.1, 0), "DODGE")
-			emit_signal("special", "dodge")
+			emit_signal("special", "dodge", 1)
 			return
 	else:
+		if last_hitter.has_essence("panic"):
+			if last_hitter.mana == 0:
+				last_hitter.mana += int(damage / 5)
 		G.stock.make_particle(position + Vector3(0, size.y/2, 0), "demolish")
 		G.sfx.play("critical", position)
 		buffs.add("silence", 1)
@@ -233,7 +237,7 @@ func die():
 			emit_signal("death")
 		else:
 			health = 1
-		buffs.clean(true)
+			buffs.set_duration("polymorph", 0)
 
 
 func revive():
@@ -271,8 +275,8 @@ func on_attack():
 	var damage = data.get("damage", 1)
 	var damage_roll = G.rng.damage_roll(damage, get_prof("unarmed"))
 	var inflict = data.get("inflict", [])
-	var front = procedure.get_toward_plane()
-	_space_state_params.position = position + front + COLLISION_CENTER * (size.z + .2)
+	var front = procedure.get_toward_plane().normalized()
+	_space_state_params.position = position + COLLISION_CENTER + front * (size.z + procedure.speed)/2
 	var hits = _space_state.intersect_point(_space_state_params, 1)
 	for hit in hits:
 		var t = hit.collider.get_parent()
@@ -280,6 +284,13 @@ func on_attack():
 		t.on_damaged(position, damage_roll, inflict)
 		emit_signal("weapon", "unarmed", t, damage_roll)
 		G.sfx.play("hit_flesh", position)
+
+
+func on_weapon(_type, _victim, _dmg):
+	buffs.set_duration("lethality", 0)
+	var dur = buffs.get_duration("venomous")
+	if dur > 0:
+		buffs.set_duration("venomous", dur - 1)
 
 
 func set_fp_visibility(p):
@@ -323,21 +334,13 @@ func _no_physics_process(_delta):
 
 
 func _walk_physics_process(delta):
-	if grounded:
-		var center = position + COLLISION_CENTER
-		_space_state_params.position = center
-		var hits = _space_state.intersect_point(_space_state_params, 3)
-		for hit in hits:
-			var t = hit.collider.get_parent()
-			velocity += (position - t.position).normalized() * 4
-			t.action.set_next("idle", .5)
-			action.set_next("idle", .5)
-	elif position.y < -8:
-		if health > 0:
-			die()
-		return
-	else:
-		motor = Vector3.ZERO
+	if !grounded:
+		if position.y < -8:
+			if health > 0:
+				die()
+			return
+		else:
+			motor = Vector3.ZERO
 
 	if motor.length_squared() > 0:
 		_wait_time = 0
@@ -345,6 +348,15 @@ func _walk_physics_process(delta):
 		var walk_speed = velocity.length()
 		if walk_speed > 0.5 and action.delay <= 0:
 			animator.play("walk", 0.3, walk_speed / 4.0)
+		if grounded:
+			var center = position + COLLISION_CENTER
+			_space_state_params.position = center
+			var hits = _space_state.intersect_point(_space_state_params, 2)
+			for hit in hits:
+				var t = hit.collider.get_parent()
+				var diff = (t.position - position).normalized()
+				t.velocity += diff
+				velocity += -diff
 	elif action.action == null:
 		animator.play("RESET")
 		_wait_time += delta
@@ -389,6 +401,14 @@ func _fly_physics_process(delta):
 		if walk_speed > 0.5 and action.delay <= 0:
 			animator.play("fly", 1.0, walk_speed / 4.0)
 		velocity.y += forward.y * walk_speed * .02
+		var center = position
+		_space_state_params.position = center
+		var hits = _space_state.intersect_point(_space_state_params, 1)
+		for hit in hits:
+			var t = hit.collider.get_parent()
+			var diff = (t.position - position).normalized()
+			velocity += -diff
+			t.velocity += diff
 	elif action.action == null:
 		animator.play("RESET")
 		_wait_time += delta

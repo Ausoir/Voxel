@@ -62,18 +62,19 @@ func check_req(prof, amount):
 	return false
 
 
-func increase(prof, amount):
+func increase(prof, amount, max=24):
 	var property = list.get(prof)
 	if property != null:
 		var past_lvl = floor(property)
-		property += amount
-		var current_lvl = floor(property)
-		if current_lvl != past_lvl:
-			on_level(prof)
-			if _unit == G.you:
-				var msg = str("[",prof.capitalize(),"] skill now level ",current_lvl,"!")
-				G.ui.msg(msg)
-		list[prof] = property
+		if past_lvl < max:
+			property += amount / max(1, .5 + past_lvl*.25)
+			var current_lvl = floor(property)
+			if current_lvl != past_lvl:
+				on_level(prof)
+				if _unit == G.you:
+					var msg = str("[",prof.capitalize(),"] skill now level ",current_lvl,"!")
+					G.ui.msg(msg)
+			list[prof] = property
 
 
 func on_level(prof):
@@ -95,16 +96,16 @@ func on_attacked(dmg):
 
 
 func on_attack(_type, _victim, dmg):
-	increase(_type, 0.007 * dmg)
+	increase(_type, 0.015 * dmg + .01)
 
 
 func on_ambush(_victim):
 	increase("ambush", 0.2)
 
 
-func on_essence(_ess):
+func on_essence(_ess, _rate=1, _max=24):
 	if _ess == "dodge":
-		increase(_ess, max(0.01, 0.2 / (list.dodge+0.25)))
+		increase(_ess, max(0.01, 0.2 / max(.25, list.dodge+0.25)) * _rate, _max)
 	else:
-		increase(_ess, 0.04)
+		increase(_ess, 0.1 * _rate, _max)
 

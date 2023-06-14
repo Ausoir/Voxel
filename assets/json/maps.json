@@ -33,6 +33,7 @@
 				]
 			]
 		},
+		"safe": true,
 		"down": "fields",
 		"item": null,
 		"treasure": null,
@@ -84,6 +85,10 @@
 				[
 					4,
 					"skeleton"
+				],
+				[
+					1,
+					"green rat"
 				]
 			]
 		},
@@ -126,8 +131,12 @@
 			],
 			"^wood": [
 				[
-					3,
+					2,
 					"rogue peasant"
+				],
+				[
+					1,
+					"chest"
 				],
 				[
 					1,
@@ -177,7 +186,15 @@
 				],
 				[
 					1,
+					"marauders"
+				],
+				[
+					1,
 					"portal/entrance"
+				],
+				[
+					1,
+					"chest"
 				]
 			],
 			"_table": [
@@ -270,7 +287,7 @@
 					"#cavern"
 				],
 				[
-					1,
+					5,
 					"#shelf"
 				]
 			],
@@ -288,6 +305,10 @@
 				[
 					1,
 					"portal/entrance"
+				],
+				[
+					1,
+					"bandits"
 				]
 			],
 			"_table": [
@@ -374,12 +395,24 @@
 				[
 					1,
 					"portal/entrance"
+				],
+				[
+					2,
+					"marauders"
 				]
 			],
 			"^brick": [
 				[
 					1,
 					"portal/exit"
+				],
+				[
+					1,
+					"bandits"
+				],
+				[
+					2,
+					"green rat"
 				]
 			],
 			"^table": [
@@ -408,12 +441,16 @@
 				[
 					1,
 					"chest"
+				],
+				[
+					1,
+					"green rat"
 				]
 			]
 		},
-		"item": "#trash",
+		"item": "#shelf",
 		"treasure": "#treasure2",
-		"trash": "#barrel",
+		"trash": "#trash",
 		"variants": [
 			"cave/cave1",
 			"cave/cave2",
@@ -435,8 +472,8 @@
 		}
 	},
 	"abandoned academy": {
-		"env": "cave",
-		"down": "camp",
+		"env": "arcane",
+		"down": "cafe arcana",
 		"spawns": {
 			"^bed": [
 				[
@@ -458,13 +495,13 @@
 			],
 			"^counter": [
 				[
-					1,
+					2,
 					"chest"
 				]
 			],
 			"_counter": [
 				[
-					1,
+					2,
 					"chest"
 				]
 			],
@@ -472,18 +509,20 @@
 				[
 					1,
 					"portal/exit"
+				],
+				[
+					2,
+					"marauders"
 				]
 			],
 			"_carpet": [
 				[
 					1,
-					"portal/exit"
-				]
-			],
-			"_table": [
+					"portal/entrance"
+				],
 				[
-					1,
-					"portal/exit"
+					2,
+					"bandits"
 				]
 			],
 			"^brick": [
@@ -494,20 +533,32 @@
 			],
 			"_brick": [
 				[
-					24,
+					16,
 					"#cavern"
+				],
+				[
+					4,
+					"green rat"
 				]
 			],
 			"^labtiles": [
 				[
-					10,
+					6,
 					"#animals"
+				],
+				[
+					3,
+					"robot"
 				]
 			],
 			"_labtiles": [
 				[
-					10,
+					8,
 					"#animals"
+				],
+				[
+					1,
+					"robot"
 				]
 			]
 		},
@@ -528,6 +579,70 @@
 			"wall": "stone",
 			"wall2": "pole",
 			"special": "labtiles"
+		}
+	},
+	"cafe arcana": {
+		"env": "arcane",
+		"spawns": {
+			"_wood": [
+				[
+					1,
+					"@"
+				]
+			],
+			"_stone": [
+				[
+					1,
+					"boss1"
+				]
+			]
+		},
+		"down": "fields",
+		"item": null,
+		"treasure": null,
+		"trash": "#trash",
+		"variants": [
+			"boss1/test",
+			"boss1/test",
+			"boss1/test",
+			"boss1/test"
+		],
+		"palette": {
+			"road": "stone",
+			"tiles": "wood",
+			"wall": "brick"
+		}
+	},
+	"test": {
+		"env": "arcane",
+		"spawns": {
+			"_wood": [
+				[
+					1,
+					"@"
+				]
+			],
+			"_stone": [
+				[
+					2,
+					"robot"
+				]
+			]
+		},
+		"down": "fields",
+		"item": null,
+		"treasure": null,
+		"trash": "#trash",
+		"variants": [
+			"test/test",
+			"test/test",
+			"test/test",
+			"test/test"
+		],
+		"palette": {
+			"road": "stone",
+			"tiles": "wood",
+			"wall": "brick"
 		}
 	}
 }

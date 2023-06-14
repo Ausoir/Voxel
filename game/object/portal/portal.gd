@@ -4,6 +4,7 @@ extends "res://game/object/prop.gd"
 
 
 func _ready():
+	sid = "portal"
 	var pos = position.floor()
 	var above = position.floor() + Vector3.UP
 	var meta = "Use Portal"
@@ -32,7 +33,10 @@ func on_interact(_user: Node3D):
 func on_activate(_user: Node3D):
 	G.sfx.play("door_open", position)
 	if destination == "#down":
-		G.player.load_map(G.mapdata.down)
+		if G.you.buffs.has("hunger"):
+			G.ui.msg("Too hungry to go down!")
+		else:
+			G.player.load_map(G.mapdata.down)
 	else:
 		G.player.load_map(destination)
 
