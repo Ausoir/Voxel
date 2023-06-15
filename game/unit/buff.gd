@@ -10,8 +10,8 @@ static func get_buff(name):
 		r = Regeneration
 	elif name == "clarity":
 		r = Clarity
-	elif name == "invisibility":
-		r = Invisibility
+	elif name == "invisible":
+		r = Invisible
 	elif name == "stoneskin":
 		r = Stoneskin
 	elif name == "corrosion":
@@ -42,6 +42,8 @@ static func get_buff(name):
 		r = Morph
 	elif name == "polymorph":
 		r = Polymorph
+	elif name == "invincible":
+		r = Invincible
 	elif name == "hunger":
 		r = Hunger
 	elif name == "full":
@@ -176,7 +178,7 @@ class Clarity extends Buff:
 		return super() + "Regenerate 10% mana per second."
 
 
-class Invisibility extends Buff:
+class Invisible extends Buff:
 	var interrupted = false
 	func on_start():
 		_unit.weapon.connect(on_interrupt)
@@ -332,13 +334,14 @@ class Morph extends Buff:
 			new.proficiency.increase(prof, val)
 		morph.start_prof = new.proficiency.list.duplicate()
 		var percentage = orig.health / orig.data.health
-		new.health = int(max(1, new.data.health * percentage))
+		new.health = int(round(max(1, new.data.health * percentage)))
 		new.data.erase("loot")
 		new.essence.append("polymorph")
 		new.position = _unit.position
 		new.action.set_next("idle", 1)
 		new.action.show_progress = true
 		new.procedure.speedmod = 0
+		new.show_healthbar()
 		orig.position.y -= 300
 		duration = 0
 	func get_description():
@@ -364,8 +367,11 @@ class Polymorph extends Buff:
 			for prof in new.proficiency.list.keys():
 				var val = new.proficiency.list[prof] - start_prof[prof]
 				orig.proficiency.increase(prof, val)
-			var percentage = new.health / new.data.health
-			orig.health = int(max(1, orig.data.health * percentage))
+			if new.health <= 1:
+				orig.health = 1
+			else:
+				var percentage = new.health / new.data.health
+				orig.health = int(round(max(1, orig.data.health * percentage)))
 			orig.position = new.position
 			orig.action.set_next("idle", 1)
 			orig.action.show_progress = true
@@ -373,6 +379,7 @@ class Polymorph extends Buff:
 			orig.show_healthbar()
 			new.position.y -= 300
 			new.hide()
+			new.animator.set_speed_scale(100)
 			new.die()
 		elif _unit == G.you:
 			G.ui.msg("It seems you are stuck in this form forever...")
@@ -385,6 +392,11 @@ class Track extends Buff:
 		return super() + "Teleport to safety when near death."
 
 
+class Invincible extends Buff:
+	func get_description():
+		return super() + "Invincible."
+
+
 class Hunger extends Buff:
 	func on_start():
 		if _unit.buffs.has("full"):
@@ -394,7 +406,7 @@ class Hunger extends Buff:
 	func on_end():
 		_unit.procedure.speed += .1
 	func get_description():
-		return super() + "Need to eat... -1 move speed."
+		return super() + "Need to eat... -1 move speed and halved experience gain."
 
 
 class Full extends Buff:

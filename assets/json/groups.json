@@ -273,8 +273,8 @@
 			"black robe:-1"
 		],
 		[
-			0.74,
-			"chaos essence:-1"
+			0.75,
+			"amnesia scroll:-1"
 		]
 	],
 	"#treasure1": [
@@ -339,15 +339,23 @@
 			"harvest essence"
 		],
 		[
-			0.5,
+			0.48,
+			"shielding essence"
+		],
+		[
+			0.52,
+			"chaos essence"
+		],
+		[
+			0.6,
 			"#shop"
 		],
 		[
-			0.8,
+			0.9,
 			"gold"
 		],
 		[
-			0.82,
+			0.92,
 			"pure gold"
 		]
 	],
@@ -413,7 +421,15 @@
 			"lethality essence"
 		],
 		[
-			0.7,
+			0.48,
+			"god essence"
+		],
+		[
+			0.55,
+			"chaos essence"
+		],
+		[
+			0.8,
 			"#shop"
 		],
 		[
@@ -475,16 +491,16 @@
 			"soul of metal"
 		],
 		[
-			0.4,
+			0.39,
+			"soul of panic"
+		],
+		[
+			0.6,
 			"chaos essence"
 		],
 		[
-			0.72,
+			0.9,
 			"#shop"
-		],
-		[
-			0.85,
-			"gold"
 		],
 		[
 			0.99,
@@ -549,7 +565,7 @@
 			"gas lantern"
 		],
 		[
-			0.3,
+			0.35,
 			"gold"
 		]
 	],
@@ -599,6 +615,14 @@
 		[
 			0.8,
 			"healer"
+		],
+		[
+			0.9,
+			"trainer"
+		],
+		[
+			1,
+			"crusader"
 		]
 	],
 	"#bandits": [

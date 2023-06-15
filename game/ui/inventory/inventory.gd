@@ -7,12 +7,9 @@ var _unit
 @onready var _essencebar = $Panel/VBox/EssenceBar
 @onready var _dragged_item = $Dragging
 
-# TODO Is it worth having the hotbar in the first indexes instead of the last ones?
-var _previous_mouse_mode := 0
-
 
 func _ready():
-	G.ui.get_node("Fade").connect("gui_input", Callable(self, "_on_background_gui_input"))
+	G.ui.get_node("Fade").gui_input.connect(_on_background_gui_input)
 
 
 func on_display():
@@ -47,16 +44,16 @@ func set_unit(unit):
 			_essencebar.set_unit(unit)
 			_itembar.set_unit(unit)
 			update_views()
-			_inv.connect("selected", Callable(_equipbar, "update_items"))
-			_inv.connect("selected", Callable(_itembar, "update_items"))
-			_inv.connect("changed", Callable(self, "update_views"))
+			_inv.selected.connect(_equipbar.update_items)
+			_inv.selected.connect(_itembar.update_items)
+			_inv.changed.connect(update_views)
 
 
 func unset_unit(_p):
 	if _p.get_type() == 1:
-		_p.equipment.disconnect("selected", Callable(_equipbar, "update_items"))
-		_p.equipment.disconnect("selected", Callable(_itembar, "update_items"))
-		_p.equipment.disconnect("changed", Callable(self, "update_views"))
+		_p.equipment.selected.disconnect(_equipbar.update_items)
+		_p.equipment.selected.disconnect(_itembar.update_items)
+		_p.equipment.changed.disconnect(update_views)
 
 
 func update_views():
@@ -67,23 +64,12 @@ func update_views():
 	for container in [_equipbar, _itembar, _essencebar]:
 		for slot in container.get_children():
 			if container == _essencebar:
-				slot.connect("pressed", Callable(self, "_on_essence_slot_pressed").bind(slot_idx))
+				slot.pressed.connect(_on_essence_slot_pressed.bind(slot_idx))
 			else:
-				slot.connect("pressed", Callable(self, "_on_slot_pressed").bind(slot_idx))
-			slot.connect("mouse_entered", Callable(self, "_on_hover").bind(slot_idx, slot))
-			slot.connect("mouse_exited", Callable(self, "_on_unhover").bind(slot_idx))
+				slot.pressed.connect(_on_slot_pressed.bind(slot_idx))
+			slot.mouse_entered.connect(_on_hover.bind(slot_idx, slot))
+			slot.mouse_exited.connect(_on_unhover.bind(slot_idx))
 			slot_idx += 1
-
-
-func _notification(what: int):
-	if what == NOTIFICATION_VISIBILITY_CHANGED:
-		if visible:
-			_previous_mouse_mode = Input.get_mouse_mode()
-			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-			
-		elif _dragged_item != null:
-			_dragged_item.stop()
-			Input.set_mouse_mode(_previous_mouse_mode)
 
 
 func _on_slot_pressed(idx: int):
@@ -94,12 +80,15 @@ func _on_slot_pressed(idx: int):
 		_inv.set_item_by_index(idx, null)
 		_dragged_item.start(slot_item)
 	else:
-		_inv.set_item_by_index(idx, _dragged_item.item)
-		if slot_item == null:
-			# Move
-			_dragged_item.stop()
-		else:
-			_dragged_item.start(slot_item)
+		if _unit.action.set_next("wield", 1):
+			_unit.action.show_progress = true
+			_unit.procedure.speedmod = 0.5
+			_inv.set_item_by_index(idx, _dragged_item.item)
+			if slot_item == null:
+				# Move
+				_dragged_item.stop()
+			else:
+				_dragged_item.start(slot_item)
 
 
 func _on_essence_slot_pressed(idx: int):

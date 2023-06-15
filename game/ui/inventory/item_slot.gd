@@ -11,19 +11,6 @@ func _gui_input(event):
 			call_deferred("emit_signal", "pressed")
 
 
-func _notification(what: int):
-	match what:
-		NOTIFICATION_MOUSE_ENTER:
-			get_node("Selection").visible = true
-		
-		NOTIFICATION_MOUSE_EXIT:
-			get_node("Selection").visible = false
-
-		NOTIFICATION_VISIBILITY_CHANGED:
-			if not is_visible_in_tree():
-				get_node("Selection").visible = false
-
-
 func set_background(bg):
 	$BG.set_texture(bg)
 

@@ -89,7 +89,8 @@
 	},
 	"chest": {
 		"voxels": [
-			"chest"
+			"chest",
+			"chest bottom"
 		],
 		"data": {
 			"time": 1,
@@ -170,7 +171,7 @@
 			"time": 1,
 			"loot": "trash"
 		},
-		"script": "container/chest"
+		"script": "container/container"
 	},
 	"wardrobe": {
 		"voxels": [
@@ -195,7 +196,7 @@
 			"time": 2,
 			"loot": "trash"
 		},
-		"script": "container/chest"
+		"script": "container/container"
 	},
 	"stonework": {
 		"voxels": [
@@ -236,7 +237,7 @@
 			"time": 3,
 			"loot": "trash"
 		},
-		"script": "container/chest"
+		"script": "container/container"
 	},
 	"vent": {
 		"voxels": [
@@ -251,7 +252,7 @@
 			"time": 4,
 			"loot": "trash"
 		},
-		"script": "container/chest"
+		"script": "container/container"
 	},
 	"mineral": {
 		"voxels": [

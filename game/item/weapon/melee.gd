@@ -37,7 +37,7 @@ func use(_user: Node3D):
 			if _user.has_essence("dagger"):
 				_user.procedure.speedmod = 1.2
 		if _user.has_essence("berserk"):
-			speed += 0.25
+			speed += 0.4
 		var anim_dur = animation.get_length() * (1 / speed)
 		if data.get("swings", []).size() <= 1:
 			_user.action.force_set_next("use", anim_dur, _user.animator.stop)

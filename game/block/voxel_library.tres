@@ -1,4 +1,4 @@
-[gd_resource type="VoxelBlockyLibrary" load_steps=86 format=3 uid="uid://chr1cj53hbsgq"]
+[gd_resource type="VoxelBlockyLibrary" load_steps=88 format=3 uid="uid://chr1cj53hbsgq"]
 
 [ext_resource type="ArrayMesh" uid="uid://fwb38pl3a8jv" path="res://assets/blocks/slab_ew.obj" id="1_2pls5"]
 [ext_resource type="Texture2D" uid="uid://cjixikwj37edg" path="res://assets/texture/doorbottom.png" id="2_7fbs0"]
@@ -20,6 +20,7 @@
 [ext_resource type="Texture2D" uid="uid://bs8hyhkvnux7h" path="res://assets/texture/sofa.png" id="19_w3vwo"]
 [ext_resource type="ArrayMesh" uid="uid://orubern31au" path="res://assets/objects/o_barrel.obj" id="20_v546i"]
 [ext_resource type="Texture2D" uid="uid://eet8id1xl55c" path="res://assets/objects/o_barrel.png" id="21_24ikr"]
+[ext_resource type="ArrayMesh" uid="uid://yavhoatracfh" path="res://assets/objects/o_chest_bottom.obj" id="21_247pp"]
 [ext_resource type="Material" uid="uid://bs5u0ea1vrq7v" path="res://assets/blocks/terrain_biome.tres" id="22_8f8kj"]
 [ext_resource type="ArrayMesh" uid="uid://24odx4qj8uy5" path="res://assets/blocks/pole.obj" id="23_bda5g"]
 [ext_resource type="ArrayMesh" uid="uid://bqmptq15xfn5t" path="res://assets/blocks/platform.obj" id="23_rjj4g"]
@@ -526,6 +527,15 @@ collision_mask = 15
 material_override_0 = SubResource("StandardMaterial3D_ltvb7")
 collision_enabled_0 = true
 
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_g0uyw"]
+voxel_name = &"chest bottom"
+geometry_type = 2
+custom_mesh = ExtResource("21_247pp")
+collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
+collision_mask = 13
+material_override_0 = SubResource("StandardMaterial3D_ltvb7")
+collision_enabled_0 = true
+
 [sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_gx8u8"]
 voxel_name = &"soil"
 geometry_type = 1
@@ -652,3 +662,4 @@ voxels/37 = SubResource("VoxelBlockyModel_1urtk")
 voxels/38 = SubResource("VoxelBlockyModel_cdx6i")
 voxels/39 = SubResource("VoxelBlockyModel_k7wqy")
 voxels/40 = SubResource("VoxelBlockyModel_7hw05")
+voxels/41 = SubResource("VoxelBlockyModel_g0uyw")

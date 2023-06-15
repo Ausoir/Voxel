@@ -3,7 +3,6 @@ extends HBoxContainer
 const ITEMSLOT = preload("res://game/ui/inventory/item_slot.tscn")
 const BACKGROUND = preload("res://assets/ui/eq_soul.png")
 
-var show_selection = true
 var _inventory
 
 

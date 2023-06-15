@@ -26,15 +26,27 @@ func match_cmd(p):
 		unit.buffs.clean(true)
 	elif para("give"):
 		unit.equipment.pickup(G.stock.make_item(param))
+	elif para("summon"):
+		G.stock.make_unit(G.you.position, param)
+	elif para("proficiency"):
+		unit.proficiency.increase(param, 1)
 	elif para("gold"):
 		G.vars.gold = int(param)
+	elif para("block"):
+		var block = G.blocks.get_block_by_name(param)
+		if block != null:
+			G.tool.set_block(G.you.position, block.id, null)
+	elif para("object"):
+		G.stock.make_object(G.you.position, param)
+	elif para("exp"):
+		unit.earn_exp(int(param))
 	elif para("data"):
 		var params = param.split(" ")
 		unit.data[params[0]] = params[1]
 	elif para("save"):
 		G.files.save_player_data()
 	elif para("godmode"):
-		match_cmd("buff invisibility")
+		match_cmd("buff invisible")
 		match_cmd("buff vision")
 		match_cmd("buff nighteye")
 		match_cmd("buff flight")

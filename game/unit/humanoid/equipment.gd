@@ -187,6 +187,19 @@ func absorb(ess):
 	return -1
 
 
+func take_essence_in_inventory(take=false):
+	var r = []
+	for i in range(_inventory.size()):
+		var item = _inventory[i]
+		if item != null and item.part != null and item.part == "essence":
+			r.append(i)
+			if take:
+				_inventory[i] = null
+	if take:
+		emit_signal("selected")
+	return r
+
+
 func apply_change(data, mult=1, skip=false):
 	if !skip:
 		add_inventory(data.get("space", 0) * mult)
@@ -199,7 +212,7 @@ func apply_change(data, mult=1, skip=false):
 	_unit.data.health += data.get("health", 0) * mult
 	_unit.data.mana += data.get("mana", 0) * mult
 	_unit.defense += data.get("defense", 0) * mult
-	_unit.procedure.speed -= data.get("weight", 0)*.05 * mult
+	_unit.procedure.speed -= data.get("weight", 0)*.03 * mult
 
 
 func pickup(item):

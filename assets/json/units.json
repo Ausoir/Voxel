@@ -56,7 +56,7 @@
 		}
 	},
 	"scholar": {
-		"head": "head/head3",
+		"head": "head/head4",
 		"body": "body/a_underwear",
 		"ai": "neutral",
 		"slots": [
@@ -87,7 +87,7 @@
 		}
 	},
 	"rogue": {
-		"head": "head/head4",
+		"head": "head/head8",
 		"body": "body/a_underwear",
 		"ai": "neutral",
 		"slots": [
@@ -118,7 +118,7 @@
 		}
 	},
 	"hunter": {
-		"head": "head/head4",
+		"head": "head/head3",
 		"body": "body/a_underwear",
 		"ai": "neutral",
 		"slots": [
@@ -149,7 +149,7 @@
 		}
 	},
 	"barbarian": {
-		"head": "head/head3",
+		"head": "head/head5",
 		"body": "body/a_underwear",
 		"ai": "neutral",
 		"slots": [
@@ -176,7 +176,7 @@
 		}
 	},
 	"druid": {
-		"head": "head/head5",
+		"head": "head/head10",
 		"body": "body/a_underwear",
 		"ai": "neutral",
 		"slots": [
@@ -214,7 +214,7 @@
 			"accessory"
 		],
 		"equipments": [
-			"rags",
+			"suit",
 			"lantern"
 		],
 		"items": [
@@ -297,10 +297,41 @@
 			}
 		}
 	},
+	"crusader": {
+		"head": "head/head9",
+		"body": "body/a_underwear",
+		"ai": "neutral",
+		"slots": [
+			"body",
+			"accessory"
+		],
+		"equipments": [
+			"white robe",
+			"lantern"
+		],
+		"items": [
+			"spear"
+		],
+		"souls": [
+			"holy essence"
+		],
+		"data": {
+			"interact": "tip",
+			"level": 1,
+			"speed": 0.5,
+			"health": 25,
+			"mana": 1,
+			"proficiency": {
+				"spear": 1,
+				"armor": 1,
+				"dodge": 1
+			}
+		}
+	},
 	"skeleton": {
 		"head": "head/h_skull",
 		"body": "body/a_skeleton",
-		"ai": "sentient",
+		"ai": "default",
 		"slots": [],
 		"equipments": [],
 		"items": [
@@ -318,7 +349,7 @@
 					"undead essence"
 				],
 				[
-					0.02,
+					0.05,
 					"gold"
 				]
 			]
@@ -327,7 +358,7 @@
 	"skeletal miner": {
 		"head": "head/h_skull",
 		"body": "body/a_skeleton",
-		"ai": "sentient",
+		"ai": "default",
 		"slots": [],
 		"equipments": [],
 		"items": [
@@ -349,6 +380,10 @@
 				[
 					0.02,
 					"earth essence"
+				],
+				[
+					0.1,
+					"gold"
 				]
 			]
 		}
@@ -356,7 +391,7 @@
 	"skeletal ranger": {
 		"head": "head/h_skull",
 		"body": "body/a_skeleton",
-		"ai": "sentient",
+		"ai": "default",
 		"slots": [],
 		"equipments": [],
 		"items": [
@@ -380,6 +415,10 @@
 				[
 					0.02,
 					"elven essence"
+				],
+				[
+					0.1,
+					"gold"
 				]
 			]
 		}
@@ -387,7 +426,7 @@
 	"skeletal warrior": {
 		"head": "head/h_skull_warrior",
 		"body": "body/a_skeleton",
-		"ai": "sentient",
+		"ai": "default",
 		"slots": [],
 		"equipments": [],
 		"items": [
@@ -413,6 +452,10 @@
 				[
 					0.03,
 					"crusher essence"
+				],
+				[
+					0.1,
+					"gold"
 				]
 			]
 		}
@@ -420,7 +463,7 @@
 	"skeletal lord": {
 		"head": "head/h_skull_lord",
 		"body": "body/a_skeleton",
-		"ai": "sentient",
+		"ai": "default",
 		"slots": [],
 		"equipments": [],
 		"items": [
@@ -451,7 +494,7 @@
 					"vampire essence"
 				],
 				[
-					0.04,
+					0.08,
 					"pure gold"
 				]
 			]
@@ -460,7 +503,7 @@
 	"rogue peasant": {
 		"head": "head/head1",
 		"body": "body/a_underwear",
-		"ai": "sentient",
+		"ai": "default",
 		"slots": [
 			"body",
 			"accessory"
@@ -491,7 +534,7 @@
 	"rogue warrior": {
 		"head": "head/head2",
 		"body": "body/a_underwear",
-		"ai": "sentient",
+		"ai": "default",
 		"slots": [
 			"body",
 			"accessory"
@@ -513,13 +556,23 @@
 				"armor": 5,
 				"dodge": 1,
 				"blade": 3
-			}
+			},
+			"loot": [
+				[
+					0.03,
+					"spear:-1"
+				],
+				[
+					0.15,
+					"gold"
+				]
+			]
 		}
 	},
 	"rogue rogue": {
 		"head": "head/head4",
 		"body": "body/a_underwear",
-		"ai": "sentient",
+		"ai": "default",
 		"slots": [
 			"body",
 			"accessory"
@@ -549,13 +602,23 @@
 				"dodge": 1,
 				"blade": 2,
 				"ambush": 5
-			}
+			},
+			"loot": [
+				[
+					0.03,
+					"dagger:-1"
+				],
+				[
+					0.15,
+					"gold"
+				]
+			]
 		}
 	},
 	"rogue hunter": {
 		"head": "head/head4",
 		"body": "body/a_underwear",
-		"ai": "sentient",
+		"ai": "default",
 		"slots": [
 			"body",
 			"accessory"
@@ -578,13 +641,27 @@
 				"dodge": 1,
 				"bow": 4,
 				"ambush": 1
-			}
+			},
+			"loot": [
+				[
+					0.02,
+					"crossbow:-1"
+				],
+				[
+					0.1,
+					"arrows:30"
+				],
+				[
+					0.15,
+					"gold"
+				]
+			]
 		}
 	},
 	"rogue scholar": {
 		"head": "head/head3",
 		"body": "body/a_underwear",
-		"ai": "sentient",
+		"ai": "default",
 		"slots": [
 			"body",
 			"accessory"
@@ -610,13 +687,23 @@
 				"aura": 1,
 				"psych": 1,
 				"earth": 1
-			}
+			},
+			"loot": [
+				[
+					0.03,
+					"staff of magic:-1"
+				],
+				[
+					0.15,
+					"gold"
+				]
+			]
 		}
 	},
 	"rogue necromancer": {
 		"head": "head/head6",
 		"body": "body/a_underwear",
-		"ai": "sentient",
+		"ai": "default",
 		"slots": [
 			"body",
 			"accessory"
@@ -641,13 +728,27 @@
 				"dagger": 1,
 				"blade": 2,
 				"necromancy": 5
-			}
+			},
+			"loot": [
+				[
+					0.01,
+					"gasblade:-1"
+				],
+				[
+					0.1,
+					"mana potion"
+				],
+				[
+					0.15,
+					"gold"
+				]
+			]
 		}
 	},
 	"assassin": {
 		"head": "head/head4",
 		"body": "body/a_underwear",
-		"ai": "sentient",
+		"ai": "default",
 		"slots": [
 			"body",
 			"accessory"
@@ -682,13 +783,23 @@
 				"dodge": 4,
 				"blade": 3,
 				"ambush": 5
-			}
+			},
+			"loot": [
+				[
+					0.02,
+					"tanto:-1"
+				],
+				[
+					0.15,
+					"gold"
+				]
+			]
 		}
 	},
-	"highwayman": {
+	"robber": {
 		"head": "head/head4",
 		"body": "body/a_underwear",
-		"ai": "sentient",
+		"ai": "default",
 		"slots": [
 			"body",
 			"accessory"
@@ -715,13 +826,27 @@
 				"dodge": 1,
 				"bow": 7,
 				"ambush": 1
-			}
+			},
+			"loot": [
+				[
+					0.02,
+					"longbow:-1"
+				],
+				[
+					0.05,
+					"sleep arrows:20"
+				],
+				[
+					0.15,
+					"gold"
+				]
+			]
 		}
 	},
 	"goblin shaman": {
 		"head": "head/h_goblin_shaman",
 		"body": "body/a_goblin_warrior",
-		"ai": "sentient",
+		"ai": "default",
 		"slots": [
 			"body"
 		],
@@ -751,7 +876,7 @@
 	"goblin warrior": {
 		"head": "head/h_goblin",
 		"body": "body/a_goblin_warrior",
-		"ai": "sentient",
+		"ai": "default",
 		"slots": [
 			"body"
 		],
@@ -775,7 +900,7 @@
 	"goblin ranger": {
 		"head": "head/h_goblin",
 		"body": "body/a_goblin_warrior",
-		"ai": "sentient",
+		"ai": "default",
 		"slots": [
 			"body"
 		],
@@ -804,7 +929,7 @@
 	},
 	"skeletal dog": {
 		"model": "unit/undeaddog",
-		"ai": "sentient",
+		"ai": "default",
 		"data": {
 			"level": 2,
 			"speed": 0.4,
@@ -813,7 +938,7 @@
 			"health": 6,
 			"loot": [
 				[
-					0.01,
+					0.02,
 					"undead essence"
 				]
 			]
@@ -843,19 +968,19 @@
 			],
 			"loot": [
 				[
-					0.1,
+					0.02,
 					"healing essence"
 				],
 				[
-					0.12,
+					0.05,
 					"healing potion"
 				],
 				[
-					0.13,
+					0.08,
 					"glow potion"
 				],
 				[
-					0.14,
+					0.1,
 					"venom vial"
 				]
 			]
@@ -863,7 +988,7 @@
 	},
 	"bat": {
 		"model": "unit/bat",
-		"ai": "sentient",
+		"ai": "default",
 		"ego": [
 			"vampire"
 		],
@@ -888,6 +1013,10 @@
 				[
 					0.01,
 					"wind essence"
+				],
+				[
+					0.04,
+					"meat"
 				]
 			]
 		}
@@ -903,8 +1032,12 @@
 			"health": 8,
 			"loot": [
 				[
-					0.1,
+					0.05,
 					"scout essence"
+				],
+				[
+					0.09,
+					"meat"
 				]
 			]
 		}
@@ -928,13 +1061,17 @@
 				[
 					0.02,
 					"agility essence"
+				],
+				[
+					0.05,
+					"meat"
 				]
 			]
 		}
 	},
 	"rat": {
 		"model": "unit/rat",
-		"ai": "sentient",
+		"ai": "default",
 		"data": {
 			"level": 2,
 			"damage": 4,
@@ -949,11 +1086,11 @@
 			],
 			"loot": [
 				[
-					0.1,
+					0.03,
 					"silence essence"
 				],
 				[
-					0.15,
+					0.1,
 					"meat"
 				]
 			]
@@ -987,7 +1124,7 @@
 	},
 	"green rat": {
 		"model": "unit/rat_green",
-		"ai": "sentient",
+		"ai": "default",
 		"ego": [
 			"camoflauge"
 		],
@@ -1006,7 +1143,7 @@
 			"inflict": [
 				[
 					"poison",
-					5
+					4
 				]
 			],
 			"loot": [
@@ -1015,19 +1152,19 @@
 					"green robe"
 				],
 				[
-					0.12,
+					0.1,
 					"poisoned arrows:5"
 				],
 				[
 					0.15,
-					"gold"
+					"venom vial"
 				]
 			]
 		}
 	},
 	"robot": {
 		"model": "unit/robot",
-		"ai": "sentient",
+		"ai": "default",
 		"souls": [],
 		"data": {
 			"level": 3,
@@ -1045,7 +1182,7 @@
 	},
 	"boss1": {
 		"model": "unit/boss1",
-		"ai": "sentient",
+		"ai": "default",
 		"souls": [],
 		"data": {
 			"level": 7,

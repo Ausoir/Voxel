@@ -1,18 +1,18 @@
 extends "../block.gd"
 
 const INTERFACE = preload("res://game/ui/menus/stash.tscn")
+const Chest = preload("res://game/block/container/chest.tscn")
 
 
 func on_place(_pos: Vector3):
-	G.tool.get_tool().set_voxel_metadata(_pos, "Open Chest")
 	G.tool.set_channel(VoxelBuffer.CHANNEL_DATA5)
-	var v = int(G.vars.seed * G.vars.day + _pos.x + _pos.z + _pos.y)
+	var v = int(G.vars.seed * G.vars.day + sin(_pos.x)*12435 + cos(_pos.z)*412331 + _pos.y)
 	G.tool.set_voxel(_pos, v % 16)
 	G.tool.set_channel(VoxelBuffer.CHANNEL_TYPE)
 
 
 func on_hover(_pos: Vector3):
-	G.ui.set_label("Open Chest")
+	G.ui.set_label("Open Container")
 
 
 func on_interact(_pos: Vector3, _user: Node3D):
@@ -24,6 +24,19 @@ func on_interact(_pos: Vector3, _user: Node3D):
 
 func on_activate(_pos: Vector3, _user: Node3D):
 	G.sfx.play("door_creak", _pos)
+	var has_opened = G.tool.get_voxel(_pos) == voxels[1]
+	if !has_opened:
+		G.tool.set_channel(VoxelBuffer.CHANNEL_DATA5)
+		var inside = G.tool.get_voxel(_pos)
+		G.tool.set_channel(VoxelBuffer.CHANNEL_TYPE)
+		if inside == 0:
+			G.stock.make_unit(_pos + G.V2_HALF, "mimic")
+			G.tool.remove_block(_pos)
+			return
+	on_open(_pos, _user, has_opened)
+
+
+func on_open(_pos: Vector3, _user: Node3D, has_opened):
 	var _menu = INTERFACE.instantiate()
 	G.tool.set_channel(VoxelBuffer.CHANNEL_DATA5)
 	var inside = G.tool.get_voxel(_pos)
@@ -43,6 +56,13 @@ func on_activate(_pos: Vector3, _user: Node3D):
 	_menu.on_set = on_set.bind(_pos)
 	G.rng.set_seed(G.vars.seed)
 	G.ui.display(_menu)
+	if !has_opened:
+		var prop = Chest.instantiate()
+		prop.position = _pos
+		G.stock.add_child(prop)
+		prop.get_node("Animator").play("open")
+		G.tool.set_sound(prop.position, 3)
+	G.tool.set_voxel(_pos, voxels[1])
 
 
 func on_set(idx, itemname, _pos):

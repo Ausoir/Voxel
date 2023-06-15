@@ -114,11 +114,11 @@ func get_description():
 
 
 func on_held(_user):
-	_user.procedure.speed -= data.get("weight", 1)*.05
+	_user.procedure.speed -= data.get("weight", 1)*.03
 
 
 func on_unheld(_user):
-	_user.procedure.speed += data.get("weight", 1)*.05
+	_user.procedure.speed += data.get("weight", 1)*.03
 
 
 func on_wear(_user):

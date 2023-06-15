@@ -28,7 +28,6 @@ func set_unit(unit):
 		_inv = unit.equipment
 		_equipbar.set_unit(unit)
 		_itembar.set_unit(unit)
-		_itembar.show_selection = false
 		update_views()
 		_inv.connect("selected", Callable(_equipbar, "update_items"))
 		_inv.connect("selected", Callable(_itembar, "update_items"))

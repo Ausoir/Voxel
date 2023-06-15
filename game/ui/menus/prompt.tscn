@@ -32,16 +32,20 @@ offset_top = 10.0
 offset_right = 380.0
 offset_bottom = 33.0
 bbcode_enabled = true
-text = "Path of the warrior"
 fit_content = true
 scroll_active = false
 
-[node name="Button" type="Button" parent="Panel"]
-layout_mode = 2
-offset_left = 20.0
-offset_top = 260.0
-offset_right = 380.0
-offset_bottom = 291.0
-text = "Confirm"
+[node name="VBox" type="VBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
 
-[connection signal="pressed" from="Panel/Button" to="." method="_on_button_pressed"]
+[node name="Button" type="Button" parent="Panel/VBox"]
+layout_mode = 2
+text = "Return"
+
+[connection signal="pressed" from="Panel/VBox/Button" to="." method="_on_return_pressed"]

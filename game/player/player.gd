@@ -58,6 +58,8 @@ func set_unit(p):
 	else:
 		addon = get_node("Addon")
 		remove_child(addon)
+	p.get_parent().remove_child(p)
+	add_child(p)
 	unit = p
 	unit.set_name("Unit")
 	unit.faction = 1

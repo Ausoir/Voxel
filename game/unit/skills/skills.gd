@@ -48,9 +48,10 @@ func on_ability():
 	if !perform("metal"):
 		if !perform("heal"):
 			if !perform("venom"):
-				if !perform("shadow"):
-					if !perform("polymorph"):
-						return
+				if !perform("divinity"):
+					if !perform("shadow"):
+						if !perform("polymorph"):
+							return
 
 func on_kill(_victim):
 	_param = _victim
@@ -117,6 +118,8 @@ func perform(ess, fn=null):
 					return sleep_ready()
 				"camouflage":
 					return hide()
+				"divinity":
+					return invulnerability()
 				"summon":
 					return summon()
 				"shadow":
@@ -251,24 +254,34 @@ func sublimation():
 	if _unit.mana == 0:
 		_unit.mana = 1
 		_unit.take_hit(5)
-		_unit.buffs.add("clarity", 2 + _unit.get_prof("necromancy"))
+		_unit.buffs.add("clarity", int(_unit.get_prof("necromancy")/2))
 		_unit.emit_signal("special", "necromancy", 0.1)
 		return true
 	return false
 
 
 func hide():
-	if !_unit.buffs.has("invisibility"):
+	if !_unit.buffs.has("invisible"):
 		G.sfx.play("fade", _unit.position)
-	_unit.buffs.add("invisibility", 1)
+	_unit.buffs.add("invisible", 1)
 
 
 func invisibility():
 	if _unit.req_mana(1):
-		if !_unit.buffs.has("invisibility"):
+		if !_unit.buffs.has("invisible"):
 			G.sfx.play("fade", _unit.position)
 			_unit.emit_signal("special", "aura", 1)
-			_unit.buffs.add("invisibility", 2+_unit.get_prof("aura"))
+			_unit.buffs.add("invisible", 2+_unit.get_prof("aura"))
+			return true
+	return false
+
+
+func invulnerability():
+	if _unit.req_mana(2):
+		if !_unit.buffs.has("invincible"):
+			G.sfx.play("buff_ripple", _unit.position)
+			_unit.emit_signal("special", "aura", 2)
+			_unit.buffs.add("invincible", 8+_unit.get_prof("aura"))
 			return true
 	return false
 

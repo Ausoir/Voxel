@@ -198,7 +198,7 @@
 		"data": {
 			"desc": "Use to obtain a random essence.",
 			"speed": 1,
-			"value": 800,
+			"value": 250,
 			"exclude": []
 		}
 	},
@@ -253,7 +253,7 @@
 			"ammo": "bow",
 			"value": 50,
 			"power": 5,
-			"damage": 15,
+			"damage": 18,
 			"spread": -0.1
 		}
 	},
@@ -264,7 +264,7 @@
 		"data": {
 			"desc": "These arrows make its victims fall asleep.",
 			"ammo": "bow",
-			"value": 50,
+			"value": 20,
 			"power": 5,
 			"inflict": [
 				[
@@ -282,7 +282,7 @@
 			"desc": "Required to shoot firearm type weapons.",
 			"ammo": "firearm",
 			"power": 50,
-			"value": 30
+			"value": 20
 		}
 	},
 	"rags": {
@@ -293,6 +293,7 @@
 		"part": "body",
 		"data": {
 			"space": 1,
+			"weight": 1,
 			"defense": 0,
 			"health": 0,
 			"mana": 0
@@ -306,7 +307,7 @@
 		"part": "body",
 		"data": {
 			"value": 25,
-			"weight": 1,
+			"weight": 2,
 			"defense": 0,
 			"space": 2,
 			"mana": 1
@@ -320,7 +321,7 @@
 		"part": "body",
 		"data": {
 			"value": 80,
-			"weight": 1,
+			"weight": 2,
 			"defense": 0,
 			"space": 2,
 			"mana": 3
@@ -334,7 +335,7 @@
 		"part": "body",
 		"data": {
 			"value": 250,
-			"weight": 1,
+			"weight": 4,
 			"defense": 0,
 			"space": 5,
 			"mana": 5
@@ -348,7 +349,7 @@
 		"part": "body",
 		"data": {
 			"value": 350,
-			"weight": 1,
+			"weight": 3,
 			"defense": 0,
 			"space": 3,
 			"health": 20,
@@ -376,7 +377,7 @@
 		"part": "body",
 		"data": {
 			"value": 120,
-			"weight": 1,
+			"weight": 2,
 			"defense": 0,
 			"space": 3,
 			"mana": 0,
@@ -392,7 +393,7 @@
 		"data": {
 			"desc": "Simply luxurious.",
 			"value": 500,
-			"weight": 0,
+			"weight": 1,
 			"space": 3,
 			"mana": 0,
 			"health": 0
@@ -406,9 +407,9 @@
 		"part": "body",
 		"data": {
 			"value": 60,
-			"weight": 1,
+			"weight": 4,
 			"space": 2,
-			"defense": 0
+			"defense": 1
 		}
 	},
 	"leather armor": {
@@ -419,7 +420,7 @@
 		"part": "body",
 		"data": {
 			"value": 90,
-			"weight": 1,
+			"weight": 3,
 			"space": 2,
 			"defense": 1
 		}
@@ -446,7 +447,7 @@
 		"part": "body",
 		"data": {
 			"value": 200,
-			"weight": 1,
+			"weight": 4,
 			"space": 2,
 			"defense": 2
 		}
@@ -459,7 +460,7 @@
 		"part": "body",
 		"data": {
 			"value": 400,
-			"weight": 1,
+			"weight": 3,
 			"space": 4,
 			"defense": 1,
 			"health": 10
@@ -473,7 +474,7 @@
 		"part": "body",
 		"data": {
 			"value": 150,
-			"weight": 1,
+			"weight": 5,
 			"space": 1,
 			"defense": 2
 		}
@@ -486,7 +487,7 @@
 		"part": "body",
 		"data": {
 			"value": 400,
-			"weight": 3,
+			"weight": 7,
 			"space": 1,
 			"defense": 4,
 			"health": 20
@@ -500,6 +501,7 @@
 		"data": {
 			"desc": "Lights the way.",
 			"value": 20,
+			"weight": 2,
 			"light": 12,
 			"light color": [
 				1,
@@ -516,6 +518,7 @@
 		"data": {
 			"desc": "Lights the way.",
 			"value": 50,
+			"weight": 1,
 			"light": 20,
 			"light spread": 85,
 			"light color": [
@@ -533,6 +536,7 @@
 		"data": {
 			"desc": "Provides great amount of light.",
 			"value": 250,
+			"weight": 1,
 			"light": 30,
 			"light spread": 180,
 			"light color": [
@@ -569,7 +573,7 @@
 		"script": "weapon/melee",
 		"data": {
 			"type": "blunt",
-			"weight": 0,
+			"weight": 1,
 			"speed": 1.5,
 			"damage": 2,
 			"sfx_hold": "unsheathe_wood",
@@ -586,31 +590,13 @@
 		"data": {
 			"type": "blunt",
 			"value": 40,
-			"weight": 3,
+			"weight": 5,
 			"speed": 1,
 			"damage": 8,
 			"health": 0,
 			"sfx_hold": "unsheathe_wood",
 			"swings": [
 				"swing_down"
-			]
-		}
-	},
-	"axe": {
-		"spritename": "weapon/axe",
-		"modelname": "weapon/axe3d-0-axe",
-		"script": "weapon/melee",
-		"data": {
-			"type": "blunt",
-			"value": 70,
-			"weight": 2,
-			"speed": 0.7,
-			"damage": 12,
-			"health": 0,
-			"sfx_hold": "unsheathe_wood",
-			"swings": [
-				"swing_down",
-				"swing_left"
 			]
 		}
 	},
@@ -621,7 +607,7 @@
 		"data": {
 			"type": "blunt",
 			"value": 100,
-			"weight": 2,
+			"weight": 4,
 			"speed": 0.7,
 			"damage": 11,
 			"health": 0,
@@ -646,7 +632,7 @@
 		"data": {
 			"type": "blunt",
 			"value": 100,
-			"weight": 3,
+			"weight": 5,
 			"speed": 0.7,
 			"damage": 9,
 			"health": 0,
@@ -671,7 +657,7 @@
 		"data": {
 			"type": "blunt",
 			"value": 150,
-			"weight": 3,
+			"weight": 6,
 			"speed": 0.6,
 			"damage": 16,
 			"health": 0,
@@ -687,6 +673,26 @@
 					"daze",
 					2
 				]
+			]
+		}
+	},
+	"quarterstaff": {
+		"spritename": "weapon/quarterstaff",
+		"modelname": "weapon/quarterstaff3d-0-quarterstaff",
+		"script": "weapon/melee",
+		"data": {
+			"type": "blunt",
+			"value": 30,
+			"weight": 3,
+			"speed": 1.5,
+			"damage": 3,
+			"mana": 0,
+			"sfx_hold": "unsheathe_wood",
+			"swings": [
+				"swing_down",
+				"swing_forward",
+				"swing_right",
+				"swing_left"
 			]
 		}
 	},
@@ -732,82 +738,6 @@
 			]
 		}
 	},
-	"shortsword": {
-		"spritename": "weapon/shortsword",
-		"modelname": "weapon/shortsword3d-0-shortsword",
-		"script": "weapon/melee",
-		"data": {
-			"type": "blade",
-			"value": 60,
-			"weight": 1,
-			"speed": 1,
-			"damage": 6,
-			"backstab": 3,
-			"sfx_hold": "unsheathe_blade",
-			"swings": [
-				"swing_forward",
-				"swing_left",
-				"swing_right"
-			]
-		}
-	},
-	"broadsword": {
-		"spritename": "weapon/broadsword",
-		"modelname": "weapon/broadsword3d",
-		"script": "weapon/melee",
-		"data": {
-			"type": "blade",
-			"value": 80,
-			"weight": 2,
-			"speed": 0.8,
-			"damage": 9,
-			"sfx_hold": "unsheathe_blade",
-			"swings": [
-				"swing_left",
-				"swing_right"
-			]
-		}
-	},
-	"longsword": {
-		"spritename": "weapon/longsword",
-		"modelname": "weapon/longsword3d",
-		"script": "weapon/melee",
-		"data": {
-			"type": "blade",
-			"value": 120,
-			"weight": 3,
-			"speed": 0.6,
-			"damage": 8,
-			"defense": 1,
-			"sfx_hold": "unsheathe_blade",
-			"swings": [
-				"swing_left",
-				"swing_right",
-				"swing_forward",
-				"swing_down"
-			]
-		}
-	},
-	"quarterstaff": {
-		"spritename": "weapon/quarterstaff",
-		"modelname": "weapon/quarterstaff3d-0-quarterstaff",
-		"script": "weapon/melee",
-		"data": {
-			"type": "blunt",
-			"value": 30,
-			"weight": 2,
-			"speed": 1.5,
-			"damage": 3,
-			"mana": 0,
-			"sfx_hold": "unsheathe_wood",
-			"swings": [
-				"swing_down",
-				"swing_forward",
-				"swing_right",
-				"swing_left"
-			]
-		}
-	},
 	"tanto": {
 		"spritename": "weapon/tanto",
 		"modelname": "weapon/tanto3d",
@@ -832,6 +762,106 @@
 			]
 		}
 	},
+	"eblade": {
+		"spritename": "weapon/eblade",
+		"modelname": "weapon/eblade3d-0-eblade",
+		"script": "weapon/melee",
+		"data": {
+			"desc": "A brutally sharp ethereal dagger.",
+			"type": "dagger",
+			"value": 200,
+			"weight": 1,
+			"speed": 3,
+			"damage": 9,
+			"mana": 0,
+			"backstab": 4,
+			"sfx_hold": "unsheathe_blade",
+			"swings": [
+				"swing_forward",
+				"swing_right"
+			],
+			"inflict": [
+				[
+					"glow",
+					4
+				]
+			]
+		}
+	},
+	"shortsword": {
+		"spritename": "weapon/shortsword",
+		"modelname": "weapon/shortsword3d-0-shortsword",
+		"script": "weapon/melee",
+		"data": {
+			"type": "blade",
+			"value": 60,
+			"weight": 3,
+			"speed": 1,
+			"damage": 6,
+			"backstab": 3,
+			"sfx_hold": "unsheathe_blade",
+			"swings": [
+				"swing_forward",
+				"swing_left",
+				"swing_right"
+			]
+		}
+	},
+	"broadsword": {
+		"spritename": "weapon/broadsword",
+		"modelname": "weapon/broadsword3d",
+		"script": "weapon/melee",
+		"data": {
+			"type": "blade",
+			"value": 80,
+			"weight": 4,
+			"speed": 0.8,
+			"damage": 9,
+			"sfx_hold": "unsheathe_blade",
+			"swings": [
+				"swing_left",
+				"swing_right"
+			]
+		}
+	},
+	"longsword": {
+		"spritename": "weapon/longsword",
+		"modelname": "weapon/longsword3d",
+		"script": "weapon/melee",
+		"data": {
+			"type": "blade",
+			"value": 120,
+			"weight": 5,
+			"speed": 0.6,
+			"damage": 8,
+			"defense": 1,
+			"sfx_hold": "unsheathe_blade",
+			"swings": [
+				"swing_left",
+				"swing_right",
+				"swing_forward",
+				"swing_down"
+			]
+		}
+	},
+	"axe": {
+		"spritename": "weapon/axe",
+		"modelname": "weapon/axe3d-0-axe",
+		"script": "weapon/melee",
+		"data": {
+			"type": "blade",
+			"value": 70,
+			"weight": 5,
+			"speed": 0.8,
+			"damage": 12,
+			"health": 0,
+			"sfx_hold": "unsheathe_wood",
+			"swings": [
+				"swing_down",
+				"swing_left"
+			]
+		}
+	},
 	"wakizashi": {
 		"spritename": "weapon/katana",
 		"modelname": "weapon/katana3d",
@@ -839,7 +869,7 @@
 		"data": {
 			"type": "blade",
 			"value": 80,
-			"weight": 1,
+			"weight": 2,
 			"speed": 1.5,
 			"size": 0.2,
 			"damage": 7,
@@ -859,7 +889,7 @@
 		"data": {
 			"type": "blade",
 			"value": 120,
-			"weight": 2,
+			"weight": 4,
 			"speed": 1.3,
 			"damage": 9,
 			"sfx_hold": "unsheathe_blade",
@@ -867,32 +897,6 @@
 				"swing_down",
 				"swing_right",
 				"swing_left"
-			]
-		}
-	},
-	"eblade": {
-		"spritename": "weapon/eblade",
-		"modelname": "weapon/eblade3d-0-eblade",
-		"script": "weapon/melee",
-		"data": {
-			"desc": "A brutally sharp ethereal dagger.",
-			"type": "dagger",
-			"value": 200,
-			"weight": 0,
-			"speed": 3,
-			"damage": 9,
-			"mana": 0,
-			"backstab": 4,
-			"sfx_hold": "unsheathe_blade",
-			"swings": [
-				"swing_forward",
-				"swing_right"
-			],
-			"inflict": [
-				[
-					"glow",
-					4
-				]
 			]
 		}
 	},
@@ -904,7 +908,7 @@
 			"desc": "Extremely light.",
 			"type": "blade",
 			"value": 180,
-			"weight": 0,
+			"weight": 1,
 			"speed": 1,
 			"mana": 2,
 			"damage": 6,
@@ -920,10 +924,11 @@
 		"modelname": "weapon/spear3d-0-spear",
 		"script": "weapon/melee",
 		"data": {
+			"desc": "Great when poking at slow things, not so great when rushed in close quarter.",
 			"type": "spear",
 			"value": 50,
 			"weight": 3,
-			"damage": 6,
+			"damage": 5,
 			"backstab": 3,
 			"sfx_hold": "unsheathe_wood",
 			"swings": [
@@ -938,10 +943,10 @@
 		"data": {
 			"type": "spear",
 			"value": 100,
-			"weight": 3,
-			"speed": 0.7,
-			"damage": 8,
-			"backstab": 6,
+			"weight": 4,
+			"speed": 0.8,
+			"damage": 9,
+			"backstab": 4,
 			"sfx_hold": "unsheathe_wood",
 			"swings": [
 				"swing_forward"
@@ -961,8 +966,8 @@
 		"data": {
 			"type": "spear",
 			"value": 130,
-			"weight": 4,
-			"speed": 0.6,
+			"weight": 6,
+			"speed": 0.7,
 			"damage": 14,
 			"sfx_hold": "unsheathe_blade",
 			"swings": [
@@ -1002,8 +1007,8 @@
 			"type": "bow",
 			"desc": "This bow is ideal for ambush.",
 			"value": 50,
-			"weight": 0,
-			"speed": 0.3,
+			"weight": 3,
+			"speed": 0.4,
 			"spread": 0.07,
 			"damage": 6,
 			"backstab": 8,
@@ -1018,10 +1023,10 @@
 		"data": {
 			"type": "bow",
 			"value": 120,
-			"weight": 2,
+			"weight": 3,
 			"speed": 0.2,
 			"spread": 0.1,
-			"damage": 11,
+			"damage": 12,
 			"backstab": 6,
 			"sfx_hold": "unsheathe_wood",
 			"noise": 5
@@ -1034,7 +1039,7 @@
 		"data": {
 			"type": "bow",
 			"value": 120,
-			"weight": 1,
+			"weight": 3,
 			"speed": 0.65,
 			"spread": 0.15,
 			"damage": 9,
@@ -1075,7 +1080,7 @@
 		"data": {
 			"type": "bow",
 			"value": 200,
-			"weight": 2,
+			"weight": 4,
 			"speed": 0.15,
 			"spread": 0.1,
 			"damage": 15,
@@ -1091,7 +1096,7 @@
 			"type": "bow",
 			"desc": "Highly accurate with devastating damage.",
 			"value": 220,
-			"weight": 2,
+			"weight": 4,
 			"speed": 0.2,
 			"spread": 0.05,
 			"damage": 12,
@@ -1108,7 +1113,7 @@
 			"type": "evocation",
 			"desc": "Shoot a deadly energy bolt to decimate enemies in an area.",
 			"value": 140,
-			"weight": 2,
+			"weight": 4,
 			"speed": 0.2,
 			"spread": 0.1,
 			"damage": 14,
@@ -1127,7 +1132,7 @@
 			"type": "evocation",
 			"desc": "Shoot a deadly energy bolt to decimate enemies in an area.",
 			"value": 300,
-			"weight": 2,
+			"weight": 4,
 			"speed": 0.3,
 			"spread": 0,
 			"damage": 20,
@@ -1146,7 +1151,7 @@
 			"type": "evocation",
 			"desc": "Knock out enemies in an area.",
 			"value": 100,
-			"weight": 2,
+			"weight": 4,
 			"speed": 0.1,
 			"spread": 0.2,
 			"damage": 0,
@@ -1175,11 +1180,12 @@
 			"type": "firearm",
 			"desc": "Very inaccurate.",
 			"value": 80,
-			"weight": 1,
+			"weight": 2,
 			"speed": 1.5,
 			"spread": 0.2,
 			"damage": 11,
-			"noise": 12
+			"noise": 12,
+			"sfx_hold": "buy"
 		}
 	},
 	"rifle": {
@@ -1189,7 +1195,7 @@
 		"data": {
 			"type": "firearm",
 			"value": 240,
-			"weight": 3,
+			"weight": 5,
 			"speed": 0.1,
 			"spread": 0.05,
 			"damage": 13,
@@ -1205,9 +1211,9 @@
 			"type": "blade",
 			"desc": "This is a great sword.",
 			"value": 200,
-			"speed": 0.6,
-			"weight": 4,
-			"damage": 15,
+			"speed": 0.65,
+			"weight": 7,
+			"damage": 17,
 			"sfx_hold": "unsheathe_blade",
 			"swings": [
 				"swing_left",
@@ -1261,7 +1267,7 @@
 		"modelname": "item/essence3d",
 		"part": "essence",
 		"data": {
-			"desc": "Your attacks apply +7 poison. Lasts 7 seconds.",
+			"desc": "Cast to apply +7 poison to your attacks. Lasts 7 seconds.",
 			"essence": "venom",
 			"value": 300
 		}
@@ -1435,6 +1441,7 @@
 		"part": "essence",
 		"data": {
 			"desc": "Whenever you kill an enemy, spend mana to raise it as undead.",
+			"mana": 1,
 			"essence": "raise",
 			"value": 300
 		}
@@ -1445,6 +1452,7 @@
 		"part": "essence",
 		"data": {
 			"desc": "Touch a corpse to absorb it. Right click to revive and summon the creature.",
+			"defense": -1,
 			"essence": "summon",
 			"value": 300
 		}
@@ -1454,7 +1462,7 @@
 		"modelname": "item/essence3d",
 		"part": "essence",
 		"data": {
-			"desc": "Gain 25% attack speed with melee weapons.",
+			"desc": "Gain 40% attack speed with melee weapons.",
 			"health": -5,
 			"essence": "berserk",
 			"value": 300
@@ -1563,7 +1571,7 @@
 		"modelname": "item/essence3d",
 		"part": "essence",
 		"data": {
-			"desc": "Gain 25% chance to dodge attacks.",
+			"desc": "Gain 20% chance to dodge attacks.",
 			"essence": "agility",
 			"value": 300
 		}
@@ -1583,7 +1591,8 @@
 		"modelname": "item/essence3d",
 		"part": "essence",
 		"data": {
-			"space": 3,
+			"space": 2,
+			"weight": -1,
 			"value": 300
 		}
 	},
@@ -1642,6 +1651,46 @@
 			"req": [
 				"necromancy",
 				1
+			]
+		}
+	},
+	"shielding essence": {
+		"spritename": "item/essence",
+		"modelname": "item/essence3d",
+		"part": "essence",
+		"data": {
+			"desc": "Block an attack every 14 seconds. Takes 2 slots.",
+			"essence": "shield",
+			"value": 300,
+			"soul": -1
+		}
+	},
+	"holy essence": {
+		"spritename": "item/essence",
+		"modelname": "item/essence3d",
+		"part": "essence",
+		"data": {
+			"desc": "Block attacks at 1 mana cost.",
+			"essence": "holy",
+			"value": 300,
+			"mana": 2,
+			"req": [
+				"aura",
+				1
+			]
+		}
+	},
+	"god essence": {
+		"spritename": "item/essence",
+		"modelname": "item/essence3d",
+		"part": "essence",
+		"data": {
+			"desc": "Cast to become invulnerable for 11+ seconds using 2 mana.",
+			"essence": "divinity",
+			"value": 300,
+			"req": [
+				"aura",
+				3
 			]
 		}
 	},

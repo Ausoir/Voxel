@@ -2,7 +2,6 @@ extends "../block.gd"
 
 const Door = preload("res://game/block/doors/prop_door.tscn")
 var callback = Callable(self, "on_activate")
-var door
 
 
 func on_hover(_pos):
@@ -27,10 +26,6 @@ func on_remove(_pos: Vector3):
 	G.tool.get_tool().set_voxel_metadata(_pos, null)
 	G.tool.get_tool().set_voxel_metadata(above, null)
 	G.tool.set_voxel(above, 0)
-	if door != null:
-		G.stock.remove_child(door)
-		door.queue_free()
-		door = null
 
 
 func on_interact(_pos: Vector3, _user: Node3D):
@@ -44,7 +39,7 @@ func on_interact(_pos: Vector3, _user: Node3D):
 func on_activate(_pos: Vector3, _user: Node3D):
 	_user.action.set_next("idle", 0)
 	var voxel = G.tool.get_voxel(_pos)
-	door = Door.instantiate()
+	var door = Door.instantiate()
 	if voxel == voxels[2] or voxel == voxels[3]:
 		door.voxel_ids = [voxel - 2, voxel]
 		door.voxel_pos = _pos + Vector3.DOWN

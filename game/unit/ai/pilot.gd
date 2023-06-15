@@ -25,8 +25,6 @@ func _ready():
 	_unit.camera = _unit
 	_unit.attacked.connect(on_attacked)
 	_pathing.set_unit(_unit)
-	if G.rng.percent(0.1):
-		_idle_task = _wander
 
 
 func _physics_process(_delta):

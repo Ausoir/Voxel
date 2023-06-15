@@ -144,19 +144,26 @@ func make_placeable(pos, itemname):
 		move_player(pos)
 	else:
 		var center = pos + G.V2_HALF
-		var unit = G.stock.make_any(center, itemname)
-		if unit == null:
-			if itemname[0] != "#":
-				var block = G.blocks.get_block_by_name(itemname)
-				if block != null:
-					G.tool.set_block(pos, block.id, null)
+		var real_itemname = G.stock.make_group(itemname)
+		if real_itemname != null:
+			var mob = G.stock.make_mob(center, real_itemname)
+			if mob == null:
+				var unit = G.stock.make_any_unit(center, real_itemname)
+				if unit == null:
+					var block = G.blocks.get_block_by_name(itemname)
+					if block != null:
+						G.tool.set_block(pos, block.id, null)
+					else:
+						var item = G.stock.make_item(itemname)
+						if item == null:
+							G.stock.make_object(center, itemname)
+						else:
+							item.drop_at(center)
 				else:
-					G.stock.make_object(center, itemname)
-		elif unit is Array:
-			_spawn_units += unit
-			for i in unit:
-				G.tool.set_voxel(i.position, 4)
-		else:
-			_spawn_units.append(unit)
-			G.tool.set_voxel(center, 4)
+					_spawn_units.append(unit)
+					G.tool.set_voxel(center, 4)
+			else:
+				_spawn_units += mob
+				for i in mob:
+					G.tool.set_voxel(i.position, 4)
 

@@ -23,6 +23,7 @@ var item_points
 
 
 func post_ready():
+	G.rng.set_seed(G.vars.seed - 234568)
 	_palette = G.blocks.to_dict().duplicate()
 	for i in G.mapdata.palette.keys():
 		var v = G.mapdata.palette[i]
@@ -159,6 +160,9 @@ func _load_wall(buffer: VoxelBuffer, origin: Vector3, wall_image, x, y, z):
 				buffer.fill_area(_palette["wall"].voxels[0],
 					Vector3(x, y, z), Vector3(x + 1, y+5, z + 1), _CHANNEL)
 				buffer.set_voxel(_palette["mirror"].voxels[0], x, y+2, z, _CHANNEL)
+			[1,0,0]: #jail door
+				_add_to_arr(_chunk_late_loads,ox,oy+1,oz,"bookcase")
+				_add_to_arr(_chunk_late_loads,ox,oy+2,oz,"bookcase")
 			[1,0,1]:
 				_add_to_arr(_chunk_late_loads,ox,oy+1,oz,"bookcase")
 				_add_to_arr(_chunk_late_loads,ox,oy+2,oz,"bookcase")

@@ -21,6 +21,7 @@ const P_summon = preload("res://game/fx/buff/summon.tscn")
 const P_level = preload("res://game/fx/buff/level.tscn")
 const P_spend = preload("res://game/fx/buff/spend.tscn")
 const P_heal = preload("res://game/fx/buff/heal.tscn")
+const P_barrier = preload("res://game/fx/explosion/barrier.tscn")
 const Text = preload("res://game/fx/text.tscn")
 const Unit = preload("res://game/unit/unit.tscn")
 const Humanoid = preload("res://game/unit/humanoid/humanoid.tscn")
@@ -262,10 +263,13 @@ func attach_ai(unit, ai):
 	var pilot := Node.new()
 	pilot.set_script(ai_script)
 	unit.pilot = pilot
+	if ai == "default":
+		if G.rng.percent(0.1):
+			pilot._idle_task = pilot._wander
 	unit.add_child(pilot)
 
 
-func make_particle(_pos: Vector3, _particlename: String):
+func make_particle(_pos: Vector3, _particlename: String, parent=null):
 	var att = get("P_"+_particlename)
 	if att != null:
 		var particle = att.instantiate()
@@ -273,7 +277,10 @@ func make_particle(_pos: Vector3, _particlename: String):
 		for child in particle.get_children():
 			if child is GPUParticles3D:
 				child.emitting = true
-		add_child(particle)
+		if parent == null:
+			add_child(particle)
+		else:
+			parent.add_child(particle)
 
 
 func make_text(_parent, _pos: Vector3, _text):
@@ -310,16 +317,4 @@ func make_group(itemname):
 			return make_group(r)
 		else:
 			return r
-
-
-func make_any(_pos, itemname):
-	if itemname != null:
-		if itemname[0] == "#":
-			return make_any(_pos, make_group(itemname))
-		else:
-			var mob = make_mob(_pos, itemname)
-			if mob == null:
-				return make_any_unit(self, _pos, itemname)
-			else:
-				return mob
 

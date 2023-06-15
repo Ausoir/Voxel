@@ -27,7 +27,7 @@
 	"bandits": {
 		"behavior": "idle",
 		"team": {
-			"highwayman": [
+			"robber": [
 				1,
 				2
 			],

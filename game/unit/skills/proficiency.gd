@@ -62,11 +62,11 @@ func check_req(prof, amount):
 	return false
 
 
-func increase(prof, amount, max=24):
+func increase(prof, amount, max_lvl=24):
 	var property = list.get(prof)
 	if property != null:
 		var past_lvl = floor(property)
-		if past_lvl < max:
+		if past_lvl < max_lvl:
 			property += amount / max(1, .5 + past_lvl*.25)
 			var current_lvl = floor(property)
 			if current_lvl != past_lvl:

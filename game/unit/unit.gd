@@ -96,7 +96,7 @@ func take_hit(dmg):
 	if dmg > 0:
 		alert = true
 		dmg = max(1, dmg - defense)
-		buffs.set_duration("invisibility", 0)
+		buffs.set_duration("invisible", 0)
 		buffs.set_duration("regeneration", 0)
 		buffs.set_duration("sleep", 0)
 		health -= dmg
@@ -126,13 +126,26 @@ func on_damaged(_pos: Vector3, damage: int, inflict):
 	if alert:
 		var ess = 0
 		if has_essence("agility"):
-			ess = .25
-		if G.rng.percent(get_prof("dodge")*.04 + ess):
-			G.stock.make_particle(position + Vector3(0, size.y/2, 0), "dodge")
+			ess = .2
+		if G.rng.percent(get_prof("dodge")*.05 + ess):
+			G.stock.make_particle(Vector3(0, size.y/2, 0), "dodge", self)
 			G.sfx.play("dodge", position)
 			if "scout" in G.you.essence:
 				G.stock.make_text(self, Vector3(0, size.y + 0.1, 0), "DODGE")
 			emit_signal("special", "dodge", 1)
+			return
+		if has_essence("shield") and !buffs.has("exhaustion"):
+			buffs.add("exhaustion", 14)
+			G.sfx.play("dodge", position)
+			G.stock.make_particle(Vector3(0, size.y/2, 0), "barrier", self)
+			return
+		if has_essence("holy") and req_mana(1):
+			G.sfx.play("dodge", position)
+			G.stock.make_particle(Vector3(0, size.y/2, 0), "barrier", self)
+			return
+		if buffs.has("invincible"):
+			G.sfx.play("dodge", position)
+			G.stock.make_particle(Vector3(0, size.y/2, 0), "barrier", self)
 			return
 	else:
 		if last_hitter.has_essence("panic"):
@@ -202,6 +215,8 @@ func on_kill(_victim):
 
 
 func earn_exp(experience):
+	if buffs.has("hunger"):
+		experience *= .5
 	var old_lvl = data["level"]
 	var new_lvl = old_lvl + experience
 	data["level"] = snapped(new_lvl, 0.01)
@@ -272,18 +287,20 @@ func on_step():
 
 
 func on_attack():
-	var damage = data.get("damage", 1)
-	var damage_roll = G.rng.damage_roll(damage, get_prof("unarmed"))
-	var inflict = data.get("inflict", [])
 	var front = procedure.get_toward_plane().normalized()
-	_space_state_params.position = position + COLLISION_CENTER + front * (size.z + procedure.speed)/2
-	var hits = _space_state.intersect_point(_space_state_params, 1)
-	for hit in hits:
-		var t = hit.collider.get_parent()
-		t.last_hitter = self
-		t.on_damaged(position, damage_roll, inflict)
-		emit_signal("weapon", "unarmed", t, damage_roll)
-		G.sfx.play("hit_flesh", position)
+	var origin = position + COLLISION_CENTER
+	var prop = G.tool.collide_prop_by_line(origin, origin + front * (size.z + procedure.speed)/2, 4)
+	if !prop.is_empty():
+		var unit = prop.collider.get_parent()
+		var ufaction = unit.get("faction")
+		if ufaction != null and ufaction != faction:
+			unit.last_hitter = self
+			var inflict = data.get("inflict", [])
+			var damage = data.get("damage", 1)
+			var damage_roll = G.rng.damage_roll(damage, get_prof("unarmed"))
+			unit.on_damaged(origin, damage_roll, inflict)
+			emit_signal("weapon", "unarmed", unit, damage_roll)
+			G.sfx.play("hit_flesh", position)
 
 
 func on_weapon(_type, _victim, _dmg):
