@@ -1,20 +1,9 @@
-[gd_scene load_steps=16 format=3 uid="uid://dyf43s4p26s26"]
+[gd_scene load_steps=14 format=3 uid="uid://dyf43s4p26s26"]
 
 [ext_resource type="Script" path="res://game/item/weapon/projectile/laser.gd" id="1_1x122"]
-[ext_resource type="Texture2D" uid="uid://bjw45syqtu186" path="res://assets/texture/flare.png" id="2_cp2p0"]
 [ext_resource type="Texture2D" uid="uid://dsf3nsrt72ehb" path="res://game/fx/bleed/ease_in_out_expo.tres" id="3_g33rm"]
-[ext_resource type="Texture2D" uid="uid://bvsnwrbsad76s" path="res://assets/texture/rune.png" id="4_4ji8f"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_730i1"]
-blend_mode = 1
-shading_mode = 0
-vertex_color_use_as_albedo = true
-albedo_texture = ExtResource("2_cp2p0")
-billboard_mode = 3
-billboard_keep_scale = true
-particles_anim_h_frames = 1
-particles_anim_v_frames = 1
-particles_anim_loop = false
+[ext_resource type="Texture2D" uid="uid://b68dti0i5idxs" path="res://assets/texture/t_flare.png" id="3_sgrld"]
+[ext_resource type="Texture2D" uid="uid://bovro4qy21nrp" path="res://assets/texture/t_rune.png" id="4_uttke"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_42gjh"]
 direction = Vector3(0, 0, -1)
@@ -28,24 +17,31 @@ scale_curve = ExtResource("3_g33rm")
 hue_variation_min = -1.0
 hue_variation_max = 1.0
 
-[sub_resource type="QuadMesh" id="QuadMesh_3pnrg"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_846lp"]
+transparency = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("3_sgrld")
+texture_filter = 0
+texture_repeat = false
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="QuadMesh" id="QuadMesh_yyaw3"]
+material = SubResource("StandardMaterial3D_846lp")
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_5k4hl"]
 radius = 2.0
 
-[sub_resource type="Gradient" id="Gradient_ii3gu"]
-offsets = PackedFloat32Array(0.145161, 0.354839, 0.671937)
-colors = PackedColorArray(1, 1, 1, 1, 1, 1, 0, 1, 0.615686, 0, 0.756863, 1)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_o0b5r"]
-gradient = SubResource("Gradient_ii3gu")
-
-[sub_resource type="Curve" id="Curve_ej8b6"]
-_data = [Vector2(0, 0), 0.0, 6.19636, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+[sub_resource type="Curve" id="Curve_ey018"]
+_data = [Vector2(0, 0), 0.0, 3.22424, 0, 0, Vector2(1, 0), -4.53754, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="CurveTexture" id="CurveTexture_icu4a"]
-curve = SubResource("Curve_ej8b6")
+[sub_resource type="CurveTexture" id="CurveTexture_rbvgh"]
+curve = SubResource("Curve_ey018")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_u6flh"]
 direction = Vector3(0, 1, 0)
@@ -58,16 +54,20 @@ damping_min = 4.0
 damping_max = 4.0
 angle_min = -720.0
 angle_max = 720.0
-scale_min = 2.0
 scale_max = 2.0
-scale_curve = SubResource("CurveTexture_icu4a")
-color_ramp = SubResource("GradientTexture1D_o0b5r")
+scale_curve = SubResource("CurveTexture_rbvgh")
+hue_variation_min = -1.0
+hue_variation_max = 1.0
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0k2y7"]
-blend_mode = 1
-shading_mode = 0
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_llmts"]
+transparency = 1
 vertex_color_use_as_albedo = true
-albedo_texture = ExtResource("4_4ji8f")
+albedo_texture = ExtResource("4_uttke")
+emission_enabled = true
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.3
+texture_filter = 0
+texture_repeat = false
 billboard_mode = 3
 billboard_keep_scale = true
 particles_anim_h_frames = 1
@@ -75,17 +75,16 @@ particles_anim_v_frames = 1
 particles_anim_loop = false
 
 [sub_resource type="QuadMesh" id="QuadMesh_v6cy8"]
-material = SubResource("StandardMaterial3D_0k2y7")
+material = SubResource("StandardMaterial3D_llmts")
 
 [node name="Rocket" type="Node3D"]
 script = ExtResource("1_1x122")
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="."]
-material_override = SubResource("StandardMaterial3D_730i1")
 amount = 12
 lifetime = 0.5
 process_material = SubResource("ParticleProcessMaterial_42gjh")
-draw_pass_1 = SubResource("QuadMesh_3pnrg")
+draw_pass_1 = SubResource("QuadMesh_yyaw3")
 
 [node name="Area3D" type="Area3D" parent="."]
 collision_layer = 8
@@ -95,7 +94,8 @@ collision_mask = 8
 shape = SubResource("SphereShape3D_5k4hl")
 
 [node name="GPUParticles3D2" type="GPUParticles3D" parent="."]
-amount = 5
+amount = 3
+lifetime = 0.4
 process_material = SubResource("ParticleProcessMaterial_u6flh")
 draw_pass_1 = SubResource("QuadMesh_v6cy8")
 

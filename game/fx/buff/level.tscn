@@ -1,32 +1,32 @@
-[gd_scene load_steps=13 format=3 uid="uid://bpb2861hp8abn"]
+[gd_scene load_steps=14 format=3 uid="uid://bpb2861hp8abn"]
 
 [ext_resource type="Script" path="res://game/fx/timeout.gd" id="1_adbyu"]
 [ext_resource type="Texture2D" uid="uid://dsf3nsrt72ehb" path="res://game/fx/bleed/ease_in_out_expo.tres" id="2_tvc61"]
-[ext_resource type="Texture2D" uid="uid://bvsnwrbsad76s" path="res://assets/texture/rune.png" id="3_mxyp2"]
-[ext_resource type="Texture2D" uid="uid://bjw45syqtu186" path="res://assets/texture/flare.png" id="4_o7t2j"]
+[ext_resource type="Texture2D" uid="uid://bovro4qy21nrp" path="res://assets/texture/t_rune.png" id="3_ripo4"]
+[ext_resource type="Texture2D" uid="uid://b68dti0i5idxs" path="res://assets/texture/t_flare.png" id="4_78qq2"]
+[ext_resource type="Texture2D" uid="uid://woohkfo3ame3" path="res://game/fx/fadeout.tres" id="4_hjc80"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_xt33k"]
 particle_flag_rotate_y = true
 gravity = Vector3(0, 0, 0)
 angular_velocity_min = -720.0
 angular_velocity_max = 720.0
+scale_min = 2.0
+scale_max = 2.0
 scale_curve = ExtResource("2_tvc61")
 hue_variation_min = -1.0
 hue_variation_max = 1.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hykr8"]
-transparency = 2
-alpha_scissor_threshold = 0.5
-alpha_antialiasing_mode = 0
-blend_mode = 1
+transparency = 1
 shading_mode = 0
 vertex_color_use_as_albedo = true
-albedo_texture = ExtResource("3_mxyp2")
+albedo_texture = ExtResource("3_ripo4")
 texture_filter = 0
 texture_repeat = false
 billboard_keep_scale = true
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_iok41"]
+[sub_resource type="PlaneMesh" id="PlaneMesh_5t66o"]
 material = SubResource("StandardMaterial3D_hykr8")
 
 [sub_resource type="Curve" id="Curve_e8nvr"]
@@ -47,36 +47,41 @@ angle_min = 90.0
 angle_max = 90.0
 scale_max = 3.0
 scale_curve = SubResource("CurveTexture_eam4o")
+color_ramp = ExtResource("4_hjc80")
 hue_variation_min = -0.1
 hue_variation_max = 0.1
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_846lp"]
-blend_mode = 1
+transparency = 1
 shading_mode = 0
 vertex_color_use_as_albedo = true
-albedo_texture = ExtResource("4_o7t2j")
-billboard_mode = 2
+albedo_texture = ExtResource("4_78qq2")
+texture_filter = 0
+texture_repeat = false
+billboard_mode = 3
 billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
 
 [sub_resource type="QuadMesh" id="QuadMesh_w3av0"]
 material = SubResource("StandardMaterial3D_846lp")
 
 [node name="Explosion" type="Node3D"]
 script = ExtResource("1_adbyu")
-_remaining_time = 2.0
+_remaining_time = 2.5
 
 [node name="Particles" type="GPUParticles3D" parent="."]
 emitting = false
 amount = 1
-lifetime = 2.0
-one_shot = true
+lifetime = 2.5
 process_material = SubResource("ParticleProcessMaterial_xt33k")
-draw_pass_1 = SubResource("PlaneMesh_iok41")
+draw_pass_1 = SubResource("PlaneMesh_5t66o")
 
 [node name="Particles2" type="GPUParticles3D" parent="."]
 emitting = false
 amount = 16
-lifetime = 2.0
+lifetime = 2.5
 one_shot = true
 explosiveness = 0.8
 process_material = SubResource("ParticleProcessMaterial_kpv3a")

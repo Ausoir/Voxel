@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://game/object/light/prop_light.gd" id="1_8xtuj"]
 [ext_resource type="ArrayMesh" uid="uid://lr2ex3s52166" path="res://assets/objects/o_torch.obj" id="2_b3dhq"]
-[ext_resource type="Texture2D" uid="uid://dmdcwxiwd6pl1" path="res://assets/texture/fire.png" id="3_0x1vn"]
+[ext_resource type="Texture2D" uid="uid://bfyb8ns5fkpqx" path="res://assets/texture/t_smoke.png" id="3_uw1o1"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_roy2d"]
 size = Vector3(1, 2, 1)
@@ -21,11 +21,11 @@ scale_min = 0.1
 scale_max = 1.7
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dypeg"]
-blend_mode = 1
+transparency = 1
 shading_mode = 0
 specular_mode = 2
 albedo_color = Color(0.305882, 0.305882, 0.305882, 1)
-albedo_texture = ExtResource("3_0x1vn")
+albedo_texture = ExtResource("3_uw1o1")
 texture_filter = 0
 billboard_mode = 3
 billboard_keep_scale = true

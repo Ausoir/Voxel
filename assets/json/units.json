@@ -163,7 +163,9 @@
 		"items": [
 			"axe"
 		],
-		"souls": [],
+		"souls": [
+			"bashing essence"
+		],
 		"data": {
 			"interact": "tip",
 			"level": 1,
@@ -324,7 +326,7 @@
 			"proficiency": {
 				"spear": 1,
 				"armor": 1,
-				"dodge": 1
+				"aura": 1
 			}
 		}
 	},
@@ -496,6 +498,39 @@
 				[
 					0.08,
 					"pure gold"
+				]
+			]
+		}
+	},
+	"looter": {
+		"head": "head/head5",
+		"body": "body/a_underwear",
+		"ai": "default",
+		"slots": [
+			"body",
+			"accessory"
+		],
+		"equipments": [
+			"rags",
+			"lantern"
+		],
+		"items": [
+			"short bow",
+			"arrows:30"
+		],
+		"souls": [],
+		"data": {
+			"level": 1,
+			"speed": 0.3,
+			"health": 10,
+			"range": 8,
+			"proficiency": {
+				"bow": 1
+			},
+			"loot": [
+				[
+					0.15,
+					"gold"
 				]
 			]
 		}
@@ -813,18 +848,18 @@
 			"sleep arrows:30"
 		],
 		"souls": [
-			"scout essence",
+			"agility essence",
 			"soul essence",
 			"goblin essence"
 		],
 		"data": {
-			"level": 7,
+			"level": 6,
 			"speed": 0.6,
 			"health": 20,
 			"range": 10,
 			"proficiency": {
-				"dodge": 1,
-				"bow": 7,
+				"dodge": 4,
+				"bow": 4,
 				"ambush": 1
 			},
 			"loot": [
@@ -952,8 +987,7 @@
 			"speed": 0.2,
 			"damage": 2,
 			"delay": 0.5,
-			"defense": 5,
-			"health": 6,
+			"health": 10,
 			"inflict": [
 				[
 					"corrosion",
@@ -986,17 +1020,90 @@
 			]
 		}
 	},
+	"rock slime": {
+		"model": "unit/rockslime",
+		"ai": "neutral",
+		"souls": [
+			"shielding essence"
+		],
+		"data": {
+			"level": 6,
+			"speed": 0.15,
+			"damage": 5,
+			"defense": 5,
+			"delay": 5,
+			"health": 10,
+			"inflict": [
+				[
+					"corrosion",
+					7
+				]
+			],
+			"buffs": [
+				[
+					"regeneration",
+					-1
+				]
+			],
+			"loot": [
+				[
+					0.01,
+					"earth essence"
+				],
+				[
+					0.02,
+					"soul of metal"
+				],
+				[
+					0.03,
+					"health essence"
+				],
+				[
+					0.04,
+					"dwarven essence"
+				],
+				[
+					0.05,
+					"shielding essence"
+				],
+				[
+					0.2,
+					"healing potion"
+				],,
+				[
+					0.4,
+					"defense potion"
+				],
+			]
+		}
+	},
+	"meatbag": {
+		"model": "unit/slime",
+		"ai": "blank",
+		"data": {
+			"level": 1,
+			"speed": 0.2,
+			"damage": 2,
+			"delay": 0.5,
+			"health": 6000
+		}
+	},
 	"bat": {
 		"model": "unit/bat",
 		"ai": "default",
-		"ego": [
-			"vampire"
+		"souls": [
+			"silence essence"
 		],
 		"data": {
 			"level": 1,
 			"speed": 0.6,
 			"damage": 3,
 			"health": 3,
+			"backstab": 2,
+			"proficiency": {
+				"necromancy": 3,
+				"ambush": 4
+			},
 			"inflict": [
 				[
 					"silence",
@@ -1024,12 +1131,18 @@
 	"bunny": {
 		"model": "unit/bunny",
 		"ai": "neutral",
+		"souls": [
+			"wind essence"
+		],
 		"data": {
 			"level": 1,
 			"speed": 0.65,
-			"delay": 1.5,
+			"delay": 1.4,
 			"damage": 3,
-			"health": 8,
+			"health": 10,
+			"proficiency": {
+				"aura": 2
+			},
 			"loot": [
 				[
 					0.05,
@@ -1045,8 +1158,8 @@
 	"squirrel": {
 		"model": "unit/squirrel",
 		"ai": "neutral",
-		"ego": [
-			"agility"
+		"souls": [
+			"agility essence"
 		],
 		"data": {
 			"level": 1,
@@ -1078,6 +1191,7 @@
 			"delay": 1.5,
 			"health": 9,
 			"speed": 0.3,
+			"backstab": 3,
 			"buffs": [
 				[
 					"nighteye",
@@ -1099,6 +1213,9 @@
 	"mimic": {
 		"model": "unit/mimic",
 		"ai": "sentient",
+		"souls": [
+			"chameleon essence"
+		],
 		"data": {
 			"level": 3,
 			"speed": 0.4,
@@ -1125,8 +1242,8 @@
 	"green rat": {
 		"model": "unit/rat_green",
 		"ai": "default",
-		"ego": [
-			"camoflauge"
+		"souls": [
+			"venom essence"
 		],
 		"data": {
 			"level": 4,
@@ -1156,6 +1273,10 @@
 					"poisoned arrows:5"
 				],
 				[
+					0.11,
+					"venom essence"
+				],
+				[
 					0.15,
 					"venom vial"
 				]
@@ -1180,18 +1301,75 @@
 			]
 		}
 	},
+	"wisp": {
+		"model": "unit/wisp",
+		"ai": "default",
+		"souls": [
+			"shielding essence",
+			"holy essence"
+		],
+		"data": {
+			"level": 5,
+			"damage": 1,
+			"health": 3,
+			"mana": 3,
+			"speed": 0.15,
+			"delay": 4,
+			"range": 5,
+			"attack": "shoot",
+			"projectile": "laser",
+			"proficiency": {
+				"aura": 3
+			},
+			"buffs": [
+				[
+					"flight",
+					-1
+				],
+				[
+					"glow",
+					-1
+				]
+			],
+			"inflict": [
+				[
+					"sleep",
+					2
+				],
+				[
+					"glow",
+					5
+				]
+			],
+			"loot": [
+				[
+					0.01,
+					"holy essence"
+				],
+				[
+					0.02,
+					"sleep essence"
+				],
+				[
+					0.1,
+					"gold"
+				]
+			]
+		}
+	},
 	"boss1": {
 		"model": "unit/boss1",
 		"ai": "default",
 		"souls": [],
 		"data": {
-			"level": 7,
-			"damage": 3,
+			"level": 8,
+			"damage": 4,
 			"health": 50,
 			"speed": 0.5,
 			"range": 12,
 			"attack": "shoot",
-			"projectile": "laser",
+			"projectile": "bullet",
+			"radius": 2.5,
 			"buffs": [
 				[
 					"flight",

@@ -20,17 +20,21 @@
 		"modelname": "item/potion3d-0-potion",
 		"script": "consumable/consumable",
 		"data": {
-			"desc": "Regenerate health.",
-			"value": 8,
+			"desc": "Regenerate 12 health. Usage not recommended in combat.",
+			"value": 10,
 			"weight": 1,
 			"buffs": [
 				[
 					"regeneration",
-					5
+					12
+				],
+				[
+					"corrosion",
+					9
 				],
 				[
 					"slow",
-					3
+					6
 				]
 			]
 		}
@@ -40,21 +44,21 @@
 		"modelname": "item/potion_blue3d-0-potion_blue",
 		"script": "consumable/consumable",
 		"data": {
-			"desc": "Regenerate mana.",
-			"value": 6,
+			"desc": "Regenerate 56% or 7 mana, whichever is higher.",
+			"value": 10,
 			"weight": 1,
 			"buffs": [
 				[
 					"clarity",
-					5
+					7
 				],
 				[
 					"daze",
-					3
+					4
 				],
 				[
 					"silence",
-					3
+					4
 				]
 			]
 		}
@@ -80,7 +84,7 @@
 		"modelname": "item/potion_cyan3d-0-potion_cyan",
 		"script": "consumable/consumable",
 		"data": {
-			"desc": "Fly for a duration.",
+			"desc": "Fly for 12 seconds.",
 			"value": 10,
 			"speed": 0.8,
 			"buffs": [
@@ -96,13 +100,29 @@
 		"modelname": "item/potion_cyan3d-0-potion_cyan",
 		"script": "consumable/consumable",
 		"data": {
-			"desc": "Glow for a duration.",
+			"desc": "Glow for 160 seconds.",
 			"value": 10,
 			"speed": 0.8,
 			"buffs": [
 				[
 					"glow",
 					160
+				]
+			]
+		}
+	},
+	"defense potion": {
+		"spritename": "item/potion_cyan",
+		"modelname": "item/potion_cyan3d-0-potion_cyan",
+		"script": "consumable/consumable",
+		"data": {
+			"desc": "Gain stoneskin for 30 seconds.",
+			"value": 20,
+			"speed": 0.8,
+			"buffs": [
+				[
+					"stoneskin",
+					30
 				]
 			]
 		}
@@ -129,7 +149,7 @@
 		"script": "consumable/skill",
 		"data": {
 			"desc": "Teleport back to safety.",
-			"value": 80,
+			"value": 50,
 			"speed": 0.2,
 			"skill": "teleport",
 			"to": "camp"
@@ -141,7 +161,7 @@
 		"script": "consumable/skill",
 		"data": {
 			"desc": "Summon skeletons to fight for you.",
-			"value": 150,
+			"value": 40,
 			"speed": 0.5,
 			"skill": "summon",
 			"summon": [
@@ -198,7 +218,18 @@
 		"data": {
 			"desc": "Use to obtain a random essence.",
 			"speed": 1,
-			"value": 250,
+			"value": 200,
+			"exclude": []
+		}
+	},
+	"lootbox": {
+		"spritename": "item/box",
+		"modelname": "item/bag_cloth",
+		"script": "consumable/loot",
+		"data": {
+			"desc": "Use to obtain a random item.",
+			"speed": 1,
+			"value": 100,
 			"exclude": []
 		}
 	},
@@ -365,8 +396,8 @@
 		"data": {
 			"value": 350,
 			"weight": 0,
-			"defense": 0,
-			"space": 2
+			"defense": 1,
+			"space": 0
 		}
 	},
 	"suit": {
@@ -395,6 +426,7 @@
 			"value": 500,
 			"weight": 1,
 			"space": 3,
+			"sight": 3,
 			"mana": 0,
 			"health": 0
 		}
@@ -407,9 +439,9 @@
 		"part": "body",
 		"data": {
 			"value": 60,
-			"weight": 4,
+			"weight": 3,
 			"space": 2,
-			"defense": 1
+			"sight": 2
 		}
 	},
 	"leather armor": {
@@ -665,8 +697,7 @@
 			"sfx_hold": "unsheathe_wood",
 			"swings": [
 				"swing_down",
-				"swing_left",
-				"swing_right"
+				"swing_left"
 			],
 			"inflict": [
 				[
@@ -724,7 +755,7 @@
 			"value": 50,
 			"weight": 1,
 			"speed": 1.5,
-			"damage": 4,
+			"damage": 3,
 			"backstab": 7,
 			"sfx_hold": "unsheathe_blade",
 			"swings": [
@@ -767,7 +798,7 @@
 		"modelname": "weapon/eblade3d-0-eblade",
 		"script": "weapon/melee",
 		"data": {
-			"desc": "A brutally sharp ethereal dagger.",
+			"desc": "A brutally sharp ethereal dagger. Imbues <Glow>.",
 			"type": "dagger",
 			"value": 200,
 			"weight": 1,
@@ -853,7 +884,7 @@
 			"value": 70,
 			"weight": 5,
 			"speed": 0.8,
-			"damage": 12,
+			"damage": 14,
 			"health": 0,
 			"sfx_hold": "unsheathe_wood",
 			"swings": [
@@ -911,6 +942,7 @@
 			"weight": 1,
 			"speed": 1,
 			"mana": 2,
+			"sight": 3,
 			"damage": 6,
 			"sfx_hold": "unsheathe_blade",
 			"swings": [
@@ -1054,7 +1086,7 @@
 		"data": {
 			"type": "bow",
 			"desc": "This bow applies deadly poison to its victims.",
-			"value": 120,
+			"value": 90,
 			"weight": 2,
 			"speed": 0.3,
 			"spread": 0.2,
@@ -1135,7 +1167,7 @@
 			"weight": 4,
 			"speed": 0.3,
 			"spread": 0,
-			"damage": 20,
+			"damage": 30,
 			"noise": 16,
 			"manause": 2,
 			"radius": 3,
@@ -1278,7 +1310,7 @@
 		"part": "essence",
 		"data": {
 			"desc": "Touch a solid wall to pass through. Increase health by 10.",
-			"essence": "earth",
+			"essence": "passwall",
 			"value": 300,
 			"health": 10
 		}
@@ -1310,7 +1342,7 @@
 		"modelname": "item/essence3d",
 		"part": "essence",
 		"data": {
-			"desc": "When at less than half health, recover some health after taking hit.",
+			"desc": "When at less than a third health, gain 33% to recover some health after taking hit.",
 			"essence": "warrior",
 			"value": 300
 		}
@@ -1320,10 +1352,9 @@
 		"modelname": "item/essence3d",
 		"part": "essence",
 		"data": {
-			"desc": "Recover some health after dealing damage at cost of mana. Takes 2 slots.",
+			"desc": "Recover some health after dealing damage. Uses 1 mana.",
 			"essence": "vampire",
 			"value": 300,
-			"soul": -1,
 			"req": [
 				"necromancy",
 				3
@@ -1335,7 +1366,7 @@
 		"modelname": "item/essence3d",
 		"part": "essence",
 		"data": {
-			"desc": "With bare hands, shoot a wave of psychic blast forward. Higher psychic levels result in higher accuracy and damage.",
+			"desc": "With bare hands, shoot a wave of psychic blast forward. Accuracy and damage depend on psych level.",
 			"essence": "psychic",
 			"value": 300
 		}
@@ -1397,7 +1428,7 @@
 		"part": "essence",
 		"data": {
 			"desc": "Stand still to turn invisible.",
-			"essence": "camouflage",
+			"essence": "hide",
 			"value": 300,
 			"req": [
 				"aura",
@@ -1410,7 +1441,7 @@
 		"modelname": "item/essence3d",
 		"part": "essence",
 		"data": {
-			"desc": "Double jump to fly toward the direction you are facing.",
+			"desc": "Double jump to fly toward the direction you are facing. No mana cost at Aura 2.",
 			"essence": "wind",
 			"value": 300
 		}
@@ -1432,6 +1463,7 @@
 		"data": {
 			"desc": "Cast to transform. Each persona owns a unique form.",
 			"essence": "polymorph",
+			"sight": 2,
 			"value": 300
 		}
 	},
@@ -1451,9 +1483,20 @@
 		"modelname": "item/essence3d",
 		"part": "essence",
 		"data": {
-			"desc": "Touch a corpse to absorb it. Right click to revive and summon the creature.",
+			"desc": "Touch a corpse to absorb it using mana. Right click to revive and summon the creature at no cost.",
 			"defense": -1,
 			"essence": "summon",
+			"value": 300
+		}
+	},
+	"bashing essence": {
+		"spritename": "item/essence",
+		"modelname": "item/essence3d",
+		"part": "essence",
+		"data": {
+			"desc": "When attacking enemies too close to hit, knock them down with a somersault.",
+			"health": 5,
+			"essence": "knockdown",
 			"value": 300
 		}
 	},
@@ -1473,7 +1516,7 @@
 		"modelname": "item/essence3d",
 		"part": "essence",
 		"data": {
-			"desc": "Move faster while swinging daggers.",
+			"desc": "Swing daggers while running.",
 			"req": [
 				"dagger",
 				3
@@ -1581,7 +1624,7 @@
 		"modelname": "item/essence3d",
 		"part": "essence",
 		"data": {
-			"health": -5,
+			"health": -10,
 			"defense": 2,
 			"value": 300
 		}
@@ -1610,8 +1653,7 @@
 		"modelname": "item/essence3d",
 		"part": "essence",
 		"data": {
-			"space": 2,
-			"mana": 10,
+			"mana": 5,
 			"value": 300
 		}
 	},
@@ -1686,12 +1728,23 @@
 		"part": "essence",
 		"data": {
 			"desc": "Cast to become invulnerable for 11+ seconds using 2 mana.",
-			"essence": "divinity",
+			"essence": "invulnerability",
 			"value": 300,
 			"req": [
 				"aura",
 				3
 			]
+		}
+	},
+	"light essence": {
+		"spritename": "item/essence",
+		"modelname": "item/essence3d",
+		"part": "essence",
+		"data": {
+			"desc": "Cast to glow.",
+			"essence": "light",
+			"value": 300,
+			"mana": 1
 		}
 	},
 	"soul of metal": {
@@ -1714,7 +1767,7 @@
 		"part": "essence",
 		"data": {
 			"desc": "When out of mana, standing still will convert health into mana. Efficiency scales with necromancy.",
-			"essence": "blood",
+			"essence": "sublimation",
 			"value": 300,
 			"req": [
 				"necromancy",

@@ -161,8 +161,9 @@ func _load_wall(buffer: VoxelBuffer, origin: Vector3, wall_image, x, y, z):
 					Vector3(x, y, z), Vector3(x + 1, y+5, z + 1), _CHANNEL)
 				buffer.set_voxel(_palette["mirror"].voxels[0], x, y+2, z, _CHANNEL)
 			[1,0,0]: #jail door
-				_add_to_arr(_chunk_late_loads,ox,oy+1,oz,"bookcase")
-				_add_to_arr(_chunk_late_loads,ox,oy+2,oz,"bookcase")
+				buffer.set_voxel(_palette["pole"].voxels[0], x, y+3, z, _CHANNEL)
+				buffer.set_voxel(_palette["pole"].voxels[0], x, y+4, z, _CHANNEL)
+				_add_to_arr(_chunk_late_loads,ox,oy+1,oz,"jaildoor")
 			[1,0,1]:
 				_add_to_arr(_chunk_late_loads,ox,oy+1,oz,"bookcase")
 				_add_to_arr(_chunk_late_loads,ox,oy+2,oz,"bookcase")
@@ -247,7 +248,7 @@ func _load_floor(buffer: VoxelBuffer, _origin: Vector3, ceiling_pixel: Color, x,
 				buffer.set_voxel(_palette["carpet"].voxels[0], x, y, z, _CHANNEL)
 			[0,1,4]:
 				buffer.set_voxel(_palette["glass"].voxels[0], x, y, z, _CHANNEL)
-			[0,2,4]:
+			[3,4,4]:
 				buffer.set_voxel(_palette["pole"].voxels[0], x, y, z, _CHANNEL)
 			[4,2,0]:
 				buffer.set_voxel(_palette["tiles"].voxels[0], x, y, z, _CHANNEL)

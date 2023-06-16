@@ -1,7 +1,8 @@
-[gd_scene load_steps=14 format=3 uid="uid://deg2hepx3hxbb"]
+[gd_scene load_steps=15 format=3 uid="uid://deg2hepx3hxbb"]
 
 [ext_resource type="Script" path="res://game/unit/unit.gd" id="1_bm7jk"]
 [ext_resource type="ArrayMesh" uid="uid://cnld3h001cg7" path="res://assets/unit/squirrel.obj" id="2_ktw0w"]
+[ext_resource type="Script" path="res://game/unit/humanoid/equipment.gd" id="3_e36wt"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_l645e"]
 
@@ -374,8 +375,12 @@ shape = SubResource("BoxShape3D_l645e")
 [node name="Model" type="Node3D" parent="."]
 
 [node name="Mesh" type="MeshInstance3D" parent="Model"]
+cast_shadow = 0
 mesh = ExtResource("2_ktw0w")
 skeleton = NodePath("")
+
+[node name="Equipment" type="Node" parent="."]
+script = ExtResource("3_e36wt")
 
 [node name="Animator" type="AnimationPlayer" parent="."]
 playback_default_blend_time = 0.1

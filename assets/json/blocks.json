@@ -122,6 +122,16 @@
 		"placement": 2,
 		"script": "doors/door"
 	},
+	"jaildoor": {
+		"voxels": [
+			"jailbottom_ns",
+			"jailbottom_ew",
+			"jailtop_ns",
+			"jailtop_ew"
+		],
+		"placement": 2,
+		"script": "doors/jaildoor"
+	},
 	"shutter": {
 		"voxels": [
 			"shutter_ns",
@@ -129,14 +139,6 @@
 		],
 		"placement": 2,
 		"script": "doors/shutter"
-	},
-	"divider": {
-		"voxels": [
-			"divider_ns",
-			"divider_ew"
-		],
-		"placement": 2,
-		"script": "doors/divider"
 	},
 	"square light": {
 		"voxels": [

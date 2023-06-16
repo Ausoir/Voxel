@@ -1,4 +1,4 @@
-[gd_resource type="VoxelBlockyLibrary" load_steps=88 format=3 uid="uid://chr1cj53hbsgq"]
+[gd_resource type="VoxelBlockyLibrary" load_steps=91 format=3 uid="uid://chr1cj53hbsgq"]
 
 [ext_resource type="ArrayMesh" uid="uid://fwb38pl3a8jv" path="res://assets/blocks/slab_ew.obj" id="1_2pls5"]
 [ext_resource type="Texture2D" uid="uid://cjixikwj37edg" path="res://assets/texture/doorbottom.png" id="2_7fbs0"]
@@ -13,15 +13,16 @@
 [ext_resource type="ArrayMesh" uid="uid://baos6jt7jfx8o" path="res://assets/objects/o_chest.obj" id="12_lxmgm"]
 [ext_resource type="Texture2D" uid="uid://xomgnw5ls5lh" path="res://assets/objects/o_chest.png" id="13_vreon"]
 [ext_resource type="Texture2D" uid="uid://i8rytnqf2ynw" path="res://assets/texture/walkway.png" id="14_ui8va"]
-[ext_resource type="Texture2D" uid="uid://dby2wmfnr7ccx" path="res://assets/texture/table.png" id="15_0x3li"]
 [ext_resource type="ArrayMesh" uid="uid://mb4myutoeckb" path="res://assets/blocks/campfire.obj" id="16_hkrry"]
 [ext_resource type="Texture2D" uid="uid://cjo3olxgprwa3" path="res://assets/blocks/campfire.png" id="17_ahjro"]
 [ext_resource type="ArrayMesh" uid="uid://cgbg53ajnxx2p" path="res://assets/blocks/half.obj" id="18_ei3hv"]
 [ext_resource type="Texture2D" uid="uid://bs8hyhkvnux7h" path="res://assets/texture/sofa.png" id="19_w3vwo"]
 [ext_resource type="ArrayMesh" uid="uid://orubern31au" path="res://assets/objects/o_barrel.obj" id="20_v546i"]
+[ext_resource type="Texture2D" uid="uid://cnqpisaoiow34" path="res://assets/texture/jaildoorbottom.png" id="21_4k472"]
 [ext_resource type="Texture2D" uid="uid://eet8id1xl55c" path="res://assets/objects/o_barrel.png" id="21_24ikr"]
 [ext_resource type="ArrayMesh" uid="uid://yavhoatracfh" path="res://assets/objects/o_chest_bottom.obj" id="21_247pp"]
 [ext_resource type="Material" uid="uid://bs5u0ea1vrq7v" path="res://assets/blocks/terrain_biome.tres" id="22_8f8kj"]
+[ext_resource type="Texture2D" uid="uid://e0d186aiyjhy" path="res://assets/texture/jaildoortop.png" id="22_stwko"]
 [ext_resource type="ArrayMesh" uid="uid://24odx4qj8uy5" path="res://assets/blocks/pole.obj" id="23_bda5g"]
 [ext_resource type="ArrayMesh" uid="uid://bqmptq15xfn5t" path="res://assets/blocks/platform.obj" id="23_rjj4g"]
 [ext_resource type="Texture2D" uid="uid://lh3oxxormfob" path="res://assets/texture/light_square.png" id="24_x5ety"]
@@ -317,38 +318,25 @@ cube_tiles_front = Vector2(8, 1)
 material_override_0 = ExtResource("5_f00mb")
 collision_enabled_0 = true
 
-[sub_resource type="QuadMesh" id="QuadMesh_qt84h"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ltvb7"]
+albedo_texture = ExtResource("21_24ikr")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yiwpf"]
-cull_mode = 2
-albedo_texture = ExtResource("15_0x3li")
-texture_filter = 0
-texture_repeat = false
-
-[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_w8bgq"]
-voxel_name = &"divider_ew"
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_px0r1"]
+voxel_name = &"chest bottom"
 geometry_type = 2
-custom_mesh = SubResource("QuadMesh_qt84h")
-collision_aabbs = Array[AABB]([AABB(0.4, 0, 0, 0.2, 1, 1)])
-collision_mask = 15
-material_override_0 = SubResource("StandardMaterial3D_yiwpf")
+custom_mesh = ExtResource("21_247pp")
+collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 0.6, 0.6)])
+collision_mask = 13
+material_override_0 = SubResource("StandardMaterial3D_ltvb7")
 collision_enabled_0 = true
 
-[sub_resource type="QuadMesh" id="QuadMesh_27jbt"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g6wxf"]
-cull_mode = 2
-albedo_texture = ExtResource("15_0x3li")
-texture_filter = 0
-texture_repeat = false
-
-[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_qub03"]
-voxel_name = &"divider_ns"
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_smyfw"]
+voxel_name = &"barrel"
 geometry_type = 2
-custom_mesh = SubResource("QuadMesh_27jbt")
-collision_aabbs = Array[AABB]([AABB(0, 0, 0.4, 1, 1, 0.2)])
-collision_mask = 15
-material_override_0 = SubResource("StandardMaterial3D_g6wxf")
+custom_mesh = ExtResource("20_v546i")
+collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
+collision_mask = 13
+material_override_0 = SubResource("StandardMaterial3D_ltvb7")
 collision_enabled_0 = true
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_qs40n"]
@@ -515,25 +503,88 @@ custom_mesh = SubResource("TextMesh_fhkls")
 collision_mask = 0
 collision_enabled_0 = false
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ltvb7"]
-albedo_texture = ExtResource("21_24ikr")
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cb3qa"]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+cull_mode = 2
+albedo_texture = ExtResource("21_4k472")
+metallic = 1.0
+metallic_specular = 0.0
+roughness = 0.3
+texture_filter = 0
+texture_repeat = false
 
-[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_7hw05"]
-voxel_name = &"barrel"
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_5nyne"]
+voxel_name = &"jailbottom_ew"
 geometry_type = 2
-custom_mesh = ExtResource("20_v546i")
-collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
-collision_mask = 15
-material_override_0 = SubResource("StandardMaterial3D_ltvb7")
+custom_mesh = ExtResource("1_2pls5")
+collision_aabbs = Array[AABB]([AABB(0.4, 0, 0, 0.2, 1, 1)])
+collision_mask = 13
+material_override_0 = SubResource("StandardMaterial3D_cb3qa")
 collision_enabled_0 = true
 
-[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_g0uyw"]
-voxel_name = &"chest bottom"
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_n4jx5"]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+cull_mode = 2
+albedo_texture = ExtResource("21_4k472")
+metallic = 1.0
+metallic_specular = 0.0
+roughness = 0.3
+texture_filter = 0
+texture_repeat = false
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_tj3it"]
+voxel_name = &"jailbottom_ns"
 geometry_type = 2
-custom_mesh = ExtResource("21_247pp")
-collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
+custom_mesh = ExtResource("3_orr8j")
+collision_aabbs = Array[AABB]([AABB(0, 0, 0.4, 1, 1, 0.2)])
 collision_mask = 13
-material_override_0 = SubResource("StandardMaterial3D_ltvb7")
+material_override_0 = SubResource("StandardMaterial3D_n4jx5")
+collision_enabled_0 = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iq44k"]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+cull_mode = 2
+albedo_texture = ExtResource("22_stwko")
+metallic = 1.0
+metallic_specular = 0.0
+roughness = 0.3
+texture_filter = 0
+texture_repeat = false
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_qm0qc"]
+voxel_name = &"jailtop_ew"
+geometry_type = 2
+custom_mesh = ExtResource("1_2pls5")
+collision_aabbs = Array[AABB]([AABB(0.4, 0, 0, 0.2, 1, 1)])
+collision_mask = 13
+material_override_0 = SubResource("StandardMaterial3D_iq44k")
+collision_enabled_0 = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fktxt"]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+cull_mode = 2
+albedo_texture = ExtResource("22_stwko")
+metallic = 1.0
+metallic_specular = 0.0
+roughness = 0.3
+texture_filter = 0
+texture_repeat = false
+
+[sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_85o2o"]
+voxel_name = &"jailtop_ns"
+geometry_type = 2
+custom_mesh = ExtResource("3_orr8j")
+collision_aabbs = Array[AABB]([AABB(0, 0, 0.4, 1, 1, 0.2)])
+collision_mask = 13
+material_override_0 = SubResource("StandardMaterial3D_fktxt")
 collision_enabled_0 = true
 
 [sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_gx8u8"]
@@ -649,8 +700,8 @@ voxels/24 = SubResource("VoxelBlockyModel_lqvan")
 voxels/25 = SubResource("VoxelBlockyModel_16x5r")
 voxels/26 = SubResource("VoxelBlockyModel_m3pmb")
 voxels/27 = SubResource("VoxelBlockyModel_5htbc")
-voxels/28 = SubResource("VoxelBlockyModel_w8bgq")
-voxels/29 = SubResource("VoxelBlockyModel_qub03")
+voxels/28 = SubResource("VoxelBlockyModel_px0r1")
+voxels/29 = SubResource("VoxelBlockyModel_smyfw")
 voxels/30 = SubResource("VoxelBlockyModel_bqls3")
 voxels/31 = SubResource("VoxelBlockyModel_2t24w")
 voxels/32 = SubResource("VoxelBlockyModel_ptem7")
@@ -661,5 +712,7 @@ voxels/36 = SubResource("VoxelBlockyModel_qn3xr")
 voxels/37 = SubResource("VoxelBlockyModel_1urtk")
 voxels/38 = SubResource("VoxelBlockyModel_cdx6i")
 voxels/39 = SubResource("VoxelBlockyModel_k7wqy")
-voxels/40 = SubResource("VoxelBlockyModel_7hw05")
-voxels/41 = SubResource("VoxelBlockyModel_g0uyw")
+voxels/40 = SubResource("VoxelBlockyModel_5nyne")
+voxels/41 = SubResource("VoxelBlockyModel_tj3it")
+voxels/42 = SubResource("VoxelBlockyModel_qm0qc")
+voxels/43 = SubResource("VoxelBlockyModel_85o2o")

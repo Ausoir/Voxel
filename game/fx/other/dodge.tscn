@@ -1,17 +1,18 @@
 [gd_scene load_steps=7 format=3 uid="uid://cykouyxowu85e"]
 
 [ext_resource type="Script" path="res://game/fx/timeout.gd" id="1_qp8lr"]
-[ext_resource type="Texture2D" uid="uid://cfei41p1g0vwk" path="res://game/fx/explosion/smoke_particle.png" id="2_cspgk"]
+[ext_resource type="Texture2D" uid="uid://bfagmvon8hcam" path="res://assets/texture/t_puff.png" id="2_7gjes"]
 [ext_resource type="Texture2D" uid="uid://bm72dvaa5t3tl" path="res://game/fx/dissolve.tres" id="4_843sb"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vkgw5"]
 transparency = 2
-alpha_scissor_threshold = 0.5
+alpha_scissor_threshold = 0.3
 alpha_antialiasing_mode = 0
 blend_mode = 1
 shading_mode = 0
+diffuse_mode = 3
 vertex_color_use_as_albedo = true
-albedo_texture = ExtResource("2_cspgk")
+albedo_texture = ExtResource("2_7gjes")
 texture_filter = 0
 texture_repeat = false
 billboard_mode = 3
@@ -32,8 +33,8 @@ angular_velocity_min = -240.0
 angular_velocity_max = 240.0
 angle_min = -720.0
 angle_max = 720.0
-scale_min = 0.2
-scale_max = 1.5
+scale_min = 0.4
+scale_max = 2.0
 scale_curve = ExtResource("4_843sb")
 color = Color(0.407843, 0.407843, 0.407843, 1)
 turbulence_noise_speed = Vector3(0, 0.5, 0)
@@ -47,6 +48,6 @@ _remaining_time = 1.6
 [node name="Particles" type="GPUParticles3D" parent="."]
 material_override = SubResource("StandardMaterial3D_vkgw5")
 lifetime = 1.5
-explosiveness = 0.8
+explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_tgfbk")
 draw_pass_1 = SubResource("7")

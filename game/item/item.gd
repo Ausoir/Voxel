@@ -3,7 +3,8 @@ extends Node
 const Item = preload("res://game/item/prop_item.tscn")
 const ITEM_RANK_COLOR = ["DIM_GRAY", "WHITE", "GREEN", "ORANGE", "MAGENTA"]
 const OPTION_RANK_COLOR = ["DIM_GRAY", "GRAY", "DARK_GREEN", "BLUE", "PURPLE", "RED", "ORANGE"]
-const INFLICTS = ["slow", "poison", "sleep", "down", "corrosion", "snare", "daze", "flight"]
+const INFLICTS = ["slow", "poison", "sleep", "down", "corrosion", "snare", "daze", "flight", "hunger", "morph"]
+const BUFFS = ["invisible", "invincible", "vision", "nighteye", "venomous", "lethality", "glow", "stoneskin", "clarity", "regeneration"]
 
 var sid := ""
 var sprite : Texture2D
@@ -100,6 +101,10 @@ func get_description():
 		r += str("\nNoise: ", data.noise)
 	if "power" in data:
 		r += str("\nProjectile Speed: ", data.power)
+	if "sneak" in data:
+		r += str("\nSneak: ", data.sneak)
+	if "sight" in data:
+		r += str("\nSight: ", data.sight)
 	if "light" in data:
 		r += str("\nLight intensity: ", data.light)
 	if "light spread" in data:
@@ -113,12 +118,28 @@ func get_description():
 	return str(title, "\n", r)
 
 
+func apply_change(_user:Node3D, mult=1):
+	if "essence" in data:
+		if mult == -1:
+			_user.essence.erase(data.essence)
+		else:
+			_user.essence.append(data.essence)
+	_user.data.health += data.get("health", 0) * mult
+	_user.data.mana += data.get("mana", 0) * mult
+	_user.defense += data.get("defense", 0) * mult
+	_user.procedure.speed -= data.get("weight", 0)*.03 * mult
+	if "sight" in data:
+		_user.data["sight"] = _user.data.get("sight", 3) + data.sight * mult
+		if _user.has_node("Addon"):
+			_user.get_node("Addon/Sight").omni_range += data.sight * mult
+
+
 func on_held(_user):
-	_user.procedure.speed -= data.get("weight", 1)*.03
+	apply_change(_user, 1)
 
 
 func on_unheld(_user):
-	_user.procedure.speed += data.get("weight", 1)*.03
+	apply_change(_user, -1)
 
 
 func on_wear(_user):
@@ -135,32 +156,34 @@ func on_held_tick(_user: Node3D):
 
 func imbue(sd):
 	seed(sd)
-	var candids = ["weight+", "weight-", "size+", "size-"]
+	var candids = ["weight", "size", "sight"]
 	if "speed" in data:
 		candids.append("speed")
 	if "damage" in data:
 		candids.append("damage")
 		candids.append("damage*")
 		candids.append("inflict")
+		candids.append("aid")
+	if "part" in data:
+		if data.part == "body" or data.part == "accessory":
+			candids.append("inflict")
+			candids.append("aid")
+		candids.append("sneak")
+		candids.append("sight")
+		candids.append("space")
+		candids.append("health")
+		candids.append("mana")
+		candids.append("defense")
 	if "backstab" in data:
 		candids.append("backstab")
 	if "spread" in data:
 		candids.append("spread")
-	if "health" in data:
-		candids.append("health")
-	if "mana" in data:
-		candids.append("mana")
-	if "defense" in data:
-		candids.append("defense")
 	if "manause" in data:
 		candids.append("manause")
 	if "power" in data:
 		candids.append("power")
 	if "noise" in data:
 		candids.append("noise")
-	if "space" in data:
-		candids.append("space-")
-		candids.append("space+")
 	if "radius" in data:
 		candids.append("radius")
 	if "light" in data:
@@ -168,18 +191,25 @@ func imbue(sd):
 	if "light spread" in data:
 		candids.append("light spread")
 	candids.shuffle()
-	var rnd = randf()
-	if rnd < .4:
-		rank += 1
-		imbue_option(candids.pop_front(), randi_range(1, 2))
-		if rnd < .15:
+	for _i in range(3):
+		var rnd = randf()
+		if rnd > .8:
+			rank -= 1
+			if rnd > .95:
+				imbue_option(candids.pop_front(), randi_range(-5, -2))
+			else:
+				imbue_option(candids.pop_front(), randi_range(-2, -1))
+		elif rnd < .2:
 			rank += 1
-			candids.append("essence")
-			candids.shuffle()
-			imbue_option(candids.pop_front(), randi_range(1, 5))
 			if rnd < .02:
 				rank += 1
 				imbue_option(candids.pop_front(), randi_range(5, 10))
+			elif rnd < .15:
+				candids.append("essence")
+				candids.shuffle()
+				imbue_option(candids.pop_front(), randi_range(1, 5))
+			else:
+				imbue_option(candids.pop_front(), randi_range(1, 2))
 	if rank == 0:
 		data.value = int(data.value / 2)
 
@@ -191,103 +221,123 @@ func imbue_option(opt, lvl):
 			data["essence"] = ess
 			data.value += 100
 			_options.append(str("[color=ORANGE]Ego: ", ess.capitalize(), "[/color]"))
-		"size+":
+		"size":
 			data["size"] = .5 + lvl*.1
 			data.value = int(data.value * (1 + lvl*.1))
-			_attach_option_description("Increased Size", lvl)
-		"size-":
-			rank -= 1
-			data["size"] = max(.1, .5 - lvl*.05)
-			data.value = int(data.value * (1 - lvl*.05))
-			_attach_option_description("Reduced Size", lvl)
-		"weight+":
-			rank -= 2
-			data["weight"] = data.get("weight", 1) + lvl
-			data.value = int(data.value * (1 - lvl*.15))
-			_attach_option_description("Increased Weight", lvl)
-		"weight-":
+			_attach_option_description("Increased Size", "Decreased Size", lvl)
+		"weight":
 			data["weight"] = data.get("weight", 1) - lvl
-			data.value = int(data.value * (1 + lvl*.2))
-			_attach_option_description("Decreased Weight", lvl)
-		"space-":
-			rank -= 2
-			lvl = int(lvl/5) + 1
-			data["space"] = data.get("space", 0) - lvl
-			data.value = int(data.value * (1 - lvl*.1))
-			_attach_option_description("Less Pockets", lvl)
-		"space+":
+			data.value = int(data.value * (1 + lvl*.15))
+			_attach_option_description("Decreased Weight", "Increased Weight", lvl)
+		"space":
 			lvl = int(lvl/5) + 1
 			data["space"] = data.get("space", 0) + lvl
-			data.value = int(data.value * (1 + lvl*.3))
-			_attach_option_description("More Pockets", lvl)
+			data.value = int(data.value * (1 + lvl*.2))
+			_attach_option_description("More Pockets", "Less Pockets", lvl)
 		"damage":
 			data.damage += lvl
 			data.value += lvl * 30
-			_attach_option_description("Added Damage", lvl)
+			_attach_option_description("Added Damage", "Reduced Damage", lvl)
 		"damage*":
-			data.damage += int(data.damage * lvl*.2)
+			data.damage = int(data.damage + data.damage * lvl*.2)
 			data.value += lvl * 30
-			_attach_option_description("Increased Damage", lvl)
+			_attach_option_description("Increased Damage", "Decreased Damage", lvl)
 		"inflict":
 			var inflict = G.rng.pick(INFLICTS)
-			data["inflict"] = data.get("inflict", []) + [[inflict, lvl]]
-			data.value += lvl * 30
-			_attach_option_description(str("Inflict <",inflict.capitalize(),">"), lvl)
+			if lvl > 0:
+				data["inflict"] = data.get("inflict", []) + [[inflict, lvl]]
+			else:
+				data["buff"] = data.get("buff", []) + [[inflict, -lvl]]
+			if lvl > 0:
+				data.value += lvl * 20 + 100
+			else:
+				data.value += lvl * 20 - 100
+			var suffix = str("<",inflict.capitalize(),">")
+			_attach_option_description("Inflict "+suffix, "Suffer "+suffix, lvl)
+		"aid":
+			var inflict = G.rng.pick(BUFFS)
+			if lvl > 0:
+				var ratio = randf()
+				data["buffc"] = data.get("buffc", 0) + int(lvl * ratio) + 1
+				lvl = int(lvl * (1 - ratio))
+				data["buff"] = data.get("buff", []) + [[inflict, lvl]]
+				_options.append(str(data.buffc, "% chance to trigger"))
+			else:
+				data["inflict"] = data.get("inflict", []) + [[inflict, -lvl]]
+			if lvl > 0:
+				data.value += lvl * 20 + 100
+			else:
+				data.value += lvl * 20 - 100
+			var suffix = str("<",inflict.capitalize(),">")
+			_attach_option_description("Receive "+suffix, "Imbue "+suffix, lvl)
 		"backstab":
 			data.backstab += lvl * 2
 			data.value += lvl * 15
-			_attach_option_description("Enhanced Backstab", lvl)
+			_attach_option_description("Enhanced Backstab", "Reduced Backstab", lvl)
 		"speed":
-			data.speed += lvl * .1
-			data.value = int(data.value * (1 + lvl*.2))
-			_attach_option_description("Increased Speed", lvl)
+			data.speed += data.speed * lvl*.1
+			data.value = int(data.value * (1 + lvl*.07))
+			_attach_option_description("Increased Speed", "Decreased Speed", lvl)
 		"spread":
 			data.spread = data.spread / (1 + lvl*.5)
 			data.spread = snapped(data.spread, 0.01)
 			data.value = int(data.value * (1 + lvl*.2))
-			_attach_option_description("Increased Accuracy", lvl)
+			_attach_option_description("Increased Accuracy", "Decreased Accuracy", lvl)
 		"health":
-			data.health += lvl * 5
+			data["health"] = data.get("health", 0) + lvl*5
 			data.value = int(data.value * (1 + lvl*.2))
-			_attach_option_description("Increased Health", lvl)
+			_attach_option_description("Increased Health", "Decreased Health", lvl)
 		"mana":
-			data.mana += lvl
+			data["mana"] = data.get("mana", 0) + lvl
 			data.value = int(data.value * (1 + lvl*.1))
-			_attach_option_description("Increased Mana", lvl)
+			_attach_option_description("Increased Mana", "Decreased Mana", lvl)
 		"defense":
 			lvl = int(lvl/2) + 1
-			data.defense += lvl
+			data["defense"] = data.get("defense", 0) + lvl
 			data.value = int(data.value * (1 + lvl*.25))
-			_attach_option_description("Increased Defense", lvl)
+			_attach_option_description("Increased Defense", "Decreased Defense", lvl)
 		"manause":
-			rank -= 2
-			data.manause += lvl
+			data.manause = int(data.manause * (1 - lvl*.25))
+			data.manause = max(data.manause, 0)
 			data.value = int(data.value * (1 - lvl*.25))
-			_attach_option_description("Mana Inefficiency", lvl)
+			_attach_option_description("Mana Efficiency", "Mana Inefficiency", lvl)
 		"noise":
 			data.noise = max(0, data.noise - lvl)
 			data.value = int(data.value * (1 + lvl*.1))
-			_attach_option_description("Reduced Noise", lvl)
+			_attach_option_description("Reduced Noise", "Amplified Noise", lvl)
 		"power":
 			data.power += lvl * 5
 			data.value = int(data.value * (1 + lvl*.05))
-			_attach_option_description("Projectile Speed", lvl)
+			_attach_option_description("Projectile Speed", "Projectile Slow", lvl)
 		"radius":
 			data.radius += lvl * .5
 			data.value = int(data.value * (1 + lvl*.2))
-			_attach_option_description("Area of Effect", lvl)
+			_attach_option_description("Area of Effect", "Reduced Area", lvl)
+		"sneak":
+			data["sneak"] = data.get("sneak", 0) + lvl
+			data.value += lvl * 10
+			_attach_option_description("Enhanced Sneaking", "Reduced Sneaking", lvl)
+		"sight":
+			data["sight"] = data.get("sight", 0) + lvl * 2
+			data.value += lvl * 5
+			_attach_option_description("Enhanced Sight", "Reduced Sight", lvl)
 		"light":
 			data.light += lvl * 5
 			data.value += lvl * 5
-			_attach_option_description("Increased Light", lvl)
+			_attach_option_description("Increased Light", "Decreased Light", lvl)
 		"light spread":
 			data["light spread"] += lvl * 10
 			data.value += lvl * 5
-			_attach_option_description("Increased Light Spread", lvl)
+			_attach_option_description("Broad Lighting", "Narrow Lighting", lvl)
 	data.value = max(0, data.value)
 
 
-func _attach_option_description(desc, lvl):
-	var txt = str(desc, ": [color=", OPTION_RANK_COLOR[min(6, lvl-1)], "]Rank ",lvl,"[/color]")
+func _attach_option_description(posdesc, negdesc, lvl):
+	var txt
+	if lvl > 0:
+		var color = OPTION_RANK_COLOR[min(6, lvl-1)]
+		txt = str(posdesc, ": [color=", color, "]Rank ",lvl,"[/color]")
+	else:
+		txt = str("[color=CRIMSON]",negdesc, ": Rank ",-lvl,"[/color]")
 	_options.append(txt)
 

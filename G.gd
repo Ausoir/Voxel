@@ -12,6 +12,7 @@ var _envs = {
 	"outside": preload("res://game/environment/env_outside.tscn").instantiate(),
 	"cave": preload("res://game/environment/env_cave.tscn").instantiate(),
 	"arcane": preload("res://game/environment/env_arcane.tscn").instantiate(),
+	"murky": preload("res://game/environment/env_murky.tscn").instantiate(),
 }
 
 var _frame = 0

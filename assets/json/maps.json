@@ -130,6 +130,20 @@
 					"portal/exit"
 				]
 			],
+			"_stonework": [
+				[
+					1,
+					"chest"
+				],
+				[
+					3,
+					"looter"
+				],
+				[
+					1,
+					"portal/exit"
+				]
+			],
 			"^wood": [
 				[
 					2,
@@ -159,7 +173,7 @@
 			"_chair": [
 				[
 					0.8,
-					"skeletal ranger"
+					"looter"
 				]
 			],
 			"_stone": [
@@ -232,7 +246,7 @@
 	},
 	"dungeons": {
 		"env": "cave",
-		"down": "goblin caves",
+		"down": "labyrinth",
 		"spawns": {
 			"^stonework": [
 				[
@@ -268,12 +282,8 @@
 			],
 			"_brick": [
 				[
-					1,
-					"skeletal lord"
-				],
-				[
-					3,
-					"skeletal ranger"
+					2,
+					"undead army"
 				],
 				[
 					1,
@@ -284,6 +294,12 @@
 				[
 					0.25,
 					"skeleton"
+				]
+			],
+			"^chair": [
+				[
+					0.25,
+					"skeletal ranger"
 				]
 			],
 			"_stone": [
@@ -302,7 +318,7 @@
 					"bat"
 				],
 				[
-					4,
+					2,
 					"#shelf"
 				]
 			],
@@ -317,7 +333,7 @@
 				],
 				[
 					1,
-					"bandits"
+					"marauders"
 				]
 			],
 			"_table": [
@@ -368,7 +384,7 @@
 	},
 	"goblin caves": {
 		"env": "cave",
-		"down": "abandoned academy",
+		"down": "labyrinth",
 		"spawns": {
 			"_bed": [
 				[
@@ -406,8 +422,12 @@
 					"portal/entrance"
 				],
 				[
-					2,
+					1,
 					"marauders"
+				],
+				[
+					2,
+					"#goblins"
 				]
 			],
 			"^brick": [
@@ -417,11 +437,11 @@
 				],
 				[
 					1,
-					"bandits"
+					"marauders"
 				],
 				[
 					2,
-					"green rat"
+					"#goblins"
 				]
 			],
 			"^table": [
@@ -436,7 +456,7 @@
 					"slime"
 				],
 				[
-					5,
+					15,
 					"#cavern"
 				],
 				[
@@ -486,6 +506,126 @@
 			"special": "stone",
 			"carpet": "carpet",
 			"glass": "pole"
+		}
+	},
+	"labyrinth": {
+		"env": "murky",
+		"down": "abandoned academy",
+		"spawns": {
+			"_stonework": [
+				[
+					1,
+					"@"
+				]
+			],
+			"_carpet": [
+				[
+					1,
+					"portal/exit"
+				],
+				[
+					3,
+					"wisp"
+				],
+				[
+					1,
+					"bandits"
+				],
+				[
+					1,
+					"chest"
+				],
+				[
+					1,
+					"#shelf"
+				]
+			],
+			"_soil": [
+				[
+					3,
+					"rock slime"
+				],
+				[
+					1,
+					"chest"
+				],
+				[
+					3,
+					"green rat"
+				]
+			],
+			"_brick": [
+				[
+					1,
+					"portal/entrance"
+				],
+				[
+					1,
+					"chest"
+				],
+				[
+					14,
+					"#undead"
+				],
+				[
+					1,
+					"undead army"
+				],
+				[
+					14,
+					"#cavern"
+				],
+				[
+					1,
+					"assassin"
+				],
+				[
+					5,
+					"#shelf"
+				]
+			],
+			"^brick": [
+				[
+					2,
+					"wisp"
+				],
+				[
+					10,
+					"#cavern"
+				],
+				[
+					1,
+					"assassin"
+				],
+				[
+					3,
+					"looter"
+				]
+			]
+		},
+		"item": "#shelf",
+		"treasure": "#treasure2",
+		"trash": "#trash",
+		"variants": [
+			"labyrinth/maze1",
+			"labyrinth/maze2",
+			"labyrinth/maze3",
+			"labyrinth/maze4",
+			"labyrinth/maze5",
+			"labyrinth/maze6",
+			"labyrinth/maze1",
+			"labyrinth/maze2",
+			"labyrinth/maze3",
+			"labyrinth/maze4",
+			"labyrinth/maze5",
+			"labyrinth/maze6"
+		],
+		"palette": {
+			"road": "carpet",
+			"tiles": "stonework",
+			"wall": "brick",
+			"wall2": "pole",
+			"special": "soil"
 		}
 	},
 	"abandoned academy": {
@@ -566,6 +706,10 @@
 				[
 					3,
 					"robot"
+				],
+				[
+					1,
+					"rock slime"
 				]
 			],
 			"_labtiles": [

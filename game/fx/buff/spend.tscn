@@ -1,16 +1,13 @@
 [gd_scene load_steps=8 format=3 uid="uid://dx70rkn1rjl4j"]
 
 [ext_resource type="Script" path="res://game/fx/timeout.gd" id="1_2e1kr"]
-[ext_resource type="Texture2D" uid="uid://8py2u5n20i0u" path="res://assets/texture/t_hit.png" id="2_ib2jr"]
+[ext_resource type="Texture2D" uid="uid://dg4emhvanygwg" path="res://assets/texture/t_spark.png" id="2_1ggrj"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_anv33"]
-transparency = 2
-alpha_scissor_threshold = 0.5
-alpha_antialiasing_mode = 0
-blend_mode = 1
+transparency = 1
 shading_mode = 0
 vertex_color_use_as_albedo = true
-albedo_texture = ExtResource("2_ib2jr")
+albedo_texture = ExtResource("2_1ggrj")
 texture_filter = 0
 texture_repeat = false
 billboard_mode = 3

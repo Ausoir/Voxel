@@ -1,0 +1,28 @@
+[gd_scene load_steps=2 format=3 uid="uid://cwueijl8k46f7"]
+
+[sub_resource type="Environment" id="Environment_6nap3"]
+background_mode = 1
+ambient_light_source = 2
+ambient_light_color = Color(1, 1, 1, 1)
+sdfgi_read_sky_light = false
+glow_mix = 0.1
+glow_bloom = 0.05
+fog_light_color = Color(0, 0, 0, 1)
+fog_light_energy = 0.1
+fog_density = 0.0
+fog_sky_affect = 0.0
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.5
+volumetric_fog_emission_energy = 0.0
+adjustment_saturation = 1.5
+
+[node name="WorldEnvironment" type="WorldEnvironment"]
+environment = SubResource("Environment_6nap3")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.173648, 0.984808, 0, -0.984808, 0.173648, 0, 0, 0)
+light_color = Color(0.584314, 0.713726, 0, 1)
+light_energy = 0.8
+light_bake_mode = 1
+shadow_enabled = true
+directional_shadow_fade_start = 1.0

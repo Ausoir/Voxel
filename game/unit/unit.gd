@@ -45,12 +45,14 @@ var mana: int = 0
 var defense: int = 0
 var essence = []
 var last_hitter
+var body_rid
 
 var _mesh
 @export var _mesh_path: NodePath
 @onready var body = $Body
 @onready var animator = $Animator
 @onready var model = $Model
+@onready var equipment = $Equipment
 
 
 func _ready():
@@ -64,15 +66,17 @@ func _ready():
 	_box_mover.set_max_step_height(1)
 	_mesh = get_node(_mesh_path)
 	_space_state = get_viewport().get_world_3d().get_direct_space_state()
-	_space_state_params = PhysicsPointQueryParameters3D.new()
-	_space_state_params.set_collision_mask(body.get_collision_mask())
-	_space_state_params.set_exclude([body.get_rid()])
-	attack.connect(on_attack)
-	weapon.connect(on_weapon)
-	forward = -get_transform().basis.z.normalized()
 	var interact = data.get("interact")
 	if interact != null:
 		body.set_collision_layer_value(1, true)
+	body_rid = body.get_rid()
+	_space_state_params = PhysicsPointQueryParameters3D.new()
+	_space_state_params.set_collision_mask(body.get_collision_mask())
+	_space_state_params.set_exclude([body_rid])
+	attack.connect(on_attack)
+	weapon.connect(on_weapon)
+	forward = -get_transform().basis.z.normalized()
+	equipment.set_unit(self)
 
 
 func on_interact(_user: Node3D):
@@ -97,7 +101,6 @@ func take_hit(dmg):
 		alert = true
 		dmg = max(1, dmg - defense)
 		buffs.set_duration("invisible", 0)
-		buffs.set_duration("regeneration", 0)
 		buffs.set_duration("sleep", 0)
 		health -= dmg
 		show_healthbar()
@@ -122,7 +125,6 @@ func has_essence(p):
 
 
 func on_damaged(_pos: Vector3, damage: int, inflict):
-	action.set_next("hit", .3)
 	if alert:
 		var ess = 0
 		if has_essence("agility"):
@@ -147,8 +149,10 @@ func on_damaged(_pos: Vector3, damage: int, inflict):
 			G.sfx.play("dodge", position)
 			G.stock.make_particle(Vector3(0, size.y/2, 0), "barrier", self)
 			return
+		action.set_next("hit", .3)
 	else:
-		if last_hitter.has_essence("panic"):
+		action.set_next("hit", .3)
+		if last_hitter != null and last_hitter.has_essence("panic"):
 			if last_hitter.mana == 0:
 				last_hitter.mana += int(damage / 5)
 		G.stock.make_particle(position + Vector3(0, size.y/2, 0), "demolish")
@@ -158,13 +162,21 @@ func on_damaged(_pos: Vector3, damage: int, inflict):
 	if _mesh.material_overlay == null:
 		G.stock.make_particle(position + Vector3(0, size.y/2, 0), "bleed")
 		start_flash(Color.RED)
-		velocity += ((position-_pos).normalized() + Vector3.UP) * 4
+		velocity += ((position-_pos).normalized() + Vector3.UP) * 2
 
 		take_hit(damage)
-		for buff in inflict:
-			buffs.add(buff[0], buff[1])
+		buffs.add_all(inflict)
 	if !buffs.has("silence") and faction != 1:
 		G.tool.set_sound(position, 14)
+	if damage > 0:
+		var worn = equipment.equipment
+		for part in worn.keys():
+			var armor = worn[part]
+			if armor != null:
+				if last_hitter != null:
+					last_hitter.buffs.add_all(armor.data.get("inflict", []))
+				if G.rng.percent(armor.data.get("buffc", 0) * 0.1):
+					buffs.add_all(armor.data.get("buff", []))
 
 
 func start_flash(color):
@@ -206,22 +218,19 @@ func get_center():
 func on_kill(_victim):
 	var lvl = data.get("level", 1)
 	var tlvl = _victim.data.get("level", 1)
-	var diff = int(round(tlvl - lvl))
-	if diff < 0:
-		earn_exp((1 >> -diff) * .2)
-	else:
-		earn_exp((1 << diff) * .2)
+	var diff = int(round(tlvl - lvl)) + 2
+	if diff > 0:
+		earn_exp(diff * diff * .02)
 	emit_signal("kill", _victim)
 
 
 func earn_exp(experience):
-	if buffs.has("hunger"):
-		experience *= .5
-	var old_lvl = data["level"]
-	var new_lvl = old_lvl + experience
-	data["level"] = snapped(new_lvl, 0.01)
-	if floor(data.level) != floor(old_lvl):
-		on_level()
+	if !buffs.has("stunted"):
+		var old_lvl = data["level"]
+		var new_lvl = old_lvl + experience
+		data["level"] = snapped(new_lvl, 0.01)
+		if floor(data.level) != floor(old_lvl):
+			on_level()
 
 
 func on_level():
@@ -229,6 +238,8 @@ func on_level():
 		G.ui.msg("Level Up!")
 	G.stock.make_particle(position, "level")
 	G.sfx.play("dodge", position)
+	equipment.max_essence_size = data.get("level", 1)
+	equipment.update_essence()
 
 
 func die():
@@ -274,6 +285,7 @@ func remove():
 	if _flash_tween != null:
 		_flash_tween.kill()
 	_mesh.material_overlay = null
+	equipment.remove()
 	buffs.remove()
 	queue_free()
 
@@ -287,20 +299,40 @@ func on_step():
 
 
 func on_attack():
-	var front = procedure.get_toward_plane().normalized()
-	var origin = position + COLLISION_CENTER
-	var prop = G.tool.collide_prop_by_line(origin, origin + front * (size.z + procedure.speed)/2, 4)
-	if !prop.is_empty():
-		var unit = prop.collider.get_parent()
-		var ufaction = unit.get("faction")
-		if ufaction != null and ufaction != faction:
+	var _attack_motion = data.get("attack", "tackle")
+	var fn = Callable(self, _attack_motion)
+	if fn.is_valid():
+		fn.call()
+
+
+func tackle():
+	var hits = procedure.collide_front()
+	if hits.is_empty():
+		G.sfx.play("swing", position)
+	else:
+		for hit in hits:
+			var unit = hit.collider.get_parent()
 			unit.last_hitter = self
 			var inflict = data.get("inflict", [])
 			var damage = data.get("damage", 1)
 			var damage_roll = G.rng.damage_roll(damage, get_prof("unarmed"))
-			unit.on_damaged(origin, damage_roll, inflict)
+			if !unit.alert:
+				damage_roll += data.get("backstab", 0) + 2
+			unit.on_damaged(position, damage_roll, inflict)
 			emit_signal("weapon", "unarmed", unit, damage_roll)
 			G.sfx.play("hit_flesh", position)
+
+
+func shoot():
+	var projname = data.get("projectile")
+	var projectile = G.stock.Projectiles[projname].instantiate()
+	projectile.radius = data.get("radius", 1)
+	projectile.damage = data.get("damage", 5)
+	projectile.inflict = data.get("inflict", [])
+	projectile.position = get_center() + forward
+	projectile.shooter = self
+	G.stock.add_child(projectile)
+	projectile.set_direction(forward)
 
 
 func on_weapon(_type, _victim, _dmg):
@@ -312,9 +344,9 @@ func on_weapon(_type, _victim, _dmg):
 
 func set_fp_visibility(p):
 	if p:
-		show()
+		model.show()
 	else:
-		hide()
+		model.hide()
 
 
 func get_prof(p):
@@ -339,6 +371,7 @@ func serialize():
 	data["proficiency"] = proficiency.serialize()
 	data["buffs"] = buffs.serialize()
 	r["data"] = data
+	r.merge(equipment.serialize(), true)
 	return r
 
 
@@ -378,8 +411,8 @@ func _walk_physics_process(delta):
 		animator.play("RESET")
 		_wait_time += delta
 		if _wait_time > 4.0:
-			_wait_time = 0
 			emit_signal("wait")
+			_wait_time = 0
 
 	velocity.x += motor.x
 	velocity.z += motor.z
@@ -431,6 +464,7 @@ func _fly_physics_process(delta):
 		_wait_time += delta
 		if _wait_time > 4.0:
 			emit_signal("wait")
+			_wait_time = 0
 
 	velocity.x += motor.x
 	velocity.z += motor.z

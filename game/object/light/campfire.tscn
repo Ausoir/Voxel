@@ -2,7 +2,7 @@
 
 [ext_resource type="ArrayMesh" uid="uid://bqrp1fkhcxccj" path="res://assets/objects/o_campfire.obj" id="1_kehth"]
 [ext_resource type="Script" path="res://game/object/prop.gd" id="1_xpst3"]
-[ext_resource type="Texture2D" uid="uid://dmdcwxiwd6pl1" path="res://assets/texture/fire.png" id="2_262ug"]
+[ext_resource type="Texture2D" uid="uid://bfyb8ns5fkpqx" path="res://assets/texture/t_smoke.png" id="3_xmprt"]
 [ext_resource type="AudioStream" uid="uid://cunwbrcbv756y" path="res://assets/sfx/bgm_fireplace.wav" id="4_ydfjg"]
 [ext_resource type="PackedScene" uid="uid://c5rbw73sc508y" path="res://game/fx/audio.tscn" id="5_micpw"]
 
@@ -21,13 +21,11 @@ scale_min = 0.1
 scale_max = 2.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dypeg"]
-transparency = 2
-alpha_scissor_threshold = 0.5
-alpha_antialiasing_mode = 0
-blend_mode = 1
+transparency = 1
 shading_mode = 0
-albedo_color = Color(0.368627, 0.368627, 0.368627, 1)
-albedo_texture = ExtResource("2_262ug")
+specular_mode = 2
+albedo_color = Color(0.45098, 0.45098, 0.45098, 1)
+albedo_texture = ExtResource("3_xmprt")
 texture_filter = 0
 billboard_mode = 3
 billboard_keep_scale = true
@@ -35,7 +33,7 @@ particles_anim_h_frames = 1
 particles_anim_v_frames = 1
 particles_anim_loop = false
 
-[sub_resource type="QuadMesh" id="QuadMesh_yqjcc"]
+[sub_resource type="QuadMesh" id="QuadMesh_ynf60"]
 material = SubResource("StandardMaterial3D_dypeg")
 
 [sub_resource type="Shader" id="Shader_lbe5x"]
@@ -114,7 +112,7 @@ light_color = Color(0.980392, 0.65098, 0, 1)
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
 amount = 4
 process_material = SubResource("ParticleProcessMaterial_1crqv")
-draw_pass_1 = SubResource("QuadMesh_yqjcc")
+draw_pass_1 = SubResource("QuadMesh_ynf60")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="Light"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 5.78644e-09, -0.132378)

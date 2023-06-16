@@ -11,8 +11,8 @@ func _ready():
 	var pos = position.floor()
 	G.tool.set_voxel(pos, 3)
 	_menu = MULTISELECT.instantiate()
-	var txt = str("Enter the tower")
-	_menu.add_button(txt, on_press)
+	_menu.add_button(str("Enter the Tower (Front)"), on_press.bind("goblin caves"))
+	_menu.add_button(str("Enter the Tower (Back)"), on_press.bind("dungeons"))
 
 
 func remove():
@@ -33,5 +33,6 @@ func on_activate(_user: Node3D):
 	G.ui.msg('Guildsman: "Where do you want to go?"')
 
 
-func on_press():
-	G.player.load_map("dungeons")
+func on_press(to):
+	G.player.load_map(to)
+	G.sfx.play_bgm("dark")

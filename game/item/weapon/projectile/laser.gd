@@ -15,6 +15,7 @@ func on_effect(_pos):
 	G.sfx.play("explode_short", _pos)
 	for hit in _bodies:
 		var unit = hit.get_parent()
+		unit.last_hitter = shooter
 		unit.on_damaged(position, damage, inflict)
 		if on_attack != null:
 			on_attack.call(unit, shooter, damage)

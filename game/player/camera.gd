@@ -61,7 +61,7 @@ func update_rotations(motion):
 
 
 func zoom_distance(zoom):
-	distance = clamp(distance + zoom * 0.5, 0, 4)
+	distance = clamp(distance + zoom * 0.5, 0, 2)
 	if distance == 0:
 		_unit.set_fp_visibility(false)
 		_offset = Vector3(0, _unit.size.y * 2.0/3, 0)

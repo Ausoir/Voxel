@@ -21,6 +21,9 @@ func set_unit(unit):
 	_unit = unit
 	max_essence_size = unit.data.get("level", 1)
 	update_essence()
+	if _unit.get_type() != 1:
+		max_inventory_size = 0
+		update_inventory()
 
 
 func clear(clear_eq=true, clear_ess=true):
@@ -33,12 +36,12 @@ func clear(clear_eq=true, clear_ess=true):
 		var slots = equipment.keys()
 		for i in slots:
 			if equipment[i] != null:
-				apply_change(equipment[i].data, -1)
+				apply_change(equipment[i], -1)
 				equipment[i] = null
 	if clear_ess:
 		for i in essence:
 			if i != null:
-				apply_change(i.data, -1)
+				apply_change(i, -1)
 				essence.erase(i)
 
 
@@ -69,7 +72,7 @@ func add_essence(times):
 	if times < 0:
 		for i in range(max_essence_size, essence.size()):
 			if essence[i] != null:
-				apply_change(essence[i].data, -1)
+				apply_change(essence[i], -1)
 				essence[i].drop(_unit)
 				essence[i] = null
 	update_essence()
@@ -134,7 +137,9 @@ func get_index_type(i):
 
 
 func get_held_item():
-	return _inventory[_held_index]
+	if max_inventory_size > 0:
+		return _inventory[_held_index]
+	return null
 
 
 func get_item_by_index(i):
@@ -173,13 +178,13 @@ func _adjust_held_index():
 
 
 func absorb(ess):
-	if ess.part != null and ess.part == "essence":
+	if ess != null and ess.part != null and ess.part == "essence":
 		for i in range(essence.size()):
 			if essence[i] == null:
 				var reqs = ess.data.get("req")
-				if _unit != G.you or reqs == null or G.you.proficiency.check_req(reqs[0], reqs[1]):
+				if reqs == null or _unit.proficiency.check_req(reqs[0], reqs[1]):
 					essence[i] = ess
-					apply_change(ess.data)
+					apply_change(ess)
 					G.sfx.play("rip", _unit.position)
 					emit_signal("changed")
 					return 0
@@ -200,19 +205,12 @@ func take_essence_in_inventory(take=false):
 	return r
 
 
-func apply_change(data, mult=1, skip=false):
+func apply_change(item, mult=1, skip=false):
+	var data = item.data
 	if !skip:
 		add_inventory(data.get("space", 0) * mult)
 		add_essence(data.get("soul", 0) * mult)
-	if "essence" in data:
-		if mult == -1:
-			_unit.essence.erase(data.essence)
-		else:
-			_unit.essence.append(data.essence)
-	_unit.data.health += data.get("health", 0) * mult
-	_unit.data.mana += data.get("mana", 0) * mult
-	_unit.defense += data.get("defense", 0) * mult
-	_unit.procedure.speed -= data.get("weight", 0)*.03 * mult
+	item.apply_change(_unit, mult)
 
 
 func pickup(item):
@@ -229,11 +227,11 @@ func wear(item):
 		if item.part in equipment:
 			if equipment[item.part] == null:
 				var reqs = item.data.get("req")
-				if _unit != G.you or reqs == null or G.player.proficiency.check_req(reqs[0], reqs[1]):
+				if reqs == null or G.player.proficiency.check_req(reqs[0], reqs[1]):
 					G.sfx.play("equip_cloth", _unit.position)
 					equipment[item.part] = item
 					item.on_wear(_unit)
-					apply_change(item.data)
+					apply_change(item)
 					emit_signal("changed")
 					return true
 	return false
@@ -242,7 +240,7 @@ func wear(item):
 func unwear(key):
 	var equipped = equipment[key]
 	if equipped != null:
-		apply_change(equipped.data, -1)
+		apply_change(equipped, -1)
 		equipped.on_unwear(_unit)
 		equipment[key] = null
 		emit_signal("changed")
@@ -272,15 +270,18 @@ func serialize():
 	var slots = equipment.keys()
 	for i in slots:
 		if equipment[i] != null:
-			apply_change(equipment[i].data, -1, true)
+			apply_change(equipment[i], -1, true)
 			equips.append(equipment[i].sid)
 	for i in _inventory:
 		if i != null:
 			items.append(i.sid)
 	for i in essence:
 		if i != null:
-			apply_change(i.data, -1, true)
+			apply_change(i, -1, true)
 			esss.append(i.sid)
+	var held = get_held_item()
+	if held != null:
+		held.apply_change(_unit, -1)
 	var r = {
 		"slots": equipment.keys(),
 		"equipments": equips,

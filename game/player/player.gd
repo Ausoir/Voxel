@@ -21,6 +21,7 @@ func load_map(p):
 		G.sfx.fade_bgm()
 		G.set_map(p)
 		_map_time = 0
+		G.vars.shop = 0
 		G.ui.msg(str("Now entering: [b][color=TEAL][url=",p,"]The ", p.capitalize(), "[/url][/color][/b]"))
 		G.terrain.get_node("LateLoader").stop()
 		G.stock.clean()
@@ -37,8 +38,13 @@ func load_map(p):
 		if G.mapdata.get("safe", false):
 			G.vars.day += 1
 			G.you.buffs.add("hunger", -1)
+			G.you.buffs.add("stunted", -1)
 			G.you.mana = G.you.data.mana
 			G.files.save_player_data()
+			var u = G.files.load_player_data()
+			set_unit(u)
+		else:
+			G.you.buffs.set_duration("stunted", 0)
 
 
 func set_unit(p):
@@ -58,6 +64,9 @@ func set_unit(p):
 	else:
 		addon = get_node("Addon")
 		remove_child(addon)
+	if "sight" in p.data:
+		var sight = addon.get_node("Sight")
+		sight.omni_range = p.data.sight
 	p.get_parent().remove_child(p)
 	add_child(p)
 	unit = p
@@ -90,8 +99,7 @@ func _on_timer_timeout():
 	G.ui.animation.play("respawn")
 	G.ui.on = true
 	if unit.buffs.has("track"):
-		if unit.get_type() == 1:
-			unit.equipment.clear(true, false)
+		unit.equipment.clear(true, false)
 		unit.proficiency.floor_all()
 		unit.data["level"] = floor(unit.data.get("level", 1))
 		G.ui.msg("The chaplain revives you!")

@@ -1,8 +1,8 @@
 [gd_scene load_steps=13 format=3 uid="uid://df4imi2iymyjg"]
 
 [ext_resource type="Script" path="res://game/object/portal/portal.gd" id="1_exya1"]
-[ext_resource type="Texture2D" uid="uid://bvsnwrbsad76s" path="res://assets/texture/rune.png" id="2_luiv4"]
-[ext_resource type="Texture2D" uid="uid://dixe5c3qe1e8j" path="res://assets/texture/radial.png" id="3_neuxd"]
+[ext_resource type="Texture2D" uid="uid://bovro4qy21nrp" path="res://assets/texture/t_rune.png" id="2_wgtpn"]
+[ext_resource type="Texture2D" uid="uid://camj5lwu6pirs" path="res://assets/texture/t_radial.png" id="3_k306h"]
 [ext_resource type="AudioStream" uid="uid://bi5pv2uu2mvyf" path="res://assets/sfx/bgm_portal.wav" id="4_qqst2"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_x6g5y"]
@@ -24,25 +24,29 @@ scale_min = 2.0
 scale_max = 2.0
 scale_curve = SubResource("CurveTexture_icu4a")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0k2y7"]
-blend_mode = 1
-shading_mode = 0
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_llmts"]
+transparency = 1
 vertex_color_use_as_albedo = true
-albedo_texture = ExtResource("2_luiv4")
+albedo_texture = ExtResource("2_wgtpn")
+emission_enabled = true
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.3
+texture_filter = 0
+texture_repeat = false
 billboard_mode = 3
 billboard_keep_scale = true
 particles_anim_h_frames = 1
 particles_anim_v_frames = 1
 particles_anim_loop = false
 
-[sub_resource type="QuadMesh" id="QuadMesh_pw5tp"]
-material = SubResource("StandardMaterial3D_0k2y7")
+[sub_resource type="QuadMesh" id="QuadMesh_76vgn"]
+material = SubResource("StandardMaterial3D_llmts")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nk8lo"]
-blend_mode = 1
+transparency = 1
 shading_mode = 0
 vertex_color_use_as_albedo = true
-albedo_texture = ExtResource("3_neuxd")
+albedo_texture = ExtResource("3_k306h")
 billboard_mode = 3
 billboard_keep_scale = true
 particles_anim_h_frames = 1
@@ -51,7 +55,6 @@ particles_anim_loop = false
 
 [sub_resource type="QuadMesh" id="QuadMesh_8exlk"]
 material = SubResource("StandardMaterial3D_nk8lo")
-size = Vector2(0.5, 0.5)
 
 [node name="Exit" type="Node3D"]
 script = ExtResource("1_exya1")
@@ -66,7 +69,7 @@ shape = SubResource("SphereShape3D_x6g5y")
 [node name="GPUParticles3D" type="GPUParticles3D" parent="Body"]
 amount = 3
 process_material = SubResource("ParticleProcessMaterial_6jtpq")
-draw_pass_1 = SubResource("QuadMesh_pw5tp")
+draw_pass_1 = SubResource("QuadMesh_76vgn")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Body"]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)

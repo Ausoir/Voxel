@@ -1,33 +1,26 @@
-[gd_scene load_steps=10 format=3 uid="uid://bpuq0fxlygolv"]
+[gd_scene load_steps=9 format=3 uid="uid://bpuq0fxlygolv"]
 
 [ext_resource type="Script" path="res://game/fx/timeout_animated.gd" id="1_lbrj2"]
-[ext_resource type="Texture2D" uid="uid://bvsnwrbsad76s" path="res://assets/texture/rune.png" id="2_imkhk"]
+[ext_resource type="Texture2D" uid="uid://bovro4qy21nrp" path="res://assets/texture/t_rune.png" id="2_41c1s"]
+[ext_resource type="Texture2D" uid="uid://b7xbx5rynnnlc" path="res://game/fx/fadeinout.tres" id="3_41ngm"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2xkqn"]
 transparency = 1
-blend_mode = 1
 cull_mode = 2
 vertex_color_use_as_albedo = true
 albedo_color = Color(0, 0.796078, 1, 0.576471)
-albedo_texture = ExtResource("2_imkhk")
+albedo_texture = ExtResource("2_41c1s")
 billboard_mode = 3
 particles_anim_h_frames = 1
 particles_anim_v_frames = 1
 particles_anim_loop = false
 
-[sub_resource type="Gradient" id="Gradient_e4qv0"]
-offsets = PackedFloat32Array(0, 0.253012, 0.690763, 1)
-colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_14clg"]
-gradient = SubResource("Gradient_e4qv0")
-
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_kkj2f"]
 gravity = Vector3(0, 0, 0)
 angular_velocity_min = -720.0
 angular_velocity_max = 720.0
-color_ramp = SubResource("GradientTexture1D_14clg")
-hue_variation_max = 0.2
+color_ramp = ExtResource("3_41ngm")
+hue_variation_max = 0.3
 
 [sub_resource type="SphereMesh" id="SphereMesh_vv0dq"]
 
@@ -71,10 +64,8 @@ _remaining_time = 2.0
 
 [node name="Particles" type="GPUParticles3D" parent="."]
 material_override = SubResource("StandardMaterial3D_2xkqn")
-emitting = false
-amount = 3
+amount = 4
 lifetime = 1.5
-one_shot = true
 explosiveness = 1.0
 local_coords = true
 process_material = SubResource("ParticleProcessMaterial_kkj2f")

@@ -38,22 +38,20 @@ func set_unit(unit):
 		if _unit != null:
 			unset_unit(_unit)
 		_unit = unit
-		if unit.get_type() == 1:
-			_inv = unit.equipment
-			_equipbar.set_unit(unit)
-			_essencebar.set_unit(unit)
-			_itembar.set_unit(unit)
-			update_views()
-			_inv.selected.connect(_equipbar.update_items)
-			_inv.selected.connect(_itembar.update_items)
-			_inv.changed.connect(update_views)
+		_inv = unit.equipment
+		_equipbar.set_unit(unit)
+		_essencebar.set_unit(unit)
+		_itembar.set_unit(unit)
+		update_views()
+		_inv.selected.connect(_equipbar.update_items)
+		_inv.selected.connect(_itembar.update_items)
+		_inv.changed.connect(update_views)
 
 
 func unset_unit(_p):
-	if _p.get_type() == 1:
-		_p.equipment.selected.disconnect(_equipbar.update_items)
-		_p.equipment.selected.disconnect(_itembar.update_items)
-		_p.equipment.changed.disconnect(update_views)
+	_p.equipment.selected.disconnect(_equipbar.update_items)
+	_p.equipment.selected.disconnect(_itembar.update_items)
+	_p.equipment.changed.disconnect(update_views)
 
 
 func update_views():

@@ -76,11 +76,13 @@ func _physics_process(_delta):
 				_unit.procedure.use2()
 			elif Input.is_action_pressed("jump"):
 				if _unit.action.delay <= 0:
-					if _unit.grounded or !_unit.skills.perform("wind"):
+					if _unit.grounded:
 						_unit.action.set_next("jump", 999)
 						_unit.procedure.jump_ready()
 						_unit.action.cancelable = true
 						_unit.procedure.speedmod = 0.5
+					else:
+						_unit.skills.on_jump()
 			elif Input.is_action_just_released("jump"):
 				if _unit.grounded:
 					var time = _unit.action.get_time()
@@ -96,7 +98,7 @@ func _physics_process(_delta):
 			_unit.get_node("Model").rotation.x = rotx
 		elif _unit.action.action == "use":
 			var rotx: float = _unit.model.rotation.x
-			var pitch: float = min(_camera._pitch - .3, 0.5)
+			var pitch: float = clamp(_camera._pitch - .5, -1.0, 0.8)
 			rotx = lerp(rotx, pitch, .1)
 			_unit.get_node("Model").rotation.x = rotx
 	_unit.action.on_process(_delta)

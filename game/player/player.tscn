@@ -37,11 +37,15 @@ script = ExtResource("3_8bf3x")
 
 [node name="Addon" type="Node3D" parent="."]
 
-[node name="OmniLight3D" type="OmniLight3D" parent="Addon"]
+[node name="Sight" type="OmniLight3D" parent="Addon"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0.4)
-light_color = Color(0.658824, 0.658824, 0.658824, 1)
-light_energy = 0.1
-omni_range = 8.0
+light_color = Color(0.72549, 0.72549, 0.72549, 1)
+light_energy = 0.18
+light_indirect_energy = 0.0
+light_volumetric_fog_energy = 0.0
+light_specular = 0.0
+omni_range = 3.0
+omni_attenuation = 1e-05
 omni_shadow_mode = 0
 
 [node name="Perception" type="Area3D" parent="Addon"]

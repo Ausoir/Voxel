@@ -66,6 +66,14 @@ func stop_walk():
 	_unit.motor = Vector3()
 
 
+func collide_front():
+	var radius = _unit.size.z * 0.5
+	var forward = Vector3(0, 0.2, radius).rotated(Vector3.UP, _unit.rotation.y)
+	_unit._space_state_params.position = _unit.position + forward
+	var hits = _unit._space_state.intersect_point(_unit._space_state_params, 1)
+	return hits
+
+
 func use():
 	face_front()
 	if _unit.action.delay <= 0:
@@ -78,7 +86,7 @@ func use():
 				else:
 					hand.use(_unit)
 			else:
-				if _unit.action.set_next("delay", 1.5):
+				if _unit.action.set_next("delay", _unit.data.get("delay", 2)):
 					_unit.animator.stop()
 					_unit.animator.play(_unit.data.get("attack", "tackle"))
 

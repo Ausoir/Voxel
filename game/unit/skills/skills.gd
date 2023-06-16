@@ -18,152 +18,118 @@ func set_unit(p):
 
 
 func on_touch():
-	if _unit.buffs.has("silence"):
-		return false
-	if !perform("summon", "capture"):
-		if !perform("earth"):
-			if !perform("sleep"):
-				if !perform("bomb"):
-					if !perform("psychic"):
-						return false
-	return true
+	perform_by_order(["summon","earth","sleep","bomb","psychic"])
+
 
 func on_wait():
-	if !perform("blood"):
-		if !perform("bow"):
-			if !perform("summon"):
-				perform("vision")
-				perform("nighteye")
-				perform("camouflage")
+	perform_by_order(["blood","bow","summon","nighteye","hide","vision"])
+
 
 func on_hit(_dmg):
-	perform("warrior")
+	perform_by_order(["warrior"])
+
 
 func on_attack(_victim):
 	_param = _victim
-	perform("vampire")
-	perform("goblin")
+	perform_by_order(["vampire", "goblin"])
+
 
 func on_ability():
-	if !perform("metal"):
-		if !perform("heal"):
-			if !perform("venom"):
-				if !perform("divinity"):
-					if !perform("shadow"):
-						if !perform("polymorph"):
-							return
+	perform_by_order(["light","metal","heal","venom","divinity","shadow","polymorph"])
+
 
 func on_kill(_victim):
 	_param = _victim
-	perform("harvest")
-	if !perform("raise"):
-		if !perform("lethality"):
-			return
+	perform_by_order(["harvest","raise","lethality"])
+
 
 func on_cast():
 	if _casting != null:
 		_casting.call()
 
 
-func perform(ess, fn=null):
-	if _unit.has_essence(ess):
-		if fn == null:
-			fn = ess
-		if fn == "warrior":
-			if _unit.health < _unit.data.health / 2:
-				recover(3, 20)
-				return true
-			return false
-		elif fn == "metal":
-			return metal()
-		elif fn == "blood":
-			return sublimation()
-		elif fn == "vision":
-			return xray_vision()
-		elif fn == "nighteye":
-			return night_vision()
-		elif fn == "harvest":
-			G.stock.make_particle(_unit.position, "heal")
-			recover(int(_unit.get_prof("necromancy")/3) + 1, 20)
-			return true
-		elif fn == "venom":
-			return venom(7)
-		elif fn == "lethality":
-			_unit.buffs.add("lethality", 30)
-			G.sfx.play("rip", _unit.position)
-			return true
-		elif fn == "capture":
-			capture()
-		elif fn == "bow":
-			return craft_arrows()
-		elif !_unit.buffs.has("exhaustion"):
-			match fn:
-				"earth":
-					return passwall()
-				"bomb":
-					return plant_bomb()
-				"heal":
-					if _unit.health < _unit.data.health / 2:
-						if _unit.req_mana(1):
-							G.sfx.play("buff_heal", _unit.position)
-							G.stock.make_particle(_unit.position, "heal")
-							recover(_unit.get_prof("aura") + 3, 20)
-							return true
-						return false
-					else:
-						return heal_ready()
-				"psychic":
-					return psychic()
-				"sleep":
-					return sleep_ready()
-				"camouflage":
-					return hide()
-				"divinity":
-					return invulnerability()
-				"summon":
-					return summon()
-				"shadow":
-					return invisibility()
-				"goblin":
-					return slow(3)
-				"wind":
-					return fly()
-				"polymorph":
-					return polymorph()
-				"raise":
-					return raise()
-				"vampire":
-					if _unit.mana > 1:
-						if recover(1, 8):
-							_unit.req_mana(1)
-							_unit.emit_signal("special", "necromancy", 1)
-							return true
-					return false
+func on_jump():
+	return perform_by_order(["wind"])
+
+
+func perform_by_order(ps):
+	if _unit.buffs.has("silence"):
+		return false
+	for i in _unit.essence:
+		if i in ps:
+			var fn = Callable(self, i)
+			if fn.is_valid():
+				if fn.call():
+					return true
 	return false
 
 
-func fly():
-	var aura = _unit.get_prof("aura")
-	if aura > 2 or _unit.req_mana(1):
-		_unit.animator.play("jump_ready")
-		var forward = -_unit.camera.basis.z.normalized()
-		_unit.velocity += forward * (16+aura)
-		_unit.action.set_next("special", 0.8 - aura*.1)
-		_unit.buffs.add("exhaustion", max(1, 8 - aura))
-		_unit.emit_signal("special", "aura", 1)
+func warrior():
+	if _unit.health <= _unit.data.health / 3:
+		if G.rng.percent(0.33):
+			recover(3, 14)
+			return true
+	return false
+
+
+func light():
+	if !_unit.buffs.has("glow"):
+		_unit.buffs.add("glow", -1)
+		return true
+	return false
+
+
+func lethality():
+	_unit.buffs.add("lethality", 30)
+	G.sfx.play("rip", _unit.position)
 	return true
 
 
-func slow(p):
-	_param.buffs.add("poison", p-1)
-	_param.buffs.add("slow", p)
+func harvest():
+	G.stock.make_particle(_unit.position, "heal")
+	recover(int(_unit.get_prof("necromancy")/3) + 1, 20)
+	return true
+
+
+func vampire():
+	if _unit.mana > 1:
+		if recover(3, 8):
+			_unit.req_mana(1)
+			_unit.emit_signal("special", "necromancy", 1)
+			return true
+	return false
+
+
+func recover(regen, cd):
+	if !_unit.buffs.has("regeneration cooldown"):
+		_unit.buffs.add("regeneration", regen)
+		_unit.buffs.add("regeneration cooldown", cd)
+		return true
+	return false
+
+
+func wind():
+	var aura = _unit.get_prof("aura")
+	if aura > 1 or _unit.req_mana(1):
+		_unit.animator.play("jump_ready")
+		_unit.velocity += _unit.forward * (16+aura)
+		_unit.action.set_next("special", 0.8 - aura*.1)
+		_unit.buffs.add("exhaustion", max(1, 8 - aura))
+		_unit.emit_signal("special", "aura", 1, 2)
+		return true
+	return false
+
+
+func goblin():
+	_param.buffs.add("poison", 2)
+	_param.buffs.add("slow", 3)
 	G.sfx.play("buff_slow", _unit.position)
 	return true
 
 
-func venom(p):
+func venom():
 	if !_unit.buffs.has("venomous"):
-		_unit.buffs.add("venomous", p)
+		_unit.buffs.add("venomous", 7)
 		G.sfx.play("buff_ripple", _unit.position)
 		return true
 	return false
@@ -177,7 +143,7 @@ func raise():
 		var at = _param.position
 		G.sfx.play("summon", _unit.position)
 		G.stock.make_particle(at, "summon")
-		var new = G.stock.make_any_unit(G.stock, at, creature)
+		var new = G.stock.make_unit(at, creature)
 		G.stock.attach_ai(new, "ally")
 		return true
 	return false
@@ -202,17 +168,20 @@ func capture():
 
 
 func summon():
-	var ally = data.get("summon")
-	var summonname = _unit.data.get("summon")
-	if summonname != null and (ally == null or ally.health <= 0):
-		G.sfx.play("summon", _unit.position)
-		G.stock.make_particle(_unit.position, "summon")
-		_unit.buffs.add("exhaustion", 30)
-		var new = G.stock.make_any_unit(G.stock, _unit.position, summonname)
-		G.stock.attach_ai(new, "ally")
-		data["summon"] = new
-		return true
-	return false
+	if _unit._wait_time >= 4:
+		var ally = data.get("summon")
+		var summonname = _unit.data.get("summon")
+		if summonname != null and (ally == null or ally.health <= 0):
+			G.sfx.play("summon", _unit.position)
+			G.stock.make_particle(_unit.position, "summon")
+			_unit.buffs.add("exhaustion", 30)
+			var new = G.stock.make_unit(_unit.position, summonname)
+			G.stock.attach_ai(new, "ally")
+			data["summon"] = new
+			return true
+		return false
+	else:
+		return capture()
 
 
 func polymorph():
@@ -226,14 +195,6 @@ func polymorph():
 		return true
 	elif _unit == G.you:
 		G.ui.msg("Health too low...")
-	return false
-
-
-func recover(regen, cd):
-	if !_unit.buffs.has("regeneration cooldown"):
-		_unit.buffs.add("regeneration", regen)
-		_unit.buffs.add("regeneration cooldown", cd)
-		return true
 	return false
 
 
@@ -263,7 +224,7 @@ func sublimation():
 func hide():
 	if !_unit.buffs.has("invisible"):
 		G.sfx.play("fade", _unit.position)
-	_unit.buffs.add("invisible", 1)
+	_unit.buffs.add("invisible", 3)
 
 
 func invisibility():
@@ -287,19 +248,20 @@ func invulnerability():
 
 
 func psychic():
-	if _unit.mana >= 1:
-		var anim_name = "blast"
-		var animation = _unit.animator.get_animation(anim_name)
-		if animation != null:
-			var anim_dur = animation.get_length()
-			_unit.animator.seek(0, true)
-			_unit.animator.play(anim_name)
-			_unit.action.set_next("use", anim_dur)
-			_unit.action.show_progress = true
-			_unit.action.cancelable = true
-			G.sfx.play("cast_psych", _unit.position)
-			_casting = psychic_shoot
-			return true
+	if !_unit.buffs.has("exhaustion"):
+		if _unit.mana >= 1:
+			var anim_name = "blast"
+			var animation = _unit.animator.get_animation(anim_name)
+			if animation != null:
+				var anim_dur = animation.get_length()
+				_unit.animator.seek(0, true)
+				_unit.animator.play(anim_name)
+				_unit.action.set_next("use", anim_dur)
+				_unit.action.show_progress = true
+				_unit.action.cancelable = true
+				G.sfx.play("cast_psych", _unit.position)
+				_casting = psychic_shoot
+				return true
 	return false
 
 
@@ -320,7 +282,7 @@ func psychic_shoot():
 	return true
 
 
-func sleep_ready():
+func sleep():
 	if _unit.mana >= 1:
 		var origin = _unit.get_center()
 		var hits = G.tool.collide_prop_by_line(origin, origin + _unit.forward * 2, 4)
@@ -358,26 +320,34 @@ func sleep_shoot():
 	return false
 
 
-func heal_ready():
-	if _unit.mana >= 1:
-		var origin = _unit.get_center()
-		var hits = G.tool.collide_prop_by_line(origin, origin + _unit.forward * 2, 4)
-		if !hits.is_empty():
-			var _item = hits.collider.get_parent()
-			if _item.get("buffs") != null:
-				var anim_name = "shoot"
-				var animation = _unit.animator.get_animation(anim_name)
-				if animation != null:
-					var speed = 0.3
-					var anim_dur = animation.get_length() * (1 / speed)
-					_unit.animator.seek(0, true)
-					_unit.animator.play(anim_name, .1, speed)
-					_unit.action.set_next("use", anim_dur)
-					_unit.action.show_progress = true
-					_unit.action.cancelable = true
-					G.sfx.play("cast_psych", _unit.position)
-					_casting = heal_shoot
-					return true
+func heal():
+	if _unit.health < _unit.data.health / 2:
+		if _unit.req_mana(1):
+			G.sfx.play("buff_heal", _unit.position)
+			G.stock.make_particle(_unit.position, "heal")
+			recover(_unit.get_prof("aura") + 3, 20)
+			return true
+		return false
+	else:
+		if _unit.mana >= 1:
+			var origin = _unit.get_center()
+			var hits = G.tool.collide_prop_by_line(origin, origin + _unit.forward * 2, 4)
+			if !hits.is_empty():
+				var _item = hits.collider.get_parent()
+				if _item.get("buffs") != null:
+					var anim_name = "shoot"
+					var animation = _unit.animator.get_animation(anim_name)
+					if animation != null:
+						var speed = 0.3
+						var anim_dur = animation.get_length() * (1 / speed)
+						_unit.animator.seek(0, true)
+						_unit.animator.play(anim_name, .1, speed)
+						_unit.action.set_next("use", anim_dur)
+						_unit.action.show_progress = true
+						_unit.action.cancelable = true
+						G.sfx.play("cast_psych", _unit.position)
+						_casting = heal_shoot
+						return true
 	return false
 
 
@@ -398,35 +368,35 @@ func heal_shoot():
 	return false
 
 
-func plant_bomb():
+func bomb():
 	var hit = G.tool.raycast(_unit.camera.global_position, _unit.forward, 1.5, 4)
 	if hit != null:
 		if _unit.req_mana(2):
 			_unit.emit_signal("special", "earth", 2)
-			var bomb = Bomb.instantiate()
+			var barrel = Bomb.instantiate()
 			var dest = hit.previous_position
-			bomb.position = dest
-			bomb.shooter = _unit
-			bomb.damage = 9
-			G.stock.add_child(bomb)
+			barrel.position = dest
+			barrel.shooter = _unit
+			barrel.damage = 9
+			G.stock.add_child(barrel)
 			_unit.buffs.add("exhaustion", 10)
 			return true
 	return false
 
 
-func xray_vision():
+func vision():
 	if _unit.health >= _unit.data.health:
 		_unit.buffs.add("vision", 3)
 		return true
 	return false
 
 
-func night_vision():
+func nighteye():
 	_unit.buffs.add("nighteye", _unit.get_prof("psych") * 7 + 10)
 	return true
 
 
-func craft_arrows():
+func bow():
 	if _unit.get_type() == 1:
 		var ammo = _unit.equipment.find_item_by_data("ammo", "bow")
 		if ammo == null:

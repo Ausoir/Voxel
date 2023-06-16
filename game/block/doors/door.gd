@@ -1,7 +1,6 @@
 extends "../block.gd"
 
 const Door = preload("res://game/block/doors/prop_door.tscn")
-var callback = Callable(self, "on_activate")
 
 
 func on_hover(_pos):
@@ -29,7 +28,7 @@ func on_remove(_pos: Vector3):
 
 
 func on_interact(_pos: Vector3, _user: Node3D):
-	_user.action.set_next("use", 1, callback.bind(_pos, _user))
+	_user.action.set_next("use", 1, on_activate.bind(_pos, _user))
 	_user.action.show_progress = true
 	_user.action.cancelable = true
 	_user.action.turnable = false

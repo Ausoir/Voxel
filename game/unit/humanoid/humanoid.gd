@@ -6,12 +6,10 @@ var headmesh
 var bodymesh
 
 @onready var held_item_model = $Model/Item
-@onready var equipment = $Equipment
 
 
 func _ready():
 	super()
-	equipment.set_unit(self)
 	equipment.selected.connect(_on_held_select)
 	equipment.changed.connect(_on_held_select)
 	attack.disconnect(on_attack)
@@ -19,12 +17,6 @@ func _ready():
 
 func get_type():
 	return 1
-
-
-func on_level():
-	super()
-	equipment.max_essence_size = data.get("level", 1)
-	equipment.update_essence()
 
 
 func set_material(p):
@@ -83,26 +75,6 @@ func _on_held_select():
 		var sz = item.data.get("size", .5)
 		held_item_model.set_scale(Vector3(sz, sz, sz))
 		_weapon_callback = Callable(item, "on_held_tick")
-
-
-func has_essence(p):
-	if super(p):
-		return true
-	var item = equipment.get_item_by_index(equipment.get_held_index())
-	if item != null and item.data.get("essence", "") == p:
-		return true
-	return false
-
-
-func remove():
-	super()
-	equipment.remove()
-
-
-func serialize():
-	var r = super()
-	r.merge(equipment.serialize(), true)
-	return r
 
 
 func set_fp_visibility(p):

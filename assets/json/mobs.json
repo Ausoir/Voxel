@@ -3,7 +3,7 @@
 		"behavior": "search",
 		"team": {
 			"rogue warrior": [
-				1,
+				0,
 				1
 			],
 			"rogue rogue": [
@@ -32,6 +32,27 @@
 				2
 			],
 			"assassin": [
+				0,
+				1
+			]
+		}
+	},
+	"undead army": {
+		"behavior": "idle",
+		"team": {
+			"skeletal lord": [
+				1,
+				1
+			],
+			"skeletal ranger": [
+				0,
+				2
+			],
+			"skeletal warrior": [
+				0,
+				2
+			],
+			"skeleton": [
 				0,
 				1
 			]

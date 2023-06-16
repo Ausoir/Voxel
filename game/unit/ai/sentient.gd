@@ -16,8 +16,6 @@ func _ready():
 			melee_range = _unit.size.z / 2
 		attack_function = commence_tackle
 		_attack_motion = _unit.data.get("attack", "tackle")
-		if _attack_motion == "shoot":
-			_unit.attack.connect(on_shoot)
 
 
 func set_follow(who):
@@ -61,14 +59,3 @@ func follow(_delta, who):
 		_target = null
 	else:
 		_unit.procedure.stop_walk()
-
-
-func on_shoot():
-	var projname = _unit.data.get("projectile")
-	var projectile = G.stock.Projectiles[projname].instantiate()
-	projectile.damage = _unit.data.get("damage", 5)
-	projectile.inflict = _unit.data.get("inflict", [])
-	projectile.position = _unit.get_center() + _unit.forward
-	projectile.shooter = _unit
-	G.stock.add_child(projectile)
-	projectile.set_direction(_unit.forward)

@@ -1,18 +1,15 @@
-[gd_scene load_steps=8 format=3 uid="uid://bywr7es5owhyd"]
+[gd_scene load_steps=7 format=3 uid="uid://bywr7es5owhyd"]
 
-[ext_resource type="Texture2D" uid="uid://kvlslvx651qx" path="res://game/fx/bleed/t_blood.png" id="1_8kten"]
 [ext_resource type="Script" path="res://game/fx/timeout.gd" id="1_twx2t"]
+[ext_resource type="Texture2D" uid="uid://bljq4d1lr82bs" path="res://assets/texture/t_blood.png" id="2_g8sry"]
 [ext_resource type="Texture2D" uid="uid://woohkfo3ame3" path="res://game/fx/fadeout.tres" id="3_0xnke"]
-[ext_resource type="Texture2D" uid="uid://bm72dvaa5t3tl" path="res://game/fx/dissolve.tres" id="4_av4cw"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1wa1o"]
-transparency = 2
-alpha_scissor_threshold = 0.5
-alpha_antialiasing_mode = 0
-blend_mode = 1
+transparency = 1
 shading_mode = 0
+vertex_color_use_as_albedo = true
 albedo_color = Color(0.784314, 0, 0, 1)
-albedo_texture = ExtResource("1_8kten")
+albedo_texture = ExtResource("2_g8sry")
 texture_filter = 0
 texture_repeat = false
 billboard_mode = 3
@@ -22,6 +19,8 @@ particles_anim_v_frames = 1
 particles_anim_loop = false
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_l4quv"]
+emission_shape = 1
+emission_sphere_radius = 0.3
 direction = Vector3(0, 1, 0)
 spread = 90.0
 gravity = Vector3(0, -10, 0)
@@ -31,7 +30,7 @@ angular_velocity_max = 360.0
 angle_min = -720.0
 angle_max = 720.0
 scale_min = 0.1
-scale_curve = ExtResource("4_av4cw")
+scale_max = 1.2
 color = Color(1, 0, 0, 1)
 color_ramp = ExtResource("3_0xnke")
 turbulence_noise_speed = Vector3(0, 0.5, 0)
@@ -44,10 +43,8 @@ script = ExtResource("1_twx2t")
 
 [node name="Particles" type="GPUParticles3D" parent="."]
 material_override = SubResource("StandardMaterial3D_1wa1o")
-emitting = false
-amount = 5
+amount = 6
 lifetime = 0.8
-one_shot = true
-explosiveness = 0.7
+explosiveness = 0.8
 process_material = SubResource("ParticleProcessMaterial_l4quv")
 draw_pass_1 = SubResource("7")

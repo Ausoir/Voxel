@@ -48,6 +48,8 @@ static func get_buff(name):
 		r = Hunger
 	elif name == "full":
 		r = Full
+	elif name == "stunted":
+		r = Stunted
 	else:
 		r = Buff
 	return r
@@ -293,8 +295,10 @@ class Flight extends Buff:
 	static func req_met(punit):
 		return punit.physics_process == punit._walk_physics_process
 	func on_start():
+		_unit._box_mover.set_step_climbing_enabled(false)
 		_unit.physics_process = _unit._fly_physics_process
 	func on_end():
+		_unit._box_mover.set_step_climbing_enabled(true)
 		_unit.physics_process = _unit._walk_physics_process
 	func get_description():
 		return super() + "Fly."
@@ -308,7 +312,7 @@ class Morph extends Buff:
 	func pre_save():
 		return false
 	func get_form():
-		var form = _unit.get("shape")
+		var form = _unit.data.get("shape")
 		if form == null:
 			if _unit == G.you:
 				var form_id = G.vars.seed % FORMS.size()
@@ -322,7 +326,7 @@ class Morph extends Buff:
 		orig.physics_process = orig._no_physics_process
 		orig.hide()
 		var form = get_form()
-		new = G.stock.make_any_unit(G.stock, _unit.position, form)
+		new = G.stock.make_unit(_unit.position, form)
 		if _unit == G.you:
 			G.player.set_unit(new)
 		var morph = new.buffs.add("polymorph", duration)
@@ -341,6 +345,7 @@ class Morph extends Buff:
 		new.action.set_next("idle", 1)
 		new.action.show_progress = true
 		new.procedure.speedmod = 0
+		new._healthbar.set_max(new.data.health)
 		new.show_healthbar()
 		orig.position.y -= 300
 		duration = 0
@@ -376,6 +381,7 @@ class Polymorph extends Buff:
 			orig.action.set_next("idle", 1)
 			orig.action.show_progress = true
 			orig.procedure.speedmod = 0
+			orig._healthbar.set_max(orig.data.health)
 			orig.show_healthbar()
 			new.position.y -= 300
 			new.hide()
@@ -417,4 +423,9 @@ class Full extends Buff:
 			_unit.buffs.set_duration("hunger", 0)
 	func get_description():
 		return super() + "Don't worry about food for a while."
+
+
+class Stunted extends Buff:
+	func get_description():
+		return super() + "Cannot gain any form of experience."
 

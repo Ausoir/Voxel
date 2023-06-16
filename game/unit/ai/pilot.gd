@@ -13,6 +13,7 @@ var _target
 var _idle_task
 var _wander_target
 var _way_clear
+var _detect_range = 16
 var task
 var melee_range = 2
 var in_range = false
@@ -69,16 +70,20 @@ func set_default_target():
 
 
 func _update_target_params():
-	_from = _unit.position + _unit.COLLISION_CENTER
-	_to = _target.position + _unit.COLLISION_CENTER
+	if _unit.physics_process == _unit._fly_physics_process:
+		_from = _unit.get_head()
+		_to = _target.get_head()
+	else:
+		_from = _unit.position + _unit.COLLISION_CENTER
+		_to = _target.position + _unit.COLLISION_CENTER
 	_unit.forward = _from.direction_to(_to)
 	_dist = _from.distance_to(_to) - _target.size.z/2
+	_detect_range = 16 - _target.data.get("sneak", 0)
 
 
 func deaggro():
 	if priority == 1 and _idle_task == null:
 		_idle_task = _wander
-	_unit.alert = false
 	_unit.procedure.stop_walk()
 	priority = 5
 	task = null
@@ -95,7 +100,7 @@ func aggro():
 func perceive():
 	var dir_to = _unit.transform.basis.z.normalized()
 	var angle = dir_to.dot(_unit.forward)
-	if angle > .2 + _unit.get_prof("ambush")*.05:
+	if _dist <= _detect_range and angle > .2 + _unit.get_prof("ambush")*.05:
 		var prop = G.tool.raycast(_from, _unit.forward, _dist, 2)
 		return prop == null
 

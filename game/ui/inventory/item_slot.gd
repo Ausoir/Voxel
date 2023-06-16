@@ -7,7 +7,7 @@ var item
 
 func _gui_input(event):
 	if event is InputEventMouseButton:
-		if event.pressed:
+		if event.is_pressed():
 			call_deferred("emit_signal", "pressed")
 
 

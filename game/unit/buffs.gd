@@ -20,8 +20,12 @@ func serialize():
 
 
 func unserialize(p):
-	for i in p:
-		add(i[0], i[1])
+	add_all(p)
+
+
+func add_all(list):
+	for buff in list:
+		add(buff[0], buff[1])
 
 
 func add(buffname, duration):

@@ -1,0 +1,117 @@
+[gd_scene load_steps=10 format=3 uid="uid://cu5uw20d7ao5s"]
+
+[ext_resource type="Script" path="res://game/block/doors/prop_jaildoor.gd" id="1_ps4rs"]
+[ext_resource type="Texture2D" uid="uid://cfdmk4mnvx28l" path="res://assets/texture/jaildoor.png" id="2_c1y5h"]
+[ext_resource type="ArrayMesh" uid="uid://0h8p56h5cmc5" path="res://assets/blocks/slab_ns.obj" id="3_rcsnj"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_42y7s"]
+size = Vector3(1, 2, 0.2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6mue1"]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+cull_mode = 2
+albedo_texture = ExtResource("2_c1y5h")
+metallic = 1.0
+metallic_specular = 0.0
+roughness = 0.3
+texture_filter = 0
+texture_repeat = false
+
+[sub_resource type="Animation" id="Animation_rc0cq"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Collision:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Collision:rotation:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="Animation" id="Animation_7d23e"]
+resource_name = "close2"
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Collision:rotation:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(-1.5708, 0, 0, 0, 0, 0, -0.4, 0, 0, 0),
+"times": PackedFloat32Array(0, 0.6)
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.6),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"_on_close"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_jw0m2"]
+resource_name = "open2"
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Collision:rotation:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0, 0, -1.5708, -0.4, 0, 0, 0),
+"times": PackedFloat32Array(0, 0.6)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_lt6xh"]
+_data = {
+"RESET": SubResource("Animation_rc0cq"),
+"close2": SubResource("Animation_7d23e"),
+"open2": SubResource("Animation_jw0m2")
+}
+
+[node name="Door" type="Node3D"]
+script = ExtResource("1_ps4rs")
+
+[node name="Collision" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
+
+[node name="Shape" type="CollisionShape3D" parent="Collision"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1, 0)
+shape = SubResource("BoxShape3D_42y7s")
+
+[node name="Body" type="MeshInstance3D" parent="Collision"]
+transform = Transform3D(0.995, 0, 0, 0, 2, 0, 0, 0, 0.995, 0, 0, -0.5)
+material_override = SubResource("StandardMaterial3D_6mue1")
+mesh = ExtResource("3_rcsnj")
+skeleton = NodePath("../..")
+
+[node name="Animator" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_lt6xh")
+}
+
+[connection signal="animation_finished" from="Animator" to="." method="_on_animator_animation_finished"]

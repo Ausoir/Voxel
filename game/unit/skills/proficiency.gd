@@ -67,14 +67,15 @@ func increase(prof, amount, max_lvl=24):
 	if property != null:
 		var past_lvl = floor(property)
 		if past_lvl < max_lvl:
-			property += amount / max(1, .5 + past_lvl*.25)
-			var current_lvl = floor(property)
-			if current_lvl != past_lvl:
-				on_level(prof)
-				if _unit == G.you:
-					var msg = str("[",prof.capitalize(),"] skill now level ",current_lvl,"!")
-					G.ui.msg(msg)
-			list[prof] = property
+			if !_unit.buffs.has("stunted"):
+				property += amount / max(1, 0.5 + past_lvl*.5)
+				var current_lvl = floor(property)
+				if current_lvl != past_lvl:
+					on_level(prof)
+					if _unit == G.you:
+						var msg = str("[",prof.capitalize(),"] skill now level ",current_lvl,"!")
+						G.ui.msg(msg)
+				list[prof] = property
 
 
 func on_level(prof):

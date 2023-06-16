@@ -7,19 +7,23 @@ var data
 
 
 func load_player_data():
+	var file_loaded = true
 	data = get_json_from_dir(PLAYER_PATH)
 	if data == null:
+		file_loaded = false
 		data = get_json_from_dir(TEMPLATE_PLAYER_PATH)
 	if data != null:
 		if data.seed == -1:
 			data.seed = Time.get_unix_time_from_system()
 		data.seed = int(data.seed)
 		G.rng.set_seed(data.seed)
-		G.vars.merge(data)
+		G.vars.merge(data, true)
 		G.set_map(G.vars.map)
-	var u = G.stock.make_any_unit(G.player, Vector3(), G.vars.name, G.vars.unit)
+	var u = G.stock.make_unit(Vector3(), G.vars.name, G.player, G.vars.unit)
 	u.health = min(G.vars.health, u.data.health)
 	u.mana = min(G.vars.mana, u.data.mana)
+	if file_loaded:
+		u.buffs.add("stunted", -1)
 	return u
 
 

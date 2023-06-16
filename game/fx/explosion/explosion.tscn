@@ -1,14 +1,14 @@
 [gd_scene load_steps=10 format=3 uid="uid://icdxjoyqx140"]
 
 [ext_resource type="Script" path="res://game/fx/timeout_animated.gd" id="1_hqwuw"]
-[ext_resource type="Texture2D" uid="uid://cfei41p1g0vwk" path="res://game/fx/explosion/smoke_particle.png" id="2_bkf88"]
+[ext_resource type="Texture2D" uid="uid://bfyb8ns5fkpqx" path="res://assets/texture/t_smoke.png" id="2_w8t5p"]
 [ext_resource type="Texture2D" uid="uid://woohkfo3ame3" path="res://game/fx/fadeout.tres" id="3_dn3ya"]
 [ext_resource type="Texture2D" uid="uid://bm72dvaa5t3tl" path="res://game/fx/dissolve.tres" id="4_wpye3"]
 
 [sub_resource type="StandardMaterial3D" id="1"]
 transparency = 1
 vertex_color_use_as_albedo = true
-albedo_texture = ExtResource("2_bkf88")
+albedo_texture = ExtResource("2_w8t5p")
 billboard_mode = 3
 billboard_keep_scale = true
 particles_anim_h_frames = 1
@@ -69,7 +69,6 @@ _remaining_time = 2.5
 
 [node name="Particles" type="GPUParticles3D" parent="."]
 material_override = SubResource("1")
-emitting = false
 amount = 15
 one_shot = true
 explosiveness = 0.95

@@ -19,6 +19,7 @@ func stop():
 
 
 func _on_timeout():
+	_spawn_units = []
 	_player_spawned = false
 	_timeout = 200
 	_bounds = G.terrain.generator.get_bounds()
@@ -44,7 +45,7 @@ func _on_timeout():
 			var objectname = next[1]
 			G.stock.make_object(pos + G.V2_HALF, objectname)
 			var spawn_key
-			if pos.y >= 10:
+			if pos.y >= 8:
 				spawn_key = "^" + objectname
 			else:
 				spawn_key = "_" + objectname
@@ -130,13 +131,13 @@ func move_player(pos):
 		var player_pos = pos + G.V2_HALF
 		G.you.position = player_pos
 		_player_spawned = true
-		for unit in _spawn_units:
-			if is_instance_valid(unit):
-				var dx = abs(unit.position.x - player_pos.x)
-				var dy = abs(unit.position.y - player_pos.y)
-				var dz = abs(unit.position.z - player_pos.z)
-				if dx < 7 and dz < 7 and dy < 4:
-					unit.remove()
+		for i in range(_spawn_units.size()-1, -1, -1):
+			var unit = _spawn_units[i]
+			var dx = abs(unit.position.x - player_pos.x)
+			var dy = abs(unit.position.y - player_pos.y)
+			var dz = abs(unit.position.z - player_pos.z)
+			if dx < 7 and dz < 7 and dy < 4:
+				unit.remove()
 
 
 func make_placeable(pos, itemname):
@@ -147,23 +148,23 @@ func make_placeable(pos, itemname):
 		var real_itemname = G.stock.make_group(itemname)
 		if real_itemname != null:
 			var mob = G.stock.make_mob(center, real_itemname)
-			if mob == null:
-				var unit = G.stock.make_any_unit(center, real_itemname)
-				if unit == null:
-					var block = G.blocks.get_block_by_name(itemname)
-					if block != null:
-						G.tool.set_block(pos, block.id, null)
-					else:
-						var item = G.stock.make_item(itemname)
-						if item == null:
-							G.stock.make_object(center, itemname)
-						else:
-							item.drop_at(center)
-				else:
-					_spawn_units.append(unit)
-					G.tool.set_voxel(center, 4)
-			else:
+			if mob != null:
 				_spawn_units += mob
 				for i in mob:
 					G.tool.set_voxel(i.position, 4)
+			else:
+				var unit = G.stock.make_unit(center, real_itemname)
+				if unit != null:
+					_spawn_units.append(unit)
+					G.tool.set_voxel(center, 4)
+				else:
+					var block = G.blocks.get_block_by_name(real_itemname)
+					if block != null:
+						G.tool.set_block(pos, block.id, null)
+					else:
+						var item = G.stock.make_item(real_itemname)
+						if item == null:
+							G.stock.make_object(center, real_itemname)
+						else:
+							item.drop_at(center)
 

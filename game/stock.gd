@@ -132,13 +132,6 @@ func make_object(pos: Vector3, itemname: String):
 	return item
 
 
-func make_any_unit(parent: Node, pos: Vector3, itemname: String, custom=null):
-	var r = make_humanoid(parent, pos, itemname, custom)
-	if r == null:
-		r = make_unit(pos, itemname, custom)
-	return r
-
-
 func make_mob(pos: Vector3, itemname: String):
 	var dict = Mob_JSON.get_data()
 	var data = dict.get(itemname)
@@ -153,7 +146,7 @@ func make_mob(pos: Vector3, itemname: String):
 			var number_range = team[key]
 			var number = G.rng.rir(number_range[0], number_range[1])
 			for i in range(number):
-				var unit = make_any_unit(self, current, key)
+				var unit = make_unit(current, key)
 				r.append(unit)
 				if prev_unit != null:
 					if unit.pilot.get_script() == ISentient:
@@ -172,51 +165,21 @@ func make_mob(pos: Vector3, itemname: String):
 		return r
 
 
-func make_unit(pos: Vector3, itemname: String, custom_data=null):
+func make_unit(pos: Vector3, itemname: String, parent: Node=self, custom_data=null):
 	var dict = Unit_JSON.get_data()
 	var data = dict.get(itemname)
 	if data != null:
-		var unit = Unit.instantiate()
-		unit.sid = itemname
+		var is_human = "head" in data
+		var unit
+		if is_human:
+			unit = Humanoid.instantiate()
+		else:
+			unit = Unit.instantiate()
 		var rawdata = data.duplicate()
 		unit.data = data.get("data", {}).duplicate()
 		if custom_data != null:
 			rawdata.merge(custom_data, true)
 			unit.data.merge(custom_data.data, true)
-		add_child(unit)
-		var model = _get_model(data.model)
-		unit.set_mesh(model)
-		unit.position = pos
-		unit.faction = data.get("faction", 2)
-		unit.health = unit.data.get("health", 1)
-		unit.mana = unit.data.get("mana", 0)
-		if !("mana" in unit.data):
-			unit.data["mana"] = unit.mana
-		unit.defense = unit.data.get("defense", 0)
-		unit.proficiency.unserialize(unit.data.get("proficiency"))
-		if "speed" in unit.data:
-			unit.procedure.speed = unit.data.speed
-		for i in rawdata.get("ego", []):
-			unit.essence.append(i)
-		unit.buffs.unserialize(unit.data.get("buffs", []))
-		attach_ai(unit, rawdata.get("ai", ""))
-		unit.turn_random()
-		return unit
-
-
-func make_humanoid(parent: Node, pos: Vector3, itemname: String, custom_data=null):
-	var dict = Unit_JSON.get_data()
-	var data = dict.get(itemname)
-	if data != null and "head" in data:
-		var unit = Humanoid.instantiate()
-		var rawdata = data.duplicate()
-		unit.data = data.get("data", {}).duplicate()
-		if custom_data != null:
-			rawdata.merge(custom_data, true)
-			unit.data.merge(custom_data.data, true)
-		var head_model = _get_model(rawdata.head)
-		unit.headmesh = head_model
-		unit.set_head_mesh(head_model)
 		unit.faction = data.get("faction", 2)
 		unit.health = unit.data.get("health", 1)
 		unit.mana = unit.data.get("mana", 0)
@@ -226,20 +189,27 @@ func make_humanoid(parent: Node, pos: Vector3, itemname: String, custom_data=nul
 		if "speed" in unit.data:
 			unit.procedure.speed = unit.data.speed
 		parent.add_child(unit)
-		var body_model = _get_model(rawdata.body)
-		unit.bodymesh = body_model
-		unit.set_mesh(body_model)
-		for i in rawdata.slots:
+		if is_human:
+			var head_model = _get_model(rawdata.head)
+			unit.headmesh = head_model
+			unit.set_head_mesh(head_model)
+			var body_model = _get_model(rawdata.body)
+			unit.bodymesh = body_model
+			unit.set_mesh(body_model)
+		else:
+			var model = _get_model(data.model)
+			unit.set_mesh(model)
+		unit.proficiency.unserialize(unit.data.get("proficiency"))
+		for i in rawdata.get("slots", []):
 			unit.equipment.add_slot(i)
-		for i in rawdata.equipments:
+		for i in rawdata.get("equipments", []):
 			unit.equipment.wear(make_item(i))
-		for i in rawdata.items:
+		for i in rawdata.get("items", []):
 			unit.equipment.pickup(make_item(i))
-		for i in rawdata.souls:
+		for i in rawdata.get("souls", []):
 			unit.equipment.absorb(make_item(i))
 		unit.equipment.set_held_index(0)
 		unit.buffs.unserialize(unit.data.get("buffs", []))
-		unit.proficiency.unserialize(unit.data.get("proficiency"))
 		unit.sid = itemname
 		unit.position = pos
 		attach_ai(unit, rawdata.get("ai", ""))
@@ -309,12 +279,13 @@ func make_group_surely(itemname):
 
 
 func make_group(itemname):
-	var dict = Group_JSON.get_data()
-	var data = dict.get(itemname)
-	if data != null:
-		var r = G.rng.get_combo(data)
-		if r != null and r[0] == "#":
-			return make_group(r)
-		else:
+	if itemname != null and itemname[0] == "#":
+		var dict = Group_JSON.get_data()
+		var data = dict.get(itemname)
+		if data != null:
+			var r = G.rng.get_combo(data)
+			if r != null:
+				return make_group(r)
 			return r
+	return itemname
 

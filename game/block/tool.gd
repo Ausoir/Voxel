@@ -2,6 +2,7 @@ extends Node
 
 const _CHANNEL_TYPE = VoxelBuffer.CHANNEL_TYPE
 
+var _sphere = SphereShape3D.new()
 @onready var _tool = get_node("../Terrain").get_voxel_tool()
 @onready var _blocks = get_node("../Blocks")
 
@@ -153,19 +154,19 @@ func get_tool():
 	return _tool
 
 
-func collide_prop_by_shape(pos: Vector3, radius: int, col: int = 12):
+func collide_prop_by_shape(pos: Vector3, radius: int, col: int = 4, exc=[]):
 	var space_state = get_viewport().get_world_3d().get_direct_space_state()
 	var params = PhysicsShapeQueryParameters3D.new()
+	params.exclude = exc
 	params.collision_mask = col
 	params.transform.origin = pos
-	var shape = SphereShape3D.new()
-	shape.set_radius(radius)
+	_sphere.set_radius(radius)
 	params.set_collide_with_areas(true)
-	params.set_shape(shape)
-	return space_state.intersect_shape(params)
+	params.set_shape(_sphere)
+	return space_state.intersect_shape(params, 4)
 
 
-func collide_prop_by_line(pos: Vector3, to: Vector3, col: int = 12):
+func collide_prop_by_line(pos: Vector3, to: Vector3, col: int = 4):
 	var space_state = get_viewport().get_world_3d().get_direct_space_state()
 	var params = PhysicsRayQueryParameters3D.new()
 	params.from = pos

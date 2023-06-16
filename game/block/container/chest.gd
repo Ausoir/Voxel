@@ -23,7 +23,6 @@ func on_interact(_pos: Vector3, _user: Node3D):
 
 
 func on_activate(_pos: Vector3, _user: Node3D):
-	G.sfx.play("door_creak", _pos)
 	var has_opened = G.tool.get_voxel(_pos) == voxels[1]
 	if !has_opened:
 		G.tool.set_channel(VoxelBuffer.CHANNEL_DATA5)
@@ -41,12 +40,13 @@ func on_open(_pos: Vector3, _user: Node3D, has_opened):
 	G.tool.set_channel(VoxelBuffer.CHANNEL_DATA5)
 	var inside = G.tool.get_voxel(_pos)
 	G.tool.set_channel(VoxelBuffer.CHANNEL_TYPE)
-	G.rng.set_seed(int((G.vars.seed - _pos.x - _pos.z) * _pos.y))
+	var v = int(G.vars.seed * G.vars.day + sin(_pos.x)*12435 + cos(_pos.z)*412331 + _pos.y)
 	var items = []
 	var bit = 1
 	for i in range(4):
 		var itemname
 		if inside & bit > 0:
+			G.rng.set_seed(v * i)
 			var loot_type = data.get("loot", "treasure")
 			itemname = G.stock.make_group(G.mapdata.get(loot_type))
 		items.append(itemname)
@@ -54,9 +54,9 @@ func on_open(_pos: Vector3, _user: Node3D, has_opened):
 	_menu.placeable = false
 	_menu.load_stash = items
 	_menu.on_set = on_set.bind(_pos)
-	G.rng.set_seed(G.vars.seed)
 	G.ui.display(_menu)
 	if !has_opened:
+		G.sfx.play("door_creak", _pos)
 		var prop = Chest.instantiate()
 		prop.position = _pos
 		G.stock.add_child(prop)

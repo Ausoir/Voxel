@@ -95,7 +95,7 @@ func on_input(_cam, _event: InputEvent, _pos, _normal, _shapeidx, _node):
 		if !_on and _event.is_pressed():
 			_chosen_class = _node.name.to_lower()
 			$Canvas/ColorRect.show()
-			G.sfx.play_bgm("dark", .3)
+			G.sfx.play_bgm("dark")
 			$AnimationPlayer.play("fade")
 
 
