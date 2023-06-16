@@ -52,6 +52,17 @@ func get_description():
 	return r
 
 
+func get_plain_description():
+	var r = ""
+	for i in list.keys():
+		var val = list[i]
+		var level = floor(val)
+		var percent = int((val - level) * 100)
+		r += str(i.to_upper(), " :  ",
+				level, " (", percent," %)", "\n")
+	return r
+
+
 func check_req(prof, amount):
 	var property = list.get(prof)
 	if property != null:
@@ -71,18 +82,18 @@ func increase(prof, amount, max_lvl=24):
 				property += amount / max(1, 0.5 + past_lvl*.5)
 				var current_lvl = floor(property)
 				if current_lvl != past_lvl:
-					on_level(prof)
+					on_level(prof, current_lvl - past_lvl)
 					if _unit == G.you:
 						var msg = str("[",prof.capitalize(),"] skill now level ",current_lvl,"!")
 						G.ui.msg(msg)
 				list[prof] = property
 
 
-func on_level(prof):
+func on_level(prof, times=1):
 	if prof == "armor":
-		_unit.data.health += 5
+		_unit.data.health += 5 * times
 	elif prof in ["psych", "earth", "aura", "evocation", "necromancy"]:
-		_unit.data.mana += 1
+		_unit.data.mana += 1 * times
 
 
 func floor_all():

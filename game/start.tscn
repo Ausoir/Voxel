@@ -194,13 +194,13 @@ script = null
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("BoxShape3D_6t1ht")
 
-[node name="Healer" parent="." instance=ExtResource("3_dvomx")]
-transform = Transform3D(0.5, 0, -0.866025, 0, 1, 0, 0.866025, 0, 0.5, 1.30885, 0, -3)
+[node name="Priestess" parent="." instance=ExtResource("3_dvomx")]
+transform = Transform3D(0.5, 0, -0.866025, 0, 1, 0, 0.866025, 0, 0.5, 1.04533, 0, -2.78237)
 script = null
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Healer"]
+[node name="StaticBody3D" type="StaticBody3D" parent="Priestess"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Healer/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Priestess/StaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("BoxShape3D_6t1ht")
 

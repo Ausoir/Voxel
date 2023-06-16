@@ -520,7 +520,7 @@ voxel_name = &"jailbottom_ew"
 geometry_type = 2
 custom_mesh = ExtResource("1_2pls5")
 collision_aabbs = Array[AABB]([AABB(0.4, 0, 0, 0.2, 1, 1)])
-collision_mask = 13
+collision_mask = 5
 material_override_0 = SubResource("StandardMaterial3D_cb3qa")
 collision_enabled_0 = true
 
@@ -541,7 +541,7 @@ voxel_name = &"jailbottom_ns"
 geometry_type = 2
 custom_mesh = ExtResource("3_orr8j")
 collision_aabbs = Array[AABB]([AABB(0, 0, 0.4, 1, 1, 0.2)])
-collision_mask = 13
+collision_mask = 5
 material_override_0 = SubResource("StandardMaterial3D_n4jx5")
 collision_enabled_0 = true
 
@@ -562,7 +562,7 @@ voxel_name = &"jailtop_ew"
 geometry_type = 2
 custom_mesh = ExtResource("1_2pls5")
 collision_aabbs = Array[AABB]([AABB(0.4, 0, 0, 0.2, 1, 1)])
-collision_mask = 13
+collision_mask = 5
 material_override_0 = SubResource("StandardMaterial3D_iq44k")
 collision_enabled_0 = true
 
@@ -583,7 +583,7 @@ voxel_name = &"jailtop_ns"
 geometry_type = 2
 custom_mesh = ExtResource("3_orr8j")
 collision_aabbs = Array[AABB]([AABB(0, 0, 0.4, 1, 1, 0.2)])
-collision_mask = 13
+collision_mask = 5
 material_override_0 = SubResource("StandardMaterial3D_fktxt")
 collision_enabled_0 = true
 
@@ -613,7 +613,7 @@ voxel_name = &"pole"
 geometry_type = 2
 custom_mesh = ExtResource("23_bda5g")
 collision_aabbs = Array[AABB]([AABB(0.3, 0, 0.3, 0.4, 1, 0.4)])
-collision_mask = 12
+collision_mask = 4
 material_override_0 = SubResource("StandardMaterial3D_up4lo")
 collision_enabled_0 = true
 

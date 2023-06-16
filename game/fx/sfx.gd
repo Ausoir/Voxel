@@ -1,7 +1,8 @@
 extends Node
 
-const BGM_fields = preload("res://assets/bgm/dungeon1.mp3")
+const BGM_fields = preload("res://assets/bgm/town1.mp3")
 const BGM_dungeons = preload("res://assets/bgm/dungeon1.mp3")
+const BGM_cafe = preload("res://assets/bgm/final1.mp3")
 const BGM_dark = preload("res://assets/bgm/dark.wav")
 var current = -1
 var nodes

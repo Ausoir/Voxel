@@ -57,5 +57,22 @@
 				1
 			]
 		}
+	},
+	"goblin clan": {
+		"behavior": "idle",
+		"team": {
+			"goblin shaman": [
+				0,
+				1
+			],
+			"goblin warrior": [
+				0,
+				2
+			],
+			"goblin ranger": [
+				0,
+				2
+			]
+		}
 	}
 }

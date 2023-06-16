@@ -1,4 +1,10 @@
 extends "res://game/object/prop.gd"
+const ACTION = preload("./action.gd")
+const PROCEDURE = preload("./procedure.gd")
+const BUFFS = preload("./buffs.gd")
+const SKILLS = preload("./skills/skills.gd")
+const PROFICIENCY = preload("./skills/proficiency.gd")
+const OVERLAYMAT = preload("./flash_red.tres")
 
 signal attack
 signal attacked
@@ -31,12 +37,12 @@ var data
 var faction = 2
 var grounded = false
 var velocity = Vector3()
-var action = preload("./action.gd").new()
-var procedure = preload("./procedure.gd").new()
-var buffs = preload("./buffs.gd").new()
-var skills = preload("./skills/skills.gd").new()
-var proficiency = preload("./skills/proficiency.gd").new()
-var overlay_mat = preload("./flash_red.tres").duplicate()
+var action
+var procedure
+var buffs
+var skills
+var proficiency
+var overlay_mat
 var pilot
 var physics_process = _walk_physics_process
 var alert = false
@@ -56,6 +62,12 @@ var _mesh
 
 
 func _ready():
+	action = ACTION.new()
+	procedure = PROCEDURE.new()
+	buffs = BUFFS.new()
+	skills = SKILLS.new()
+	proficiency = PROFICIENCY.new()
+	overlay_mat = OVERLAYMAT.duplicate()
 	action.set_unit(self)
 	buffs.set_unit(self)
 	skills.set_unit(self)
@@ -66,7 +78,7 @@ func _ready():
 	_box_mover.set_max_step_height(1)
 	_mesh = get_node(_mesh_path)
 	_space_state = get_viewport().get_world_3d().get_direct_space_state()
-	var interact = data.get("interact")
+	var interact = data.get("onuse")
 	if interact != null:
 		body.set_collision_layer_value(1, true)
 	body_rid = body.get_rid()
@@ -80,7 +92,9 @@ func _ready():
 
 
 func on_interact(_user: Node3D):
-	G.run_script(data.get("interact"), null)
+	var t = data.get("onuse")
+	if t != null:
+		G.run_script(t[0], t[1])
 
 
 func get_type():
@@ -215,6 +229,11 @@ func get_center():
 	return position + Vector3(0, size.y/2, 0)
 
 
+func set_last_hitter(p):
+	if p != self:
+		last_hitter = p
+
+
 func on_kill(_victim):
 	var lvl = data.get("level", 1)
 	var tlvl = _victim.data.get("level", 1)
@@ -233,12 +252,12 @@ func earn_exp(experience):
 			on_level()
 
 
-func on_level():
-	if G.you == self:
-		G.ui.msg("Level Up!")
-	G.stock.make_particle(position, "level")
-	G.sfx.play("dodge", position)
-	equipment.max_essence_size = data.get("level", 1)
+func on_level(celebrate=true):
+	if celebrate:
+		if G.you == self:
+			G.ui.msg("Level Up!")
+		G.stock.make_particle(position, "level")
+		G.sfx.play("dodge", position)
 	equipment.update_essence()
 
 
@@ -259,8 +278,12 @@ func die():
 			var itemname = G.rng.get_combo(data.get("loot"))
 			if itemname != null:
 				var item = G.stock.make_item(itemname)
-				item.drop_at(position)
+				if item != null:
+					item.drop_at(position)
 			emit_signal("death")
+			var ondeath = data.get("ondeath")
+			if ondeath != null:
+				G.run_script(ondeath[0], ondeath[1])
 		else:
 			health = 1
 			buffs.set_duration("polymorph", 0)
@@ -327,6 +350,7 @@ func shoot():
 	var projname = data.get("projectile")
 	var projectile = G.stock.Projectiles[projname].instantiate()
 	projectile.radius = data.get("radius", 1)
+	projectile.speed = data.get("power", 10)
 	projectile.damage = data.get("damage", 5)
 	projectile.inflict = data.get("inflict", [])
 	projectile.position = get_center() + forward

@@ -1,11 +1,8 @@
-[gd_scene load_steps=13 format=3 uid="uid://dssddb3t8qcch"]
+[gd_scene load_steps=12 format=3 uid="uid://dssddb3t8qcch"]
 
 [ext_resource type="Script" path="res://game/object/light/prop_light.gd" id="1_8xtuj"]
 [ext_resource type="ArrayMesh" uid="uid://lr2ex3s52166" path="res://assets/objects/o_torch.obj" id="2_b3dhq"]
 [ext_resource type="Texture2D" uid="uid://bfyb8ns5fkpqx" path="res://assets/texture/t_smoke.png" id="3_uw1o1"]
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_roy2d"]
-size = Vector3(1, 2, 1)
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ppe1f"]
 emission_shape = 1
@@ -91,15 +88,6 @@ material = SubResource("ShaderMaterial_x7hat")
 
 [node name="light" type="Node3D"]
 script = ExtResource("1_8xtuj")
-
-[node name="Body" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-collision_layer = 40
-collision_mask = 32
-input_ray_pickable = false
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Body"]
-shape = SubResource("BoxShape3D_roy2d")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)

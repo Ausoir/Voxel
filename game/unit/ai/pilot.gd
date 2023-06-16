@@ -49,7 +49,7 @@ func _physics_process(_delta):
 	if _frame >= 0.5:
 		_frame -= 0.5
 		if priority == 1:
-			_way_clear = G.tool.raycast(_from, _unit.forward, _dist, 4)
+			_way_clear = G.tool.raycast(_from, _unit.forward, _dist, 8)
 			if !in_range or _way_clear != null:
 				_timeout += 1
 			else:
@@ -172,3 +172,4 @@ func _chase(_delta):
 	else:
 		_pathing.set_target(_to)
 		_pathing.perform(_delta)
+

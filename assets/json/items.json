@@ -5,7 +5,7 @@
 		"script": "consumable/consumable",
 		"data": {
 			"desc": "Cures hunger.",
-			"value": 3,
+			"value": 5,
 			"weight": 1,
 			"buffs": [
 				[
@@ -143,6 +143,22 @@
 			]
 		}
 	},
+	"glow elixir": {
+		"spritename": "item/potion_cyan",
+		"modelname": "item/potion_cyan3d-0-potion_cyan",
+		"script": "consumable/consumable",
+		"data": {
+			"desc": "Glow permanently.",
+			"value": 100,
+			"speed": 0.1,
+			"buffs": [
+				[
+					"glow",
+					-1
+				]
+			]
+		}
+	},
 	"teleport scroll": {
 		"spritename": "item/scroll",
 		"modelname": "item/scroll3d-0-scroll",
@@ -183,6 +199,17 @@
 			"value": 100,
 			"speed": 0.5,
 			"skill": "amnesia"
+		}
+	},
+	"scroll of lichdom": {
+		"spritename": "item/scroll",
+		"modelname": "item/scroll3d-0-scroll",
+		"script": "consumable/skill",
+		"data": {
+			"desc": "Permanently turn yourself undead.",
+			"value": 100,
+			"speed": 0.1,
+			"skill": "lich"
 		}
 	},
 	"gold": {
@@ -365,7 +392,7 @@
 		"script": "equipment/armor",
 		"part": "body",
 		"data": {
-			"value": 250,
+			"value": 300,
 			"weight": 4,
 			"defense": 0,
 			"space": 5,
@@ -379,7 +406,7 @@
 		"script": "equipment/armor",
 		"part": "body",
 		"data": {
-			"value": 350,
+			"value": 250,
 			"weight": 3,
 			"defense": 0,
 			"space": 3,
@@ -394,7 +421,7 @@
 		"script": "equipment/armor",
 		"part": "body",
 		"data": {
-			"value": 350,
+			"value": 200,
 			"weight": 0,
 			"defense": 1,
 			"space": 0
@@ -578,26 +605,68 @@
 			]
 		}
 	},
+	"sapphire ring": {
+		"spritename": "item/ring1",
+		"modelname": "item/ring1_3d",
+		"part": "accessory",
+		"data": {
+			"value": 100,
+			"weight": 0,
+			"mana": 5
+		}
+	},
+	"glow ring": {
+		"spritename": "item/ring2",
+		"modelname": "item/ring2_3d",
+		"part": "accessory",
+		"data": {
+			"desc": "Glows after taking damage. Does not turn off.",
+			"value": 50,
+			"weight": 0,
+			"buffc": 10,
+			"buff": [
+				[
+					"glow",
+					-1
+				]
+			]
+		}
+	},
+	"vicious ring": {
+		"spritename": "item/ring3",
+		"modelname": "item/ring3_3d",
+		"part": "accessory",
+		"data": {
+			"desc": "Enables druids to turn into green rats.",
+			"value": 100,
+			"weight": 0,
+			"sight": 2,
+			"shape": "green rat"
+		}
+	},
+	"crimson ring": {
+		"spritename": "item/ring4",
+		"modelname": "item/ring4_3d",
+		"part": "accessory",
+		"data": {
+			"desc": "Enables druids to turn into chickens.",
+			"value": 100,
+			"weight": 0,
+			"sight": 2,
+			"shape": "chicken"
+		}
+	},
 	"placer": {
 		"spritename": "item/flier",
 		"modelname": "item/flier-0-flier",
 		"script": "terraform/placer",
 		"data": {
+			"desc": "Huh??? Debug item",
 			"buildables": [
 				"shutter",
 				"dummy"
 			]
 		}
-	},
-	"remover": {
-		"spritename": "item/flier",
-		"modelname": "item/flier-0-flier",
-		"script": "terraform/remover"
-	},
-	"summon": {
-		"spritename": "item/flier",
-		"modelname": "item/flier-0-flier",
-		"script": "spawner/summon"
 	},
 	"stick": {
 		"spritename": "weapon/stick",
@@ -1163,7 +1232,7 @@
 		"data": {
 			"type": "evocation",
 			"desc": "Shoot a deadly energy bolt to decimate enemies in an area.",
-			"value": 300,
+			"value": 250,
 			"weight": 4,
 			"speed": 0.3,
 			"spread": 0,
@@ -1226,11 +1295,28 @@
 		"script": "weapon/ranged",
 		"data": {
 			"type": "firearm",
-			"value": 240,
+			"value": 200,
 			"weight": 5,
-			"speed": 0.1,
+			"speed": 0.5,
+			"delay": 1,
 			"spread": 0.05,
-			"damage": 13,
+			"damage": 15,
+			"noise": 16,
+			"sfx_hold": "buy"
+		}
+	},
+	"repeater": {
+		"spritename": "weapon/taser",
+		"modelname": "weapon/taser3d-0-taser",
+		"script": "weapon/ranged",
+		"data": {
+			"type": "firearm",
+			"value": 200,
+			"weight": 6,
+			"speed": 1.8,
+			"delay": 0,
+			"spread": 0.2,
+			"damage": 10,
 			"noise": 16,
 			"sfx_hold": "buy"
 		}
@@ -1291,7 +1377,7 @@
 		"data": {
 			"desc": "Your attacks apply +2 poison and slow the victim.",
 			"essence": "goblin",
-			"value": 300
+			"value": 200
 		}
 	},
 	"venom essence": {
@@ -1299,9 +1385,9 @@
 		"modelname": "item/essence3d",
 		"part": "essence",
 		"data": {
-			"desc": "Cast to apply +7 poison to your attacks. Lasts 7 seconds.",
+			"desc": "Cast to apply +7 poison to your attacks using 1 mana. Lasts 7 seconds.",
 			"essence": "venom",
-			"value": 300
+			"value": 200
 		}
 	},
 	"earth essence": {
@@ -1311,7 +1397,7 @@
 		"data": {
 			"desc": "Touch a solid wall to pass through. Increase health by 10.",
 			"essence": "passwall",
-			"value": 300,
+			"value": 200,
 			"health": 10
 		}
 	},
@@ -1322,7 +1408,7 @@
 		"data": {
 			"desc": "Increase move speed by 1. Visualize damage.",
 			"essence": "scout",
-			"value": 300,
+			"value": 200,
 			"speed": 0.1
 		}
 	},
@@ -1333,8 +1419,7 @@
 		"data": {
 			"desc": "When at less than half health, cast to heal self. Otherwise, heal the unit you are touching.",
 			"essence": "heal",
-			"value": 300,
-			"health": -5
+			"value": 200
 		}
 	},
 	"warrior essence": {
@@ -1344,7 +1429,7 @@
 		"data": {
 			"desc": "When at less than a third health, gain 33% to recover some health after taking hit.",
 			"essence": "warrior",
-			"value": 300
+			"value": 200
 		}
 	},
 	"vampire essence": {
@@ -1354,7 +1439,7 @@
 		"data": {
 			"desc": "Recover some health after dealing damage. Uses 1 mana.",
 			"essence": "vampire",
-			"value": 300,
+			"value": 200,
 			"req": [
 				"necromancy",
 				3
@@ -1366,9 +1451,19 @@
 		"modelname": "item/essence3d",
 		"part": "essence",
 		"data": {
-			"desc": "With bare hands, shoot a wave of psychic blast forward. Accuracy and damage depend on psych level.",
+			"desc": "With bare hands, shoot a wave of psychic blast forward. Accuracy and damage depend on Psych level.",
 			"essence": "psychic",
-			"value": 300
+			"value": 200
+		}
+	},
+	"lure essence": {
+		"spritename": "item/essence",
+		"modelname": "item/essence3d",
+		"part": "essence",
+		"data": {
+			"desc": "With bare hands, throw a rock to lure an enemy.",
+			"essence": "lure",
+			"value": 200
 		}
 	},
 	"sleep essence": {
@@ -1378,7 +1473,7 @@
 		"data": {
 			"desc": "Touch to knock out a victim.",
 			"essence": "sleep",
-			"value": 300
+			"value": 200
 		}
 	},
 	"divine essence": {
@@ -1388,7 +1483,7 @@
 		"data": {
 			"desc": "When standing still, gain vision through walls. Must be at full health.",
 			"essence": "vision",
-			"value": 300
+			"value": 200
 		}
 	},
 	"cat essence": {
@@ -1398,7 +1493,7 @@
 		"data": {
 			"desc": "When standing still, gain vision through the dark.",
 			"essence": "nighteye",
-			"value": 300
+			"value": 200
 		}
 	},
 	"bomb essence": {
@@ -1408,7 +1503,7 @@
 		"data": {
 			"desc": "Touch a surface to create a bomb that explodes in 3 seconds. Takes 2 slots.",
 			"essence": "bomb",
-			"value": 300,
+			"value": 200,
 			"soul": -1
 		}
 	},
@@ -1419,7 +1514,7 @@
 		"data": {
 			"desc": "Cast to turn invisible.",
 			"essence": "shadow",
-			"value": 300
+			"value": 200
 		}
 	},
 	"chameleon essence": {
@@ -1429,9 +1524,9 @@
 		"data": {
 			"desc": "Stand still to turn invisible.",
 			"essence": "hide",
-			"value": 300,
+			"value": 200,
 			"req": [
-				"aura",
+				"ambush",
 				3
 			]
 		}
@@ -1443,7 +1538,7 @@
 		"data": {
 			"desc": "Double jump to fly toward the direction you are facing. No mana cost at Aura 2.",
 			"essence": "wind",
-			"value": 300
+			"value": 200
 		}
 	},
 	"silence essence": {
@@ -1453,7 +1548,7 @@
 		"data": {
 			"desc": "Move and land silently. Ignore the effects of silence.",
 			"essence": "silence",
-			"value": 300
+			"value": 200
 		}
 	},
 	"quicksilver essence": {
@@ -1464,7 +1559,7 @@
 			"desc": "Cast to transform. Each persona owns a unique form.",
 			"essence": "polymorph",
 			"sight": 2,
-			"value": 300
+			"value": 200
 		}
 	},
 	"soul essence": {
@@ -1472,10 +1567,10 @@
 		"modelname": "item/essence3d",
 		"part": "essence",
 		"data": {
-			"desc": "Whenever you kill an enemy, spend mana to raise it as undead.",
-			"mana": 1,
+			"desc": "Raise enemies you kill as undead. 10% chance per level of Necromancy.",
 			"essence": "raise",
-			"value": 300
+			"health": -5,
+			"value": 200
 		}
 	},
 	"trainer essence": {
@@ -1486,7 +1581,7 @@
 			"desc": "Touch a corpse to absorb it using mana. Right click to revive and summon the creature at no cost.",
 			"defense": -1,
 			"essence": "summon",
-			"value": 300
+			"value": 200
 		}
 	},
 	"bashing essence": {
@@ -1497,7 +1592,7 @@
 			"desc": "When attacking enemies too close to hit, knock them down with a somersault.",
 			"health": 5,
 			"essence": "knockdown",
-			"value": 300
+			"value": 200
 		}
 	},
 	"berserker essence": {
@@ -1508,7 +1603,7 @@
 			"desc": "Gain 40% attack speed with melee weapons.",
 			"health": -5,
 			"essence": "berserk",
-			"value": 300
+			"value": 200
 		}
 	},
 	"assassin essence": {
@@ -1516,13 +1611,13 @@
 		"modelname": "item/essence3d",
 		"part": "essence",
 		"data": {
-			"desc": "Swing daggers while running.",
+			"desc": "Dagger backstab deals double total damage.",
 			"req": [
 				"dagger",
 				3
 			],
 			"essence": "dagger",
-			"value": 300
+			"value": 200
 		}
 	},
 	"crusher essence": {
@@ -1536,7 +1631,7 @@
 				3
 			],
 			"essence": "blunt",
-			"value": 300
+			"value": 200
 		}
 	},
 	"spearmaster essence": {
@@ -1550,7 +1645,7 @@
 				3
 			],
 			"essence": "spear",
-			"value": 300
+			"value": 200
 		}
 	},
 	"blademaster essence": {
@@ -1564,7 +1659,7 @@
 				3
 			],
 			"essence": "blade",
-			"value": 300
+			"value": 200
 		}
 	},
 	"elven essence": {
@@ -1578,7 +1673,7 @@
 				3
 			],
 			"essence": "bow",
-			"value": 300
+			"value": 200
 		}
 	},
 	"dwarven essence": {
@@ -1592,7 +1687,7 @@
 				3
 			],
 			"essence": "firearm",
-			"value": 300
+			"value": 200
 		}
 	},
 	"magical essence": {
@@ -1606,7 +1701,7 @@
 				3
 			],
 			"essence": "evocation",
-			"value": 300
+			"value": 200
 		}
 	},
 	"agility essence": {
@@ -1616,7 +1711,7 @@
 		"data": {
 			"desc": "Gain 20% chance to dodge attacks.",
 			"essence": "agility",
-			"value": 300
+			"value": 200
 		}
 	},
 	"undead essence": {
@@ -1626,7 +1721,7 @@
 		"data": {
 			"health": -10,
 			"defense": 2,
-			"value": 300
+			"value": 200
 		}
 	},
 	"mule essence": {
@@ -1636,7 +1731,7 @@
 		"data": {
 			"space": 2,
 			"weight": -1,
-			"value": 300
+			"value": 200
 		}
 	},
 	"health essence": {
@@ -1645,7 +1740,7 @@
 		"part": "essence",
 		"data": {
 			"health": 20,
-			"value": 300
+			"value": 200
 		}
 	},
 	"mana essence": {
@@ -1654,7 +1749,7 @@
 		"part": "essence",
 		"data": {
 			"mana": 5,
-			"value": 300
+			"value": 200
 		}
 	},
 	"ascetic essence": {
@@ -1664,7 +1759,7 @@
 		"data": {
 			"desc": "You eat less.",
 			"essence": "ascetic",
-			"value": 300
+			"value": 200
 		}
 	},
 	"lethality essence": {
@@ -1674,7 +1769,7 @@
 		"data": {
 			"desc": "You gain +9 damage on the next hit after a kill.",
 			"essence": "lethality",
-			"value": 300,
+			"value": 200,
 			"req": [
 				"ambush",
 				3
@@ -1688,7 +1783,7 @@
 		"data": {
 			"desc": "Heal after each kill. Takes 2 slots.",
 			"essence": "harvest",
-			"value": 300,
+			"value": 200,
 			"soul": -1,
 			"req": [
 				"necromancy",
@@ -1703,7 +1798,7 @@
 		"data": {
 			"desc": "Block an attack every 14 seconds. Takes 2 slots.",
 			"essence": "shield",
-			"value": 300,
+			"value": 200,
 			"soul": -1
 		}
 	},
@@ -1714,7 +1809,7 @@
 		"data": {
 			"desc": "Block attacks at 1 mana cost.",
 			"essence": "holy",
-			"value": 300,
+			"value": 200,
 			"mana": 2,
 			"req": [
 				"aura",
@@ -1729,7 +1824,7 @@
 		"data": {
 			"desc": "Cast to become invulnerable for 11+ seconds using 2 mana.",
 			"essence": "invulnerability",
-			"value": 300,
+			"value": 200,
 			"req": [
 				"aura",
 				3
@@ -1743,7 +1838,7 @@
 		"data": {
 			"desc": "Cast to glow.",
 			"essence": "light",
-			"value": 300,
+			"value": 200,
 			"mana": 1
 		}
 	},
@@ -1754,7 +1849,7 @@
 		"data": {
 			"desc": "Cast to turn a weapon on ground into mana. Stronger weapons give more mana.",
 			"essence": "metal",
-			"value": 300,
+			"value": 200,
 			"req": [
 				"earth",
 				3
@@ -1766,9 +1861,9 @@
 		"modelname": "item/essence3d",
 		"part": "essence",
 		"data": {
-			"desc": "When out of mana, standing still will convert health into mana. Efficiency scales with necromancy.",
+			"desc": "When out of mana, standing still will convert health into mana. Efficiency scales with Necromancy.",
 			"essence": "sublimation",
-			"value": 300,
+			"value": 200,
 			"req": [
 				"necromancy",
 				2
@@ -1782,7 +1877,7 @@
 		"data": {
 			"desc": "When out of mana, turn ambush damage into mana.",
 			"essence": "panic",
-			"value": 300,
+			"value": 200,
 			"req": [
 				"ambush",
 				4

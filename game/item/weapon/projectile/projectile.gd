@@ -12,12 +12,16 @@ var damage = 1
 var on_attack
 var shooter
 var noise = 3
+var radius = 0
 var inflict = []
+@export var shot_sound: String
 
 
 func _ready():
 	_ss = get_viewport().get_world_3d().get_direct_space_state()
 	_ssparams = PhysicsRayQueryParameters3D.new()
+	if !shot_sound.is_empty():
+		G.sfx.play(shot_sound, position)
 
 
 func set_direction(direction: Vector3):
@@ -56,7 +60,7 @@ func on_collide(hit):
 		damage += shooter.data.get("damage", 0)
 		if !unit.alert:
 			damage += backstab
-		unit.last_hitter = shooter
+		unit.set_last_hitter(shooter)
 		unit.on_damaged(position, damage, inflict)
 		if on_attack != null:
 			on_attack.call(unit, shooter, damage)

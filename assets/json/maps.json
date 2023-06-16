@@ -423,7 +423,7 @@
 				],
 				[
 					1,
-					"marauders"
+					"goblin clan"
 				],
 				[
 					2,
@@ -437,7 +437,7 @@
 				],
 				[
 					1,
-					"marauders"
+					"goblin clan"
 				],
 				[
 					2,
@@ -452,8 +452,12 @@
 			],
 			"_stone": [
 				[
-					10,
+					8,
 					"slime"
+				],
+				[
+					2,
+					"rock slime"
 				],
 				[
 					15,
@@ -516,6 +520,12 @@
 				[
 					1,
 					"@"
+				]
+			],
+			"_table": [
+				[
+					3,
+					"meat"
 				]
 			],
 			"_carpet": [
@@ -640,13 +650,13 @@
 			],
 			"_wood": [
 				[
-					35,
-					"#bandits"
+					5,
+					"bandits"
 				]
 			],
 			"^wood": [
 				[
-					35,
+					10,
 					"#bandits"
 				]
 			],
@@ -668,8 +678,8 @@
 					"portal/exit"
 				],
 				[
-					2,
-					"marauders"
+					4,
+					"bounty hunter"
 				]
 			],
 			"_carpet": [
@@ -678,33 +688,29 @@
 					"portal/entrance"
 				],
 				[
-					2,
-					"bandits"
+					4,
+					"bounty hunter"
 				]
 			],
 			"^brick": [
 				[
-					24,
+					12,
 					"#cavern"
 				]
 			],
 			"_brick": [
 				[
-					16,
+					12,
 					"#cavern"
-				],
-				[
-					4,
-					"green rat"
 				]
 			],
 			"^labtiles": [
 				[
-					6,
+					4,
 					"#animals"
 				],
 				[
-					3,
+					2,
 					"robot"
 				],
 				[
@@ -714,11 +720,11 @@
 			],
 			"_labtiles": [
 				[
-					8,
+					5,
 					"#animals"
 				],
 				[
-					1,
+					2,
 					"robot"
 				]
 			]
@@ -755,9 +761,17 @@
 				[
 					1,
 					"boss1"
+				],
+				[
+					3,
+					"wisp"
 				]
 			]
 		},
+		"on_load": [
+			"bgm",
+			"cafe"
+		],
 		"down": "fields",
 		"item": null,
 		"treasure": null,

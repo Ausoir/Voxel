@@ -60,7 +60,7 @@ func _ready():
 		_set_up_character($Barbarian, head5, a_hide, a_axe)
 		_set_up_character($Druid, head10, a_grobe)
 		_set_up_character($Necromancer, head6, a_suit)
-		_set_up_character($Healer, head7, a_robe, a_mace)
+		_set_up_character($Priestess, head7, a_robe, a_mace)
 		_set_up_character($Trainer, hcap, a_hide, null)
 		_set_up_character($Crusader, head9, a_plate, a_spear)
 		$Canvas/CenterContainer/Settings.close.connect(on_ui_close)

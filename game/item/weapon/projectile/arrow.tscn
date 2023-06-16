@@ -24,6 +24,7 @@ texture_filter = 0
 
 [node name="Projectile" type="Node3D"]
 script = ExtResource("1_1sxc5")
+shot_sound = "shoot_bow"
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)

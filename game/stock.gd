@@ -123,6 +123,8 @@ func make_object(pos: Vector3, itemname: String):
 	var scene = _scene_cache.get(itemname)
 	if scene == null:
 		var dir = str("res://game/object/", itemname, ".tscn")
+		if !ResourceLoader.exists(dir):
+			return null
 		scene = load(dir)
 		_scene_cache[itemname] = scene
 	var item = scene.instantiate()
@@ -186,9 +188,9 @@ func make_unit(pos: Vector3, itemname: String, parent: Node=self, custom_data=nu
 		if !("mana" in unit.data):
 			unit.data["mana"] = unit.mana
 		unit.defense = unit.data.get("defense", 0)
+		parent.add_child(unit)
 		if "speed" in unit.data:
 			unit.procedure.speed = unit.data.speed
-		parent.add_child(unit)
 		if is_human:
 			var head_model = _get_model(rawdata.head)
 			unit.headmesh = head_model

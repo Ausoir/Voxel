@@ -1,6 +1,7 @@
 extends Node
 
 const PLAYER_PATH = "user://player.json"
+const SCORE_PATH = "user://highscores.json"
 const TEMPLATE_PLAYER_PATH = "res://save/template.json"
 const SETTINGS_PATH = "user://settings.json"
 var data
@@ -45,6 +46,15 @@ func clear_player_data():
 		file.close()
 	else:
 		push_error("Could not open file [" +PLAYER_PATH+ "] for saving.")
+
+
+func save_highscore(record):
+	var r = []
+	data = get_json_from_dir(SCORE_PATH)
+	if data != null:
+		r = data
+	r.append(record)
+	save(SCORE_PATH, r)
 
 
 func load_settings():

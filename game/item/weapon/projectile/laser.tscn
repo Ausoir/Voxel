@@ -79,6 +79,7 @@ material = SubResource("StandardMaterial3D_llmts")
 
 [node name="Rocket" type="Node3D"]
 script = ExtResource("1_1x122")
+shot_sound = "shoot_laser"
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="."]
 amount = 12

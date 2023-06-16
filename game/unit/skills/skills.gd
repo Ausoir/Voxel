@@ -1,6 +1,7 @@
 extends Node
 
 const Laser = preload("res://game/item/weapon/projectile/laser.tscn")
+const Lure = preload("./lure.tscn")
 const Bomb = preload("./bomb.tscn")
 const Summons = ["bunny", "squirrel", "bat", "rat"]
 const RaiseDeads = ["skeletal warrior", "skeletal ranger", "skeletal dog"]
@@ -18,7 +19,7 @@ func set_unit(p):
 
 
 func on_touch():
-	perform_by_order(["summon","earth","sleep","bomb","psychic"])
+	perform_by_order(["summon","earth","sleep","bomb","psychic","lure"])
 
 
 func on_wait():
@@ -74,6 +75,7 @@ func warrior():
 
 func light():
 	if !_unit.buffs.has("glow"):
+		G.sfx.play("buff_ripple", _unit.position)
 		_unit.buffs.add("glow", -1)
 		return true
 	return false
@@ -128,7 +130,7 @@ func goblin():
 
 
 func venom():
-	if !_unit.buffs.has("venomous"):
+	if !_unit.buffs.has("venomous") and _unit.req_mana(1):
 		_unit.buffs.add("venomous", 7)
 		G.sfx.play("buff_ripple", _unit.position)
 		return true
@@ -136,15 +138,14 @@ func venom():
 
 
 func raise():
-	if _unit.req_mana(1):
+	if G.rng.percent(_unit.get_prof("necromancy") * 0.1):
 		var creature = G.rng.pick(RaiseDeads)
-		if _unit.get_prof("necromancy") < 3:
-			_unit.buffs.add("exhaustion", 2)
 		var at = _param.position
 		G.sfx.play("summon", _unit.position)
 		G.stock.make_particle(at, "summon")
 		var new = G.stock.make_unit(at, creature)
 		G.stock.attach_ai(new, "ally")
+		_unit.emit_signal("special", "necromancy", 1, 4)
 		return true
 	return false
 
@@ -224,12 +225,12 @@ func sublimation():
 func hide():
 	if !_unit.buffs.has("invisible"):
 		G.sfx.play("fade", _unit.position)
-	_unit.buffs.add("invisible", 3)
+	_unit.buffs.add("invisible", 2 + _unit.get_prof("ambush"))
 
 
-func invisibility():
-	if _unit.req_mana(1):
-		if !_unit.buffs.has("invisible"):
+func shadow():
+	if !_unit.buffs.has("invisible"):
+		if _unit.req_mana(1):
 			G.sfx.play("fade", _unit.position)
 			_unit.emit_signal("special", "aura", 1)
 			_unit.buffs.add("invisible", 2+_unit.get_prof("aura"))
@@ -237,14 +238,44 @@ func invisibility():
 	return false
 
 
-func invulnerability():
-	if _unit.req_mana(2):
-		if !_unit.buffs.has("invincible"):
+func divinity():
+	if !_unit.buffs.has("invincible"):
+		if _unit.req_mana(2):
 			G.sfx.play("buff_ripple", _unit.position)
 			_unit.emit_signal("special", "aura", 2)
 			_unit.buffs.add("invincible", 8+_unit.get_prof("aura"))
 			return true
 	return false
+
+
+func lure():
+	if !_unit.buffs.has("exhaustion"):
+		var anim_name = "shoot"
+		var animation = _unit.animator.get_animation(anim_name)
+		if animation != null:
+			var anim_dur = animation.get_length()
+			_unit.animator.seek(0, true)
+			_unit.animator.play(anim_name)
+			_unit.action.set_next("use", anim_dur)
+			_unit.action.show_progress = true
+			_unit.action.cancelable = true
+			G.sfx.play("dodge", _unit.position)
+			_casting = lure_shoot
+			return true
+	return false
+
+
+func lure_shoot():
+	var rocket = Lure.instantiate()
+	rocket.damage = 1
+	rocket.inflict = [["regeneration", 1]]
+	rocket.position = _unit.get_center()
+	G.stock.add_child(rocket)
+	rocket.set_direction(_unit.forward)
+	rocket.shooter = _unit
+	_unit.action.set_next("idle", .5)
+	_unit.buffs.add("exhaustion", 3)
+	return true
 
 
 func psychic():
@@ -292,7 +323,7 @@ func sleep():
 				var anim_name = "shoot"
 				var animation = _unit.animator.get_animation(anim_name)
 				if animation != null:
-					var speed = 2.5
+					var speed = 2
 					var anim_dur = animation.get_length() * (1 / speed)
 					_unit.animator.seek(0, true)
 					_unit.animator.play(anim_name, .1, speed)
@@ -369,18 +400,19 @@ func heal_shoot():
 
 
 func bomb():
-	var hit = G.tool.raycast(_unit.camera.global_position, _unit.forward, 1.5, 4)
-	if hit != null:
-		if _unit.req_mana(2):
-			_unit.emit_signal("special", "earth", 2)
-			var barrel = Bomb.instantiate()
-			var dest = hit.previous_position
-			barrel.position = dest
-			barrel.shooter = _unit
-			barrel.damage = 9
-			G.stock.add_child(barrel)
-			_unit.buffs.add("exhaustion", 10)
-			return true
+	if !_unit.buffs.has("exhaustion"):
+		var hit = G.tool.raycast(_unit.camera.global_position, _unit.forward, 1.5, 4)
+		if hit != null:
+			if _unit.req_mana(2):
+				_unit.emit_signal("special", "earth", 2)
+				var barrel = Bomb.instantiate()
+				var dest = hit.previous_position
+				barrel.position = dest
+				barrel.shooter = _unit
+				barrel.damage = 9
+				G.stock.add_child(barrel)
+				_unit.buffs.add("exhaustion", 10)
+				return true
 	return false
 
 

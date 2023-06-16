@@ -16,7 +16,10 @@
 		],
 		"souls": [],
 		"data": {
-			"interact": "tip",
+			"onuse": [
+				"prompt",
+				"tip_peasant"
+			],
 			"level": 1,
 			"speed": 0.5,
 			"health": 20,
@@ -43,7 +46,10 @@
 		],
 		"souls": [],
 		"data": {
-			"interact": "tip",
+			"onuse": [
+				"prompt",
+				"tip_warrior"
+			],
 			"level": 1,
 			"speed": 0.5,
 			"health": 25,
@@ -74,7 +80,10 @@
 			"psychic essence"
 		],
 		"data": {
-			"interact": "tip",
+			"onuse": [
+				"prompt",
+				"tip_scholar"
+			],
 			"level": 1,
 			"speed": 0.5,
 			"health": 20,
@@ -105,7 +114,10 @@
 			"shadow essence"
 		],
 		"data": {
-			"interact": "tip",
+			"onuse": [
+				"prompt",
+				"tip_rogue"
+			],
 			"level": 1,
 			"speed": 0.5,
 			"health": 20,
@@ -136,7 +148,10 @@
 		],
 		"souls": [],
 		"data": {
-			"interact": "tip",
+			"onuse": [
+				"prompt",
+				"tip_hunter"
+			],
 			"level": 1,
 			"speed": 0.5,
 			"health": 20,
@@ -167,7 +182,10 @@
 			"bashing essence"
 		],
 		"data": {
-			"interact": "tip",
+			"onuse": [
+				"prompt",
+				"tip_barbarian"
+			],
 			"level": 1,
 			"speed": 0.5,
 			"health": 35,
@@ -196,7 +214,10 @@
 			"quicksilver essence"
 		],
 		"data": {
-			"interact": "tip",
+			"onuse": [
+				"prompt",
+				"tip_druid"
+			],
 			"level": 1,
 			"speed": 0.5,
 			"health": 25,
@@ -226,19 +247,21 @@
 			"soul essence"
 		],
 		"data": {
-			"interact": "tip",
+			"onuse": [
+				"prompt",
+				"tip_necromancer"
+			],
 			"level": 1,
 			"speed": 0.5,
 			"health": 20,
-			"mana": 2,
+			"mana": 3,
 			"proficiency": {
-				"dodge": 1,
-				"dagger": 1,
-				"necromancy": 1
+				"necromancy": 2,
+				"dagger": 1
 			}
 		}
 	},
-	"healer": {
+	"priestess": {
 		"head": "head/head7",
 		"body": "body/a_underwear",
 		"ai": "neutral",
@@ -257,7 +280,10 @@
 			"healing essence"
 		],
 		"data": {
-			"interact": "tip",
+			"onuse": [
+				"prompt",
+				"tip_priestess"
+			],
 			"level": 1,
 			"speed": 0.5,
 			"health": 25,
@@ -288,7 +314,10 @@
 			"trainer essence"
 		],
 		"data": {
-			"interact": "tip",
+			"onuse": [
+				"prompt",
+				"tip_trainer"
+			],
 			"level": 1,
 			"speed": 0.5,
 			"health": 20,
@@ -318,7 +347,10 @@
 			"holy essence"
 		],
 		"data": {
-			"interact": "tip",
+			"onuse": [
+				"prompt",
+				"tip_crusader"
+			],
 			"level": 1,
 			"speed": 0.5,
 			"health": 25,
@@ -515,7 +547,7 @@
 			"lantern"
 		],
 		"items": [
-			"short bow",
+			"survival bow",
 			"arrows:30"
 		],
 		"souls": [],
@@ -579,23 +611,23 @@
 			"lantern"
 		],
 		"items": [
-			"spear"
+			"broadsword"
 		],
 		"souls": [],
 		"data": {
-			"level": 6,
+			"level": 5,
 			"speed": 0.5,
-			"health": 45,
+			"health": 35,
 			"mana": 1,
 			"proficiency": {
-				"armor": 5,
+				"armor": 3,
 				"dodge": 1,
 				"blade": 3
 			},
 			"loot": [
 				[
 					0.03,
-					"spear:-1"
+					"broadsword:-1"
 				],
 				[
 					0.15,
@@ -748,7 +780,7 @@
 			"lantern"
 		],
 		"items": [
-			"gasblade"
+			"staff of sleep"
 		],
 		"souls": [
 			"soul essence"
@@ -849,7 +881,7 @@
 		],
 		"souls": [
 			"agility essence",
-			"soul essence",
+			"bashing essence",
 			"goblin essence"
 		],
 		"data": {
@@ -878,21 +910,69 @@
 			]
 		}
 	},
+	"bounty hunter": {
+		"head": "head/head7",
+		"body": "body/a_underwear",
+		"ai": "default",
+		"slots": [
+			"body",
+			"accessory"
+		],
+		"equipments": [
+			"hunting outfit",
+			"gas lantern"
+		],
+		"items": [
+			"spear"
+		],
+		"souls": [
+			"goblin essence",
+			"warrior essence"
+		],
+		"data": {
+			"level": 6,
+			"speed": 0.6,
+			"health": 25,
+			"range": 10,
+			"proficiency": {
+				"dodge": 3,
+				"armor": 1,
+				"spear": 1,
+				"ambush": 3
+			},
+			"loot": [
+				[
+					0.02,
+					"spear:-1"
+				],
+				[
+					0.15,
+					"gold"
+				]
+			]
+		}
+	},
 	"goblin shaman": {
 		"head": "head/h_goblin_shaman",
 		"body": "body/a_goblin_warrior",
 		"ai": "default",
 		"slots": [
-			"body"
+			"body",
+			"accessory"
 		],
-		"equipments": [],
+		"equipments": [
+			"abyssal lantern:-1"
+		],
 		"items": [
 			"glaive"
 		],
-		"souls": [],
+		"souls": [
+			"holy essence"
+		],
 		"data": {
 			"level": 5,
 			"health": 20,
+			"mana": 1,
 			"speed": 0.5,
 			"buffs": [
 				[
@@ -904,6 +984,22 @@
 				[
 					0.02,
 					"glaive"
+				],
+				[
+					0.03,
+					"holy essence"
+				],
+				[
+					0.04,
+					"abyssal lantern"
+				],
+				[
+					0.05,
+					"pure gold"
+				],
+				[
+					0.1,
+					"lootbox"
 				]
 			]
 		}
@@ -987,7 +1083,8 @@
 			"speed": 0.2,
 			"damage": 2,
 			"delay": 0.5,
-			"health": 10,
+			"defense": -1,
+			"health": 8,
 			"inflict": [
 				[
 					"corrosion",
@@ -1023,9 +1120,7 @@
 	"rock slime": {
 		"model": "unit/rockslime",
 		"ai": "neutral",
-		"souls": [
-			"shielding essence"
-		],
+		"souls": [],
 		"data": {
 			"level": 6,
 			"speed": 0.15,
@@ -1069,11 +1164,11 @@
 				[
 					0.2,
 					"healing potion"
-				],,
+				],
 				[
 					0.4,
 					"defense potion"
-				],
+				]
 			]
 		}
 	},
@@ -1283,6 +1378,27 @@
 			]
 		}
 	},
+	"chicken": {
+		"model": "unit/chicken",
+		"ai": "default",
+		"souls": [
+			"bashing essence"
+		],
+		"data": {
+			"level": 4,
+			"damage": 8,
+			"delay": 3,
+			"health": 20,
+			"defense": 1,
+			"speed": 0.35,
+			"buffs": [
+				[
+					"vision",
+					-1
+				]
+			]
+		}
+	},
 	"robot": {
 		"model": "unit/robot",
 		"ai": "default",
@@ -1312,10 +1428,11 @@
 			"level": 5,
 			"damage": 1,
 			"health": 3,
-			"mana": 3,
+			"mana": 2,
 			"speed": 0.15,
-			"delay": 4,
-			"range": 5,
+			"delay": 8,
+			"power": 5,
+			"range": 6,
 			"attack": "shoot",
 			"projectile": "laser",
 			"proficiency": {
@@ -1362,13 +1479,17 @@
 		"ai": "default",
 		"souls": [],
 		"data": {
+			"ondeath": [
+				"gameover",
+				null
+			],
 			"level": 8,
 			"damage": 4,
 			"health": 50,
 			"speed": 0.5,
 			"range": 12,
 			"attack": "shoot",
-			"projectile": "bullet",
+			"projectile": "laser",
 			"radius": 2.5,
 			"buffs": [
 				[

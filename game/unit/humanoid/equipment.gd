@@ -7,9 +7,9 @@ var _unit
 var equipment = {}
 var essence = []
 var _inventory = []
-var max_essence_size := 1
 var max_inventory_size := 2
 var _held_index = 0
+var _soul_count_mod = 0
 var swinging: int = 0
 
 
@@ -19,7 +19,6 @@ func _ready():
 
 func set_unit(unit):
 	_unit = unit
-	max_essence_size = unit.data.get("level", 1)
 	update_essence()
 	if _unit.get_type() != 1:
 		max_inventory_size = 0
@@ -46,6 +45,7 @@ func clear(clear_eq=true, clear_ess=true):
 
 
 func update_essence():
+	var max_essence_size = _unit.data.get("level", 1) + _soul_count_mod
 	essence.resize(max_essence_size)
 	emit_signal("changed")
 
@@ -68,9 +68,9 @@ func add_inventory(times):
 
 
 func add_essence(times):
-	max_essence_size += times
+	_soul_count_mod += times
 	if times < 0:
-		for i in range(max_essence_size, essence.size()):
+		for i in range(essence.size() + times, essence.size()):
 			if essence[i] != null:
 				apply_change(essence[i], -1)
 				essence[i].drop(_unit)

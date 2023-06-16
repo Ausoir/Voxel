@@ -5,6 +5,10 @@ func set_text(txt):
 	$Panel/RichTextLabel.set_text(txt)
 
 
+func hide_return():
+	$Panel/VBox/Button.hide()
+
+
 func add_button(text, callback):
 	var button = Button.new()
 	button.set_text(text)

@@ -33,9 +33,6 @@ func use(_user: Node3D):
 		elif weapon_type == "spear":
 			if _user.has_essence("spear"):
 				_user.procedure.speedmod = .8
-		elif weapon_type == "dagger":
-			if _user.has_essence("dagger"):
-				_user.procedure.speedmod = 1
 		if _user.has_essence("berserk"):
 			speed += 0.4
 		if _user.has_essence("knockdown"):
@@ -99,9 +96,11 @@ func on_hitting(_user, unit):
 			damage_roll += data.get("backstab", 0) + 3
 			if weapon_type == "dagger":
 				damage_roll += _user.get_prof("dagger") * 3
+				if _user.has_essence("dagger"):
+					damage_roll *= 2
 			_user.emit_signal("critical", unit)
 		damage_roll += _user.data.get("damage", 0)
-		unit.last_hitter = _user
+		unit.set_last_hitter(_user)
 		unit.on_damaged(_user.position, damage_roll, inflict)
 		G.sfx.play("hit_flesh", _user.position)
 		_user.emit_signal("weapon", weapon_type, unit, damage_roll)
@@ -125,7 +124,7 @@ func knockdown(_user: Node3D):
 		if !hits.is_empty():
 			for hit in hits:
 				var unit = hit.collider.get_parent()
-				unit.last_hitter = _user
+				unit.set_last_hitter(_user)
 				_user.action.force_set_next("flip", 1.2)
 				_user.animator.play("flip")
 				unit.buffs.add("down", 1)

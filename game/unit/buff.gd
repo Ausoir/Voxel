@@ -117,6 +117,8 @@ class Snare extends Buff:
 class Sleep extends Buff:
 	func on_start():
 		_unit.alert = false
+		_unit.pilot.deaggro()
+		_unit.pilot.set_physics_process(false)
 		if _unit.health > 0:
 			_unit.animator.play("down")
 			_unit.action.force_set_next("sleep", 9999)
@@ -124,7 +126,7 @@ class Sleep extends Buff:
 		if _unit == G.you:
 			G.you.camera.zoom_distance(2)
 	func on_end():
-		_unit.alert = true
+		_unit.pilot.set_physics_process(true)
 		if _unit.health > 0:
 			_unit.action.delay = 0
 		_unit.procedure.speedmod = 1
@@ -328,6 +330,7 @@ class Morph extends Buff:
 		var form = get_form()
 		new = G.stock.make_unit(_unit.position, form)
 		if _unit == G.you:
+			G.ui.clear()
 			G.player.set_unit(new)
 		var morph = new.buffs.add("polymorph", duration)
 		morph.orig = orig
@@ -347,6 +350,7 @@ class Morph extends Buff:
 		new.procedure.speedmod = 0
 		new._healthbar.set_max(new.data.health)
 		new.show_healthbar()
+		new.on_level(false)
 		orig.position.y -= 300
 		duration = 0
 	func get_description():
@@ -367,6 +371,7 @@ class Polymorph extends Buff:
 			orig.show()
 			var new = _unit
 			if _unit == G.you:
+				G.ui.clear()
 				G.player.set_unit(orig)
 			orig.data.level = new.data.level
 			for prof in new.proficiency.list.keys():
@@ -383,6 +388,7 @@ class Polymorph extends Buff:
 			orig.procedure.speedmod = 0
 			orig._healthbar.set_max(orig.data.health)
 			orig.show_healthbar()
+			orig.on_level(false)
 			new.position.y -= 300
 			new.hide()
 			new.animator.set_speed_scale(100)

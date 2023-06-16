@@ -132,6 +132,11 @@ func apply_change(_user:Node3D, mult=1):
 		_user.data["sight"] = _user.data.get("sight", 3) + data.sight * mult
 		if _user.has_node("Addon"):
 			_user.get_node("Addon/Sight").omni_range += data.sight * mult
+	if "shape" in data:
+		if mult == 1:
+			_user.data["shape"] = data.shape
+		else:
+			_user.data.erase("shape")
 
 
 func on_held(_user):
@@ -205,8 +210,10 @@ func imbue(sd):
 				rank += 1
 				imbue_option(candids.pop_front(), randi_range(5, 10))
 			elif rnd < .15:
-				candids.append("essence")
-				candids.shuffle()
+				if !("essence" in candids):
+					if !("essence" in data):
+						candids.append("essence")
+						candids.shuffle()
 				imbue_option(candids.pop_front(), randi_range(1, 5))
 			else:
 				imbue_option(candids.pop_front(), randi_range(1, 2))
@@ -251,7 +258,7 @@ func imbue_option(opt, lvl):
 			if lvl > 0:
 				data.value += lvl * 20 + 100
 			else:
-				data.value += lvl * 20 - 100
+				data.value += lvl * 20
 			var suffix = str("<",inflict.capitalize(),">")
 			_attach_option_description("Inflict "+suffix, "Suffer "+suffix, lvl)
 		"aid":
@@ -267,7 +274,7 @@ func imbue_option(opt, lvl):
 			if lvl > 0:
 				data.value += lvl * 20 + 100
 			else:
-				data.value += lvl * 20 - 100
+				data.value += lvl * 20
 			var suffix = str("<",inflict.capitalize(),">")
 			_attach_option_description("Receive "+suffix, "Imbue "+suffix, lvl)
 		"backstab":
@@ -329,7 +336,7 @@ func imbue_option(opt, lvl):
 			data["light spread"] += lvl * 10
 			data.value += lvl * 5
 			_attach_option_description("Broad Lighting", "Narrow Lighting", lvl)
-	data.value = max(0, data.value)
+	data.value = max(5, data.value)
 
 
 func _attach_option_description(posdesc, negdesc, lvl):

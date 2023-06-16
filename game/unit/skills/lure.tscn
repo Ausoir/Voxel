@@ -1,0 +1,20 @@
+[gd_scene load_steps=5 format=3 uid="uid://bl33hybbsggmv"]
+
+[ext_resource type="Texture2D" uid="uid://i8rytnqf2ynw" path="res://assets/texture/walkway.png" id="1_ig2c6"]
+[ext_resource type="Script" path="res://game/unit/skills/lure.gd" id="1_o3hhg"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jiiyx"]
+albedo_texture = ExtResource("1_ig2c6")
+
+[sub_resource type="SphereMesh" id="SphereMesh_d5as4"]
+material = SubResource("StandardMaterial3D_jiiyx")
+radius = 0.3
+height = 0.6
+radial_segments = 4
+rings = 2
+
+[node name="lure" type="Node3D"]
+script = ExtResource("1_o3hhg")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_d5as4")

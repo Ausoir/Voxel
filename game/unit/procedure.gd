@@ -19,6 +19,10 @@ func face_front():
 	_unit.rotation.y = lerp_angle(_unit.rotation.y, face_dir, turn_speed)
 
 
+func face_back():
+	_unit.rotation.y += 1.57
+
+
 func jump_ready():
 	_unit.animator.play("jump_ready")
 
@@ -38,12 +42,16 @@ func climb():
 	_unit.velocity += forward_vel
 
 
+func get_speed():
+	return clamp(speed, 0, 0.5) * speedmod
+
+
 func walk(motor_forward, motor_side):
 	var walk_forward = G.HORIZONTAL_PLANE.project(_unit.forward)
 	var walk_right = _unit.camera.get_transform().basis.x.normalized()
 	_unit.motor += walk_forward * motor_forward
 	_unit.motor += walk_right * motor_side
-	_unit.motor = _unit.motor.normalized() * max(0, speed) * speedmod
+	_unit.motor = _unit.motor.normalized() * get_speed()
 
 
 func get_toward_plane():
@@ -53,13 +61,13 @@ func get_toward_plane():
 func walk_toward(to):
 	_unit.motor.x = to.x - _unit.position.x
 	_unit.motor.z = to.z - _unit.position.z
-	_unit.motor = _unit.motor.normalized() * max(0, speed) * speedmod
+	_unit.motor = _unit.motor.normalized() * get_speed()
 
 
 func walk_dir(x, z):
 	_unit.motor.x = x
 	_unit.motor.z = z
-	_unit.motor = _unit.motor.normalized() * max(0, speed) * speedmod
+	_unit.motor = _unit.motor.normalized() * get_speed()
 
 
 func stop_walk():

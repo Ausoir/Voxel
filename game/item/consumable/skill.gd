@@ -32,9 +32,26 @@ func amnesia(_unit: Node3D):
 	for i in range(eq.essence.size()):
 		var ess = eq.essence[i]
 		if ess != null:
-			eq.apply_change(ess.data, -1)
+			eq.apply_change(ess, -1)
 			eq.essence[i] = null
 			G.sfx.play("buff_ripple", _unit.position)
 			eq.emit_signal("changed")
 			return
+
+
+func lich(_unit: Node3D):
+	var new = G.stock.make_unit(_unit.position, "skeleton")
+	if _unit == G.you:
+		G.player.set_unit(new)
+	new.data.level = _unit.data.level
+	for prof in new.proficiency.list.keys():
+		var val = _unit.proficiency.list[prof]
+		new.proficiency.increase(prof, val)
+	new.health = new.data.health
+	new.data.erase("loot")
+	new.position = _unit.position
+	new._healthbar.set_max(new.data.health)
+	new.show_healthbar()
+	new.on_level(false)
+	new.buffs.add("sleep", 3)
 

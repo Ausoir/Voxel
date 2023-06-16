@@ -1,21 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://ds68p30ggv4bl"]
+[gd_scene load_steps=3 format=3 uid="uid://ds68p30ggv4bl"]
 
 [ext_resource type="Script" path="res://game/object/prop.gd" id="1_ymjiu"]
 [ext_resource type="ArrayMesh" uid="uid://dydtseu6jisc5" path="res://assets/objects/o_bucket.obj" id="2_aml7n"]
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_5dahq"]
-size = Vector3(0.5, 0.6, 0.6)
 
 [node name="Pot" type="Node3D"]
 script = ExtResource("1_ymjiu")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = ExtResource("2_aml7n")
-
-[node name="Body" type="StaticBody3D" parent="."]
-collision_layer = 8
-collision_mask = 8
-
-[node name="Shape" type="CollisionShape3D" parent="Body"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
-shape = SubResource("BoxShape3D_5dahq")

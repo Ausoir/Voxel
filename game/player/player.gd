@@ -20,6 +20,9 @@ func load_map(p):
 	if G.vars.map != p:
 		G.sfx.fade_bgm()
 		G.set_map(p)
+		var on_load = G.mapdata.get("on_load")
+		if on_load != null:
+			G.run_script(on_load[0], on_load[1])
 		_map_time = 0
 		G.vars.shop = 0
 		G.ui.msg(str("Now entering: [b][color=TEAL][url=",p,"]The ", p.capitalize(), "[/url][/color][/b]"))
@@ -35,9 +38,9 @@ func load_map(p):
 		G.ui.fade.color = Color.BLACK
 		_viewer.position = Vector3(_newmap_offset, 0, 0)
 		G.turn.add(unit.buffs.on_turn)
+		G.you.buffs.add("hunger", -1)
 		if G.mapdata.get("safe", false):
 			G.vars.day += 1
-			G.you.buffs.add("hunger", -1)
 			G.you.buffs.add("stunted", -1)
 			G.you.mana = G.you.data.mana
 			G.files.save_player_data()
