@@ -21,6 +21,8 @@ var _unit
 func _ready():
 	get_tree().get_root().connect("size_changed", Callable(self, "on_resize"))
 	on_resize()
+	on_setting_change("fps")
+	on_setting_change("fullscreen")
 
 
 func _input(event):
@@ -133,10 +135,17 @@ func _process(_delta):
 
 func on_setting_change(setting):
 	if setting == "fps":
-		if G.settings.fps:
+		var fps = G.settings.get("fps", false)
+		if fps:
 			n_fps.show()
 		else:
 			n_fps.hide()
+	elif setting == "fullscreen":
+		var fscreen = G.settings.get("fullscreen", true)
+		if fscreen:
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN)
+		else:
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_MAXIMIZED)
 
 
 func chat():

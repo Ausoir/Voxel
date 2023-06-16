@@ -5,7 +5,7 @@ signal close
 
 
 func on_display():
-	$Panel/VBox/Fullscreen.button_pressed = G.settings.get("fullscreen", false)
+	$Panel/VBox/Fullscreen.button_pressed = G.settings.get("fullscreen", true)
 	$Panel/VBox/FPS.button_pressed = G.settings.get("fps", false)
 	$Panel/VBox/MusicSlider.value = G.settings.get("music", 50)
 	$Panel/VBox/AmbientSlider.value = G.settings.get("ambient", 50)
@@ -27,10 +27,11 @@ func _on_fps_toggled(button_pressed):
 
 func _on_fullscreen_toggled(button_pressed):
 	G.settings.fullscreen = button_pressed
-	if button_pressed:
-		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN)
-	else:
-		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_MAXIMIZED)
+	if G.ui == null:
+		if button_pressed:
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN)
+		else:
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_MAXIMIZED)
 	emit_signal("changed", "fullscreen")
 
 

@@ -26,7 +26,7 @@
 		],
 		[
 			0.08,
-			"invisibility potion:-1"
+			"invulnerability potion:-1"
 		],
 		[
 			0.09,
@@ -332,6 +332,18 @@
 			0.88,
 			"mana essence"
 		],
+		[
+			0.9,
+			"health potion:-1"
+		],
+		[
+			0.92,
+			"mana potion:-1"
+		],
+		[
+			0.93,
+			"meat:-1"
+		]
 	],
 	"#treasure1": [
 		[

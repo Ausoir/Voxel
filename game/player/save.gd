@@ -61,6 +61,10 @@ func load_settings():
 	var settings = get_json_from_dir(SETTINGS_PATH)
 	if settings != null:
 		G.settings = settings
+		if G.settings.get("fullscreen", true):
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN)
+		else:
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_MAXIMIZED)
 
 
 func save_settings():

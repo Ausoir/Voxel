@@ -96,6 +96,10 @@
 		"item": "#shelf",
 		"treasure": null,
 		"trash": "#trash",
+		"on_load": [
+			"bgm",
+			"fields"
+		],
 		"variants": [
 			"field/cabin",
 			"field/field",
@@ -582,7 +586,11 @@
 					"undead army"
 				],
 				[
-					14,
+					3,
+					"green rat"
+				],
+				[
+					18,
 					"#cavern"
 				],
 				[
@@ -656,6 +664,10 @@
 				[
 					2,
 					"bandits"
+				],
+				[
+					3,
+					"assassin"
 				]
 			],
 			"^wood": [
@@ -666,13 +678,13 @@
 			],
 			"^counter": [
 				[
-					2,
+					1,
 					"chest"
 				]
 			],
 			"_counter": [
 				[
-					2,
+					1,
 					"chest"
 				]
 			],
@@ -680,6 +692,10 @@
 				[
 					1,
 					"portal/exit"
+				],
+				[
+					1,
+					"chest"
 				],
 				[
 					4,
@@ -690,6 +706,10 @@
 				[
 					1,
 					"portal/entrance"
+				],
+				[
+					1,
+					"chest"
 				],
 				[
 					4,
@@ -714,6 +734,10 @@
 					"#animals"
 				],
 				[
+					1,
+					"chest"
+				],
+				[
 					2,
 					"robot"
 				],
@@ -724,12 +748,8 @@
 			],
 			"_labtiles": [
 				[
-					5,
-					"#animals"
-				],
-				[
-					2,
-					"robot"
+					7,
+					"goblin clan"
 				]
 			]
 		},

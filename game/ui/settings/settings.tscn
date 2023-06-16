@@ -50,6 +50,7 @@ grow_vertical = 2
 [node name="Fullscreen" type="CheckBox" parent="Panel/VBox"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
+button_pressed = true
 text = "  Fullscreen"
 
 [node name="FPS" type="CheckBox" parent="Panel/VBox"]

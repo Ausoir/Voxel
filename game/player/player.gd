@@ -62,6 +62,7 @@ func set_unit(p):
 			G.stock.add_child(unit)
 		unit.remove_child(addon)
 		unit.death.disconnect(on_death)
+		unit.attacked.disconnect(on_attacked)
 		p.position = unit.position + Vector3()
 		$Interface.unset_unit(unit)
 	else:
@@ -84,8 +85,15 @@ func set_unit(p):
 	unit.on_mesh_set()
 	unit._box_mover.set_step_climbing_enabled(false)
 	unit.death.connect(on_death)
+	unit.attacked.connect(on_attacked)
 	unit.alert = true
 	unit.position.y = 64
+
+
+func on_attacked(_dmg):
+	if unit.health == 1 and G.vars.map == "dungeons" and G.vars.get("phase", 0) != 1:
+		G.sfx.play_bgm("dungeons")
+		G.vars["phase"] = 1
 
 
 func on_death():

@@ -68,13 +68,29 @@
 		"modelname": "item/potion_cyan3d-0-potion_cyan",
 		"script": "consumable/consumable",
 		"data": {
-			"desc": "Turn invisible.",
+			"desc": "Turn invisible for 8 seconds.",
 			"value": 10,
 			"speed": 0.8,
 			"buffs": [
 				[
 					"invisibility",
-					5
+					8
+				]
+			]
+		}
+	},
+	"invulnerability potion": {
+		"spritename": "item/potion_cyan",
+		"modelname": "item/potion_cyan3d-0-potion_cyan",
+		"script": "consumable/consumable",
+		"data": {
+			"desc": "Become immune to damage for 8 seconds.",
+			"value": 40,
+			"speed": 0.8,
+			"buffs": [
+				[
+					"invincible",
+					8
 				]
 			]
 		}

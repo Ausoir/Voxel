@@ -16,7 +16,6 @@ run/main_scene="res://game/start.tscn"
 config/features=PackedStringArray("4.0")
 boot_splash/bg_color=Color(0, 0, 0, 1)
 boot_splash/show_image=false
-config/icon="res://icon.png"
 
 [autoload]
 
@@ -32,7 +31,7 @@ gdscript/warnings/static_called_on_instance=0
 
 [display]
 
-window/size/mode=2
+window/size/mode=4
 window/stretch/mode="2d"
 window/stretch/aspect="expand"
 

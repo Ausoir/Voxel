@@ -55,7 +55,7 @@ func match_cmd(p):
 		match_cmd("buff vision")
 		match_cmd("buff nighteye")
 		match_cmd("buff flight")
-		match_cmd("buff invinciblee")
+		match_cmd("buff invincible")
 		match_cmd("noclip")
 	elif para("die"):
 		unit.die()

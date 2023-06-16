@@ -12,8 +12,7 @@ func _ready():
 		var itemname = PRIORITY[i]
 		var item = G.stock.make_item(itemname)
 		inventory.append(item)
-	var max_items = G.rng.rir(12, 32)
-	for _i in range(5, max_items):
+	for _i in range(5, 32):
 		var itemname = G.stock.make_group("#shop")
 		if itemname != null:
 			var item = G.stock.make_item(itemname)
@@ -40,19 +39,20 @@ func on_display():
 
 
 func on_press(item, idx):
-	var value = _get_item_value(item, idx)
-	G.you.action.set_next("idle", .3)
-	if G.vars.gold >= value:
-		if !G.you.equipment.pickup(item):
-			item.drop(G.you)
-		G.ui.msg(str("You buy <", item.get_display_name().capitalize(), ">!"))
-		G.sfx.play("buy", G.you.position)
-		G.vars.gold -= value
-		if on_set != null:
-			on_set.call(idx)
-	else:
-		G.ui.msg(str("Insufficient gold..."))
-	G.ui.clear()
+	if item != null:
+		var value = _get_item_value(item, idx)
+		G.you.action.set_next("idle", .3)
+		if G.vars.gold >= value:
+			if !G.you.equipment.pickup(item):
+				item.drop(G.you)
+			G.ui.msg(str("You buy <", item.get_display_name().capitalize(), ">!"))
+			G.sfx.play("buy", G.you.position)
+			G.vars.gold -= value
+			if on_set != null:
+				on_set.call(idx)
+		else:
+			G.ui.msg(str("Insufficient gold..."))
+		G.ui.clear()
 
 
 func _get_item_value(item, idx):
@@ -63,11 +63,12 @@ func _get_item_value(item, idx):
 
 
 func on_hover(item, slot, idx):
-	var dsc = item.get_description()
-	var value = _get_item_value(item, idx)
-	var strval = str("\n[color=Gold]", value, " Gold[/color]")
-	var pos = slot.global_position + Vector2(slot.size.x, 0)
-	G.ui.set_description(dsc + strval, pos)
+	if item != null:
+		var dsc = item.get_description()
+		var value = _get_item_value(item, idx)
+		var strval = str("\n[color=Gold]", value, " Gold[/color]")
+		var pos = slot.global_position + Vector2(slot.size.x, 0)
+		G.ui.set_description(dsc + strval, pos)
 
 
 func on_unhover():

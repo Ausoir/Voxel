@@ -112,7 +112,8 @@ func _process(delta):
 
 func quit():
 	print("close")
-	if mapdata.get("safe", false):
+	if G.ui != null and mapdata.get("safe", false):
 		files.save_player_data()
+	files.save_settings()
 	get_tree().quit()
 
