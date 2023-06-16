@@ -187,9 +187,9 @@ func on_damaged(_pos: Vector3, damage: int, inflict):
 		for part in worn.keys():
 			var armor = worn[part]
 			if armor != null:
-				if last_hitter != null:
-					last_hitter.buffs.add_all(armor.data.get("inflict", []))
 				if G.rng.percent(armor.data.get("buffc", 0) * 0.1):
+					if last_hitter != null:
+						last_hitter.buffs.add_all(armor.data.get("inflict", []))
 					buffs.add_all(armor.data.get("buff", []))
 
 
@@ -411,6 +411,7 @@ func _walk_physics_process(delta):
 	if !grounded:
 		if position.y < -8:
 			if health > 0:
+				last_hitter = null
 				die()
 			return
 		else:

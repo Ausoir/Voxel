@@ -88,7 +88,6 @@ func lethality():
 
 
 func harvest():
-	G.stock.make_particle(_unit.position, "heal")
 	recover(int(_unit.get_prof("necromancy")/3) + 1, 20)
 	return true
 
@@ -323,7 +322,7 @@ func sleep():
 				var anim_name = "shoot"
 				var animation = _unit.animator.get_animation(anim_name)
 				if animation != null:
-					var speed = 2
+					var speed = 2.0
 					var anim_dur = animation.get_length() * (1 / speed)
 					_unit.animator.seek(0, true)
 					_unit.animator.play(anim_name, .1, speed)
@@ -354,8 +353,6 @@ func sleep_shoot():
 func heal():
 	if _unit.health < _unit.data.health / 2:
 		if _unit.req_mana(1):
-			G.sfx.play("buff_heal", _unit.position)
-			G.stock.make_particle(_unit.position, "heal")
 			recover(_unit.get_prof("aura") + 3, 20)
 			return true
 		return false

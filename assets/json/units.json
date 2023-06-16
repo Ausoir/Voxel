@@ -366,17 +366,22 @@
 		"head": "head/h_skull",
 		"body": "body/a_skeleton",
 		"ai": "default",
-		"slots": [],
+		"slots": [
+			"body",
+			"accessory"
+		],
 		"equipments": [],
 		"items": [
 			"stick:-1"
 		],
-		"souls": [],
+		"souls": [
+			"ascetic essence"
+		],
 		"data": {
 			"level": 2,
 			"health": 18,
-			"speed": 0.4,
-			"defense": 2,
+			"speed": 0.45,
+			"defense": 1,
 			"loot": [
 				[
 					0.01,
@@ -780,7 +785,7 @@
 			"lantern"
 		],
 		"items": [
-			"staff of sleep"
+			"wand of contamination"
 		],
 		"souls": [
 			"soul essence"
@@ -839,10 +844,6 @@
 			"buffs": [
 				[
 					"invisibility",
-					-1
-				],
-				[
-					"lethality",
 					-1
 				]
 			],
@@ -944,6 +945,52 @@
 				[
 					0.02,
 					"spear:-1"
+				],
+				[
+					0.15,
+					"gold"
+				]
+			]
+		}
+	},
+	"blademaster": {
+		"head": "head/head8",
+		"body": "body/a_underwear",
+		"ai": "default",
+		"slots": [
+			"body",
+			"accessory"
+		],
+		"equipments": [
+			"black robe",
+			"gas lantern"
+		],
+		"items": [
+			"eblade"
+		],
+		"souls": [
+			"blademaster essence",
+			"assassin essence"
+		],
+		"data": {
+			"level": 9,
+			"speed": 0.5,
+			"health": 35,
+			"range": 10,
+			"proficiency": {
+				"dodge": 3,
+				"armor": 3,
+				"blade": 3,
+				"dagger": 3
+			},
+			"loot": [
+				[
+					0.02,
+					"eblade:-1"
+				],
+				[
+					0.04,
+					"blademaster essence:-1"
 				],
 				[
 					0.15,

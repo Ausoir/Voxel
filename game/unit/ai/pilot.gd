@@ -114,6 +114,8 @@ func on_attacked(_dmg):
 	if _target != null and _target.faction != _unit.faction:
 		_update_target_params()
 		aggro()
+	else:
+		_target = null
 
 
 func _wander(_delta):

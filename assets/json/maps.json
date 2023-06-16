@@ -650,7 +650,11 @@
 			],
 			"_wood": [
 				[
-					5,
+					1,
+					"blademaster"
+				],
+				[
+					2,
 					"bandits"
 				]
 			],

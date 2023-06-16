@@ -36,8 +36,8 @@ func add(buffname, duration):
 		_states[buffname].on_stack(duration)
 	else:
 		var buff_class = Buff.get_buff(buffname)
-		if buff_class.req_met(_unit):
-			var buff = buff_class.new(_unit, duration)
+		var buff = buff_class.new(_unit, duration)
+		if buff.req_met():
 			buff.name = buffname
 			var path = str("ui/st_", buffname.replace(" ", "_"))
 			buff.sprite = G.stock.get_image(path)

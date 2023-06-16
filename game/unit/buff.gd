@@ -76,7 +76,7 @@ class Buff:
 		return true
 
 
-	static func req_met(_p):
+	func req_met():
 		return true
 
 
@@ -107,9 +107,9 @@ class Slow extends Buff:
 
 class Snare extends Buff:
 	func on_start():
-		_unit.procedure.speed -= 9
+		_unit.procedure.speed -= 8.0
 	func on_end():
-		_unit.procedure.speed += 9
+		_unit.procedure.speed += 8.0
 	func get_description():
 		return super() + "Unable to move."
 
@@ -151,6 +151,9 @@ class Down extends Buff:
 
 
 class Regeneration extends Buff:
+	func on_start():
+		G.sfx.play("buff_heal", _unit.position)
+		G.stock.make_particle(_unit.position, "heal")
 	func on_turn():
 		var max_hp = _unit.data.get("health", 1)
 		if _unit.health < max_hp:
@@ -256,11 +259,11 @@ class Stoneskin extends Buff:
 
 class Corrosion extends Buff:
 	func on_start():
-		_unit.defense -= 3
+		_unit.defense -= 4
 	func on_end():
-		_unit.defense += 3
+		_unit.defense += 4
 	func get_description():
-		return super() + "Increase all damage taken by 3."
+		return super() + "Increase all damage taken by 4."
 
 
 class Lethality extends Buff:
@@ -294,8 +297,8 @@ class Silence extends Buff:
 
 
 class Flight extends Buff:
-	static func req_met(punit):
-		return punit.physics_process == punit._walk_physics_process
+	func req_met():
+		return _unit.physics_process == _unit._walk_physics_process
 	func on_start():
 		_unit._box_mover.set_step_climbing_enabled(false)
 		_unit.physics_process = _unit._fly_physics_process
@@ -348,8 +351,8 @@ class Morph extends Buff:
 		new.action.set_next("idle", 1)
 		new.action.show_progress = true
 		new.procedure.speedmod = 0
-		new._healthbar.set_max(new.data.health)
 		new.show_healthbar()
+		new._healthbar.set_max(new.data.health)
 		new.on_level(false)
 		orig.position.y -= 300
 		duration = 0
@@ -410,6 +413,8 @@ class Invincible extends Buff:
 
 
 class Hunger extends Buff:
+	func req_met():
+		return !_unit.has_essence("ascetic")
 	func on_start():
 		if _unit.buffs.has("full"):
 			duration = 0
@@ -424,8 +429,6 @@ class Hunger extends Buff:
 class Full extends Buff:
 	func on_start():
 		if _unit.buffs.has("hunger"):
-			if !_unit.has_essence("ascetic"):
-				duration = 0
 			_unit.buffs.set_duration("hunger", 0)
 	func get_description():
 		return super() + "Don't worry about food for a while."

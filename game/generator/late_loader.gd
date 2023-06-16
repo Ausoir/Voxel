@@ -136,7 +136,7 @@ func move_player(pos):
 			var dx = abs(unit.position.x - player_pos.x)
 			var dy = abs(unit.position.y - player_pos.y)
 			var dz = abs(unit.position.z - player_pos.z)
-			if dx < 7 and dz < 7 and dy < 4:
+			if dx < 7 and dz < 7 and dy < 6:
 				unit.remove()
 
 

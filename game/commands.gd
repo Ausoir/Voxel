@@ -27,7 +27,9 @@ func match_cmd(p):
 	elif para("give"):
 		unit.equipment.pickup(G.stock.make_item(param))
 	elif para("summon"):
-		G.stock.make_unit(G.you.position, param)
+		var mob = G.stock.make_mob(G.you.position, param)
+		if mob == null:
+			G.stock.make_unit(G.you.position, param)
 	elif para("proficiency"):
 		var params = param.split(" ")
 		unit.proficiency.increase(params[0], int(params[1]))

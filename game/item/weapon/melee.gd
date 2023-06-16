@@ -83,7 +83,11 @@ func on_hitting(_user, unit):
 	if !(unit in already_hit):
 		already_hit.append(unit)
 		var damage = data.get("damage", 1)
-		var inflict = data.get("inflict", []) + _user.data.get("inflict", [])
+		var inflict = _user.data.get("inflict", [])
+		if G.rng.percent(data.get("buffc", 0) * 0.1):
+			var take = data.get("buff", [])
+			_user.buffs.add_all(take)
+			inflict += data.get("inflict", [])
 		var weapon_type = data.get("type", "blunt")
 		if weapon_type == "blunt":
 			if _user.has_essence("blunt"):
@@ -104,9 +108,6 @@ func on_hitting(_user, unit):
 		unit.on_damaged(_user.position, damage_roll, inflict)
 		G.sfx.play("hit_flesh", _user.position)
 		_user.emit_signal("weapon", weapon_type, unit, damage_roll)
-		if G.rng.percent(data.get("buffc", 0) * 0.09):
-			var take = data.get("buff", [])
-			_user.buffs.add_all(take)
 
 
 func _deflect(_user: Node3D, _at: Vector3):

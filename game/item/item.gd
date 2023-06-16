@@ -201,22 +201,22 @@ func imbue(sd):
 		if rnd > .8:
 			rank -= 1
 			if rnd > .95:
-				imbue_option(candids.pop_front(), randi_range(-5, -2))
+				imbue_option(candids.pop_front(), randi_range(-8, -2))
 			else:
 				imbue_option(candids.pop_front(), randi_range(-2, -1))
 		elif rnd < .2:
 			rank += 1
-			if rnd < .02:
+			if rnd < .01:
 				rank += 1
 				imbue_option(candids.pop_front(), randi_range(5, 10))
-			elif rnd < .15:
+			elif rnd < .07:
 				if !("essence" in candids):
 					if !("essence" in data):
 						candids.append("essence")
 						candids.shuffle()
-				imbue_option(candids.pop_front(), randi_range(1, 5))
+				imbue_option(candids.pop_front(), randi_range(3, 5))
 			else:
-				imbue_option(candids.pop_front(), randi_range(1, 2))
+				imbue_option(candids.pop_front(), randi_range(1, 3))
 	if rank == 0:
 		data.value = int(data.value / 2)
 
@@ -246,11 +246,15 @@ func imbue_option(opt, lvl):
 			data.value += lvl * 30
 			_attach_option_description("Added Damage", "Reduced Damage", lvl)
 		"damage*":
-			data.damage = int(data.damage + data.damage * lvl*.2)
-			data.value += lvl * 30
+			data.damage = int(data.damage + data.damage * lvl*.1)
+			data.value += lvl * 15
 			_attach_option_description("Increased Damage", "Decreased Damage", lvl)
 		"inflict":
 			var inflict = G.rng.pick(INFLICTS)
+			var ratio = randf()*.8 + .1
+			data["buffc"] = data.get("buffc", 0) + int(lvl * ratio) + 1
+			_options.append(str(data.buffc*10, "% chance to trigger"))
+			lvl = int(max(1, lvl * (1 - ratio)))
 			if lvl > 0:
 				data["inflict"] = data.get("inflict", []) + [[inflict, lvl]]
 			else:
@@ -263,12 +267,12 @@ func imbue_option(opt, lvl):
 			_attach_option_description("Inflict "+suffix, "Suffer "+suffix, lvl)
 		"aid":
 			var inflict = G.rng.pick(BUFFS)
+			var ratio = randf()*.8 + .1
+			data["buffc"] = data.get("buffc", 0) + int(lvl * ratio) + 1
+			_options.append(str(data.buffc*10, "% chance to trigger"))
+			lvl = int(max(1, lvl * (1 - ratio)))
 			if lvl > 0:
-				var ratio = randf()
-				data["buffc"] = data.get("buffc", 0) + int(lvl * ratio) + 1
-				lvl = int(lvl * (1 - ratio))
 				data["buff"] = data.get("buff", []) + [[inflict, lvl]]
-				_options.append(str(data.buffc, "% chance to trigger"))
 			else:
 				data["inflict"] = data.get("inflict", []) + [[inflict, -lvl]]
 			if lvl > 0:
@@ -286,10 +290,10 @@ func imbue_option(opt, lvl):
 			data.value = int(data.value * (1 + lvl*.07))
 			_attach_option_description("Increased Speed", "Decreased Speed", lvl)
 		"spread":
-			data.spread = data.spread / (1 + lvl*.5)
+			data.spread = max(0, data.spread - (lvl * .03))
 			data.spread = snapped(data.spread, 0.01)
-			data.value = int(data.value * (1 + lvl*.2))
-			_attach_option_description("Increased Accuracy", "Decreased Accuracy", lvl)
+			data.value = int(data.value * (1 + lvl*.05))
+			_attach_option_description("Enhanced Accuracy", "Reduced Accuracy", lvl)
 		"health":
 			data["health"] = data.get("health", 0) + lvl*5
 			data.value = int(data.value * (1 + lvl*.2))
@@ -313,7 +317,8 @@ func imbue_option(opt, lvl):
 			data.value = int(data.value * (1 + lvl*.1))
 			_attach_option_description("Reduced Noise", "Amplified Noise", lvl)
 		"power":
-			data.power += lvl * 5
+			data.power = int(data.power + data.power * lvl*.2)
+			data.power = max(0, data.power)
 			data.value = int(data.value * (1 + lvl*.05))
 			_attach_option_description("Projectile Speed", "Projectile Slow", lvl)
 		"radius":

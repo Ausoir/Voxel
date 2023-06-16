@@ -4,10 +4,14 @@ extends "item.gd"
 func use(_user: Node3D):
 	_user.motor = Vector3()
 	_user.animator.play("RESET")
-	if !_pickup(_user):
-		if !_interact(_user):
-			if !_user.skills.on_touch():
-				return false
+	if _user == G.you:
+		if !_pickup(_user):
+			if !_interact(_user):
+				if !_user.skills.on_touch():
+					return false
+	else:
+		if !_user.skills.on_touch():
+			return false
 	return true
 
 

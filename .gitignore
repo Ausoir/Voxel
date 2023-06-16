@@ -6,3 +6,4 @@
 /README.md          export-ignore
 *.import
 .godot/
+export/
