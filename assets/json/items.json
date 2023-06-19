@@ -7,6 +7,7 @@
 			"desc": "Cures hunger.",
 			"value": 5,
 			"weight": 1,
+			"sfx_use": "eat",
 			"buffs": [
 				[
 					"full",
@@ -23,6 +24,7 @@
 			"desc": "Regenerate 12 health. Usage not recommended in combat.",
 			"value": 10,
 			"weight": 1,
+			"sfx_use": "eat",
 			"buffs": [
 				[
 					"regeneration",
@@ -47,6 +49,7 @@
 			"desc": "Regenerate 56% or 7 mana, whichever is higher.",
 			"value": 10,
 			"weight": 1,
+			"sfx_use": "eat",
 			"buffs": [
 				[
 					"clarity",
@@ -71,6 +74,7 @@
 			"desc": "Turn invisible for 8 seconds.",
 			"value": 10,
 			"speed": 0.8,
+			"sfx_use": "eat",
 			"buffs": [
 				[
 					"invisibility",
@@ -87,6 +91,7 @@
 			"desc": "Become immune to damage for 8 seconds.",
 			"value": 40,
 			"speed": 0.8,
+			"sfx_use": "eat",
 			"buffs": [
 				[
 					"invincible",
@@ -103,6 +108,7 @@
 			"desc": "Fly for 12 seconds.",
 			"value": 10,
 			"speed": 0.8,
+			"sfx_use": "eat",
 			"buffs": [
 				[
 					"flight",
@@ -119,6 +125,7 @@
 			"desc": "Glow for 160 seconds.",
 			"value": 10,
 			"speed": 0.8,
+			"sfx_use": "eat",
 			"buffs": [
 				[
 					"glow",
@@ -135,6 +142,7 @@
 			"desc": "Gain stoneskin for 30 seconds.",
 			"value": 20,
 			"speed": 0.8,
+			"sfx_use": "eat",
 			"buffs": [
 				[
 					"stoneskin",
@@ -151,6 +159,7 @@
 			"desc": "For 21 seconds, your attacks apply deadly poison.",
 			"value": 50,
 			"speed": 0.4,
+			"sfx_use": "eat",
 			"buffs": [
 				[
 					"venomous",
@@ -167,6 +176,7 @@
 			"desc": "Glow permanently.",
 			"value": 100,
 			"speed": 0.1,
+			"sfx_use": "eat",
 			"buffs": [
 				[
 					"glow",
@@ -184,6 +194,7 @@
 			"value": 50,
 			"speed": 0.2,
 			"skill": "teleport",
+			"sfx_use": "rip",
 			"to": "camp"
 		}
 	},
@@ -196,6 +207,7 @@
 			"value": 40,
 			"speed": 0.5,
 			"skill": "summon",
+			"sfx_use": "rip",
 			"summon": [
 				"skeletal warrior",
 				"skeletal miner",
@@ -214,7 +226,8 @@
 			"desc": "Discard the oldest known essence.",
 			"value": 100,
 			"speed": 0.5,
-			"skill": "amnesia"
+			"skill": "amnesia",
+			"sfx_use": "rip"
 		}
 	},
 	"scroll of lichdom": {
@@ -225,7 +238,8 @@
 			"desc": "Permanently turn yourself undead.",
 			"value": 100,
 			"speed": 0.1,
-			"skill": "lich"
+			"skill": "lich",
+			"sfx_use": "rip"
 		}
 	},
 	"gold": {

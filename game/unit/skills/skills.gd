@@ -36,7 +36,8 @@ func on_attack(_victim):
 
 
 func on_ability():
-	perform_by_order(["light","metal","heal","venom","divinity","shadow","polymorph"])
+	if !perform_by_order(["light","metal","heal","venom","divinity","shadow","polymorph"]):
+		G.sfx.play("no_mana", _unit.position)
 
 
 func on_kill(_victim):
@@ -169,16 +170,20 @@ func capture():
 
 func summon():
 	if _unit._wait_time >= 4:
-		var ally = data.get("summon")
-		var summonname = _unit.data.get("summon")
-		if summonname != null and (ally == null or ally.health <= 0):
-			G.sfx.play("summon", _unit.position)
-			G.stock.make_particle(_unit.position, "summon")
-			_unit.buffs.add("exhaustion", 30)
-			var new = G.stock.make_unit(_unit.position, summonname)
-			G.stock.attach_ai(new, "ally")
-			data["summon"] = new
-			return true
+		if !_unit.buffs.has("exhaustion"):
+			var ally = data.get("summon")
+			var summonname = _unit.data.get("summon")
+			if summonname != null:
+				G.sfx.play("summon", _unit.position)
+				G.stock.make_particle(_unit.position, "summon")
+				_unit.buffs.add("exhaustion", 30)
+				if is_instance_valid(ally):
+					ally.position = _unit.position
+				else:
+					var new = G.stock.make_unit(_unit.position, summonname)
+					G.stock.attach_ai(new, "ally")
+					data["summon"] = new
+				return true
 		return false
 	else:
 		return capture()

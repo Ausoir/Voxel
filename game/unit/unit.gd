@@ -280,6 +280,7 @@ func die():
 				var item = G.stock.make_item(itemname)
 				if item != null:
 					item.drop_at(position)
+			physics_process = _walk_physics_process
 			emit_signal("death")
 			var ondeath = data.get("ondeath")
 			if ondeath != null:

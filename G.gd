@@ -74,14 +74,14 @@ func set_map(p):
 		print("Map ", p, " not found!")
 		set_map("camp")
 	else:
-		var oldenv = env
-		env = _envs[mapdata.get("env", "outside")]
-		add_env.call_deferred(oldenv, env)
+		var newenv = _envs[mapdata.get("env", "outside")]
+		add_env.call_deferred(env, newenv)
+		env = newenv
 
 
 func add_env(oldenv, newenv):
 	var parent = get_tree().get_root().get_node("Game")
-	if oldenv != null:
+	if oldenv != null and oldenv.get_parent() != null:
 		oldenv.get_parent().remove_child(oldenv)
 	parent.add_child(newenv)
 

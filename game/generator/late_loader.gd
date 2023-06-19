@@ -45,7 +45,7 @@ func _on_timeout():
 			var objectname = next[1]
 			G.stock.make_object(pos + G.V2_HALF, objectname)
 			var spawn_key
-			if pos.y >= 8:
+			if pos.y >= 7:
 				spawn_key = "^" + objectname
 			else:
 				spawn_key = "_" + objectname
@@ -136,7 +136,7 @@ func move_player(pos):
 			var dx = abs(unit.position.x - player_pos.x)
 			var dy = abs(unit.position.y - player_pos.y)
 			var dz = abs(unit.position.z - player_pos.z)
-			if dx < 7 and dz < 7 and dy < 6:
+			if dx < 7 and dz < 7 and dy < 5:
 				unit.remove()
 
 
@@ -152,7 +152,7 @@ func make_placeable(pos, itemname):
 				_spawn_units += mob
 				for i in mob:
 					G.tool.set_voxel(i.position, 4)
-			else:
+			elif !_player_spawned or G.you.position.distance_squared_to(center) > 120:
 				var unit = G.stock.make_unit(center, real_itemname)
 				if unit != null:
 					_spawn_units.append(unit)

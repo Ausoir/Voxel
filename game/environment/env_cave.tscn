@@ -4,6 +4,11 @@
 background_mode = 1
 background_energy_multiplier = 0.0
 reflected_light_source = 1
+fog_light_color = Color(0, 0, 0, 1)
+fog_density = 0.05
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.2
+volumetric_fog_albedo = Color(0, 0, 0, 1)
 
 [node name="WorldEnvironment" type="WorldEnvironment"]
 environment = SubResource("Environment_ind7d")

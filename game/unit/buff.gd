@@ -419,11 +419,8 @@ class Hunger extends Buff:
 		if _unit.buffs.has("full"):
 			duration = 0
 			_unit.buffs.set_duration("full", 0)
-		_unit.procedure.speed -= .1
-	func on_end():
-		_unit.procedure.speed += .1
 	func get_description():
-		return super() + "Need to eat... -1 move speed and halved experience gain."
+		return super() + "Cannot go further up the tower. Eat something!"
 
 
 class Full extends Buff:

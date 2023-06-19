@@ -4,15 +4,16 @@ const BGM_fields = preload("res://assets/bgm/town1.mp3")
 const BGM_dungeons = preload("res://assets/bgm/dungeon1.mp3")
 const BGM_cafe = preload("res://assets/bgm/final1.mp3")
 const BGM_dark = preload("res://assets/bgm/dark.wav")
+var _cache = {}
 var current = -1
 var nodes
 var size
 var open
 var _audio_registry = []
-var _cache = {}
 
 
 func _ready():
+	load_cache()
 	nodes = []
 	open = []
 	for i in range(16):
@@ -20,6 +21,21 @@ func _ready():
 		var node = get_node(str(i))
 		nodes.append(node)
 		node.connect("finished", on_sfx_finished.bind(i))
+
+
+func load_cache():
+	var dir = DirAccess.open("res://assets/sfx")
+	if dir:
+		dir.list_dir_begin()
+		var file_name = dir.get_next()
+		while file_name != "":
+			if !dir.current_is_dir():
+				if file_name.ends_with(".wav"):
+					get_sound(file_name.split(".")[0])
+			file_name = dir.get_next()
+		dir.list_dir_end()
+	else:
+		print("An error occurred when trying to access sfx folder.")
 
 
 func add_audio_node(p):
@@ -49,6 +65,7 @@ func on_sound_volume_change(value):
 func get_sound(filename):
 	var sound = _cache.get(filename)
 	if sound == null:
+		print("Loading sfx: " + filename)
 		sound = load(str("res://assets/sfx/", filename, ".wav"))
 		_cache[filename] = sound
 	return sound

@@ -195,9 +195,6 @@ func _load_wall(buffer: VoxelBuffer, origin: Vector3, wall_image, x, y, z):
 				_add_interest(item_points, Vector3(ox, oy+2, oz), .1)
 			[4,2,1]:
 				_chunk_prop_late_loads.append([Vector3(ox, oy+1, oz), "dummy"])
-			[4,3,2]:
-				buffer.set_voxel(2, x, y+1, z, _CHANNEL)
-				_add_to_arr(_chunk_late_loads,ox,oy+2,oz,"divider")
 			[3,2,0]:
 				_chunk_prop_late_loads.append([Vector3(ox, oy+1, oz), "bed"])
 			[3,2,1]:

@@ -490,6 +490,24 @@
 				[
 					1,
 					"green rat"
+				],
+				[
+					10,
+					"#goblins"
+				]
+			],
+			"_wood": [
+				[
+					1,
+					"chest"
+				],
+				[
+					6,
+					"#goblins"
+				],
+				[
+					1,
+					"goblin clan"
 				]
 			]
 		},

@@ -42,6 +42,7 @@ func on_held(_user):
 func on_unheld(_user):
 	if _user.attack.is_connected(_user.skills.on_cast):
 		_user.attack.disconnect(_user.skills.on_cast)
+	G.ui.set_label("")
 
 
 func get_interact_object(_user: Node3D):

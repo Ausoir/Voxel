@@ -86,11 +86,12 @@ func on_turn():
 func clean(all=false):
 	var keys = _states.keys()
 	for i in keys:
-		var state = _states[i]
-		if all or state.duration != -1:
-			state.duration = 0
-			if !state.on_turn():
-				_states.erase(i)
+		var state = _states.get(i)
+		if state != null: #index changed by a buff.on_turn during loop
+			if all or state.duration != -1:
+				state.duration = 0
+				if !state.on_turn():
+					_states.erase(i)
 	emit_signal("changed")
 
 

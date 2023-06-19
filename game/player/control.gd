@@ -74,20 +74,17 @@ func _physics_process(_delta):
 				_unit.procedure.use()
 			elif Input.is_action_pressed("use2"):
 				_unit.procedure.use2()
+			elif Input.is_action_pressed("sneak"):
+				_unit.action.set_next("sneak", 999)
+				_unit.procedure.jump_ready()
+				_unit.action.cancelable = true
+				_unit.procedure.speedmod = 0.5
 			elif Input.is_action_pressed("jump"):
 				if _unit.action.delay <= 0:
 					if _unit.grounded:
-						_unit.action.set_next("jump", 999)
-						_unit.procedure.jump_ready()
-						_unit.action.cancelable = true
-						_unit.procedure.speedmod = 0.5
-					else:
-						_unit.skills.on_jump()
-			elif Input.is_action_just_released("jump"):
-				if _unit.grounded:
-					var time = _unit.action.get_time()
-					if time < .5:
-						_unit.procedure.jump(time*2)
+						if _unit.action.set_next("sneak", 0.4, _unit.procedure.jump.bind(0.8)):
+							_unit.procedure.jump_ready()
+							_unit.procedure.speedmod = 0.5
 			elif _unit.action.action != null:
 				_unit.action.set_next("idle", 0)
 				_unit.procedure.speedmod = 1

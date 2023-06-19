@@ -18,5 +18,8 @@ func use_callback(_user: Node3D):
 	for buff in data.get("buffs", []):
 		_user.buffs.add(buff[0], buff[1])
 	_user.equipment.free_item(self)
+	var sfx = data.get("sfx_use")
+	if sfx != null:
+		G.sfx.play(sfx, _user.position)
 	queue_free()
 

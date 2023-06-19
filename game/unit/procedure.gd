@@ -28,6 +28,7 @@ func jump_ready():
 
 
 func jump(p):
+	_unit.action.set_next("jump", 0.2)
 	_unit.animator.play("jump")
 	_unit.grounded = false
 	_unit.velocity.y = p * 8

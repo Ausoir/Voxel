@@ -20,7 +20,7 @@ theme = SubResource("Theme_0phr7")
 script = ExtResource("1_thhpf")
 
 [node name="Panel" type="Panel" parent="."]
-custom_minimum_size = Vector2(320, 420)
+custom_minimum_size = Vector2(420, 420)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -96,17 +96,23 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="ViewControls" type="Button" parent="Panel/VBox"]
+custom_minimum_size = Vector2(240, 0)
 layout_mode = 2
+size_flags_horizontal = 4
 size_flags_vertical = 8
 text = "View Controls"
 
 [node name="Exit" type="Button" parent="Panel/VBox"]
+custom_minimum_size = Vector2(240, 0)
 layout_mode = 2
+size_flags_horizontal = 4
 size_flags_vertical = 8
 text = "Exit Game"
 
 [node name="Return" type="Button" parent="Panel/VBox"]
+custom_minimum_size = Vector2(240, 0)
 layout_mode = 2
+size_flags_horizontal = 4
 size_flags_vertical = 8
 text = "Return"
 
@@ -124,23 +130,29 @@ offset_bottom = -10.0
 grow_horizontal = 2
 grow_vertical = 2
 bbcode_enabled = true
-text = "[b]WASD[/b] to move
-[b]Hold Space[/b] - Sneak
-[b]Release Space[/b] - Jump
-[b]Number keys[/b] select items
-[b]Left Click[/b] - Use Item
-Left click while empty handed to interact.
-[b]Right Click[/b] - Use Ability
-[b]Shift+Wheel[/b] - Zoom In/Out
-[b]Tab[/b] - View Inventory
-[b]Esc[/b] - View Menu"
+text = "[b]Move[/b] using WASD
+[b]Interact[/b] - Left click (empty hand)
+[b]Attack[/b] - Left click (holding weapon)
+[b]Sneak[/b] - Hold shift
+[b]Select Items[/b] - Number keys / mouse wheel
+[b]Inventory[/b] - Tab key
+[b]Menu[/b] - Escape key
+[b]Ability[/b] - Right click
+[b]Zoom[/b] - Shift + Mouse wheel"
 
 [node name="ViewControls" type="Button" parent="Panel/ControlsText"]
-custom_minimum_size = Vector2(300, 24)
-layout_mode = 0
-offset_top = 360.0
-offset_right = 300.0
-offset_bottom = 399.0
+custom_minimum_size = Vector2(240, 24)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -120.0
+offset_top = -39.0
+offset_right = 120.0
+grow_horizontal = 2
+grow_vertical = 0
 size_flags_vertical = 8
 text = "Return"
 
