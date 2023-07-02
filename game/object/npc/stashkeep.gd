@@ -8,6 +8,7 @@ func _ready():
 	sid = "game/blocks/npc/shop"
 	var pos = position.floor()
 	G.tool.set_voxel(pos, 3)
+	call_deferred("turn_air")
 
 
 func remove():

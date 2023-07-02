@@ -9,7 +9,7 @@ func _ready():
 	if _unit.get_type() == 1:
 		if melee_range == null:
 			var aabb = _unit.held_item_model.mesh.get_aabb()
-			melee_range = -aabb.position.z
+			melee_range = -aabb.position.z / 2
 		attack_function = commence_use
 	else:
 		if melee_range == null:

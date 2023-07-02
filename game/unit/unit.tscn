@@ -375,7 +375,6 @@ shape = SubResource("BoxShape3D_l645e")
 [node name="Model" type="Node3D" parent="."]
 
 [node name="Mesh" type="MeshInstance3D" parent="Model"]
-cast_shadow = 0
 mesh = ExtResource("2_ktw0w")
 skeleton = NodePath("")
 

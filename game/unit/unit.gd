@@ -423,7 +423,7 @@ func _walk_physics_process(delta):
 		rotation.y = lerp_angle(rotation.y, atan2(motor.x, motor.z), .2)
 		var walk_speed = velocity.length()
 		if walk_speed > 0.5 and action.delay <= 0:
-			animator.play("walk", 0.3, walk_speed / 4.0)
+			animator.play("walk", 0.3, walk_speed / 3.0)
 		if grounded:
 			var center = position + COLLISION_CENTER
 			_space_state_params.position = center
@@ -454,7 +454,7 @@ func _walk_physics_process(delta):
 			_last_velocity_y = 0
 			G.sfx.play("land", position)
 			if !has_essence("silence"):
-				G.tool.set_sound(position, 6)
+				G.tool.set_sound(position, 4)
 		grounded = true
 	if abs(motion.y) > 0.001:
 		grounded = false
@@ -475,7 +475,7 @@ func _fly_physics_process(delta):
 		rotation.y = lerp_angle(rotation.y, atan2(motor.x, motor.z), .2)
 		var walk_speed = velocity.length()
 		if walk_speed > 0.5 and action.delay <= 0:
-			animator.play("fly", 1.0, walk_speed / 4.0)
+			animator.play("fly", 1.0, walk_speed / 2.0)
 		velocity.y += forward.y * walk_speed * .02
 		var center = position
 		_space_state_params.position = center

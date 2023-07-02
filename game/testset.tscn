@@ -1,0 +1,120 @@
+[gd_scene load_steps=10 format=3 uid="uid://btu8l3mrr23wf"]
+
+[ext_resource type="Script" path="res://game/testset.gd" id="1_pkwnw"]
+[ext_resource type="Texture2D" uid="uid://ceor35ltdhtp0" path="res://assets/texture/brick.png" id="2_3k2is"]
+[ext_resource type="PackedScene" uid="uid://dssddb3t8qcch" path="res://game/object/light/torch.tscn" id="4_1ymr5"]
+[ext_resource type="PackedScene" uid="uid://d0tgv7vwpva48" path="res://game/unit/humanoid/humanoid.tscn" id="4_oshjw"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0bf0v"]
+albedo_texture = ExtResource("2_3k2is")
+uv1_scale = Vector3(128, 16, 1)
+texture_filter = 0
+
+[sub_resource type="BoxMesh" id="BoxMesh_6pycn"]
+flip_faces = true
+size = Vector3(8, 4, 32)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ccwwg"]
+cull_mode = 2
+albedo_texture = ExtResource("2_3k2is")
+uv1_scale = Vector3(12, 64, 4)
+texture_filter = 0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_2i4gw"]
+size = Vector2(8, 32)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_6t1ht"]
+size = Vector3(1, 2, 1)
+
+[node name="start" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_pkwnw")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 10)
+material_override = SubResource("StandardMaterial3D_0bf0v")
+mesh = SubResource("BoxMesh_6pycn")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 10)
+material_override = SubResource("StandardMaterial3D_ccwwg")
+mesh = SubResource("PlaneMesh_2i4gw")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.98, 10)
+material_override = SubResource("StandardMaterial3D_ccwwg")
+mesh = SubResource("PlaneMesh_2i4gw")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-1, 2.26267e-08, -8.44439e-08, 0, 0.965926, 0.258819, 8.74228e-08, 0.258819, -0.965926, 0, 2.12603, -5.61797)
+current = true
+
+[node name="Warrior" parent="." instance=ExtResource("4_oshjw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.596271, 0, -2.89169)
+script = null
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Warrior"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Warrior/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("BoxShape3D_6t1ht")
+
+[node name="Scholar" parent="." instance=ExtResource("4_oshjw")]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -0.403729, 0, -2.89169)
+script = null
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Scholar"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Scholar/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("BoxShape3D_6t1ht")
+
+[node name="Rogue" parent="." instance=ExtResource("4_oshjw")]
+transform = Transform3D(0.99745, 0, 0.0713584, 0, 1, 0, -0.0713584, 0, 0.99745, -2.5798, -4.76837e-07, -2.67787)
+script = null
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Rogue"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Rogue/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("BoxShape3D_6t1ht")
+
+[node name="Hunter" parent="." instance=ExtResource("4_oshjw")]
+transform = Transform3D(0.982009, 0, 0.188838, 0, 1, 0, -0.188838, 0, 0.982009, 2.65604, 2.38419e-07, -2.89779)
+script = null
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Hunter"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hunter/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("BoxShape3D_6t1ht")
+
+[node name="Barbarian" parent="." instance=ExtResource("4_oshjw")]
+transform = Transform3D(1, 0, 2.08616e-07, 0, 1, 0, -2.08616e-07, 0, 1, -1.43866, -4.26326e-13, -2.92815)
+script = null
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Barbarian"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Barbarian/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("BoxShape3D_6t1ht")
+
+[node name="Priestess" parent="." instance=ExtResource("4_oshjw")]
+transform = Transform3D(0.968683, 0, -0.248301, 0, 1, 0, 0.248301, 0, 0.968683, 1.68614, 0, -3.1738)
+script = null
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Priestess"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Priestess/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("BoxShape3D_6t1ht")
+
+[node name="light" parent="." instance=ExtResource("4_1ymr5")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 3.50945, 1.55159, -1.60227)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.38419e-07, 1.16989, -5.15323)
+light_color = Color(1, 0.454902, 0, 1)
+light_energy = 0.2
+omni_range = 12.0

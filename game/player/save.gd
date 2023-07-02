@@ -4,6 +4,7 @@ const PLAYER_PATH = "user://player.json"
 const SCORE_PATH = "user://highscores.json"
 const TEMPLATE_PLAYER_PATH = "res://save/template.json"
 const SETTINGS_PATH = "user://settings.json"
+var cache_maps
 var data
 
 
@@ -65,6 +66,23 @@ func load_settings():
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN)
 		else:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_MAXIMIZED)
+
+
+func load_mapdata():
+	cache_maps = {}
+	var dir = DirAccess.open("res://assets/maps")
+	if dir:
+		dir.list_dir_begin()
+		var file_name = dir.get_next()
+		while file_name != "":
+			if !dir.current_is_dir():
+				if file_name.ends_with(".json"):
+					var file_name_short = file_name.split(".")[0]
+					cache_maps[file_name_short] = load("res://assets/maps/" + file_name).get_data()
+			file_name = dir.get_next()
+		dir.list_dir_end()
+	else:
+		print("An error occurred when trying to access map folder.")
 
 
 func save_settings():

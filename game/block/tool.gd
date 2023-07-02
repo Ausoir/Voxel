@@ -40,7 +40,7 @@ func remove_block(pos: Vector3):
 		_tool.do_point(pos)
 
 
-func set_block_by_name(pos: Vector3, block_name: String, look_dir: Vector3):
+func set_block_by_name(pos: Vector3, block_name: String, look_dir):
 	var block = _blocks.get_block_by_name(block_name)
 	set_block(pos, block.id, look_dir)
 
@@ -56,6 +56,7 @@ func set_block(pos: Vector3, block_id: int, look_dir):
 			look_dir = _get_marker_look_dir(pos)
 		if block.placement == block.CUSTOM:
 			block.place(pos, look_dir)
+			return
 		elif block.placement == block.ROT2:
 			var rot = _get_y_rotation_from_look_dir(look_dir)
 			voxel_id = block.voxels[rot % 2]

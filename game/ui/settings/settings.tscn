@@ -133,12 +133,11 @@ bbcode_enabled = true
 text = "[b]Move[/b] using WASD
 [b]Interact[/b] - Left click (empty hand)
 [b]Attack[/b] - Left click (holding weapon)
-[b]Sneak[/b] - Hold shift
-[b]Select Items[/b] - Number keys / mouse wheel
+[b]Select Items[/b] - Number keys
 [b]Inventory[/b] - Tab key
 [b]Menu[/b] - Escape key
 [b]Ability[/b] - Right click
-[b]Zoom[/b] - Shift + Mouse wheel"
+[b]Zoom[/b] - Mouse wheel"
 
 [node name="ViewControls" type="Button" parent="Panel/ControlsText"]
 custom_minimum_size = Vector2(240, 24)

@@ -31,7 +31,6 @@ func load_map(p):
 		G.turn.clear()
 		_newmap_offset += MAP_INCREMENT
 		G.terrain.generator.offset = Vector3i(_newmap_offset, 0, 0)
-		G.terrain.generator.post_ready()
 		G.terrain.get_node("LateLoader").start(1)
 		unit.position = Vector3(_newmap_offset + 32, 13, 32)
 		G.ui.clear()
@@ -39,10 +38,10 @@ func load_map(p):
 		_viewer.position = Vector3(_newmap_offset, 0, 0)
 		G.turn.add(unit.buffs.on_turn)
 		G.you.buffs.add("hunger", -1)
+		G.you.mana = G.you.data.mana
 		if G.mapdata.get("safe", false):
 			G.vars.day += 1
 			G.you.buffs.add("stunted", -1)
-			G.you.mana = G.you.data.mana
 			G.files.save_player_data()
 			var u = G.files.load_player_data()
 			set_unit(u)

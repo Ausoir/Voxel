@@ -46,8 +46,7 @@ func _physics_process(_delta):
 	super(_delta)
 	if _weapon_callback != null:
 		_weapon_callback.call(self)
-	if action.delay <= 0:
-		model.rotation = model.rotation.lerp(Vector3.ZERO, .1)
+	model.rotation = model.rotation.lerp(Vector3.ZERO, .1)
 
 
 func get_item_position():

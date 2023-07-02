@@ -61,9 +61,6 @@ func _physics_process(_delta):
 				else:
 					has_moved = false
 			if has_moved:
-				if _unit.procedure.speedmod == 1:
-					if _unit.grounded and !_unit.has_essence("silence"):
-						G.tool.set_sound(_unit.position, 2)
 				if _unit.procedure.speed < 0:
 					G.ui.msg("Too heavy!")
 			else:
@@ -74,30 +71,17 @@ func _physics_process(_delta):
 				_unit.procedure.use()
 			elif Input.is_action_pressed("use2"):
 				_unit.procedure.use2()
-			elif Input.is_action_pressed("sneak"):
-				_unit.action.set_next("sneak", 999)
-				_unit.procedure.jump_ready()
-				_unit.action.cancelable = true
-				_unit.procedure.speedmod = 0.5
 			elif Input.is_action_pressed("jump"):
 				if _unit.action.delay <= 0:
 					if _unit.grounded:
 						if _unit.action.set_next("sneak", 0.4, _unit.procedure.jump.bind(0.8)):
 							_unit.procedure.jump_ready()
-							_unit.procedure.speedmod = 0.5
+							_unit.procedure.speedmod = 0.1
 			elif _unit.action.action != null:
 				_unit.action.set_next("idle", 0)
 				_unit.procedure.speedmod = 1
 			else:
 				_unit.procedure.speedmod = 1
-			var rotx: float = _unit.model.rotation.x
-			rotx = lerp(rotx, 0.0, .1)
-			_unit.get_node("Model").rotation.x = rotx
-		elif _unit.action.action == "use":
-			var rotx: float = _unit.model.rotation.x
-			var pitch: float = clamp(_camera._pitch - .5, -1.0, 0.8)
-			rotx = lerp(rotx, pitch, .1)
-			_unit.get_node("Model").rotation.x = rotx
 	_unit.action.on_process(_delta)
 
 

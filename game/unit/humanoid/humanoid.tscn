@@ -965,7 +965,6 @@ mesh = ExtResource("2_gnevv")
 [node name="Body" type="Node3D" parent="Model"]
 
 [node name="Mesh" type="MeshInstance3D" parent="Model/Body"]
-cast_shadow = 0
 mesh = ExtResource("3_b1twn")
 skeleton = NodePath("../../Item")
 

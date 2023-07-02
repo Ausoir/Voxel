@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://dssddb3t8qcch"]
+[gd_scene load_steps=13 format=3 uid="uid://dssddb3t8qcch"]
 
 [ext_resource type="Script" path="res://game/object/light/prop_light.gd" id="1_8xtuj"]
 [ext_resource type="ArrayMesh" uid="uid://lr2ex3s52166" path="res://assets/objects/o_torch.obj" id="2_b3dhq"]
@@ -86,6 +86,8 @@ shader_parameter/noisemap = SubResource("NoiseTexture2D_yfg2s")
 [sub_resource type="QuadMesh" id="QuadMesh_tcyex"]
 material = SubResource("ShaderMaterial_x7hat")
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_yg7d0"]
+
 [node name="light" type="Node3D"]
 script = ExtResource("1_8xtuj")
 
@@ -110,3 +112,10 @@ transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.2
 cast_shadow = 0
 mesh = SubResource("QuadMesh_tcyex")
 skeleton = NodePath("../..")
+
+[node name="Body" type="StaticBody3D" parent="."]
+collision_layer = 32
+collision_mask = 32
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Body"]
+shape = SubResource("SphereShape3D_yg7d0")

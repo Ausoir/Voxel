@@ -119,7 +119,7 @@
 			"doortop_ns",
 			"doortop_ew"
 		],
-		"placement": 2,
+		"placement": 1,
 		"script": "doors/door"
 	},
 	"jaildoor": {

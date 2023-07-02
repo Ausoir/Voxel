@@ -22,7 +22,7 @@ func match_cmd(p):
 			unit.essence.erase(param)
 		else:
 			unit.essence.append(param)
-	elif para("cure all"):
+	elif para("cure"):
 		unit.buffs.clean(true)
 	elif para("give"):
 		unit.equipment.pickup(G.stock.make_item(param))

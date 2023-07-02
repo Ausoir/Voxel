@@ -10,10 +10,17 @@ func on_hover(_pos):
 		return true
 
 
-func on_place(_pos: Vector3):
+func place(_pos: Vector3, _look_dir):
 	var above = _pos + Vector3.UP
-	var current_voxel = G.tool.get_voxel(_pos)
+	var current_voxel
+	if G.tool.get_voxel(above + Vector3.FORWARD) == 0:
+		current_voxel = voxels[0]
+	elif G.tool.get_voxel(above + Vector3.LEFT) == 0:
+		current_voxel = voxels[1]
+	else:
+		current_voxel = voxels[0]
 	var current_id = voxels.find(current_voxel)
+	G.tool.set_voxel(_pos, voxels[current_id])
 	G.tool.set_voxel(above, voxels[current_id + 2])
 	var meta = "Open Door"
 	G.tool.get_tool().set_voxel_metadata(_pos, meta)

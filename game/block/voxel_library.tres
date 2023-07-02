@@ -1,4 +1,4 @@
-[gd_resource type="VoxelBlockyLibrary" load_steps=91 format=3 uid="uid://chr1cj53hbsgq"]
+[gd_resource type="VoxelBlockyLibrary" load_steps=90 format=3 uid="uid://chr1cj53hbsgq"]
 
 [ext_resource type="ArrayMesh" uid="uid://fwb38pl3a8jv" path="res://assets/blocks/slab_ew.obj" id="1_2pls5"]
 [ext_resource type="Texture2D" uid="uid://cjixikwj37edg" path="res://assets/texture/doorbottom.png" id="2_7fbs0"]
@@ -21,7 +21,6 @@
 [ext_resource type="Texture2D" uid="uid://cnqpisaoiow34" path="res://assets/texture/jaildoorbottom.png" id="21_4k472"]
 [ext_resource type="Texture2D" uid="uid://eet8id1xl55c" path="res://assets/objects/o_barrel.png" id="21_24ikr"]
 [ext_resource type="ArrayMesh" uid="uid://yavhoatracfh" path="res://assets/objects/o_chest_bottom.obj" id="21_247pp"]
-[ext_resource type="Material" uid="uid://bs5u0ea1vrq7v" path="res://assets/blocks/terrain_biome.tres" id="22_8f8kj"]
 [ext_resource type="Texture2D" uid="uid://e0d186aiyjhy" path="res://assets/texture/jaildoortop.png" id="22_stwko"]
 [ext_resource type="ArrayMesh" uid="uid://24odx4qj8uy5" path="res://assets/blocks/pole.obj" id="23_bda5g"]
 [ext_resource type="ArrayMesh" uid="uid://bqmptq15xfn5t" path="res://assets/blocks/platform.obj" id="23_rjj4g"]
@@ -108,7 +107,7 @@ collision_mask = 15
 cube_geometry_padding_y = null
 cube_tiles_left = Vector2(11, 0)
 cube_tiles_right = Vector2(11, 0)
-cube_tiles_bottom = Vector2(3, 0)
+cube_tiles_bottom = Vector2(11, 0)
 cube_tiles_top = Vector2(11, 0)
 cube_tiles_back = Vector2(11, 0)
 cube_tiles_front = Vector2(11, 0)
@@ -142,10 +141,17 @@ shader_parameter/Roughness = 0.3
 
 [sub_resource type="VoxelBlockyModel" id="VoxelBlockyModel_c38dr"]
 voxel_name = &"mineral"
-geometry_type = 2
+geometry_type = 1
 custom_mesh = ExtResource("9_h0u1q")
 collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
 collision_mask = 15
+cube_geometry_padding_y = null
+cube_tiles_left = Vector2(0, 0)
+cube_tiles_right = Vector2(0, 0)
+cube_tiles_bottom = Vector2(0, 0)
+cube_tiles_top = Vector2(0, 0)
+cube_tiles_back = Vector2(0, 0)
+cube_tiles_front = Vector2(0, 0)
 material_override_0 = SubResource("ShaderMaterial_occfu")
 collision_enabled_0 = true
 
@@ -433,7 +439,7 @@ collision_mask = 15
 cube_geometry_padding_y = null
 cube_tiles_left = Vector2(8, 0)
 cube_tiles_right = Vector2(8, 0)
-cube_tiles_bottom = Vector2(3, 0)
+cube_tiles_bottom = Vector2(8, 0)
 cube_tiles_top = Vector2(8, 0)
 cube_tiles_back = Vector2(8, 0)
 cube_tiles_front = Vector2(8, 0)
@@ -448,7 +454,7 @@ collision_mask = 15
 cube_geometry_padding_y = null
 cube_tiles_left = Vector2(9, 0)
 cube_tiles_right = Vector2(9, 0)
-cube_tiles_bottom = Vector2(3, 0)
+cube_tiles_bottom = Vector2(9, 0)
 cube_tiles_top = Vector2(9, 0)
 cube_tiles_back = Vector2(9, 0)
 cube_tiles_front = Vector2(9, 0)
@@ -593,13 +599,13 @@ geometry_type = 1
 collision_aabbs = Array[AABB]([AABB(0, 0, 0, 1, 1, 1)])
 collision_mask = 15
 cube_geometry_padding_y = null
-cube_tiles_left = Vector2(0, 0)
-cube_tiles_right = Vector2(0, 0)
-cube_tiles_bottom = Vector2(0, 0)
-cube_tiles_top = Vector2(0, 0)
-cube_tiles_back = Vector2(0, 0)
-cube_tiles_front = Vector2(0, 0)
-material_override_0 = ExtResource("22_8f8kj")
+cube_tiles_left = Vector2(3, 0)
+cube_tiles_right = Vector2(3, 0)
+cube_tiles_bottom = Vector2(3, 0)
+cube_tiles_top = Vector2(3, 0)
+cube_tiles_back = Vector2(3, 0)
+cube_tiles_front = Vector2(3, 0)
+material_override_0 = ExtResource("5_f00mb")
 collision_enabled_0 = true
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_up4lo"]

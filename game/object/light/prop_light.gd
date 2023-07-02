@@ -6,6 +6,7 @@ extends "res://game/object/prop.gd"
 
 func _ready():
 	sid = "game/blocks/lights/torch"
+	call_deferred("turn_air")
 
 
 func perceived(p):

@@ -1673,7 +1673,7 @@
 		"modelname": "item/essence3d",
 		"part": "essence",
 		"data": {
-			"desc": "Move and land silently. Ignore the effects of silence.",
+			"desc": "Jump and land silently. Ignore the effects of silence.",
 			"essence": "silence",
 			"value": 200
 		}
@@ -1705,7 +1705,7 @@
 		"modelname": "item/essence3d",
 		"part": "essence",
 		"data": {
-			"desc": "Touch a corpse to absorb it using mana. Right click to revive and summon the creature at no cost.",
+			"desc": "Touch a corpse to absorb it using mana. Stand still to revive and summon the creature.",
 			"defense": -1,
 			"essence": "summon",
 			"value": 200

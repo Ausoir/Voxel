@@ -116,7 +116,7 @@ func _deflect(_user: Node3D, _at: Vector3):
 	_user.animator.play("RESET")
 	_user.equipment.swinging = false
 	G.sfx.play("hit_glance", _user.position)
-	G.tool.set_sound(_at, 7)
+	G.tool.set_sound(_at, 6)
 
 
 func knockdown(_user: Node3D):

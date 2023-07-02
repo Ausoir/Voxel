@@ -14,6 +14,10 @@ func get_item_seed():
 	return rng.randi_range(0, 9999999)
 
 
+func rb():
+	return rng.randf() < .5
+
+
 func rf():
 	return rng.randf()
 

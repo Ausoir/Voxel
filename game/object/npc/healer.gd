@@ -17,6 +17,7 @@ func _ready():
 		button.connect("mouse_entered", Callable(self, "on_hover").bind(idx, button))
 		button.connect("mouse_exited", Callable(self, "on_unhover"))
 		idx += 1
+	call_deferred("turn_air")
 
 
 func remove():

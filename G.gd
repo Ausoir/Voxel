@@ -6,7 +6,6 @@ const GRAVITY = 14.0
 const HORIZONTAL_PLANE = Plane(Vector3.UP, 0)
 const V_HALF = Vector3(.5, .5, .5)
 const V2_HALF = Vector3(.5, 0, .5)
-const Map_JSON = preload("res://assets/json/maps.json")
 
 var _envs = {
 	"outside": preload("res://game/environment/env_outside.tscn").instantiate(),
@@ -21,12 +20,13 @@ var _commands = preload("res://game/commands.gd").new()
 var files = preload("res://game/player/save.gd").new()
 var rng = preload("res://game/rng.gd").new()
 var sfx = preload("res://game/fx/Sfx.tscn").instantiate()
+var map_loader
 var player_name = "Player"
 var player
 var you
 var vars = {}
 var settings = {}
-var mapdata = Map_JSON.get_data().get("camp")
+var mapdata
 var env
 var filler_animator = AnimationPlayer.new()
 var sec: int = 0
@@ -43,6 +43,8 @@ var turn
 func _ready():
 	add_child(sfx)
 	files.load_settings()
+	files.load_mapdata()
+	mapdata = files.cache_maps["camp"]
 
 
 func clear():
@@ -54,6 +56,7 @@ func clear():
 	blocks.queue_free()
 	ui.queue_free()
 	turn.queue_free()
+	map_loader.queue_free()
 
 
 func manual_ready(root):
@@ -64,12 +67,12 @@ func manual_ready(root):
 	blocks = root.get_node("Blocks")
 	ui = root.get_node("Player/Interface")
 	turn = root.get_node("Turn")
+	map_loader = root.get_node("Generator")
 
 
 func set_map(p):
 	vars.map = p
-	var maps = Map_JSON.get_data()
-	mapdata = maps.get(vars.map)
+	mapdata = files.cache_maps.get(vars.map)
 	if mapdata == null:
 		print("Map ", p, " not found!")
 		set_map("camp")

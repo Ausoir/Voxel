@@ -121,131 +121,35 @@
 		}
 	},
 	"halls": {
-		"env": "cave",
-		"down": "dungeons",
+		"env": "arcane",
 		"spawns": {
-			"^stonework": [
-				[
-					3,
-					"#cavern"
-				],
+			"_wood": [
 				[
 					1,
-					"portal/exit"
-				]
-			],
-			"_stonework": [
-				[
-					1,
-					"chest"
-				],
-				[
-					3,
-					"looter"
-				],
-				[
-					1,
-					"portal/exit"
-				]
-			],
-			"^wood": [
-				[
-					2,
-					"rogue peasant"
-				],
-				[
-					1,
-					"chest"
-				],
-				[
-					1,
-					"rat"
-				]
-			],
-			"_mattress": [
-				[
-					1,
-					"skeletal miner"
-				]
-			],
-			"_bed": [
-				[
-					0.35,
-					"skeleton"
-				]
-			],
-			"_chair": [
-				[
-					0.8,
-					"looter"
+					"@"
 				]
 			],
 			"_stone": [
 				[
-					1,
-					"@"
-				],
-				[
-					10,
-					"slime"
-				],
-				[
-					5,
-					"#shelf"
-				],
-				[
-					5,
-					"rogue peasant"
-				]
-			],
-			"_wood": [
-				[
-					3,
-					"rat"
-				],
-				[
-					3,
-					"#shelf"
-				],
-				[
-					1,
-					"marauders"
-				],
-				[
-					1,
-					"portal/entrance"
-				],
-				[
-					1,
-					"chest"
-				]
-			],
-			"_table": [
-				[
-					1,
-					"chest"
+					2,
+					"robot"
 				]
 			]
 		},
-		"item": "#shelf",
-		"treasure": "#treasure1",
+		"down": "fields",
+		"item": null,
+		"treasure": null,
 		"trash": "#trash",
 		"variants": [
-			"halls/hall1",
-			"halls/hall2",
-			"halls/hall3",
-			"halls/hall4",
-			"halls/hall1",
-			"halls/hall2",
-			"halls/hall3",
-			"halls/hall4"
+			"test/test",
+			"test/test",
+			"test/test",
+			"test/test"
 		],
 		"palette": {
-			"road": "stonework",
-			"alley": "brick",
+			"road": "stone",
 			"tiles": "wood",
-			"wall": "stone",
-			"wall2": "pole"
+			"wall": "brick"
 		}
 	},
 	"dungeons": {
@@ -823,38 +727,6 @@
 			"boss1/test",
 			"boss1/test",
 			"boss1/test"
-		],
-		"palette": {
-			"road": "stone",
-			"tiles": "wood",
-			"wall": "brick"
-		}
-	},
-	"test": {
-		"env": "arcane",
-		"spawns": {
-			"_wood": [
-				[
-					1,
-					"@"
-				]
-			],
-			"_stone": [
-				[
-					2,
-					"robot"
-				]
-			]
-		},
-		"down": "fields",
-		"item": null,
-		"treasure": null,
-		"trash": "#trash",
-		"variants": [
-			"test/test",
-			"test/test",
-			"test/test",
-			"test/test"
 		],
 		"palette": {
 			"road": "stone",
